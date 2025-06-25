@@ -1,0 +1,90 @@
+/* Reset básico */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Century Gothic', sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Encabezado */
+header {
+  width: 100%;
+  padding: 40px;
+  color: white;
+  text-align: center;
+  background: black; /* Un verde un poco más amigable */
+}
+
+/* Barra de navegación */
+.main-nav {
+  background: black; /* Verde */
+  text-align: center;
+  position: relative; /* Para posicionar el botón de alternar */
+}
+
+.menu-list {
+  list-style: none;
+  overflow: hidden; /* Limpia los floats si los hubiera */
+  padding: 0; /* Asegura que no haya padding extra */
+  margin: 0; /* Asegura que no haya margen extra */
+}
+
+.menu-list li {
+  display: inline-block;
+  padding: 20px;
+  transition: background-color ease-in-out 250ms;
+}
+
+.menu-list li:hover {
+  background: #112d4e; /* Azul oscuro */
+}
+
+.menu-list li a {
+  color: white;
+  text-decoration: none;
+  display: block; /* Hace que todo el área del li sea cliqueable */
+}
+
+/* Botón de alternar (hamburguesa) */
+.menu-toggle {
+  padding: 16px;
+  font-size: 22px;
+  background: black; /* Azul oscuro */
+  color: white;
+  cursor: pointer;
+  display: none; /* Oculto por defecto en escritorio */
+  text-align: right; /* Alinea el icono a la derecha */
+}
+
+.menu-toggle .fa {
+  margin-right: 15px; /* Pequeño margen a la derecha del ícono */
+}
+
+/* Media Queries para Responsividad */
+@media (max-width: 768px) {
+  .menu-list {
+    display: none; /* Oculta la lista en móviles por defecto */
+    text-align: left; /* Alinea los elementos del menú a la izquierda en móvil */
+  }
+
+  .menu-list li {
+    width: 100%;
+    padding: 15px 20px; /* Ajusta el padding para elementos de lista en móvil */
+    display: block; /* Cada elemento ocupa toda la línea */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Separador sutil */
+  }
+
+  .menu-list li:last-child {
+    border-bottom: none; /* No hay borde en el último elemento */
+  }
+
+  .menu-toggle {
+    display: block; /* Muestra el botón de hamburguesa en móviles */
+  }
+}

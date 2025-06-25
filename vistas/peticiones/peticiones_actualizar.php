@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Peticiones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="bg-success text-white text-center py-3">
+        <h1 class="mb-0">Editar Petición</h1>
+    </header>
+    <div class="container mt-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h1 class="h4 mb-0">Datos de la Petición:</h1>
+            </div>
+            <div class="card-body">
+                <form action="index.php?c=peticiones&a=Actualizar" method="post" autocomplete="off"> <input type="hidden" name="id" value="<?php echo htmlspecialchars($peticion->id ?? ''); ?>" />
+                    <div class="mb-3">
+                        <label for="feligres_id" class="form-label">Feligrés</label>
+                        <select name="feligres_id" id="feligres_id" class="form-select" required>
+                            <option value="">Seleccione un feligrés</option>
+                            <?php
+                            if (!empty($feligres)) {
+                                foreach ($feligres as $f) {
+                                    $selected = ($peticion->feligres_id == $f->id) ? 'selected' : '';
+                                    echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" .
+                                        htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) .
+                                        "</option>";
+                                }
+                            } else {
+                                echo "<option value=\"\">No hay feligreses disponibles</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="servicio_id" class="form-label">Servicio</label>
+                        <select name="servicio_id" id="servicio_id" class="form-select" style="width: 250px;" required>
+                            <option value="">Seleccione un servicio</option>
+                            <?php
+                            if (!empty($servicio)) {
+                                foreach ($servicio as $s) {
+                                    $selected = ($peticion->servicio_id == $s->id) ? 'selected' : '';
+                                    echo "<option value=\"" . htmlspecialchars($s->id) . "\" $selected>" .
+                                        htmlspecialchars($s->nombre) . " - " . htmlspecialchars($s->descripcion) .
+                                        "</option>";
+                                }
+                            } else {
+                                echo "<option value=\"\">No hay servicios disponibles</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <textarea
+                            name="descripcion"
+                            id="descripcion"
+                            class="form-control"
+                            placeholder="Ingrese una descripción detallada de la petición"
+                            rows="3"
+                            required><?= htmlspecialchars($peticion->descripcion ?? '') ?></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_registro" class="form-label">Fecha de Registro</label>
+                        <input
+                            type="date"
+                            name="fecha_registro"
+                            id="fecha_registro"
+                            class="form-control"
+                            value="<?php echo htmlspecialchars($peticion->fecha_registro ?? ''); ?>"
+                            required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                        <input
+                            type="date"
+                            name="fecha_inicio"
+                            id="fecha_inicio"
+                            class="form-control"
+                            value="<?php echo htmlspecialchars($peticion->fecha_inicio ?? ''); ?>"
+                            required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                        <input
+                            type="date"
+                            name="fecha_fin"
+                            id="fecha_fin"
+                            class="form-control"
+                            value="<?php echo htmlspecialchars($peticion->fecha_fin ?? ''); ?>"
+                            required />
+                    </div>
+
+                    <hr />
+
+                    <div class="text-left">
+                        <a href="index.php?c=peticiones" class="btn btn-secondary">Cancelar</a> <button type="submit" class="btn btn-primary">Actualizar Petición</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
