@@ -46,6 +46,7 @@
                                             
                                             <th scope="col" class="py-3 px-4">Nombre de Usuario</th>
                                             <th scope="col" class="py-3 px-4">Contraseña</th>
+                                            <th scope="col" class="py-3 px-4">Acciones</th>
                                        
                                         </tr>
                                     </thead>
@@ -53,9 +54,18 @@
                                         <?php foreach ($administradores as $admin): 
                                         ?>
                                             <tr>
-                                              <?php htmlspecialchars($admin->id_admin) ?>
+                                                <?php htmlspecialchars($admin->id_admin) ?>
                                                 <td class="px-4"><?= htmlspecialchars($admin->nombre_usuario) ?></td>
-                                              <td class="px-4"><?= htmlspecialchars(md5($admin->password)) ?></td>
+                                                <td class="px-4"><?= htmlspecialchars(md5($admin->password)) ?></td>
+                                                <td class="px-4"> 
+                                                      <a href="?c=login&a=editar&id_admin=<?= htmlspecialchars($admin->id_admin) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
+                                                       Editar
+                                                    </a>
+                                                    <a class="btn btn-danger zoom-out rounded-pill shadow-sm"
+                                                        onclick="javascript:return confirm('¿Seguro de eliminar el administrador: <?= htmlspecialchars($admin->nombre_usuario) ?>?');" href="?c=login&a=eliminar&id_admin=<?= htmlspecialchars($admin->id_admin) ?>">
+                                                        Eliminar
+                                                    </a>
+                                              </td>
                                               
                                             </tr>
                                         <?php endforeach; ?>

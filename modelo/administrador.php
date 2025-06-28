@@ -24,13 +24,39 @@ class administrador
         try {
             $stmt = $this->conexion->prepare("INSERT INTO administrador (nombre_usuario, password) VALUES (:nombre_usuario, :password)");
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $password, PDO::PARAM_INT);
+            $stmt->bindParam(":password", $password, PDO::PARAM_STR);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
             return false;
         }
     }
+    public function eliminar($id)
+    {
+        try {
+            $stmt = $this->conexion->prepare("DELETE FROM administrador WHERE id_admin = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    public function editar($id, $nombre_usuario, $password)
+    {
+        try {
+            $stmt = $this->conexion->prepare("UPDATE administrador SET nombre_usuario = :nombre_usuario, password = :password WHERE id_admin = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
 
     public function comprobar_datos_usuario($nombre_usuario, $password)
     {

@@ -63,11 +63,27 @@ class loginControlador
         }
     }
 
+    public function eliminar()
+    {
+        $this->requerirLogin();
+        try {
+            $this->modelo->eliminar($_REQUEST['id_admin']);
+
+            header('Location:?c=login&a=mostrar');
+        } catch (Exception $e) {
+            header('Location:?c=login&a=mostrar');
+        }
+    }
+    public function editar()
+    {
+        $this->requerirLogin();
+    }
+
 
     public function mostrar()
     {
         
-         $this->requerirLogin();
+        $this->requerirLogin();
         $administradores = $this->modelo->obtenerTodos();
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
@@ -76,7 +92,7 @@ class loginControlador
 
     public function Guardar()
     {
-
+        $this->requerirLogin();
 
         $nombre_usuario = $_REQUEST['nombre_usuario'];
         $password = $_REQUEST['password'];
