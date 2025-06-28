@@ -77,6 +77,10 @@ class loginControlador
     public function editar()
     {
         $this->requerirLogin();
+        $admin = $this->modelo->obtenerPorId($_GET['id_admin']);
+        require_once "vistas/cabezera.php";
+        require_once "vistas/menu.php";
+        require_once "vistas/administradores/administrador_actualizar.php";
     }
 
 
@@ -88,6 +92,28 @@ class loginControlador
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
         require_once "vistas/administradores/index.php";
+    }
+
+
+    public function actualizar()
+    {
+        $this->requerirLogin();
+
+        $id_admin = $_REQUEST['id_admin'];
+        $nombre_usuario = $_REQUEST['nombre_usuario'];
+        $password = $_REQUEST['password'];
+
+        try {
+            $this->modelo->editar($id_admin, $nombre_usuario, $password);
+
+
+            header('Location:?c=login&a=mostrar');
+            exit();
+        } catch (Exception $e) {
+
+            header('Location:?c=login&a=mostrar');
+            exit();
+        }
     }
 
     public function Guardar()

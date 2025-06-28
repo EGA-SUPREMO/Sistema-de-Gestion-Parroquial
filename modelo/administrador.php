@@ -18,6 +18,13 @@ class administrador
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    public function obtenerPorId($id_admin)
+    {
+        $stmt = $this->conexion->prepare("SELECT * FROM administrador WHERE id_admin = :id_admin");
+        $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_OBJ);
+    }
 
     public function agregar($nombre_usuario, $password)
     {
@@ -46,10 +53,19 @@ class administrador
     public function editar($id, $nombre_usuario, $password)
     {
         try {
-            $stmt = $this->conexion->prepare("UPDATE administrador SET nombre_usuario = :nombre_usuario, password = :password WHERE id_admin = :id");
+            $sql = "UPDATE administrador SET nombre_usuario = :nombre_usuario";
+            if (!empty($password)) {
+                $sql .= ", password = :password";
+            }
+            $sql .= " WHERE id_admin = :id";
+            
+            $stmt = $this->conexion->prepare($sql);
+
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+            if (!empty($password)) {
+                $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+            }
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
