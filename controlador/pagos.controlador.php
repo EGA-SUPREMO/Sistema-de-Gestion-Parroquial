@@ -1,7 +1,7 @@
 <?php
 
 require_once "modelo/Pagos.php";
-require_once "modelo/metodosP.php";
+require_once "modelo/MetodosP.php";
 require_once "modelo/Feligres.php";
 require_once "modelo/peticiones.php";
 session_start();
