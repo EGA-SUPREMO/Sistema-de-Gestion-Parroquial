@@ -111,7 +111,6 @@ class IntencionesControlador
 
         if (!is_dir($uploadDir)) {
             if (!mkdir($uploadDir, 0777, true)) {
-
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
         }
