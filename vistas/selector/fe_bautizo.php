@@ -85,15 +85,15 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">
                                 <label for="numeroLibro" class="form-label">Libro N°:</label>
-                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" placeholder="Ej: 33" required>
+                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" placeholder="Ej: 33" value="33" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="folio" class="form-label">Folio:</label>
-                                <input type="text" class="form-control" id="folio" name="folio" placeholder="Ej: 179" required>
+                                <input type="text" class="form-control" id="folio" name="folio" placeholder="Ej: 179" value="179" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="numeroMarginal" class="form-label">N°. Marginal:</label>
-                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" placeholder="Ej: 535" required>
+                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" placeholder="Ej: 535" value="535" required>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
 
                         <div class="mb-3">
                             <label for="nombreSacerdote" class="form-label">Nombre del Sacerdote que Bautizó:</label>
-                            <input type="text" class="form-control" id="nombreSacerdote" name="nombreSacerdote" placeholder="Ej: Pbro. Benito Ramírez" required>
+                            <input type="text" class="form-control" id="nombreSacerdote" name="nombreSacerdote" placeholder="Ej: Pbro. Benito Ramírez" value="Pbro. Benito Ramírez" required>
                         </div>
 
                         <div class="mb-3">
@@ -145,14 +145,14 @@
                         <h4 class="mt-4 mb-3">Datos de Expedición</h4>
                         <div class="mb-3">
                             <label for="propositoCertificacion" class="form-label">Propósito de la Certificación:</label>
-                            <input type="text" class="form-control" id="propositoCertificacion" name="propositoCertificacion" placeholder="Ej: Personal" required>
+                            <input type="text" class="form-control" id="propositoCertificacion" name="propositoCertificacion" placeholder="Ej: Personal" value="Personal" required>
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label">Fecha de Expedición de la Constancia:</label>
                             <div class="row g-2">
                                 <div class="col-4">
-                                    <input type="number" class="form-control" id="diaExpedicion" name="diaExpedicion" placeholder="Día" min="1" max="31" required>
+                                    <input type="number" class="form-control" id="diaExpedicion" name="diaExpedicion" placeholder="Día" min="1" max="31" value="<?php echo date('j'); ?>" required>
                                 </div>
                                 <div class="col-4">
                                     <select class="form-select" id="mesExpedicion" name="mesExpedicion" required>
@@ -172,7 +172,7 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <input type="number" class="form-control" id="anoExpedicion" name="anoExpedicion" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" required>
+                                    <input type="number" class="form-control" id="anoExpedicion" name="anoExpedicion" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" value="<?php echo date('Y'); ?>" required>
                                 </div>
                             </div>
                         </div>

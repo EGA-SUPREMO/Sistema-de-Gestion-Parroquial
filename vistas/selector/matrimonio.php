@@ -30,20 +30,20 @@
                         <h4 class="mb-3">Datos del Acta de Matrimonio</h4>
                         <div class="mb-3">
                             <label for="nombreContrayente1" class="form-label">Nombre completo del Contrayente 1:</label>
-                            <input type="text" class="form-control" id="nombreContrayente1" name="nombreContrayente1" placeholder="Ej: MIGUEL ANGEL MUÑETÓN R." required>
+                            <input type="text" class="form-control" id="nombreContrayente1" name="nombreContrayente1" placeholder="Nombre Completo" required>
                         </div>
                         <div class="mb-3">
                             <label for="naturalContrayente1" class="form-label">Natural de (Contrayente 1):</label>
-                            <input type="text" class="form-control" id="naturalContrayente1" name="naturalContrayente1" placeholder="Ej: Valencia" required>
+                            <input type="text" class="form-control" id="naturalContrayente1" name="naturalContrayente1" placeholder="Ej: Valencia" value="Valencia" required>
                         </div>
 
                         <div class="mb-3">
                             <label for="nombreContrayente2" class="form-label">Nombre completo del Contrayente 2:</label>
-                            <input type="text" class="form-control" id="nombreContrayente2" name="nombreContrayente2" placeholder="Ej: ANDREA ALEXANDRA BELIER ESCOBAR" required>
+                            <input type="text" class="form-control" id="nombreContrayente2" name="nombreContrayente2" placeholder="Nombre Completo" required>
                         </div>
                         <div class="mb-3">
                             <label for="naturalContrayente2" class="form-label">Natural de (Contrayente 2):</label>
-                            <input type="text" class="form-control" id="naturalContrayente2" name="naturalContrayente2" placeholder="Ej: Valencia" required>
+                            <input type="text" class="form-control" id="naturalContrayente2" name="naturalContrayente2" placeholder="Ej: Valencia" value="Valencia" required>
                         </div>
                         
                         <div class="row g-3 mb-3">
@@ -65,48 +65,13 @@
                             <label class="form-label">Fecha del Matrimonio:</label>
                             <div class="row g-2">
                                 <div class="col-4">
-                                    <input type="number" class="form-control" id="diaMatrimonio" name="diaMatrimonio" placeholder="Día" min="1" max="31" required value="08">
+                                    <input type="number" class="form-control" id="diaMatrimonio" name="diaMatrimonio" placeholder="Día" min="1" max="31" required>
                                 </div>
                                 <div class="col-4">
                                     <select class="form-select" id="mesMatrimonio" name="mesMatrimonio" required>
-                                        <option value="" disabled>Mes</option>
+                                        <option value="" disabled selected>Mes</option>
                                         <option value="Enero">Enero</option>
                                         <option value="Febrero">Febrero</option>
-                                        <option value="Marzo">Marzo</option>
-                                        <option value="Abril">Abril</option>
-                                        <option value="Mayo">Mayo</option>
-                                        <option value="Junio">Junio</option>
-                                        <option value="Julio">Julio</option>
-                                        <option value="Agosto">Agosto</option>
-                                        <option value="Septiembre">Septiembre</option>
-                                        <option value="Octubre">Octubre</option>
-                                        <option value="Noviembre" selected>Noviembre</option>
-                                        <option value="Diciembre">Diciembre</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <input type="number" class="form-control" id="anoMatrimonio" name="anoMatrimonio" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" required value="2014">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="nombreSacerdoteMatrimonio" class="form-label">Nombre del Sacerdote que Presenció el Matrimonio:</label>
-                            <input type="text" class="form-control" id="nombreSacerdoteMatrimonio" name="nombreSacerdoteMatrimonio" placeholder="Ej: Pbro. BENITO RAMÍREZ" required>
-                        </div>
-                        
-                        <h4 class="mt-4 mb-3">Datos de Expedición</h4>
-                        <div class="mb-3">
-                            <label class="form-label">Fecha de Expedición de la Certificación:</label>
-                            <div class="row g-2">
-                                <div class="col-4">
-                                    <input type="number" class="form-control" id="diaExpedicion" name="diaExpedicion" placeholder="Día" min="1" max="31" required value="28">
-                                </div>
-                                <div class="col-4">
-                                    <select class="form-select" id="mesExpedicion" name="mesExpedicion" required>
-                                        <option value="" disabled>Mes</option>
-                                        <option value="Enero">Enero</option>
-                                        <option value="Febrero" selected>Febrero</option>
                                         <option value="Marzo">Marzo</option>
                                         <option value="Abril">Abril</option>
                                         <option value="Mayo">Mayo</option>
@@ -120,13 +85,48 @@
                                     </select>
                                 </div>
                                 <div class="col-4">
-                                    <input type="number" class="form-control" id="anoExpedicion" name="anoExpedicion" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" required value="2025">
+                                    <input type="number" class="form-control" id="anoMatrimonio" name="anoMatrimonio" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="nombreSacerdoteMatrimonio" class="form-label">Nombre del Sacerdote que Presenció el Matrimonio:</label>
+                            <input type="text" class="form-control" id="nombreSacerdoteMatrimonio" name="nombreSacerdoteMatrimonio" placeholder="Ej: Pbro. BENITO RAMÍREZ" value="Pbro. BENITO RAMÍREZ" required>
+                        </div>
+                        
+                        <h4 class="mt-4 mb-3">Datos de Expedición</h4>
+                        <div class="mb-3">
+                            <label class="form-label">Fecha de Expedición de la Certificación:</label>
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <input type="number" class="form-control" id="diaExpedicion" name="diaExpedicion" placeholder="Día" min="1" max="31" required value="<?php echo date('j'); ?>">
+                                </div>
+                                <div class="col-4">
+                                    <select class="form-select" id="mesExpedicion" name="mesExpedicion" required>
+                                        <option value="" disabled selected>Mes</option>
+                                        <option value="Enero">Enero</option>
+                                        <option value="Febrero">Febrero</option>
+                                        <option value="Marzo">Marzo</option>
+                                        <option value="Abril">Abril</option>
+                                        <option value="Mayo">Mayo</option>
+                                        <option value="Junio">Junio</option>
+                                        <option value="Julio">Julio</option>
+                                        <option value="Agosto">Agosto</option>
+                                        <option value="Septiembre">Septiembre</option>
+                                        <option value="Octubre">Octubre</option>
+                                        <option value="Noviembre">Noviembre</option>
+                                        <option value="Diciembre">Diciembre</option>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <input type="number" class="form-control" id="anoExpedicion" name="anoExpedicion" placeholder="Año" min="1900" max="<?php echo date('Y'); ?>" required value="<?php echo date('Y'); ?>">
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="nombreAdministradorParroquial" class="form-label">Nombre del Administrador Parroquial que expide:</label>
-                            <input type="text" class="form-control" id="nombreAdministradorParroquial" name="nombreAdministradorParroquial" placeholder="Ej: Pbro. Hedson Brizuela" required>
+                            <input type="text" class="form-control" id="nombreAdministradorParroquial" name="nombreAdministradorParroquial" placeholder="Ej: Pbro. Hedson Brizuela" value="Pbro. Hedson Brizuela" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mt-3">
