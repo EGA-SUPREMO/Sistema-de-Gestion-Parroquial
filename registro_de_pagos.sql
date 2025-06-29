@@ -11,6 +11,14 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- CREATE USER 'test'@'localhost' IDENTIFIED BY '1234';
+-- GRANT ALL PRIVILEGES ON *.* TO 'test'@'localhost' WITH GRANT OPTION;
+-- FLUSH PRIVILEGES;
+
+
+CREATE DATABASE registro_de_pagos;
+USE registro_de_pagos;
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -18,7 +26,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `cesar`
+-- Base de datos: `registro de pagos`
 --
 
 -- --------------------------------------------------------
@@ -38,7 +46,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
-(1, 'cesar', '123456789');
+(1, 'admin', '123456789');
 
 -- --------------------------------------------------------
 
@@ -175,7 +183,7 @@ CREATE TABLE `servicios` (
 --
 
 INSERT INTO `servicios` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'Misaaa', 'Celebración eucarística ofrecida por diferentes intenciones.'),
+(1, 'Misa', 'Celebración eucarística ofrecida por diferentes intenciones.'),
 (2, 'Bautizos', 'Sacramento de iniciación cristiana para niños o adultos.'),
 (3, 'Matrimonio', 'Celebración del sacramento del matrimonio católico.'),
 (4, 'Exp. Matrimonial', 'Expediente matrimonial: proceso previo a la boda que incluye entrevistas, presentación de documentos y comprobación de libertad para casarse.'),
@@ -276,16 +284,16 @@ ALTER TABLE `servicios`
 -- Filtros para la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`peticion_id`) REFERENCES `peticiones` (`id`),
-  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`),
-  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`metodo_pago_id`) REFERENCES `metodos_pago` (`id`);
+  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`peticion_id`) REFERENCES `peticiones` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`metodo_pago_id`) REFERENCES `metodos_pago` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
-  ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`),
-  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`);
+  ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
