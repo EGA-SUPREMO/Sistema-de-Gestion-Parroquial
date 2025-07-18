@@ -57,7 +57,7 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
-  `cedula` int(10) UNSIGNED DEFAULT NULL
+  `cedula` int(10) UNSIGNED UNIQUE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -174,8 +174,9 @@ INSERT INTO `peticiones` (`id`, `feligres_id`, `servicio_id`, `descripcion`, `fe
 
 CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
+  `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL
+  `monto_usd` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
