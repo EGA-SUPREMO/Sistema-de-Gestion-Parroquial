@@ -1,5 +1,9 @@
 <?php
 
+require_once 'modelo/cargarEnv.php';
+
+cargarEnv();
+
 $controladorNombre = strtolower(isset($_REQUEST['c']) ? $_REQUEST['c'] : 'login');
 $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'index';
 
