@@ -56,7 +56,7 @@
                                             <tr>
                                                 <?php htmlspecialchars($admin->id_admin) ?>
                                                 <td class="px-4"><?= htmlspecialchars($admin->nombre_usuario) ?></td>
-                                                <td class="px-4"><?= htmlspecialchars(md5($admin->password)) ?></td>
+                                                <td class="px-4"><?= htmlspecialchars($admin->password) ?></td>
                                                 <td class="px-4"> 
                                                       <a href="?c=login&a=editar&id_admin=<?= htmlspecialchars($admin->id_admin) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                                                        Editar

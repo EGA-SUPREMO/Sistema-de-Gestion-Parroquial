@@ -1,6 +1,6 @@
 <?php
 
-function cargarEnv($ruta = '.', $nombreArchivo = '.env')
+function cargarVariablesDeEntorno($ruta = '.', $nombreArchivo = '.env')
 {
     $archivoRuta = rtrim($ruta, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $nombreArchivo;
 
