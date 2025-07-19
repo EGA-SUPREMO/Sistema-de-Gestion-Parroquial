@@ -36,7 +36,9 @@ FROM
 INNER JOIN
     feligreses AS f ON p.feligres_id = f.id 
 INNER JOIN
-    servicios AS s ON p.servicio_id = s.id; "); 
+    servicios AS s ON p.servicio_id = s.id
+ORDER BY
+    p.id DESC; "); 
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
@@ -62,7 +64,6 @@ INNER JOIN
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-           
             return false;
         }
     }

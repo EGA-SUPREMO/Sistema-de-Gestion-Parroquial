@@ -27,8 +27,7 @@
                 
                         if (!empty($peticion)) {
                             foreach ($peticion as $p) {
-                                echo "<option value=\"" . htmlspecialchars($p->id) . "\">" . htmlspecialchars($p->feligres_nombre) .  " - " . 
-                                htmlspecialchars($p->servicio_nombre) . " - " . htmlspecialchars($p->peticion_descripcion) .
+                                echo "<option value=\"" . htmlspecialchars($p->id) . "\">" . htmlspecialchars($p->fecha_registro . ' | ' . $p->feligres_nombre) .  " | " . htmlspecialchars($p->servicio_nombre) .
                                 "</option>";
                             }
                         } else {
@@ -47,10 +46,9 @@
                 
                         if (!empty($feligres)) {
                             foreach ($feligres as $f) {
-                                echo "<option value=\"" . htmlspecialchars($f->id) . "\">" . htmlspecialchars($f->nombre) . "</option>";
+                                echo "<option value=\"" . htmlspecialchars($f->id) . "\">" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
                         } else {
-                          
                              echo "<option value=\"\">Cargando Feligreses...</option>";
                         }
                         ?>
@@ -109,7 +107,7 @@
                         name="fecha_pago"
                         id="fecha_pago"
                         class="form-control"
-                        value=""
+                        value="<?= date("Y-m-d"); ?>"
                         required
                     />
                 </div>

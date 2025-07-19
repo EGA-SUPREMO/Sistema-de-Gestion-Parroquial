@@ -23,32 +23,31 @@
                     <div class="mb-3">
                         <label for="feligres_id" class="form-label">Feligrés</label>
                         <select name="feligres_id" id="feligres_id" class="form-select" required>
-                            <option value="">Seleccione un feligrés</option>
-                            <?php
-                            if (!empty($feligres)) {
-                                foreach ($feligres as $f) {
-                                    $selected = ($peticion->feligres_id == $f->id) ? 'selected' : '';
-                                    echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" .
-                                        htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) .
-                                        "</option>";
-                                }
-                            } else {
-                                echo "<option value=\"\">No hay feligreses disponibles</option>";
+                        <option value="">Seleccione un Feligrés</option>
+                        <?php
+                
+                        if (!empty($feligres)) {
+                            foreach ($feligres as $f) {
+                                $selected = ($peticion->feligres_id == $f->id) ? 'selected' : '';
+                                echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
-                            ?>
+                        } else {
+                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                        }
+                        ?>
                         </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="servicio_id" class="form-label">Servicio</label>
-                        <select name="servicio_id" id="servicio_id" class="form-select" style="width: 250px;" required>
+                        <select name="servicio_id" id="servicio_id" class="form-select" required>
                             <option value="">Seleccione un servicio</option>
                             <?php
                             if (!empty($servicio)) {
                                 foreach ($servicio as $s) {
                                     $selected = ($peticion->servicio_id == $s->id) ? 'selected' : '';
                                     echo "<option value=\"" . htmlspecialchars($s->id) . "\" $selected>" .
-                                        htmlspecialchars($s->nombre) . " - " . htmlspecialchars($s->descripcion) .
+                                        htmlspecialchars($s->nombre) .
                                         "</option>";
                                 }
                             } else {

@@ -26,19 +26,18 @@
                     <div class="mb-3">
                         <label for="feligres_id" class="form-label">Feligrés</label>
                         <select name="feligres_id" id="feligres_id" class="form-select" required>
-                            <option value="">Seleccione un feligrés</option>
-                            <?php
-                            if (!empty($feligres)) {
-                                foreach ($feligres as $f) {
-                                    $selected = ($pago->feligres_id == $f->id) ? 'selected' : '';
-                                    echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" .
-                                        htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) .
-                                        "</option>";
-                                }
-                            } else {
-                                echo "<option value=\"\">No hay feligreses disponibles</option>";
+                        <option value="">Seleccione un Feligrés</option>
+                        <?php
+                
+                        if (!empty($feligres)) {
+                            foreach ($feligres as $f) {
+                                $selected = ($pago->feligres_id == $f->id) ? 'selected' : '';
+                                echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
-                            ?>
+                        } else {
+                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                        }
+                        ?>
                         </select>
                     </div>
 
