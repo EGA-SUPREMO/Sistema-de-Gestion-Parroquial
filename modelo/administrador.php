@@ -29,9 +29,16 @@ class administrador
     public function agregar($nombre_usuario, $password)
     {
         try {
+            $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+            if ($password_hashed === false) {
+                error_log("Password hashing failed for user: " . $nombre_usuario);
+                print("Password hashing failed for user: " . $nombre_usuario);
+                return false;
+            }
+
             $stmt = $this->conexion->prepare("INSERT INTO administrador (nombre_usuario, password) VALUES (:nombre_usuario, :password)");
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+            $stmt->bindParam(":password", $password_hashed, PDO::PARAM_STR);
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
@@ -64,7 +71,8 @@ class administrador
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
             if (!empty($password)) {
-                $stmt->bindParam(":password", $password, PDO::PARAM_STR);
+                $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+                $stmt->bindParam(":password", $password_hashed, PDO::PARAM_STR);
             }
             $stmt->execute();
             return true;
@@ -73,23 +81,24 @@ class administrador
         }
     }
 
-
-    public function comprobar_datos_usuario($nombre_usuario, $password)
-    {
-        $query = $this->conexion->prepare("SELECT * FROM administrador WHERE nombre_usuario = ? AND password = ?");
-        $query->bindParam(1, $nombre_usuario);
-        $query->bindParam(2, $password);
-        $query->execute();
-        $resultado_obtenido = $query->fetch(PDO::FETCH_ASSOC);
-
-        if ($resultado_obtenido) {
-
-            session_start();
-            $_SESSION['nombre_usuario'] = $resultado_obtenido['nombre_usuario'];
-
-
-            return $resultado_obtenido;
-        } else {
+    public function comprobar_datos_usuario($nombre_usuario, $password_ingresada) {
+        try {
+            $query = $this->conexion->prepare("SELECT password FROM administrador WHERE nombre_usuario = :nombre_usuario");
+            $query->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
+            $query->execute();
+            $result = $query->fetch(PDO::FETCH_ASSOC);
+            if ($result) {
+                $hash = $result['password'];
+                if (password_verify($password_ingresada, $hash)) {
+                    session_start();
+                    $_SESSION['nombre_usuario'] = $nombre_usuario;
+                    return true;
+                }
+            } else {
+                return false;
+            }
+        } catch (PDOException $e) {
+            error_log("Error verificando password: " . $e->getMessage());
             return false;
         }
     }

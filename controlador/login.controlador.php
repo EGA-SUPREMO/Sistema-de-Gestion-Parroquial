@@ -32,12 +32,7 @@ class loginControlador
             $resultados_obtenido = $this->modelo->comprobar_datos_usuario($nombre_usuario, $password);
 
             if ($resultados_obtenido) {
-
-                $_SESSION['nombre_usuario'] = $resultados_obtenido['nombre_usuario'];
-
-
                 header("Location:?c=login&a=dashboard");
-
                 exit();
             } else {
 
@@ -129,6 +124,7 @@ class loginControlador
         try {
 
             $this->modelo->agregar($nombre_usuario, $password);
+            
 
 
             header('Location:?c=login&a=mostrar');

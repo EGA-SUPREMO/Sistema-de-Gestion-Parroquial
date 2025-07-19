@@ -38,7 +38,7 @@ USE registro_de_pagos;
 CREATE TABLE `administrador` (
   `id_admin` int(11) NOT NULL,
   `nombre_usuario` varchar(30) NOT NULL,
-  `password` varchar(30) NOT NULL
+  `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `administrador` (
 --
 
 INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
-(1, 'admin', '123456789');
+(1, 'admin', '$2y$10$IppRaChWUZrkHweK4.S0guzkgupP.jg8caavQlIM4kG77lEceYnDS');
 
 -- --------------------------------------------------------
 
@@ -57,7 +57,7 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
-  `cedula` int(10) UNSIGNED UNIQUE NOT NULL
+  `cedula` int(10) UNSIGNED4 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
