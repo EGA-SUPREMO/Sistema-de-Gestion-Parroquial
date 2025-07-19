@@ -3,6 +3,9 @@
 /uploads/PDF/
 /uploads/pdf/
 
+.env
+*.env
+
 ##### Windows
 # Windows thumbnail cache files
 Thumbs.db
