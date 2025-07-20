@@ -3,6 +3,7 @@
 require_once "modelo/peticiones.php";
 require_once "modelo/Servicio.php";
 require_once "modelo/Feligres.php";
+require_once "modelo/Validador.php";
 session_start();
 
 class PeticionesControlador
@@ -24,7 +25,6 @@ class PeticionesControlador
     {
 
         if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
-
             header('Location: ?c=login&a=index&mensaje=no_autenticado');
             exit();
         }
@@ -40,7 +40,7 @@ class PeticionesControlador
         require_once 'vistas/peticiones/index.php';
     }
 
-    public function Registro()
+    public function Registro($errorMessage = null)
     {
         $servicio = $this->model_servicio->obtenerTodos();
         $feligres = $this->model_feligres->obtenerTodos();
@@ -50,7 +50,7 @@ class PeticionesControlador
     }
 
 
-    public function Editar()
+    public function Editar($errorMessage = null)
     {
         $peticion = new Peticion();
 
@@ -70,6 +70,7 @@ class PeticionesControlador
         $this->model->eliminar($_REQUEST['id']);
 
         header('Location:?c=peticiones');
+        exit();
     }
 
 
@@ -85,21 +86,25 @@ class PeticionesControlador
         $peticion->fecha_inicio = $_REQUEST['fecha_inicio'];
         $peticion->fecha_fin = $_REQUEST['fecha_fin'];
 
-
-        $this->model->agregar(
-            $peticion->feligres_id,
-            $peticion->servicio_id,
-            $peticion->descripcion,
-            $peticion->fecha_registro,
-            $peticion->fecha_inicio,
-            $peticion->fecha_fin
-        );
-
-        header('Location: index.php?c=peticiones');
+        $es_fecha_valida = Validador::validarRangoFechas($peticion->fecha_inicio, $peticion->fecha_fin);
+        
+        if ($es_fecha_valida) {
+            $resultado = $this->model->agregar(
+                $peticion->feligres_id,
+                $peticion->servicio_id,
+                $peticion->descripcion,
+                $peticion->fecha_registro,
+                $peticion->fecha_inicio,
+                $peticion->fecha_fin
+                );
+            if ($resultado) {
+                header('Location: index.php?c=peticiones');
+                exit();
+            }
+        }
+        $errorMessage = "La 'Fecha de Fin' no puede ser anterior a la 'Fecha de Inicio'";
+        $this -> Registro($errorMessage);
     }
-
-
-
 
     public function actualizar()
     {
@@ -113,16 +118,26 @@ class PeticionesControlador
         $peticion->fecha_inicio = $_REQUEST['fecha_inicio'];
         $peticion->fecha_fin = $_REQUEST['fecha_fin'];
 
-        $this->model->actualizar(
-            $peticion->id,
-            $peticion->feligres_id,
-            $peticion->servicio_id,
-            $peticion->descripcion,
-            $peticion->fecha_registro,
-            $peticion->fecha_inicio,
-            $peticion->fecha_fin
-        );
+        $es_fecha_valida = Validador::validarRangoFechas($peticion->fecha_inicio, $peticion->fecha_fin);
+        
+        if ($es_fecha_valida) {
 
-        header('Location: index.php?c=peticiones');
+            $this->model->actualizar(
+                $peticion->id,
+                $peticion->feligres_id,
+                $peticion->servicio_id,
+                $peticion->descripcion,
+                $peticion->fecha_registro,
+                $peticion->fecha_inicio,
+                $peticion->fecha_fin
+            );
+
+            if ($resultado) {
+                header('Location: index.php?c=peticiones');
+                exit();
+            }
+        }
+        $errorMessage = "La 'Fecha de Fin' no puede ser anterior a la 'Fecha de Inicio'";
+        $this -> Editar($errorMessage);
     }
 }

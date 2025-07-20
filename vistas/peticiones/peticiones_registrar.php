@@ -13,8 +13,12 @@
         <h1 class="mb-0">Registrar Peticiones</h1>
     </header>
         <div class="card-body">
+            <?php
+                if (isset($errorMessage) && !empty($errorMessage)) {
+                    echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
+                }
+            ?>
             <form action="index.php?c=peticiones&a=Guardar" method="post" autocomplete="off"> <input type="hidden" name="id" value="" />
-
                 <div class="mb-3">
                     <label for="feligres_id" class="form-label">Feligrés</label>
                     <select name="feligres_id" id="feligres_id" class="form-select" required>

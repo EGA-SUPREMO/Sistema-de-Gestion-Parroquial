@@ -19,6 +19,11 @@
                 <h1 class="h4 mb-0">Datos de la Petición:</h1>
             </div>
             <div class="card-body">
+                <?php
+                    if (isset($errorMessage) && !empty($errorMessage)) {
+                        echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
+                    }
+                ?>
                 <form action="index.php?c=peticiones&a=Actualizar" method="post" autocomplete="off"> <input type="hidden" name="id" value="<?php echo htmlspecialchars($peticion->id ?? ''); ?>" />
                     <div class="mb-3">
                         <label for="feligres_id" class="form-label">Feligrés</label>
