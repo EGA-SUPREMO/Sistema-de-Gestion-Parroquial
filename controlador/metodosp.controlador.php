@@ -7,9 +7,9 @@ class MetodosPControlador
 {
     private $model;
 
-    public function __CONSTRUCT()
+    public function __CONSTRUCT(PDO $pdo)
     {
-        $this->model = new MetodoPago();
+        $this->model = new MetodoPago($pdo);
         $this->requerirLogin();
     }
 
@@ -44,8 +44,6 @@ class MetodosPControlador
 
     public function Editar()
     {
-        $metodoPago = new MetodoPago();
-
         if (isset($_REQUEST['id'])) {
             $metodoPago = $this->model->obtenerPorId($_REQUEST['id']);
         }

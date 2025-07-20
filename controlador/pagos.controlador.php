@@ -13,12 +13,12 @@ class pagosControlador
     private $model_peticiones;
     private $model_metodos;
 
-    public function __CONSTRUCT()
+    public function __CONSTRUCT(PDO $pdo)
     {
-        $this->model = new Pago();
-        $this->model_feligres = new Feligres();
-        $this->model_peticiones = new peticion();
-        $this->model_metodos = new MetodoPago();
+        $this->model = new Pago($pdo);
+        $this->model_feligres = new Feligres($pdo);
+        $this->model_peticiones = new peticion($pdo);
+        $this->model_metodos = new MetodoPago($pdo);
         $this->requerirLogin();
     }
 
@@ -54,8 +54,6 @@ class pagosControlador
 
     public function Editar()
     {
-        $pago = new Pago();
-
         if (isset($_REQUEST['id'])) {
             $pago = $this->model->obtenerPorId($_REQUEST['id']);
         }
@@ -71,38 +69,26 @@ class pagosControlador
 
     public function Guardar()
     {
-        $pago = new Pago();
+        $peticion_id     = (int)($_REQUEST['peticion_id'] ?? 0);
+        $feligres_id     = (int)($_REQUEST['feligres_id'] ?? 0);
+        $metodo_pago_id  = (int)($_REQUEST['metodo_pago_id'] ?? 0);
+        $monto_usd       = (float)($_REQUEST['monto_usd'] ?? -1.0);
+        $fecha_pago      = $_REQUEST['fecha_pago'] ?? '';
+        $referencia_pago = htmlspecialchars(trim($_REQUEST['referencia_pago'] ?? ''));
 
-        $pago->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $pago->peticion_id = $_REQUEST['peticion_id'];
-        $pago->feligres_id = $_REQUEST['feligres_id'];
-        $pago->metodo_pago_id = $_REQUEST['metodo_pago_id'];
-        $pago->monto_usd = $_REQUEST['monto_usd'];
-        $pago->referencia_pago = $_REQUEST['referencia_pago'];
-        $pago->fecha_pago = $_REQUEST['fecha_pago'];
-
-
-        if ($pago->id > 0) {
-            $this->model->actualizar(
-                $pago->id,
-                $pago->peticion_id,
-                $pago->feligres_id,
-                $pago->metodo_pago_id,
-                $pago->monto_usd,
-                $pago->referencia_pago,
-                $pago->fecha_pago
-            );
-        } else {
-            $this->model->agregar(
-                $pago->peticion_id,
-                $pago->feligres_id,
-                $pago->metodo_pago_id,
-                $pago->monto_usd,
-                $pago->referencia_pago,
-                $pago->fecha_pago
-            );
+        if ($monto_usd < 0) {
+            $this -> Registro();
+            exit();
         }
 
+        $this->model->agregar(
+            $peticion_id,
+            $feligres_id,
+            $metodo_pago_id,
+            $monto_usd,
+            $referencia_pago,
+            $fecha_pago
+        );        
         header('Location: index.php?c=pagos');
         exit();
 
@@ -119,24 +105,27 @@ class pagosControlador
 
     public function actualizar()
     {
-        $pago = new Pago();
+        $id              = (int)($_REQUEST['id'] ?? 0);
+        $peticion_id     = (int)($_REQUEST['peticion_id'] ?? 0);
+        $feligres_id     = (int)($_REQUEST['feligres_id'] ?? 0);
+        $metodo_pago_id  = (int)($_REQUEST['metodo_pago_id'] ?? 0);
+        $monto_usd       = (float)($_REQUEST['monto_usd'] ?? -1.0);
+        $fecha_pago      = $_REQUEST['fecha_pago'] ?? '';
+        $referencia_pago = htmlspecialchars(trim($_REQUEST['referencia_pago'] ?? ''));
 
-        $pago->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $pago->peticion_id = $_REQUEST['peticion_id'];
-        $pago->feligres_id = $_REQUEST['feligres_id'];
-        $pago->metodo_pago_id = $_REQUEST['metodo_pago_id'];
-        $pago->monto_usd = $_REQUEST['monto_usd'];
-        $pago->referencia_pago = $_REQUEST['referencia_pago'];
-        $pago->fecha_pago = $_REQUEST['fecha_pago'];
+        if ($monto_usd < 0) {
+            $this -> Editar();
+            exit();
+        }
 
         $this->model->actualizar(
-            $pago->id,
-            $pago->peticion_id,
-            $pago->feligres_id,
-            $pago->metodo_pago_id,
-            $pago->monto_usd,
-            $pago->referencia_pago,
-            $pago->fecha_pago
+            $id,
+            $peticion_id,
+            $feligres_id,
+            $metodo_pago_id,
+            $monto_usd,
+            $referencia_pago,
+            $fecha_pago
         );
 
         header('Location: index.php?c=pagos');

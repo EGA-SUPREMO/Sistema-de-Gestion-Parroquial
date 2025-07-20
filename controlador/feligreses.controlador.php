@@ -7,9 +7,9 @@ class feligresesControlador
 {
     private $model;
 
-    public function __CONSTRUCT()
+    public function __CONSTRUCT(PDO $pdo)
     {
-        $this->model = new Feligres();
+        $this->model = new Feligres($pdo);
         $this->requerirLogin();
     }
 
@@ -46,8 +46,6 @@ class feligresesControlador
 
     public function Editar($errorMessage = null)
     {
-        $feligres = new Feligres();
-
         if (isset($_REQUEST['id'])) {
             $feligres = $this->model->obtenerPorId($_REQUEST['id']);
         }
@@ -67,12 +65,12 @@ class feligresesControlador
 
     public function Guardar()
     {
-        $feligres = new Feligres();
-        $feligres->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $feligres->nombre = $_REQUEST['nombre'];
-        $feligres->cedula = $_REQUEST['cedula'];
+        $datos = [
+            'nombre' => $_REQUEST['nombre'],
+            'cedula' => $_REQUEST['cedula']
+        ];
 
-        $resultado = $this->model->agregar($feligres->nombre, $feligres->cedula);
+        $resultado = $this->model->agregar($datos['nombre'], $datos['cedula']);
         if ($resultado) {
             header('Location: index.php?c=feligreses');
             exit();
@@ -84,12 +82,12 @@ class feligresesControlador
 
     public function actualizar()
     {
-        $feligres = new Feligres();
-
-        $feligres->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $feligres->nombre = $_REQUEST['nombre'];
-        $feligres->cedula = $_REQUEST['cedula'];
-        $resultado = $this->model->actualizar($feligres->id, $feligres->nombre, $feligres->cedula);
+        $datos = [
+            'id' => $_REQUEST['id'],
+            'nombre' => $_REQUEST['nombre'],
+            'cedula' => $_REQUEST['cedula']
+        ];
+        $resultado = $this->model->actualizar($datos['id'], $datos['nombre'], $datos['cedula']);
         if ($resultado) {
             header('Location: index.php?c=feligreses');
             exit();
