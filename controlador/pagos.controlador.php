@@ -104,6 +104,8 @@ class pagosControlador
         }
 
         header('Location: index.php?c=pagos');
+        exit();
+
     }
 
 
@@ -112,6 +114,7 @@ class pagosControlador
         $this->model->eliminar($_REQUEST['id']);
 
         header('Location:?c=pagos');
+        exit();
     }
 
     public function actualizar()
@@ -137,5 +140,6 @@ class pagosControlador
         );
 
         header('Location: index.php?c=pagos');
+        exit();
     }
 }

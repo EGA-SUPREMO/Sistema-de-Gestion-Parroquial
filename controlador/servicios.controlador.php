@@ -60,6 +60,7 @@ class ServiciosControlador
         $this->model->eliminar($_REQUEST['id']);
 
         header('Location:?c=servicios');
+        exit();
     }
 
     public function actualizar()
@@ -74,6 +75,7 @@ class ServiciosControlador
         $this->model->actualizar($servicio->id, $servicio->nombre, $servicio->descripcion);
 
         header('Location: index.php?c=servicios');
+        exit();
     }
 
       public function Guardar()
@@ -88,6 +90,7 @@ class ServiciosControlador
         $this->model->agregar($servicio->nombre, $servicio->descripcion);
 
         header('Location: index.php?c=servicios');
+        exit();
     }
   
 }

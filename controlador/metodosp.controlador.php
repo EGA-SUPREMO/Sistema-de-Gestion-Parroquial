@@ -61,6 +61,7 @@ class MetodosPControlador
         $this->model->eliminar($_REQUEST['id']);
 
         header('Location:?c=metodosP');
+        exit();
     }
 
     public function Guardar()
@@ -76,6 +77,7 @@ class MetodosPControlador
         $this->model->agregar($metodoPago->nombre);
 
         header('Location: index.php?c=metodosP');
+        exit();
     }
 
 
@@ -92,5 +94,6 @@ class MetodosPControlador
         $this->model->actualizar($metodoPago->id, $metodoPago->nombre);
 
         header('Location: index.php?c=metodosP');
+        exit();
     }
 }

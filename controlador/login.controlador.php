@@ -48,6 +48,7 @@ class loginControlador
             } else {
 
                 header("location:?c=login&a=index&mensaje=invalido");
+                exit();
             }
         }
     }
@@ -74,11 +75,11 @@ class loginControlador
         $this->requerirLogin();
         try {
             $this->modelo->eliminar($_REQUEST['id_admin']);
-
-            header('Location:?c=login&a=mostrar');
         } catch (Exception $e) {
-            header('Location:?c=login&a=mostrar');
+            error_log($e->getMessage());
         }
+        header('Location:?c=login&a=mostrar');
+        exit();
     }
     public function editar()
     {
@@ -111,15 +112,11 @@ class loginControlador
 
         try {
             $this->modelo->editar($id_admin, $nombre_usuario, $password);
-
-
-            header('Location:?c=login&a=mostrar');
-            exit();
         } catch (Exception $e) {
-
-            header('Location:?c=login&a=mostrar');
-            exit();
+            error_log($e->getMessage());
         }
+        header('Location:?c=login&a=mostrar');
+        exit();
     }
 
     public function Guardar()
@@ -129,22 +126,13 @@ class loginControlador
         $nombre_usuario = $_REQUEST['nombre_usuario'];
         $password = $_REQUEST['password'];
 
-
-        
-
         try {
-
             $this->modelo->agregar($nombre_usuario, $password);
-            
-
-
-            header('Location:?c=login&a=mostrar');
-            exit();
         } catch (Exception $e) {
-
+            error_log($e->getMessage());
+        }
             header('Location:?c=login&a=mostrar');
             exit();
-        }
     }
 
     public function Registro()
