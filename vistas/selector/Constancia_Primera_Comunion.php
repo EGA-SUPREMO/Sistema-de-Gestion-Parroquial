@@ -34,7 +34,7 @@
 
                         <div class="mb-3">
                             <label for="cedulaIdentidad" class="form-label">Cédula de Identidad N°:</label>
-                            <input type="text" class="form-control" id="cedulaIdentidad" name="cedulaIdentidad" placeholder="Ej: V-12345678 o E-12345678" required>
+                            <input type="text" class="form-control" id="cedulaIdentidad" name="cedulaIdentidad" placeholder="Ej: V-12345678 o E-12345678" maxlength="10" required>
                         </div>
 
                         <div class="mb-3">
