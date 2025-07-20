@@ -16,6 +16,14 @@ class loginControlador
 
     public function index()
     {
+        $errorMessage = '';
+        if (isset($_GET['mensaje'])) {
+            if ($_GET['mensaje'] === 'invalido') {
+                $errorMessage = 'Datos incorrectos. Por favor, inténtelo de nuevo.';
+            }else if ($_GET['mensaje'] === 'no_autenticado') {
+                $errorMessage = 'Necesitas iniciar sesión para acceder a esta página';
+            }
+        }
         require_once "vistas/cabezera.php";
         require_once 'vistas/login/login.php';
     }

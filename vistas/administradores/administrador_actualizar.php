@@ -26,9 +26,9 @@
                 <input 
                     type="hidden" 
                     name="id_admin" 
-                    value="<?php echo htmlspecialchars($_GET['id_admin'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" 
+                    value="<?= htmlspecialchars($admin->id_admin ?? '', ENT_QUOTES, 'UTF-8'); ?>" 
                 />
-                
+
                 <div class="mb-3">
                     <label for="nombre_usuario" class="form-label">Nuevo Nombre de Usuario</label>
                     <input 

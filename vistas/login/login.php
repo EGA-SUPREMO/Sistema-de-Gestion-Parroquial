@@ -1,12 +1,3 @@
-
-<?php /*session_start();*/?>
-<?php
-   
-    $errorMessage = ''; 
-    if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'invalido') {
-        $errorMessage = 'Datos incorrectos. Por favor, inténtelo de nuevo.';
-    }
-    ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>

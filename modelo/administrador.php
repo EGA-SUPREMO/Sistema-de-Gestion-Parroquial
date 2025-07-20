@@ -6,6 +6,7 @@ class administrador
     private $conexion;
     public $nombre_usuario;
     public $password;
+    public $id_admin;
 
     public function __construct()
     {
