@@ -42,15 +42,7 @@
          
                 <div class="mb-3">
                     <label for="cedula" class="form-label">Cédula de Identidad</label>
-                    <input 
-                        type="number" 
-                        name="cedula"
-                        id="cedula"
-                        class="form-control" 
-                        placeholder="Ingrese el número de cédula (sin puntos)"
-                          value="<?php echo $feligres->cedula;?>" 
-                        required 
-                    />
+                    <input type="text" id="cedula" name="cedula" class="form-control" placeholder="Ingrese el número de cédula (sin puntos)" pattern="\d{4,10}" maxlength="10" value="<?php echo $feligres->cedula;?>" required>
                 </div>
                 
                 <hr />
