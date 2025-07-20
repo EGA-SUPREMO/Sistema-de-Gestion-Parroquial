@@ -83,6 +83,7 @@
                         class="form-control"
                         placeholder="Ingrese el monto en USD"
                         value=""
+                        min="0.01"
                         required
                     />
                 </div>

@@ -90,6 +90,7 @@
                             class="form-control"
                             placeholder="Ingrese el monto en USD"
                             value="<?php echo htmlspecialchars($pago->monto_usd ?? ''); ?>"
+                            min="0.01"
                             required />
                     </div>
 
