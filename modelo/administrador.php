@@ -90,11 +90,8 @@ class administrador
             $result = $query->fetch(PDO::FETCH_ASSOC);
             if ($result) {
                 $hash = $result['password'];
-                if (password_verify($password_ingresada, $hash)) {
-                    session_start();
-                    $_SESSION['nombre_usuario'] = $nombre_usuario;
-                    return true;
-                }
+                
+                return password_verify($password_ingresada, $hash);
             } else {
                 return false;
             }

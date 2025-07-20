@@ -40,6 +40,9 @@ class loginControlador
             $resultados_obtenido = $this->modelo->comprobar_datos_usuario($nombre_usuario, $password);
 
             if ($resultados_obtenido) {
+                session_start();
+                $_SESSION['nombre_usuario'] = $nombre_usuario;
+
                 header("Location:?c=login&a=dashboard");
                 exit();
             } else {
