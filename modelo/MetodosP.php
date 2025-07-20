@@ -14,17 +14,27 @@ class MetodoPago
 
     public function obtenerTodos()
     {
-        $stmt = $this->db->prepare("SELECT * FROM metodos_pago"); 
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        try{
+            $stmt = $this->db->prepare("SELECT * FROM metodos_pago"); 
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function obtenerPorId($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM metodos_pago WHERE id = :id"); 
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        try{
+            $stmt = $this->db->prepare("SELECT * FROM metodos_pago WHERE id = :id"); 
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function agregar($nombre) 
@@ -35,17 +45,22 @@ class MetodoPago
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-           
             return false;
+            error_log($e->getMessage());
         }
     }
 
     public function actualizar($id, $nombre) 
     {
-        $stmt = $this->db->prepare("UPDATE metodos_pago SET nombre = :nombre WHERE id = :id"); 
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
-        return $stmt->execute();
+        try{
+            $stmt = $this->db->prepare("UPDATE metodos_pago SET nombre = :nombre WHERE id = :id"); 
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function eliminar($id)
@@ -53,9 +68,9 @@ class MetodoPago
         try {
             $consulta = $this->db->prepare("DELETE FROM metodos_pago WHERE id = ?;"); 
             $consulta->execute(array($id));
-        } catch (Exception $e) {
-           // die($e->getMessage()); 
-           header('Location:?c=metodosP'); 
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
         }
     }
 }

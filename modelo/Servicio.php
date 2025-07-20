@@ -15,17 +15,27 @@ class Servicio
 
     public function obtenerTodos()
     {
-        $stmt = $this->db->prepare("SELECT * FROM servicios");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM servicios");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function obtenerPorId($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM servicios WHERE id = :id");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        try{
+            $stmt = $this->db->prepare("SELECT * FROM servicios WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function agregar($nombre, $descripcion)
@@ -37,18 +47,23 @@ class Servicio
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-            error_log($e);
+            error_log($e->getMessage());
             return false;
         }
     }
 
     public function actualizar($id, $nombre, $descripcion)
     {
-        $stmt = $this->db->prepare("UPDATE servicios SET nombre = :nombre, descripcion = :descripcion WHERE id = :id");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
-        $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-        return $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("UPDATE servicios SET nombre = :nombre, descripcion = :descripcion WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return false;
+        }
     }
 
     public function eliminar($id)
@@ -57,9 +72,8 @@ class Servicio
             $consulta = $this->db->prepare("DELETE FROM servicios WHERE id = ?;");
             $consulta->execute(array($id));
         } catch (Exception $e) {
-            error_log($e);
-            header('Location:?c=servicios');
-            exit();
+            error_log($e->getMessage());
+            return false;
         }
     }
 }

@@ -5,22 +5,33 @@ class Feligres {
     private $db;
     public $nombre;
     public $cedula;
-   public $id;
+    public $id;
+
     public function __construct() {
         $this->db = base_datos::BD();
     }
 
     public function obtenerTodos() {
-        $stmt = $this->db->prepare("SELECT * FROM feligreses");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM feligreses");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function obtenerPorId($id) {
-        $stmt = $this->db->prepare("SELECT * FROM feligreses WHERE id = :id");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM feligreses WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function agregar($nombre, $cedula) {
@@ -31,6 +42,7 @@ class Feligres {
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -44,6 +56,7 @@ class Feligres {
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            error_log($e);
             return false;
         }
     }
@@ -52,15 +65,13 @@ class Feligres {
     {
         try
         {
-            
             $consulta = $this->db->prepare("DELETE FROM feligreses WHERE id = ?;");
 
             $consulta->execute(array($id));
-
         } catch (Exception $e)
         {
-          
-              header('Location:?c=feligreses');
+          error_log($e->getMessage());
+          return false;
         }
     }
 

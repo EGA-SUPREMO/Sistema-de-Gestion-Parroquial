@@ -15,16 +15,26 @@ class administrador
 
     public function obtenerTodos()
     {
-        $stmt = $this->conexion->prepare("SELECT * FROM administrador");
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_OBJ);
+        try {
+            $stmt = $this->conexion->prepare("SELECT * FROM administrador");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
     public function obtenerPorId($id_admin)
     {
-        $stmt = $this->conexion->prepare("SELECT * FROM administrador WHERE id_admin = :id_admin");
-        $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_OBJ);
+        try{
+            $stmt = $this->conexion->prepare("SELECT * FROM administrador WHERE id_admin = :id_admin");
+            $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ);
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            return null;
+        }
     }
 
     public function agregar($nombre_usuario, $password)
@@ -43,6 +53,7 @@ class administrador
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -54,6 +65,7 @@ class administrador
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -78,6 +90,7 @@ class administrador
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            error_log($e->getMessage());
             return false;
         }
     }
@@ -90,7 +103,7 @@ class administrador
             $result = $query->fetch(PDO::FETCH_ASSOC);
             if ($result) {
                 $hash = $result['password'];
-                
+
                 return password_verify($password_ingresada, $hash);
             } else {
                 return false;

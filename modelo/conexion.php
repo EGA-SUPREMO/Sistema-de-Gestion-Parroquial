@@ -10,6 +10,7 @@ class base_datos
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             return $pdo;
         } catch (Exception $e) {
+            error_log("Error en la conexión: " . $e->getMessage());
             die("Error en la conexión: " . $e->getMessage());
         }
     }
