@@ -111,9 +111,14 @@ class loginControlador
     {
         $this->requerirLogin();
 
-        $id_admin = $_REQUEST['id_admin'];
-        $nombre_usuario = $_REQUEST['nombre_usuario'];
+        $id_admin = (int)($_REQUEST['id_admin']);
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
         $password = $_REQUEST['password'];
+        
+        if (empty($nombre_usuario) || empty($password)) {
+            $this->editar();
+            exit();
+        }
 
         try {
             $this->modelo->editar($id_admin, $nombre_usuario, $password);
@@ -128,9 +133,13 @@ class loginControlador
     {
         $this->requerirLogin();
 
-        $nombre_usuario = $_REQUEST['nombre_usuario'];
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
         $password = $_REQUEST['password'];
 
+        if (empty($nombre_usuario) || empty($password)) {
+            $this->Registro();
+            exit();
+        }
         try {
             $this->modelo->agregar($nombre_usuario, $password);
         } catch (Exception $e) {

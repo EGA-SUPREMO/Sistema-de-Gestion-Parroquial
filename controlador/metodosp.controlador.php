@@ -23,9 +23,6 @@ class MetodosPControlador
         }
     }
 
-
-
-
     public function Registro()
     {
         require_once "vistas/cabezera.php";
@@ -64,15 +61,12 @@ class MetodosPControlador
 
     public function Guardar()
     {
-        $metodoPago = new MetodoPago();
+        $nombre = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
+        if (empty($nombre)) {
+            $this->Registro();
+        }
 
-
-        $metodoPago->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $metodoPago->nombre = $_REQUEST['nombre'];
-
-
-
-        $this->model->agregar($metodoPago->nombre);
+        $this->model->agregar($nombre);
 
         header('Location: index.php?c=metodosP');
         exit();
@@ -82,14 +76,13 @@ class MetodosPControlador
 
     public function actualizar()
     {
-        $metodoPago = new MetodoPago();
+        $id = (int)($_REQUEST['id'] ?? 0);
+        $nombre = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
+        if (empty($nombre)) {
+            $this->Editar();
+        }
 
-
-        $metodoPago->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $metodoPago->nombre = $_REQUEST['nombre'];
-
-
-        $this->model->actualizar($metodoPago->id, $metodoPago->nombre);
+        $this->model->actualizar($id, $nombre);
 
         header('Location: index.php?c=metodosP');
         exit();

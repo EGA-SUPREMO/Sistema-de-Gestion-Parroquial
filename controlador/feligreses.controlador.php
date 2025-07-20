@@ -66,9 +66,14 @@ class feligresesControlador
     public function Guardar()
     {
         $datos = [
-            'nombre' => $_REQUEST['nombre'],
-            'cedula' => $_REQUEST['cedula']
+            'nombre' => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
+            'cedula' => (int)($_REQUEST['cedula'])
         ];
+
+        if (empty($datos['nombre'])) {
+            $this->Registro("Por favor introduzca un nombre");
+            exit();
+        }
 
         $resultado = $this->model->agregar($datos['nombre'], $datos['cedula']);
         if ($resultado) {
@@ -83,10 +88,15 @@ class feligresesControlador
     public function actualizar()
     {
         $datos = [
-            'id' => $_REQUEST['id'],
-            'nombre' => $_REQUEST['nombre'],
-            'cedula' => $_REQUEST['cedula']
+            'id' => (int)($_REQUEST['id']),
+            'nombre' => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
+            'cedula' => (int)($_REQUEST['cedula'])
         ];
+
+        if (empty($datos['nombre'])) {
+            $this->Editar("Por favor introduzca un nombre");
+            exit();
+        }
         $resultado = $this->model->actualizar($datos['id'], $datos['nombre'], $datos['cedula']);
         if ($resultado) {
             header('Location: index.php?c=feligreses');

@@ -12,11 +12,11 @@ class PeticionesControlador
     private $model_servicio;
     private $model_feligres;
 
-    public function __CONSTRUCT()
+    public function __CONSTRUCT(PDO $pdo)
     {
-        $this->model = new Peticion();
-        $this->model_feligres = new Feligres();
-        $this->model_servicio = new Servicio();
+        $this->model = new Peticion($pdo);
+        $this->model_feligres = new Feligres($pdo);
+        $this->model_servicio = new Servicio($pdo);
         $this->requerirLogin();
     }
 
@@ -52,8 +52,6 @@ class PeticionesControlador
 
     public function Editar($errorMessage = null)
     {
-        $peticion = new Peticion();
-
         if (isset($_REQUEST['id'])) {
             $peticion = $this->model->obtenerPorId($_REQUEST['id']);
         }
@@ -75,27 +73,29 @@ class PeticionesControlador
 
 
     public function Guardar()
-    {
-        $peticion = new Peticion();
+    {        
+        $feligres_id = (int)($_REQUEST['feligres_id'] ?? 0);
+        $servicio_id = (int)($_REQUEST['servicio_id'] ?? 0);
+        $descripcion = htmlspecialchars(trim($_REQUEST['descripcion'] ?? ''));
+        $fecha_registro = $_REQUEST['fecha_registro'] ?? '';
+        $fecha_inicio = $_REQUEST['fecha_inicio'] ?? '';
+        $fecha_fin = $_REQUEST['fecha_fin'] ?? '';
 
-        $peticion->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $peticion->feligres_id = $_REQUEST['feligres_id'];
-        $peticion->servicio_id = $_REQUEST['servicio_id'];
-        $peticion->descripcion = $_REQUEST['descripcion'];
-        $peticion->fecha_registro = date('Y-m-d');
-        $peticion->fecha_inicio = $_REQUEST['fecha_inicio'];
-        $peticion->fecha_fin = $_REQUEST['fecha_fin'];
+        if (empty($descripcion)) {
+            $this->Registro("Por favor introduce una descripcion.");
+            exit();
+        }
 
-        $es_fecha_valida = Validador::validarRangoFechas($peticion->fecha_inicio, $peticion->fecha_fin);
+        $es_fecha_valida = Validador::validarRangoFechas($fecha_inicio, $fecha_fin);
         
         if ($es_fecha_valida) {
             $resultado = $this->model->agregar(
-                $peticion->feligres_id,
-                $peticion->servicio_id,
-                $peticion->descripcion,
-                $peticion->fecha_registro,
-                $peticion->fecha_inicio,
-                $peticion->fecha_fin
+                $feligres_id,
+                $servicio_id,
+                $descripcion,
+                $fecha_registro,
+                $fecha_inicio,
+                $fecha_fin
                 );
             if ($resultado) {
                 header('Location: index.php?c=peticiones');
@@ -108,28 +108,31 @@ class PeticionesControlador
 
     public function actualizar()
     {
-        $peticion = new Peticion();
+        $id = (int)($_REQUEST['id'] ?? 0);
+        $feligres_id = (int)($_REQUEST['feligres_id'] ?? 0);
+        $servicio_id = (int)($_REQUEST['servicio_id'] ?? 0);
+        $descripcion = htmlspecialchars(trim($_REQUEST['descripcion'] ?? ''));
+        $fecha_registro = $_REQUEST['fecha_registro'] ?? '';
+        $fecha_inicio = $_REQUEST['fecha_inicio'] ?? '';
+        $fecha_fin = $_REQUEST['fecha_fin'] ?? '';
 
-        $peticion->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $peticion->feligres_id = $_REQUEST['feligres_id'];
-        $peticion->servicio_id = $_REQUEST['servicio_id'];
-        $peticion->descripcion = $_REQUEST['descripcion'];
-        $peticion->fecha_registro = $_REQUEST['fecha_registro'];
-        $peticion->fecha_inicio = $_REQUEST['fecha_inicio'];
-        $peticion->fecha_fin = $_REQUEST['fecha_fin'];
+        if (empty($descripcion)) {
+            $this->Editar("Por favor introduce una descripcion.");
+            exit();
+        }
 
-        $es_fecha_valida = Validador::validarRangoFechas($peticion->fecha_inicio, $peticion->fecha_fin);
+        $es_fecha_valida = Validador::validarRangoFechas($fecha_inicio, $fecha_fin);
         
         if ($es_fecha_valida) {
 
             $this->model->actualizar(
-                $peticion->id,
-                $peticion->feligres_id,
-                $peticion->servicio_id,
-                $peticion->descripcion,
-                $peticion->fecha_registro,
-                $peticion->fecha_inicio,
-                $peticion->fecha_fin
+                $id,
+                $feligres_id,
+                $servicio_id,
+                $descripcion,
+                $fecha_registro,
+                $fecha_inicio,
+                $fecha_fin
             );
 
             if ($resultado) {

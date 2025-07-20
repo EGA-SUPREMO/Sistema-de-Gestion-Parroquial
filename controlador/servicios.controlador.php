@@ -65,22 +65,32 @@ class ServiciosControlador
     {
         $datos = [
             'id'          => isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0,
-            'nombre'      => $_REQUEST['nombre'] ?? '',
-            'descripcion' => $_REQUEST['descripcion'] ?? ''
+            'nombre'      => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
+            'descripcion' => htmlspecialchars(trim($_REQUEST['descripcion'] ?? '')),
         ];
         
+        if (empty($datos['nombre']) || empty($datos['descripcion'])) {
+            $this->Editar();
+            exit();
+        }
+
         $this->model->actualizar($datos['id'], $datos['nombre'], $datos['descripcion']);
         header('Location: index.php?c=servicios');
         exit();
     }
 
-      public function Guardar()
+    public function Guardar()
     {
         $datos = [
-            'nombre'      => $_REQUEST['nombre'] ?? '',
-            'descripcion' => $_REQUEST['descripcion'] ?? ''
+            'nombre'      => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
+            'descripcion' => htmlspecialchars(trim($_REQUEST['descripcion'] ?? '')),
         ];
         
+        if (empty($datos['nombre']) || empty($datos['descripcion'])) {
+            $this->Registro();
+            exit();
+        }
+
         $this->model->agregar($datos['nombre'], $datos['descripcion']);
 
         header('Location: index.php?c=servicios');

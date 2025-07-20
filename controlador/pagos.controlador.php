@@ -76,7 +76,7 @@ class pagosControlador
         $fecha_pago      = $_REQUEST['fecha_pago'] ?? '';
         $referencia_pago = htmlspecialchars(trim($_REQUEST['referencia_pago'] ?? ''));
 
-        if ($monto_usd < 0) {
+        if ($monto_usd < 0 || empty($referencia_pago)) {
             $this -> Registro();
             exit();
         }
@@ -113,7 +113,7 @@ class pagosControlador
         $fecha_pago      = $_REQUEST['fecha_pago'] ?? '';
         $referencia_pago = htmlspecialchars(trim($_REQUEST['referencia_pago'] ?? ''));
 
-        if ($monto_usd < 0) {
+        if ($monto_usd < 0 || empty($referencia_pago)) {
             $this -> Editar();
             exit();
         }
