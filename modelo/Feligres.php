@@ -1,5 +1,4 @@
 <?php
-require_once "conexion.php";
 
 class Feligres {
     private $db;
@@ -7,8 +6,8 @@ class Feligres {
     public $cedula;
     public $id;
 
-    public function __construct() {
-        $this->db = base_datos::BD();
+    public function __construct(PDO $pdo) {
+        $this->db = $pdo;
     }
 
     public function obtenerTodos() {

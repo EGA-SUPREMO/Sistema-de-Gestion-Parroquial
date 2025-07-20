@@ -1,5 +1,4 @@
 <?php
-require_once "conexion.php"; 
 
 class Servicio
 {
@@ -8,9 +7,9 @@ class Servicio
     public $descripcion;
     public $id;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $this->db = base_datos::BD();
+        $this->db = $pdo;
     }
 
     public function obtenerTodos()

@@ -6,9 +6,9 @@ class ServiciosControlador
 {
     private $model;
 
-    public function __CONSTRUCT()
+    public function __CONSTRUCT(PDO $pdo)
     {
-        $this->model = new Servicio();
+        $this->model = new Servicio($pdo);
         $this->requerirLogin();
     }
 
@@ -43,8 +43,6 @@ class ServiciosControlador
 
     public function Editar()
     {
-        $servicio = new Servicio();
-
         if (isset($_REQUEST['id'])) {
             $servicio = $this->model->obtenerPorId($_REQUEST['id']);
         }
@@ -65,29 +63,25 @@ class ServiciosControlador
 
     public function actualizar()
     {
-        $servicio = new Servicio();
-
-        $servicio->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $servicio->nombre = $_REQUEST['nombre'];
-        $servicio->descripcion = $_REQUEST['descripcion'];
-
-
-        $this->model->actualizar($servicio->id, $servicio->nombre, $servicio->descripcion);
-
+        $datos = [
+            'id'          => isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0,
+            'nombre'      => $_REQUEST['nombre'] ?? '',
+            'descripcion' => $_REQUEST['descripcion'] ?? ''
+        ];
+        
+        $this->model->actualizar($datos['id'], $datos['nombre'], $datos['descripcion']);
         header('Location: index.php?c=servicios');
         exit();
     }
 
       public function Guardar()
     {
-        $servicio = new Servicio();
-
-        $servicio->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
-        $servicio->nombre = $_REQUEST['nombre'];
-        $servicio->descripcion = $_REQUEST['descripcion'];
-
-
-        $this->model->agregar($servicio->nombre, $servicio->descripcion);
+        $datos = [
+            'nombre'      => $_REQUEST['nombre'] ?? '',
+            'descripcion' => $_REQUEST['descripcion'] ?? ''
+        ];
+        
+        $this->model->agregar($datos['nombre'], $datos['descripcion']);
 
         header('Location: index.php?c=servicios');
         exit();

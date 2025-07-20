@@ -1,5 +1,4 @@
 <?php
-require_once 'conexion.php';
 
 class administrador
 {
@@ -8,9 +7,9 @@ class administrador
     public $password;
     public $id_admin;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $this->conexion = base_datos::BD();
+        $this->conexion = $pdo;
     }
 
     public function getAdminCount()

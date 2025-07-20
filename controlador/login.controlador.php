@@ -8,9 +8,9 @@ class loginControlador
     private $modelo;
 
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $this->modelo = new administrador();
+        $this->modelo = new administrador($pdo);
     }
 
 

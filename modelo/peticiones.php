@@ -1,5 +1,4 @@
 <?php
-require_once "conexion.php"; 
 
 class Peticion 
 {
@@ -12,9 +11,9 @@ class Peticion
     public $fecha_inicio;
     public $fecha_fin;
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $this->db = base_datos::BD();
+        $this->db = $pdo;
     }
 
     public function obtenerTodos()

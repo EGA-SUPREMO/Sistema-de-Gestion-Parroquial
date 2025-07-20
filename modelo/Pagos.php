@@ -1,6 +1,4 @@
 <?php
-require_once "conexion.php";
-
 class Pago
 {
     private $db;
@@ -13,9 +11,9 @@ class Pago
     public $fecha_pago;
 
 
-    public function __construct()
+    public function __construct(PDO $pdo)
     {
-        $this->db = base_datos::BD();
+        $this->db = $pdo;
     }
 
     public function obtenerTodos()
