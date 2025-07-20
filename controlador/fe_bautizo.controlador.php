@@ -28,27 +28,33 @@ class fe_bautizocontrolador
     {
 
         $constancia = $_POST["constancia"] ?? null;
-        $nombreBautizado       = $_POST["nombreBautizado"] ?? null;
+
+        $nombreBautizado       = htmlspecialchars(trim($_POST["nombreBautizado"] ?? ''));
         $diaNacimiento         = $_POST["diaNacimiento"] ?? null;
         $mesNacimiento         = $_POST["mesNacimiento"] ?? null;
         $anoNacimiento         = $_POST["anoNacimiento"] ?? null;
         $lugarNacimiento       = $_POST["lugarNacimiento"] ?? null;
-        $nombrePadre           = $_POST["nombrePadre"] ?? null;
-        $nombreMadre           = $_POST["nombreMadre"] ?? null;
+        $nombrePadre           = htmlspecialchars(trim($_POST["nombrePadre"] ?? ''));
+        $nombreMadre           = htmlspecialchars(trim($_POST["nombreMadre"] ?? ''));
         $numeroLibro           = $_POST["numeroLibro"] ?? null;
         $folio                 = $_POST["folio"] ?? null;
         $numeroMarginal        = $_POST["numeroMarginal"] ?? null;
         $diaBautismo           = $_POST["diaBautismo"] ?? null;
         $mesBautismo           = $_POST["mesBautismo"] ?? null;
         $anoBautismo           = $_POST["anoBautismo"] ?? null;
-        $nombreSacerdote       = $_POST["nombreSacerdote"] ?? null;
-        $nombrePadrino         = $_POST["nombrePadrino"] ?? null;
-        $nombreMadrina         = $_POST["nombreMadrina"] ?? null;
-        $propositoCertificacion = $_POST["propositoCertificacion"] ?? null;
+        $nombreSacerdote       = htmlspecialchars(trim($_POST["nombreSacerdote"] ?? ''));
+        $nombrePadrino         = htmlspecialchars(trim($_POST["nombrePadrino"] ?? ''));
+        $nombreMadrina         = htmlspecialchars(trim($_POST["nombreMadrina"] ?? ''));
+        $propositoCertificacion = htmlspecialchars(trim($_POST["propositoCertificacion"] ?? ''));
         $diaExpedicion         = $_POST["diaExpedicion"] ?? null;
         $mesExpedicion         = $_POST["mesExpedicion"] ?? null;
         $anoExpedicion         = $_POST["anoExpedicion"] ?? null;
 
+
+        if (empty($nombreBautizado) || empty($nombreMadre)|| empty($nombrePadre) || empty($nombreMadrina)|| empty($nombrePadrino)|| empty($nombreSacerdote)|| empty($lugarNacimiento)|| empty($propositoCertificacion)) {
+            header('Location:?c=reporte&a=fe_bautizo');
+            exit();
+        }
 
         switch ($constancia) {
             case "fe_bautizo":

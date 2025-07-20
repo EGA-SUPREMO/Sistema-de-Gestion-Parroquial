@@ -26,11 +26,15 @@ class IntencionesControlador
     {
 
         $plantilla = $_POST["plantilla"] ?? null;
-        $accionDeGracias = $_POST["acciondegracias"] ?? '';
-        $salud = $_POST["salud"] ?? '';
-        $aniversarios = $_POST["aniversarios"] ?? '';
-        $difunto = $_POST["difunto"] ?? '';
+        $accionDeGracias = htmlspecialchars(trim($_POST["acciondegracias"] ?? ''));
+        $salud = htmlspecialchars(trim($_POST["salud"] ?? ''));
+        $aniversarios = htmlspecialchars(trim($_POST["aniversarios"] ?? ''));
+        $difunto = htmlspecialchars(trim($_POST["difunto"] ?? ''));
 
+        if (empty($accionDeGracias) || empty($salud) || empty($aniversarios) || empty($difunto)) {
+            header('Location:?c=reporte&a=intenciones');
+            exit();
+        }
         
         if ($plantilla === "intenciones") {
 

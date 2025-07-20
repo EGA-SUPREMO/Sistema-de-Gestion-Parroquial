@@ -28,8 +28,9 @@ class primera_comunioncontrolador
     {
 
         $constancia = $_POST["constancia"];
-        $nombreCiudadano = $_POST["nombreCiudadano"];
-        $cedulaIdentidad = $_POST["cedulaIdentidad"];
+
+        $nombreCiudadano = htmlspecialchars(trim($_POST["nombreCiudadano"] ?? ''));
+        $cedulaIdentidad = htmlspecialchars(trim($_POST["cedulaIdentidad"] ?? ''));
         $diaComunion     = $_POST["diaComunion"];
         $mesComunion     = $_POST["mesComunion"];
         $anoComunion     = $_POST["anoComunion"];
@@ -37,6 +38,10 @@ class primera_comunioncontrolador
         $mesExpedicion   = $_POST["mesExpedicion"];
         $anoExpedicion   = $_POST["anoExpedicion"];
 
+        if (empty($nombreCiudadano) || empty($cedulaIdentidad)) {
+            header('Location:?c=reporte&a=constancia_c');
+            exit();
+        }
         // El switch ahora decide qué método de generación llamar.
         switch ($constancia) {
             case "primera_comunion":
