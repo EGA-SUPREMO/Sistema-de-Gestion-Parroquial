@@ -19,13 +19,13 @@
             <h1 class="h4 mb-0">Datos :</h1>
         </div>
         <div class="card-body">
-          
+            <?php
+                if (isset($errorMessage) && !empty($errorMessage)) {
+                    echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
+                }
+            ?>
             <form action="index.php?c=feligreses&a=Actualizar" method="post" autocomplete="off">
-                
-              
                 <input type="hidden" name="id"   value="<?php echo $feligres->id;?>"  />
-                
-              
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre Completo</label>
                     <input 
@@ -45,7 +45,7 @@
                     <input type="text" id="cedula" name="cedula" class="form-control" placeholder="Ingrese el número de cédula (sin puntos)" pattern="\d{4,10}" maxlength="10" value="<?php echo $feligres->cedula;?>" required>
                 </div>
                 
-                <hr />
+                <hr/>
                 
              
                 <div class="text-left">

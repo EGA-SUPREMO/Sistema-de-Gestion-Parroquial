@@ -36,11 +36,16 @@ class Feligres {
     }
 
     public function actualizar($id, $nombre, $cedula) {
-        $stmt = $this->db->prepare("UPDATE feligreses SET nombre = :nombre, cedula = :cedula WHERE id = :id");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
-        $stmt->bindParam(":cedula", $cedula, PDO::PARAM_INT);
-        return $stmt->execute();
+        try {
+            $stmt = $this->db->prepare("UPDATE feligreses SET nombre = :nombre, cedula = :cedula WHERE id = :id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(":cedula", $cedula, PDO::PARAM_INT);
+            $stmt->execute();
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
     public function eliminar($id)

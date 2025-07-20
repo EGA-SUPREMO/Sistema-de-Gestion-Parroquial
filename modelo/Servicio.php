@@ -37,7 +37,7 @@ class Servicio
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
-
+            error_log($e);
             return false;
         }
     }
@@ -57,8 +57,9 @@ class Servicio
             $consulta = $this->db->prepare("DELETE FROM servicios WHERE id = ?;");
             $consulta->execute(array($id));
         } catch (Exception $e) {
-          
-            header('Location:?c=servicios'); 
+            error_log($e);
+            header('Location:?c=servicios');
+            exit();
         }
     }
 }

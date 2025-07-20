@@ -35,38 +35,32 @@ class feligresesControlador
 
     public function Eliminar()
     {
-
         try {
             $this->model->eliminar($_REQUEST['id']);
-
-
-            header('Location:?c=feligreses');
         } catch (Exception $e) {
-            header('Location:?c=feligreses');
+            error_log($e);
         }
+        header('Location:?c=feligreses');
+        exit();
     }
 
-    public function Editar()
+    public function Editar($errorMessage = null)
     {
         $feligres = new Feligres();
 
-
         if (isset($_REQUEST['id'])) {
-
             $feligres = $this->model->obtenerPorId($_REQUEST['id']);
         }
         require_once "vistas/cabezera.php";
-
         require_once "vistas/menu.php";
         require_once 'vistas/feligreses/feligreses_actualizar.php';
     }
 
 
-    public function Registro()
+    public function Registro($errorMessage = null)
     {
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
-
         require_once "vistas/feligreses/feligreses_nuevo.php";
     }
 
@@ -74,32 +68,34 @@ class feligresesControlador
     public function Guardar()
     {
         $feligres = new Feligres();
-
-
         $feligres->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
         $feligres->nombre = $_REQUEST['nombre'];
         $feligres->cedula = $_REQUEST['cedula'];
 
+        $resultado = $this->model->agregar($feligres->nombre, $feligres->cedula);
+        if ($resultado) {
+            header('Location: index.php?c=feligreses');
+            exit();
+        }
 
-        $this->model->agregar($feligres->nombre, $feligres->cedula);
-
-        header('Location: index.php?c=feligreses');
+        $errorMessage = "Error: La cédula de identidad ya está registrada. Por favor, verifique los datos o intente con una cédula diferente.";
+        $this -> Registro($errorMessage);
     }
-
-
-
 
     public function actualizar()
     {
-
         $feligres = new Feligres();
-
 
         $feligres->id = $_REQUEST['id'] ? $_REQUEST['id'] : 0;
         $feligres->nombre = $_REQUEST['nombre'];
         $feligres->cedula = $_REQUEST['cedula'];
-        $this->model->actualizar($feligres->id, $feligres->nombre, $feligres->cedula);
+        $resultado = $this->model->actualizar($feligres->id, $feligres->nombre, $feligres->cedula);
+        if ($resultado) {
+            header('Location: index.php?c=feligreses');
+            exit();
+        }
 
-        header('Location: index.php?c=feligreses');
+        $errorMessage = "Error: La cédula de identidad ya está registrada. Por favor, verifique los datos o intente con una cédula diferente.";
+        $this -> Editar($errorMessage);
     }
 }
