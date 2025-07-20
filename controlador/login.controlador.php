@@ -73,10 +73,14 @@ class loginControlador
     public function eliminar()
     {
         $this->requerirLogin();
+
         try {
             $this->modelo->eliminar($_REQUEST['id_admin']);
         } catch (Exception $e) {
             error_log($e->getMessage());
+            $errorMessage = $e->getMessage();
+            header('Location:?c=login&a=mostrar&mensaje=' . urlencode($errorMessage));
+            exit();
         }
         header('Location:?c=login&a=mostrar');
         exit();
@@ -96,6 +100,7 @@ class loginControlador
         
         $this->requerirLogin();
         $administradores = $this->modelo->obtenerTodos();
+        $errorMessage = $_GET['mensaje'] ?? null;
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
         require_once "vistas/administradores/index.php";

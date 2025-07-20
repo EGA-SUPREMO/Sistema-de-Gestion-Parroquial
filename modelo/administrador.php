@@ -13,6 +13,18 @@ class administrador
         $this->conexion = base_datos::BD();
     }
 
+    public function getAdminCount()
+    {
+        try {
+            $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM administrador");
+            $stmt->execute();
+            return (int) $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            error_log("Error no se pudo obtener numero de administradores: " . $e->getMessage());
+            return 0;
+        }
+    }
+
     public function obtenerTodos()
     {
         try {
@@ -59,7 +71,11 @@ class administrador
     }
     public function eliminar($id)
     {
+        if ($this->getAdminCount() <= 1) {
+            throw new Exception("No se puede eliminar el ultimo administrador", 403);
+        }
         try {
+
             $stmt = $this->conexion->prepare("DELETE FROM administrador WHERE id_admin = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

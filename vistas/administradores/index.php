@@ -22,6 +22,11 @@
             <div class="col-lg-10 col-xl-8">
                 <section class="card shadow-lg rounded-4">
                     <div class="card-body p-4 p-md-5">
+                        <?php if (isset($errorMessage) && $errorMessage): ?>
+                            <div class="alert alert-danger mt-3" role="alert">
+                                <?= htmlspecialchars($errorMessage) ?>
+                            </div>
+                        <?php endif; ?>
                         <h2 class="card-title text-center mb-4 pb-2 border-bottom display-6 fw-bold text-success">
                             Listado de Administradores
                         </h2>
