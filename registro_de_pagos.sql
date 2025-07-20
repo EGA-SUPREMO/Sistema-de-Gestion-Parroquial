@@ -96,7 +96,9 @@ CREATE TABLE `metodos_pago` (
 --
 
 INSERT INTO `metodos_pago` (`id`, `nombre`) VALUES
-(1, 'Pago móvil');
+(1, 'Pago móvil'),
+(2, 'Efectivo'),
+(3, 'Punto de venta');
 
 -- --------------------------------------------------------
 
