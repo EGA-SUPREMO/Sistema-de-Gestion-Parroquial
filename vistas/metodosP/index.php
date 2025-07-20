@@ -36,7 +36,7 @@
                                     <thead class="table-success text-white">
                                         <tr>
                                             <th scope="col" class="py-3 px-4">ID</th>
-                                            <th scope="col" class="py-3 px-4">Nombre</th> <th scope="col" class="py-3 px-4 text-center">Editar - Eliminar</th>
+                                            <th scope="col" class="py-3 px-4">Nombre</th> <th scope="col" class="py-3 px-4 text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>

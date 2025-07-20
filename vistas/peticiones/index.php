@@ -37,27 +37,27 @@
                             <table class="table table-striped table-hover align-middle border rounded-3 overflow-hidden">
                                 <thead class="table-success text-white">
                                     <tr>
-                                        <th scope="col" class="py-3 px-4">ID Petición</th>
-                                        <th scope="col" class="py-3 px-4">Feligrés</th>
-                                        <th scope="col" class="py-3 px-4">Servicio</th>
-                                        <th scope="col" class="py-3 px-4">Descripción</th>
-                                        <th scope="col" class="py-3 px-4">Fecha Registro</th>
-                                        <th scope="col" class="py-3 px-4">Fecha Inicio</th>
-                                        <th scope="col" class="py-3 px-4">Fecha Fin</th>
-                                        <th scope="col" class="py-3 px-4 text-center">Acciones</th>
+                                        <th scope="col" class="py-3 px-3">Id</th>
+                                        <th scope="col" class="py-3 px-3">Feligrés</th>
+                                        <th scope="col" class="py-3 px-3">Servicio</th>
+                                        <th scope="col" class="py-3 px-3">Descripción</th>
+                                        <th scope="col" class="py-3 px-3">Fecha Registro</th>
+                                        <th scope="col" class="py-3 px-3">Fecha Inicio</th>
+                                        <th scope="col" class="py-3 px-3">Fecha Fin</th>
+                                        <th scope="col" class="py-3 px-3 text-center">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php foreach ($peticiones as $p): ?>
                                         <tr>
-                                            <th scope="row" class="px-4"><?= htmlspecialchars($p->id) ?></th>
-                                            <td class="px-4"><?= htmlspecialchars($p->feligres_nombre) ?></td>
-                                            <td class="px-4"><?= htmlspecialchars($p->servicio_nombre) ?></td>
-                                            <td class="px-4"><?= htmlspecialchars($p->peticion_descripcion) ?></td>
-                                            <td class="px-4"><?= htmlspecialchars($p->fecha_registro) ?></td>
-                                            <td class="px-4"><?= htmlspecialchars($p->fecha_inicio) ?></td>
-                                            <td class="px-4"><?= htmlspecialchars($p->fecha_fin) ?></td>
-                                            <td class="text-center px-4">
+                                            <th scope="row" class="px-3"><?= htmlspecialchars($p->id) ?></th>
+                                            <td class="px-3"><?= htmlspecialchars($p->feligres_nombre) ?></td>
+                                            <td class="px-3"><?= htmlspecialchars($p->servicio_nombre) ?></td>
+                                            <td class="px-3"><?= htmlspecialchars($p->peticion_descripcion) ?></td>
+                                            <td class="px-3"><?= htmlspecialchars($p->fecha_registro) ?></td>
+                                            <td class="px-3"><?= htmlspecialchars($p->fecha_inicio) ?></td>
+                                            <td class="px-3"><?= htmlspecialchars($p->fecha_fin) ?></td>
+                                            <td class="text-center px-3">
                                                 <a href="?c=peticiones&a=Editar&id=<?= htmlspecialchars($p->id) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                                                     Editar
                                                 </a>

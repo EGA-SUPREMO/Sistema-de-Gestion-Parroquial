@@ -131,8 +131,8 @@ class loginControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
-            header('Location:?c=login&a=mostrar');
-            exit();
+        header('Location:?c=login&a=mostrar');
+        exit();
     }
 
     public function Registro()
