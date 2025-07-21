@@ -37,6 +37,7 @@ try {
     call_user_func([$controladorInstanciado, $accion]);
 
 } catch (Exception $e) {
+    error_log($e->getMessage());
     header('Location: index.php?c=login&a=dashboard');
     exit;
 }
