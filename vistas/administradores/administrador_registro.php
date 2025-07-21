@@ -24,7 +24,7 @@
                 if (isset($errorMessage) && !empty($errorMessage)) {
                     echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
                 }
-            ?>
+                    ?>
             <form action="index.php?c=login&a=Guardar" method="post" autocomplete="off">
                 
                 <input 
