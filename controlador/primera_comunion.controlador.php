@@ -24,9 +24,6 @@ class primera_comunioncontrolador
 
     public function comunion()
     {
-
-        $constancia = $_POST["constancia"];
-
         $nombreCiudadano = htmlspecialchars(trim($_POST["nombreCiudadano"] ?? ''));
         $cedulaIdentidad = htmlspecialchars(trim($_POST["cedulaIdentidad"] ?? ''));
         $diaComunion     = $_POST["diaComunion"];
@@ -40,26 +37,15 @@ class primera_comunioncontrolador
             header('Location:?c=reporte&a=constancia_c');
             exit();
         }
-        // El switch ahora decide qué método de generación llamar.
-        switch ($constancia) {
-            case "primera_comunion":
-                GeneradorPdf::generarPdfComunion(
-                    $nombreCiudadano,
-                    $cedulaIdentidad,
-                    $diaComunion,
-                    $mesComunion,
-                    $anoComunion,
-                    $diaExpedicion,
-                    $mesExpedicion,
-                    $anoExpedicion
-                );
-                break;
-            default:
-                echo "Error: Tipo de constancia no especificado.";
-                break;
-        }
+        GeneradorPdf::generarPdfComunion(
+            $nombreCiudadano,
+            $cedulaIdentidad,
+            $diaComunion,
+            $mesComunion,
+            $anoComunion,
+            $diaExpedicion,
+            $mesExpedicion,
+            $anoExpedicion
+        );
     }
-
-
-
 }

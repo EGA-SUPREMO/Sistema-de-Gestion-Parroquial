@@ -4,7 +4,6 @@ class GeneradorPdf
 {
 
     public static function generarPdfMatrimonio(
-        $constancia,
         $nombreContrayente1,
         $naturalContrayente1,
         $nombreContrayente2,
@@ -180,7 +179,6 @@ class GeneradorPdf
     }
 
     public static function generarPdfBautizo(
-        $constancia,
         $nombreBautizado,
         $diaNacimiento,
         $mesNacimiento,

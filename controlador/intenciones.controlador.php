@@ -25,8 +25,6 @@ class IntencionesControlador
 
     public function generar()
     {
-
-        $plantilla = $_POST["plantilla"] ?? null;
         $accionDeGracias = htmlspecialchars(trim($_POST["acciondegracias"] ?? ''));
         $salud = htmlspecialchars(trim($_POST["salud"] ?? ''));
         $aniversarios = htmlspecialchars(trim($_POST["aniversarios"] ?? ''));
@@ -37,17 +35,12 @@ class IntencionesControlador
             exit();
         }
         
-        if ($plantilla === "intenciones") {
-
-            GeneradorPdf::generarPdfIntenciones(
-                $accionDeGracias,
-                $salud,
-                $aniversarios,
-                $difunto
-            );
-        } else {
-            echo "Error: Tipo de plantilla no especificado o incorrecto.";
-        }
+        GeneradorPdf::generarPdfIntenciones(
+            $accionDeGracias,
+            $salud,
+            $aniversarios,
+            $difunto
+        );
     }
 
 

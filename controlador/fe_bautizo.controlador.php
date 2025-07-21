@@ -25,9 +25,6 @@ class fe_bautizocontrolador
 
     public function fe_bautizo()
     {
-
-        $constancia = $_POST["constancia"] ?? null;
-
         $nombreBautizado       = htmlspecialchars(trim($_POST["nombreBautizado"] ?? ''));
         $diaNacimiento         = $_POST["diaNacimiento"] ?? null;
         $mesNacimiento         = $_POST["mesNacimiento"] ?? null;
@@ -55,37 +52,28 @@ class fe_bautizocontrolador
             exit();
         }
 
-        switch ($constancia) {
-            case "fe_bautizo":
-
-                GeneradorPdf::generarPdfBautizo(
-                    $constancia,
-                    $nombreBautizado,
-                    $diaNacimiento,
-                    $mesNacimiento,
-                    $anoNacimiento,
-                    $lugarNacimiento,
-                    $nombrePadre,
-                    $nombreMadre,
-                    $numeroLibro,
-                    $folio,
-                    $numeroMarginal,
-                    $diaBautismo,
-                    $mesBautismo,
-                    $anoBautismo,
-                    $nombreSacerdote,
-                    $nombrePadrino,
-                    $nombreMadrina,
-                    $propositoCertificacion,
-                    $diaExpedicion,
-                    $mesExpedicion,
-                    $anoExpedicion
-                );
-                break;
-            default:
-                echo "Error: Tipo de constancia no especificado.";
-                break;
-        }
+        GeneradorPdf::generarPdfBautizo(
+                $nombreBautizado,
+                $diaNacimiento,
+                $mesNacimiento,
+                $anoNacimiento,
+                $lugarNacimiento,
+                $nombrePadre,
+                $nombreMadre,
+                $numeroLibro,
+                $folio,
+                $numeroMarginal,
+                $diaBautismo,
+                $mesBautismo,
+                $anoBautismo,
+                $nombreSacerdote,
+                $nombrePadrino,
+                $nombreMadrina,
+                $propositoCertificacion,
+                $diaExpedicion,
+                $mesExpedicion,
+                $anoExpedicion
+            );
     }
 
 }

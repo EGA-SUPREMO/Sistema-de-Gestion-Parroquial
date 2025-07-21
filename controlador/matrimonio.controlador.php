@@ -25,8 +25,6 @@ class matrimoniocontrolador
 
     public function matrimonio()
     {
-        $constancia = isset($_POST["constancia"]) ? $_POST["constancia"] : '';
-
         $nombreContrayente1 = htmlspecialchars(trim($_POST["nombreContrayente1"] ?? ''));
         $naturalContrayente1 = htmlspecialchars(trim($_POST["naturalContrayente1"] ?? ''));
         $nombreContrayente2 = htmlspecialchars(trim($_POST["nombreContrayente2"] ?? ''));
@@ -50,34 +48,23 @@ class matrimoniocontrolador
             exit();
         }
 
-        switch ($constancia) {
-            case "matrimonio":
-
-                GeneradorPdf::generarPdfMatrimonio(
-                    $constancia,
-                    $nombreContrayente1,
-                    $naturalContrayente1,
-                    $nombreContrayente2,
-                    $naturalContrayente2,
-                    $numeroLibro,
-                    $folio,
-                    $numeroMarginal,
-                    $diaMatrimonio,
-                    $mesMatrimonio,
-                    $anoMatrimonio,
-                    $nombreSacerdoteMatrimonio,
-                    $diaExpedicion,
-                    $mesExpedicion,
-                    $anoExpedicion,
-                    $nombreAdministradorParroquial
-                );
-                break;
-            default:
-                echo "Error: Tipo de constancia no especificado.";
-                break;
-        }
+        GeneradorPdf::generarPdfMatrimonio(
+            $nombreContrayente1,
+            $naturalContrayente1,
+            $nombreContrayente2,
+            $naturalContrayente2,
+            $numeroLibro,
+            $folio,
+            $numeroMarginal,
+            $diaMatrimonio,
+            $mesMatrimonio,
+            $anoMatrimonio,
+            $nombreSacerdoteMatrimonio,
+            $diaExpedicion,
+            $mesExpedicion,
+            $anoExpedicion,
+            $nombreAdministradorParroquial
+        );
     }
-
-
 
 }
