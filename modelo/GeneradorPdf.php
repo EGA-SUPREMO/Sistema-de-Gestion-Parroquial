@@ -163,7 +163,7 @@ class GeneradorPdf
 
 
         if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
+            if (!mkdir($uploadDir, 0755, true)) {
 
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
@@ -374,7 +374,7 @@ class GeneradorPdf
 
 
         if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
+            if (!mkdir($uploadDir, 0755, true)) {
 
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
@@ -454,7 +454,7 @@ class GeneradorPdf
 
 
         if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
+            if (!mkdir($uploadDir, 0755, true)) {
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
         }
@@ -557,7 +557,7 @@ class GeneradorPdf
 
 
         if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0777, true)) {
+            if (!mkdir($uploadDir, 0755, true)) {
 
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
