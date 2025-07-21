@@ -4,11 +4,7 @@ session_start();
 require_once 'modelo/cargarEnv.php';
 require_once 'modelo/conexion.php';
 
-cargarVariablesDeEntorno();//TODO ver como quito esto, es muy low level
-$dbHost = $_ENV['DB_HOST'];
-$dbName = $_ENV['DB_NAME'];
-$dbUser = $_ENV['DB_USER'];
-$dbPass = $_ENV['DB_PASS'];
+cargarVariablesDeEntorno();
 
 $controladorNombre = strtolower(isset($_REQUEST['c']) ? $_REQUEST['c'] : 'login');
 $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'index';
@@ -17,7 +13,7 @@ $controlador = "controlador/{$controladorNombre}.controlador.php";
 $controladorclase = ucwords($controladorNombre) . 'Controlador';
 
 try {
-    $pdo = BaseDatos::obtenerConexion($dbHost, $dbName, $dbUser, $dbPass);
+    $pdo = BaseDatos::obtenerConexion($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
     if (!file_exists($controlador)) {
         throw new Exception("Controlador no encontrado");
