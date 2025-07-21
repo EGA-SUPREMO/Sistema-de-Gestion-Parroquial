@@ -28,16 +28,16 @@
                         <select name="feligres_id" id="feligres_id" class="form-select" required>
                         <option value="">Seleccione un Feligrés</option>
                         <?php
-                
+
                         if (!empty($feligres)) {
                             foreach ($feligres as $f) {
                                 $selected = ($pago->feligres_id == $f->id) ? 'selected' : '';
                                 echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
                         } else {
-                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                            echo "<option value=\"\">Cargando Feligreses...</option>";
                         }
-                        ?>
+                    ?>
                         </select>
                     </div>
 
@@ -46,16 +46,16 @@
                         <select name="metodo_pago_id" id="metodo_pago_id" class="form-select" required>
                             <option value="">Seleccione un método</option>
                             <?php
-                            if (!empty($metodos)) {
-                                foreach ($metodos as $m) {
-                                    $selected = ($pago->metodo_pago_id == $m->id) ? 'selected' : '';
-                                    echo "<option value=\"" . htmlspecialchars($m->id) . "\" $selected>" .
-                                        htmlspecialchars($m->nombre) . "</option>";
-                                }
-                            } else {
-                                echo "<option value=\"\">No hay métodos disponibles</option>";
+                        if (!empty($metodos)) {
+                            foreach ($metodos as $m) {
+                                $selected = ($pago->metodo_pago_id == $m->id) ? 'selected' : '';
+                                echo "<option value=\"" . htmlspecialchars($m->id) . "\" $selected>" .
+                                    htmlspecialchars($m->nombre) . "</option>";
                             }
-                            ?>
+                        } else {
+                            echo "<option value=\"\">No hay métodos disponibles</option>";
+                        }
+                    ?>
                         </select>
                     </div>
                     <div class="mb-3">
@@ -63,19 +63,19 @@
                         <select name="peticion_id" id="peticion_id" class="form-select" required>
                             <option value="">Seleccione una petición</option>
                             <?php
-                            if (!empty($peticion)) {
-                                foreach ($peticion as $p) {
-                                    $selected = ($pago->peticion_id == $p->id) ? 'selected' : '';
-                                    echo "<option value=\"" . htmlspecialchars($p->id) . "\" $selected>" .
-                                        htmlspecialchars($p->feligres_nombre) . " - " .
-                                        htmlspecialchars($p->servicio_nombre) . " - " .
-                                        htmlspecialchars($p->peticion_descripcion) .
-                                        "</option>";
-                                }
-                            } else {
-                                echo "<option value=\"\">No hay peticiones disponibles</option>";
-                            }
-                            ?>
+                    if (!empty($peticion)) {
+                        foreach ($peticion as $p) {
+                            $selected = ($pago->peticion_id == $p->id) ? 'selected' : '';
+                            echo "<option value=\"" . htmlspecialchars($p->id) . "\" $selected>" .
+                                htmlspecialchars($p->feligres_nombre) . " - " .
+                                htmlspecialchars($p->servicio_nombre) . " - " .
+                                htmlspecialchars($p->peticion_descripcion) .
+                                "</option>";
+                        }
+                    } else {
+                        echo "<option value=\"\">No hay peticiones disponibles</option>";
+                    }
+                    ?>
                         </select>
                     </div>
 

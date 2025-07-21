@@ -5,7 +5,6 @@ require_once "public/fpdf/fpdf.php";
 
 class primera_comunioncontrolador
 {
-
     public function __construct()
     {
         $this->requerirLogin();

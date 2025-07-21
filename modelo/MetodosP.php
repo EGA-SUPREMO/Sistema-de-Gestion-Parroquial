@@ -1,6 +1,6 @@
 <?php
 
-class MetodoPago 
+class MetodoPago
 {
     private $db;
     public $nombre;
@@ -13,8 +13,8 @@ class MetodoPago
 
     public function obtenerTodos()
     {
-        try{
-            $stmt = $this->db->prepare("SELECT * FROM metodos_pago"); 
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM metodos_pago");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_OBJ);
         } catch (PDOException $e) {
@@ -25,8 +25,8 @@ class MetodoPago
 
     public function obtenerPorId($id)
     {
-        try{
-            $stmt = $this->db->prepare("SELECT * FROM metodos_pago WHERE id = :id"); 
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM metodos_pago WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_OBJ);
@@ -36,10 +36,10 @@ class MetodoPago
         }
     }
 
-    public function agregar($nombre) 
+    public function agregar($nombre)
     {
         try {
-            $stmt = $this->db->prepare("INSERT INTO metodos_pago (nombre) VALUES (:nombre)"); 
+            $stmt = $this->db->prepare("INSERT INTO metodos_pago (nombre) VALUES (:nombre)");
             $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
             $stmt->execute();
             return true;
@@ -49,10 +49,10 @@ class MetodoPago
         }
     }
 
-    public function actualizar($id, $nombre) 
+    public function actualizar($id, $nombre)
     {
-        try{
-            $stmt = $this->db->prepare("UPDATE metodos_pago SET nombre = :nombre WHERE id = :id"); 
+        try {
+            $stmt = $this->db->prepare("UPDATE metodos_pago SET nombre = :nombre WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
             return $stmt->execute();
@@ -65,7 +65,7 @@ class MetodoPago
     public function eliminar($id)
     {
         try {
-            $consulta = $this->db->prepare("DELETE FROM metodos_pago WHERE id = ?;"); 
+            $consulta = $this->db->prepare("DELETE FROM metodos_pago WHERE id = ?;");
             $consulta->execute(array($id));
         } catch (PDOException $e) {
             error_log($e->getMessage());
@@ -73,4 +73,3 @@ class MetodoPago
         }
     }
 }
-?>

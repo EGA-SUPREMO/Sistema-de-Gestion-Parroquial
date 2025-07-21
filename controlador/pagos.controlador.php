@@ -88,7 +88,7 @@ class pagosControlador
             $monto_usd,
             $referencia_pago,
             $fecha_pago
-        );        
+        );
         header('Location: index.php?c=pagos');
         exit();
 

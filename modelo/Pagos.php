@@ -1,4 +1,5 @@
 <?php
+
 class Pago
 {
     private $db;
@@ -35,7 +36,7 @@ class Pago
 
     public function obtenerPorId($id)
     {
-        try{
+        try {
             $stmt = $this->db->prepare("SELECT * FROM pagos WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
@@ -66,7 +67,7 @@ class Pago
 
     public function actualizar($id, $peticion_id, $feligres_id, $metodo_pago_id, $monto_usd, $referencia_pago, $fecha_pago)
     {
-        try{
+        try {
             $stmt = $this->db->prepare("UPDATE pagos SET peticion_id = :peticion_id, feligres_id = :feligres_id, metodo_pago_id = :metodo_pago_id, monto_usd = :monto_usd, referencia_pago = :referencia_pago, fecha_pago = :fecha_pago WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->bindParam(":peticion_id", $peticion_id, PDO::PARAM_INT);

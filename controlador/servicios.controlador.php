@@ -39,7 +39,7 @@ class ServiciosControlador
         require_once "vistas/servicios/servicios_registro.php";
     }
 
-   
+
 
     public function Editar()
     {
@@ -51,7 +51,7 @@ class ServiciosControlador
         require_once 'vistas/servicios/servicios_actualizar.php';
     }
 
-   
+
 
     public function Eliminar()
     {
@@ -68,7 +68,7 @@ class ServiciosControlador
             'nombre'      => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
             'descripcion' => htmlspecialchars(trim($_REQUEST['descripcion'] ?? '')),
         ];
-        
+
         if (empty($datos['nombre']) || empty($datos['descripcion'])) {
             $this->Editar();
             exit();
@@ -85,7 +85,7 @@ class ServiciosControlador
             'nombre'      => htmlspecialchars(trim($_REQUEST['nombre'] ?? '')),
             'descripcion' => htmlspecialchars(trim($_REQUEST['descripcion'] ?? '')),
         ];
-        
+
         if (empty($datos['nombre']) || empty($datos['descripcion'])) {
             $this->Registro();
             exit();
@@ -96,5 +96,5 @@ class ServiciosControlador
         header('Location: index.php?c=servicios');
         exit();
     }
-  
+
 }

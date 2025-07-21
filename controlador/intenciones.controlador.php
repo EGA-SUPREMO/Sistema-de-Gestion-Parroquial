@@ -5,8 +5,6 @@ require_once "public/fpdf/fpdf.php";
 
 class IntencionesControlador
 {
-
-
     public function __construct()
     {
         $this->requerirLogin();
@@ -34,7 +32,7 @@ class IntencionesControlador
             header('Location:?c=reporte&a=intenciones');
             exit();
         }
-        
+
         GeneradorPdf::generarPdfIntenciones(
             $accionDeGracias,
             $salud,

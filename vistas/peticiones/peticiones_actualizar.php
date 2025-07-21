@@ -30,16 +30,16 @@
                         <select name="feligres_id" id="feligres_id" class="form-select" required>
                         <option value="">Seleccione un Feligrés</option>
                         <?php
-                
+
                         if (!empty($feligres)) {
                             foreach ($feligres as $f) {
                                 $selected = ($peticion->feligres_id == $f->id) ? 'selected' : '';
                                 echo "<option value=\"" . htmlspecialchars($f->id) . "\" $selected>" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
                         } else {
-                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                            echo "<option value=\"\">Cargando Feligreses...</option>";
                         }
-                        ?>
+                ?>
                         </select>
                     </div>
 
@@ -48,17 +48,17 @@
                         <select name="servicio_id" id="servicio_id" class="form-select" required>
                             <option value="">Seleccione un servicio</option>
                             <?php
-                            if (!empty($servicio)) {
-                                foreach ($servicio as $s) {
-                                    $selected = ($peticion->servicio_id == $s->id) ? 'selected' : '';
-                                    echo "<option value=\"" . htmlspecialchars($s->id) . "\" $selected>" .
-                                        htmlspecialchars($s->nombre) .
-                                        "</option>";
-                                }
-                            } else {
-                                echo "<option value=\"\">No hay servicios disponibles</option>";
-                            }
-                            ?>
+                    if (!empty($servicio)) {
+                        foreach ($servicio as $s) {
+                            $selected = ($peticion->servicio_id == $s->id) ? 'selected' : '';
+                            echo "<option value=\"" . htmlspecialchars($s->id) . "\" $selected>" .
+                                htmlspecialchars($s->nombre) .
+                                "</option>";
+                        }
+                    } else {
+                        echo "<option value=\"\">No hay servicios disponibles</option>";
+                    }
+                ?>
                         </select>
                     </div>
 

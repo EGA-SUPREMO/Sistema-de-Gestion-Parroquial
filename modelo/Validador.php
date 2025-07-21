@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 
 class Validador
 {
@@ -16,7 +17,7 @@ class Validador
             return false;
         }
         return true;
-        
+
     }
 
-} 
+}

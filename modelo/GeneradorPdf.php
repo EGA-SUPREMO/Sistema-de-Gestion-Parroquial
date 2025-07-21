@@ -2,7 +2,6 @@
 
 class GeneradorPdf
 {
-
     public static function generarPdfMatrimonio(
         $nombreContrayente1,
         $naturalContrayente1,
@@ -162,16 +161,16 @@ class GeneradorPdf
 
         $uploadDir = __DIR__ . '/../uploads/pdf/';
 
-        
+
         if (!is_dir($uploadDir)) {
             if (!mkdir($uploadDir, 0777, true)) {
-                
+
                 die('Fallo al crear el directorio de uploads: ' . $uploadDir);
             }
         }
 
         $Nombre_pdf = "matrimonio_eclesiastico_" . time() . ".pdf";
-        $filePath = $uploadDir . $Nombre_pdf; 
+        $filePath = $uploadDir . $Nombre_pdf;
 
         $pdf->Output($filePath, 'F');
         $pdf->Output($Nombre_pdf, 'I');
@@ -439,7 +438,7 @@ class GeneradorPdf
             }
         };
 
-        // Imprimir cada sección utilizando el formato del documento 
+        // Imprimir cada sección utilizando el formato del documento
         $imprimirSeccion('ACCIÓN DE GRACIAS:', $accionDeGracias);
         $imprimirSeccion('SALUD:', $salud);
         $imprimirSeccion('ANIVERSARIOS:', $aniversarios);
@@ -510,12 +509,12 @@ class GeneradorPdf
         // Frase Introductoria
         $pdf->SetFont('Arial', '', 12);
         $pdf->Ln(5);
-        $sangria = 15; 
+        $sangria = 15;
 
         // Guarda la posición X actual del cursor (opcional, si necesitas restaurarla después)
         $x_original = $pdf->GetX();
 
-        
+
         $pdf->SetX($x_original + $sangria);
         $pdf->MultiCell(0, 10, utf8_decode('Quien suscribe, Administrador Parroquial de San Diego de Alcalá y de La'), 5, 'C');
         $pdf->MultiCell(0, 8, utf8_decode('Candelaria, por medio de la presente hace CONSTAR que el ciudadano'), 0, 'C');
@@ -552,7 +551,7 @@ class GeneradorPdf
         $pdf->Cell(0, 3, utf8_decode('Contacto: 0241.891.18.04 / Instagram: sandiegoycandelaria'), 0, 1, 'C');
         $pdf->Cell(0, 3, utf8_decode('Gmail: psandiegodealcalaylacandelaria@gmail.com'), 0, 1, 'C');
 
-        
+
         // Salida del PDF
         $uploadDir = __DIR__ . '/../uploads/pdf/';
 

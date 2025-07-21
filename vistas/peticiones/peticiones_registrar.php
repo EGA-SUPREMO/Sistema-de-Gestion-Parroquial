@@ -24,15 +24,15 @@
                     <select name="feligres_id" id="feligres_id" class="form-select" required>
                         <option value="">Seleccione un Feligrés</option>
                         <?php
-                
+
                         if (!empty($feligres)) {
                             foreach ($feligres as $f) {
                                 echo "<option value=\"" . htmlspecialchars($f->id) . "\">" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
                         } else {
-                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                            echo "<option value=\"\">Cargando Feligreses...</option>";
                         }
-                        ?>
+            ?>
                     </select>
                 </div>
 
@@ -41,16 +41,16 @@
                     <select name="servicio_id" id="servicio_id" class="form-select" required>
                         <option value="">Seleccione un Servicio</option>
                         <?php
-                        
-                        if (!empty($servicio)) {
-                            foreach ($servicio as $s) {
-                                echo "<option value=\"" . htmlspecialchars($s->id) . "\">" . htmlspecialchars($s->nombre) . "</option>";
-                            }
-                        } else {
-                           
-                            echo "<option value=\"\">Cargando Servicios...</option>";
-                        }
-                        ?>
+
+            if (!empty($servicio)) {
+                foreach ($servicio as $s) {
+                    echo "<option value=\"" . htmlspecialchars($s->id) . "\">" . htmlspecialchars($s->nombre) . "</option>";
+                }
+            } else {
+
+                echo "<option value=\"\">Cargando Servicios...</option>";
+            }
+            ?>
                     </select>
                 </div>
 

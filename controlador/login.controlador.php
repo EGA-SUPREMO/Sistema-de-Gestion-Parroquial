@@ -20,7 +20,7 @@ class loginControlador
         if (isset($_GET['mensaje'])) {
             if ($_GET['mensaje'] === 'invalido') {
                 $errorMessage = 'Datos incorrectos. Por favor, inténtelo de nuevo.';
-            }else if ($_GET['mensaje'] === 'no_autenticado') {
+            } elseif ($_GET['mensaje'] === 'no_autenticado') {
                 $errorMessage = 'Necesitas iniciar sesión para acceder a esta página';
             }
         }
@@ -97,7 +97,7 @@ class loginControlador
 
     public function mostrar()
     {
-        
+
         $this->requerirLogin();
         $administradores = $this->modelo->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;
@@ -114,7 +114,7 @@ class loginControlador
         $id_admin = (int)($_REQUEST['id_admin']);
         $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
         $password = $_REQUEST['password'];
-        
+
         if (empty($nombre_usuario) || empty($password)) {
             $this->editar();
             exit();

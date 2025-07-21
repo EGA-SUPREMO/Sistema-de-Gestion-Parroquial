@@ -5,7 +5,6 @@ require_once "public/fpdf/fpdf.php";
 
 class fe_bautizocontrolador
 {
-
     public function __construct()
     {
 
@@ -47,33 +46,33 @@ class fe_bautizocontrolador
         $anoExpedicion         = $_POST["anoExpedicion"] ?? null;
 
 
-        if (empty($nombreBautizado) || empty($nombreMadre)|| empty($nombrePadre) || empty($nombreMadrina)|| empty($nombrePadrino)|| empty($nombreSacerdote)|| empty($lugarNacimiento)|| empty($propositoCertificacion)) {
+        if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion)) {
             header('Location:?c=reporte&a=fe_bautizo');
             exit();
         }
 
         GeneradorPdf::generarPdfBautizo(
-                $nombreBautizado,
-                $diaNacimiento,
-                $mesNacimiento,
-                $anoNacimiento,
-                $lugarNacimiento,
-                $nombrePadre,
-                $nombreMadre,
-                $numeroLibro,
-                $folio,
-                $numeroMarginal,
-                $diaBautismo,
-                $mesBautismo,
-                $anoBautismo,
-                $nombreSacerdote,
-                $nombrePadrino,
-                $nombreMadrina,
-                $propositoCertificacion,
-                $diaExpedicion,
-                $mesExpedicion,
-                $anoExpedicion
-            );
+            $nombreBautizado,
+            $diaNacimiento,
+            $mesNacimiento,
+            $anoNacimiento,
+            $lugarNacimiento,
+            $nombrePadre,
+            $nombreMadre,
+            $numeroLibro,
+            $folio,
+            $numeroMarginal,
+            $diaBautismo,
+            $mesBautismo,
+            $anoBautismo,
+            $nombreSacerdote,
+            $nombrePadrino,
+            $nombreMadrina,
+            $propositoCertificacion,
+            $diaExpedicion,
+            $mesExpedicion,
+            $anoExpedicion
+        );
     }
 
 }

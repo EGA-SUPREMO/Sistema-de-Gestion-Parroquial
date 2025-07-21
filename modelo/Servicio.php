@@ -26,7 +26,7 @@ class Servicio
 
     public function obtenerPorId($id)
     {
-        try{
+        try {
             $stmt = $this->db->prepare("SELECT * FROM servicios WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

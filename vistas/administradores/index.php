@@ -37,8 +37,8 @@
                             </a>
                         </div>
 
-                        <?php if (empty($administradores)): 
-                        ?>
+                        <?php if (empty($administradores)):
+                            ?>
                             <div class="alert alert-info text-center py-4 rounded-3" role="alert">
                                 <i class="bi bi-info-circle-fill me-2"></i> No hay administradores registrados aún.
                                 <p class="mt-2">¡Haz clic en "Añadir Nuevo Administrador" para empezar!</p>
@@ -55,8 +55,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($administradores as $admin): 
-                                        ?>
+                                        <?php foreach ($administradores as $admin):
+                                            ?>
                                             <tr>
                                                 <?php htmlspecialchars($admin->id_admin) ?>
                                                 <td class="px-4"><?= htmlspecialchars($admin->nombre_usuario) ?></td>

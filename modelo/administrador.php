@@ -37,7 +37,7 @@ class administrador
     }
     public function obtenerPorId($id_admin)
     {
-        try{
+        try {
             $stmt = $this->conexion->prepare("SELECT * FROM administrador WHERE id_admin = :id_admin");
             $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
             $stmt->execute();
@@ -93,7 +93,7 @@ class administrador
                 $sql .= ", password = :password";
             }
             $sql .= " WHERE id_admin = :id";
-            
+
             $stmt = $this->conexion->prepare($sql);
 
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -110,7 +110,8 @@ class administrador
         }
     }
 
-    public function comprobar_datos_usuario($nombre_usuario, $password_ingresada) {
+    public function comprobar_datos_usuario($nombre_usuario, $password_ingresada)
+    {
         try {
             $query = $this->conexion->prepare("SELECT password FROM administrador WHERE nombre_usuario = :nombre_usuario");
             $query->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);

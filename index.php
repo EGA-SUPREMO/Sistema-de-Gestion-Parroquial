@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once 'modelo/cargarEnv.php';
 require_once 'modelo/conexion.php';
@@ -41,5 +42,3 @@ try {
     header('Location: index.php?c=login&a=dashboard');
     exit;
 }
-
-?>

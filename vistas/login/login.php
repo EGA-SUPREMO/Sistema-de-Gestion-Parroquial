@@ -116,7 +116,7 @@
 
                 <section class="login-card">
                     <?php
-                  
+
                     if (isset($errorMessage) && !empty($errorMessage)) {
                         echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
                     }
@@ -152,10 +152,10 @@
     <div class="col-12 col-md-8 col-lg-5">
         <?php
         if (isset($errorMensaje) && !empty($errorMensaje)) {
-            
+
             echo '<div class="alert alert-danger text-center col-md-8 mx-auto" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
         }
-        ?>
+                    ?>
 
         </div>
 </div>

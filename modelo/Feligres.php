@@ -1,16 +1,19 @@
 <?php
 
-class Feligres {
+class Feligres
+{
     private $db;
     public $nombre;
     public $cedula;
     public $id;
 
-    public function __construct(PDO $pdo) {
+    public function __construct(PDO $pdo)
+    {
         $this->db = $pdo;
     }
 
-    public function obtenerTodos() {
+    public function obtenerTodos()
+    {
         try {
             $stmt = $this->db->prepare("SELECT * FROM feligreses");
             $stmt->execute();
@@ -21,7 +24,8 @@ class Feligres {
         }
     }
 
-    public function obtenerPorId($id) {
+    public function obtenerPorId($id)
+    {
         try {
             $stmt = $this->db->prepare("SELECT * FROM feligreses WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -33,7 +37,8 @@ class Feligres {
         }
     }
 
-    public function agregar($nombre, $cedula) {
+    public function agregar($nombre, $cedula)
+    {
         try {
             $stmt = $this->db->prepare("INSERT INTO feligreses (nombre, cedula) VALUES (:nombre, :cedula)");
             $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
@@ -46,7 +51,8 @@ class Feligres {
         }
     }
 
-    public function actualizar($id, $nombre, $cedula) {
+    public function actualizar($id, $nombre, $cedula)
+    {
         try {
             $stmt = $this->db->prepare("UPDATE feligreses SET nombre = :nombre, cedula = :cedula WHERE id = :id");
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -62,17 +68,14 @@ class Feligres {
 
     public function eliminar($id)
     {
-        try
-        {
+        try {
             $consulta = $this->db->prepare("DELETE FROM feligreses WHERE id = ?;");
 
             $consulta->execute(array($id));
-        } catch (Exception $e)
-        {
-          error_log($e->getMessage());
-          return false;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return false;
         }
     }
 
 }
-?>

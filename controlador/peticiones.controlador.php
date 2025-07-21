@@ -73,7 +73,7 @@ class PeticionesControlador
 
 
     public function Guardar()
-    {        
+    {
         $feligres_id = (int)($_REQUEST['feligres_id'] ?? 0);
         $servicio_id = (int)($_REQUEST['servicio_id'] ?? 0);
         $descripcion = htmlspecialchars(trim($_REQUEST['descripcion'] ?? ''));
@@ -87,7 +87,7 @@ class PeticionesControlador
         }
 
         $es_fecha_valida = Validador::validarRangoFechas($fecha_inicio, $fecha_fin);
-        
+
         if ($es_fecha_valida) {
             $resultado = $this->model->agregar(
                 $feligres_id,
@@ -96,7 +96,7 @@ class PeticionesControlador
                 $fecha_registro,
                 $fecha_inicio,
                 $fecha_fin
-                );
+            );
             if ($resultado) {
                 header('Location: index.php?c=peticiones');
                 exit();
@@ -122,7 +122,7 @@ class PeticionesControlador
         }
 
         $es_fecha_valida = Validador::validarRangoFechas($fecha_inicio, $fecha_fin);
-        
+
         if ($es_fecha_valida) {
 
             $this->model->actualizar(

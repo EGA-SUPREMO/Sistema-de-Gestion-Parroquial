@@ -24,15 +24,15 @@
                     <select name="peticion_id" id="peticion_id" class="form-select" required>
                         <option value="">Seleccione una peticion</option>
                         <?php
-                
+
                         if (!empty($peticion)) {
                             foreach ($peticion as $p) {
                                 echo "<option value=\"" . htmlspecialchars($p->id) . "\">" . htmlspecialchars($p->fecha_registro . ' | ' . $p->feligres_nombre) .  " | " . htmlspecialchars($p->servicio_nombre) .
                                 "</option>";
                             }
                         } else {
-                          
-                             echo "<option value=\"\">Cargando peticiones...</option>";
+
+                            echo "<option value=\"\">Cargando peticiones...</option>";
                         }
                         ?>
                     </select>
@@ -43,13 +43,13 @@
                     <select name="feligres_id" id="feligres_id" class="form-select" required>
                         <option value="">Seleccione un Feligrés</option>
                         <?php
-                
+
                         if (!empty($feligres)) {
                             foreach ($feligres as $f) {
                                 echo "<option value=\"" . htmlspecialchars($f->id) . "\">" . htmlspecialchars($f->nombre) . " - " . htmlspecialchars($f->cedula) . "</option>";
                             }
                         } else {
-                             echo "<option value=\"\">Cargando Feligreses...</option>";
+                            echo "<option value=\"\">Cargando Feligreses...</option>";
                         }
                         ?>
                     </select>
@@ -60,14 +60,14 @@
                     <select name="metodo_pago_id" id="metodo_pago_id" class="form-select" required>
                         <option value="">Seleccione el metodo de pago</option>
                         <?php
-                
+
                         if (!empty($metodos)) {
                             foreach ($metodos as $m) {
                                 echo "<option value=\"" . htmlspecialchars($m->id) . "\">" . htmlspecialchars($m->nombre) . "</option>";
                             }
                         } else {
-                          
-                             echo "<option value=\"\">Cargando Metodo de pago...</option>";
+
+                            echo "<option value=\"\">Cargando Metodo de pago...</option>";
                         }
                         ?>
                     </select>

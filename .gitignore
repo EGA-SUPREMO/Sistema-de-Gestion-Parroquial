@@ -5,6 +5,7 @@
 
 .env
 *.env
+.php-cs-fixer.cache
 
 ##### Windows
 # Windows thumbnail cache files
