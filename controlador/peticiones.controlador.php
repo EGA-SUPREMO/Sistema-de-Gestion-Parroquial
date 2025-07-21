@@ -4,7 +4,6 @@ require_once "modelo/peticiones.php";
 require_once "modelo/Servicio.php";
 require_once "modelo/Feligres.php";
 require_once "modelo/Validador.php";
-session_start();
 
 class PeticionesControlador
 {

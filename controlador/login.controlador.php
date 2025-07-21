@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 require_once 'modelo/administrador.php';
 
 class loginControlador

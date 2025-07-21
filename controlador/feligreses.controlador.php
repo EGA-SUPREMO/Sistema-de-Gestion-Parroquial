@@ -1,7 +1,6 @@
 <?php
 
 require_once "modelo/Feligres.php";
-session_start();
 
 class feligresesControlador
 {

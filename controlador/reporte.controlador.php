@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 class reporteControlador
 {
     public function __construct()

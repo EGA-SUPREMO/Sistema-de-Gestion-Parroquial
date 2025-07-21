@@ -1,7 +1,6 @@
 <?php
 
 require_once "modelo/MetodosP.php";
-session_start();
 
 class MetodosPControlador
 {

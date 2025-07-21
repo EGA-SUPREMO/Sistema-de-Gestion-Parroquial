@@ -1,7 +1,7 @@
 <?php
 
 require_once "modelo/Servicio.php";
-session_start();
+
 class ServiciosControlador
 {
     private $model;
