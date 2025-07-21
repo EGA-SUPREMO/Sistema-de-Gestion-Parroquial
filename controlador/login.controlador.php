@@ -84,10 +84,10 @@ class loginControlador
         header('Location:?c=login&a=mostrar');
         exit();
     }
-    public function editar()
+    public function editar($errorMessage = null)
     {
         $this->requerirLogin();
-        $admin = $this->modelo->obtenerPorId($_GET['id_admin']);
+        $admin = $this->modelo->obtenerPorId($_REQUEST['id_admin']);
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
         require_once "vistas/administradores/administrador_actualizar.php";
@@ -115,12 +115,16 @@ class loginControlador
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario) || empty($password)) {
-            $this->editar();
+            $this->editar("Por favor introduzca un nombre de usuario y contraseña valido.");
             exit();
         }
 
         try {
-            $this->modelo->editar($id_admin, $nombre_usuario, $password);
+            $resultado = $this->modelo->editar($id_admin, $nombre_usuario, $password);
+            if (!$resultado) {
+                $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
+                exit();
+            }
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -136,11 +140,15 @@ class loginControlador
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario) || empty($password)) {
-            $this->Registro();
+            $this->Registro("Por favor introduzca un nombre de usuario y contraseña valido.");
             exit();
         }
         try {
-            $this->modelo->agregar($nombre_usuario, $password);
+            $resultado = $this->modelo->agregar($nombre_usuario, $password);
+            if (!$resultado) {
+                $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
+                exit();
+            }
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -148,7 +156,7 @@ class loginControlador
         exit();
     }
 
-    public function Registro()
+    public function Registro($errorMessage = null)
     {
         $this->requerirLogin();
         require_once "vistas/cabezera.php";

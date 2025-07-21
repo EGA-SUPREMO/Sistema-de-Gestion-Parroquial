@@ -37,7 +37,7 @@ USE registro_de_pagos;
 
 CREATE TABLE `administrador` (
   `id_admin` int(11) NOT NULL,
-  `nombre_usuario` varchar(30) NOT NULL,
+  `nombre_usuario` varchar(30) UNIQUE NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
