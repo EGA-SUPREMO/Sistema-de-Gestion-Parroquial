@@ -11,7 +11,7 @@
 
 
     <header class="bg-success text-white text-center py-3">
-        <h1 class="mb-0">Generar Reportes</h1>
+        <h1 class="mb-0">Generar Constancias</h1>
     </header>
 
  <main class="container mt-5">
@@ -67,7 +67,7 @@
     }
     .lift-effect:hover {
         transform: translateY(-5px);
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.55) !important;
     }
 </style>
 

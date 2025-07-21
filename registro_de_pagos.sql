@@ -57,7 +57,7 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL,
-  `cedula` int(10) UNSIGNED4 NOT NULL
+  `cedula` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
