@@ -133,12 +133,14 @@ INSERT INTO `pagos` (`id`, `peticion_id`, `feligres_id`, `metodo_pago_id`, `mont
 
 CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
-  `feligres_id` int(11) DEFAULT NULL,
-  `servicio_id` int(11) DEFAULT NULL,
+  `pedido_por_id` int(11) NOT NULL,
+  `por_quien_id` int(11) NOT NULL,
+  `servicio_id` int(11) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `fecha_registro` date DEFAULT NULL,
-  `fecha_inicio` date DEFAULT NULL,
-  `fecha_fin` date DEFAULT NULL
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL,
+  `creado_en` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  `actualizado_en` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -170,28 +172,58 @@ INSERT INTO `peticiones` (`id`, `feligres_id`, `servicio_id`, `descripcion`, `fe
 
 -- --------------------------------------------------------
 
+CREATE TABLE intencion (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT NOT NULL
+);
+
+INSERT INTO intencion (nombre, descripcion) VALUES
+('Acción de Gracias', 'Intención ofrecida para agradecer a Dios por favores recibidos, bendiciones, logros o acontecimientos especiales.'),
+('Salud', 'Intención dirigida a pedir por la recuperación o el bienestar físico, mental o espiritual de una persona.'),
+('Aniversario', 'Intención ofrecida para conmemorar un aniversario de matrimonio, ordenación, fallecimiento u otro acontecimiento importante.'),
+('Difunto', 'Intención dedicada al eterno descanso del alma de una persona fallecida.')
+;
+
 --
 -- Estructura de tabla para la tabla `servicios`
 --
 
 CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `monto_usd` int(10) DEFAULT NOT NULL
+  `monto_usd` DECIMAL(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+CREATE TABLE `categoria_de_servicios` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`id`, `nombre`, `descripcion`) VALUES
-(1, 'Misa', 'Celebración eucarística ofrecida por diferentes intenciones.'),
-(2, 'Fe de Bautizo', 'Sacramento de iniciación cristiana para niños o adultos.'),
-(3, 'Matrimonio', 'Celebración del sacramento del matrimonio católico.'),
-(4, 'Exp. Matrimonial', 'Expediente matrimonial: proceso previo a la boda que incluye entrevistas, presentación de documentos y comprobación de libertad para casarse.'),
-(5, 'Exequias', 'Ritos funerarios: misa y oraciones ofrecidas por un difunto.'),
-(6, 'Documentos Parroquiales', 'Tramitación de constancias, partidas o certificados emitidos por la parroquia.');
+INSERT INTO `servicios` (`id`, `id_categoria`, `nombre`, `descripcion`, `monto_usd`) VALUES
+(1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 1),
+(2, 'Misa Unintencional', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 20),
+(3, 'Misa en ocasiones especiales / graduaciones', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 50),
+(4, 'Fe de Bautizo', 2, 'Sacramento de iniciación cristiana para niños o adultos.', 2),
+(5, 'Confirmacion', 2, 'Sacramento de confirmación.', 20),
+(6, 'Matrimonio', 2, 'Celebración del sacramento del matrimonio católico.', 100),
+(7, 'Exp. Matrimonial', 2, 'Expediente matrimonial: proceso previo a la boda que incluye entrevistas, presentación de documentos y comprobación de libertad para casarse.', 9999),
+(8, 'Exequias', 2, 'Ritos funerarios: misa y oraciones ofrecidas por un difunto.', 9999),
+(9, 'Documentos Parroquiales', 3, 'Tramitación de constancias, partidas o certificados emitidos por la parroquia.', 10),
+(10, 'Autenticaciones', 3, 'Tramitación de constancias, partidas o certificados emitidos por la parroquia.', 10);
+
+INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
+(1, 'Misa'),
+(2, 'Ceremonias'),
+(3, 'Documentos');
 
 --
 -- Índices para tablas volcadas
@@ -237,6 +269,10 @@ ALTER TABLE `peticiones`
 -- Indices de la tabla `servicios`
 --
 ALTER TABLE `servicios`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_categoria` (`id_categoria`);
+
+ALTER TABLE `categoria_de_servicios`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -277,7 +313,10 @@ ALTER TABLE `peticiones`
 -- AUTO_INCREMENT de la tabla `servicios`
 --
 ALTER TABLE `servicios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+ALTER TABLE `categoria_de_servicios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
 -- Restricciones para tablas volcadas
@@ -298,6 +337,10 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin);
+
+
+ALTER TABLE `servicios`
+  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE,
 
 COMMIT;
 
