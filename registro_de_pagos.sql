@@ -177,8 +177,8 @@ INSERT INTO `peticiones` (`id`, `feligres_id`, `servicio_id`, `descripcion`, `fe
 CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL
--- `monto_usd` int(10) DEFAULT NULL
+  `descripcion` text DEFAULT NULL,
+  `monto_usd` int(10) DEFAULT NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -187,7 +187,7 @@ CREATE TABLE `servicios` (
 
 INSERT INTO `servicios` (`id`, `nombre`, `descripcion`) VALUES
 (1, 'Misa', 'Celebración eucarística ofrecida por diferentes intenciones.'),
-(2, 'Bautizos', 'Sacramento de iniciación cristiana para niños o adultos.'),
+(2, 'Fe de Bautizo', 'Sacramento de iniciación cristiana para niños o adultos.'),
 (3, 'Matrimonio', 'Celebración del sacramento del matrimonio católico.'),
 (4, 'Exp. Matrimonial', 'Expediente matrimonial: proceso previo a la boda que incluye entrevistas, presentación de documentos y comprobación de libertad para casarse.'),
 (5, 'Exequias', 'Ritos funerarios: misa y oraciones ofrecidas por un difunto.'),
