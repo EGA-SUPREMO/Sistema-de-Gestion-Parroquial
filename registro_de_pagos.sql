@@ -56,8 +56,8 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) DEFAULT NULL,
-  `cedula` int(10) UNSIGNED NOT NULL
+  `nombre` varchar(100) NOT NULL,
+  `cedula` int(10) UNSIGNED UNIQUE NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -88,7 +88,7 @@ INSERT INTO `feligreses` (`id`, `nombre`, `cedula`) VALUES
 
 CREATE TABLE `metodos_pago` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL
+  `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -150,7 +150,7 @@ CREATE TABLE `peticiones` (
 -- Volcado de datos para la tabla `peticiones`
 --
 
-INSERT INTO `peticiones` (`id`, `feligres_id`, `servicio_id`, `descripcion`, `fecha_registro`, `fecha_inicio`, `fecha_fin`) VALUES
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
 (2, 2, 2, 'Bautizo de hijo', '2025-05-02', '2025-05-15', '2025-05-15'),
 (3, 3, 3, 'Matrimonio de pareja', '2025-05-03', '2025-06-01', '2025-06-01'),
 (4, 4, 4, 'Expediente matrimonial para boda', '2025-05-04', '2025-05-20', '2025-05-25'),
@@ -197,7 +197,7 @@ CREATE TABLE `servicios` (
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `monto_usd` DECIMAL(10,2) DEFAULT NULL
+  `monto_usd` DECIMAL(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -265,7 +265,9 @@ ALTER TABLE `pagos`
 --
 ALTER TABLE `peticiones`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `feligres_id` (`feligres_id`),
+  ADD KEY `pedido_por_id` (`pedido_por_id`),
+  ADD KEY `por_quien_id` (`por_quien_id`),
+  ADD KEY `intencion_id` (`intencion_id`),
   ADD KEY `servicio_id` (`servicio_id`);
 
 --
@@ -276,6 +278,9 @@ ALTER TABLE `servicios`
   ADD KEY `id_categoria` (`id_categoria`);
 
 ALTER TABLE `categoria_de_servicios`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `intencion`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -321,6 +326,9 @@ ALTER TABLE `servicios`
 ALTER TABLE `categoria_de_servicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
+ALTER TABLE `intencion`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
+
 --
 -- Restricciones para tablas volcadas
 --
@@ -337,10 +345,11 @@ ALTER TABLE `pagos`
 -- Filtros para la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
-  ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`pedido_por_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`intencion_id`) REFERENCES `intencion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin);
-
 
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE,
