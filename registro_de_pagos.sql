@@ -108,12 +108,14 @@ INSERT INTO `metodos_pago` (`id`, `nombre`) VALUES
 
 CREATE TABLE `pagos` (
   `id` int(11) NOT NULL,
-  `peticion_id` int(11) DEFAULT NULL,
-  `feligres_id` int(11) DEFAULT NULL,
-  `metodo_pago_id` int(11) DEFAULT NULL,
-  `monto_usd` decimal(10,2) DEFAULT NULL,
-  `referencia_pago` varchar(100) DEFAULT NULL,
-  `fecha_pago` date DEFAULT NULL
+  `peticion_id` int(11) NOT NULL,
+  `feligres_id` int(11) NOT NULL,
+  `metodo_pago_id` int(11) NOT NULL,
+  `monto_usd` decimal(10,2) NOT NULL,
+  `referencia_pago` varchar(100) NOT NULL,
+  `fecha_pago` date NOT NULL,
+  `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `actualizado_en` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -135,12 +137,13 @@ CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
   `pedido_por_id` int(11) NOT NULL,
   `por_quien_id` int(11) NOT NULL,
+  `intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date NOT NULL,
-  `creado_en` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  `actualizado_en` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `fecha_inicio` DATETIME NOT NULL,
+  `fecha_fin` DATETIME NOT NULL,
+  `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `actualizado_en` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
