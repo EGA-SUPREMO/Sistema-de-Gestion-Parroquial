@@ -349,7 +349,11 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`intencion_id`) REFERENCES `intencion` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin);
+  ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
+  ADD CONSTRAINT `chk_intencion_servicio` CHECK (
+    (`servicio_id` != 1 AND `intencion_id` IS NULL) OR
+    (`servicio_id` = 1 AND `intencion_id` IS NOT NULL)
+  );
 
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE,
