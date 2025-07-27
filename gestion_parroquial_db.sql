@@ -16,8 +16,8 @@ SET time_zone = "+00:00";
 -- FLUSH PRIVILEGES;
 
 
-CREATE DATABASE registro_de_pagos;
-USE registro_de_pagos;
+CREATE DATABASE gestion_parroquial_db;
+USE gestion_parroquial_db;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -65,6 +65,7 @@ CREATE TABLE `feligreses` (
 --
 
 INSERT INTO `feligreses` (`id`, `nombre`, `cedula`) VALUES
+(1, 'Ramírez Serrano', 12345678),
 (2, 'Carlos Rodríguez', 23456789),
 (3, 'María Gómez', 34567890),
 (4, 'José Martínez', 45678901),
@@ -172,7 +173,7 @@ INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, 
 (24, 9, 6, 9, NULL, '2025-05-24', '2025-05-24'),
 (26, 11, 2, 4, NULL, '2025-05-26', '2025-06-03');
 
---------------------------- para intenciones ------------------
+-- ------------------------- para intenciones ------------------
 INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
 (17, 2, 5, 4, 1, NULL, '2025-05-17', '2025-05-19'),
 (25, 10, 1, 1, 1, NULL, '2025-05-25', '2025-05-31'),
@@ -215,14 +216,14 @@ CREATE TABLE `servicios` (
 CREATE TABLE `categoria_de_servicios` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
+  `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`id`, `id_categoria`, `nombre`, `descripcion`, `monto_usd`) VALUES
+INSERT INTO `servicios` (`id`, `nombre`, `id_categoria`, `descripcion`, `monto_usd`) VALUES
 (1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 1),
 (2, 'Misa Unintencional', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 20),
 (3, 'Misa en ocasiones especiales / graduaciones', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 50),
@@ -253,8 +254,7 @@ ALTER TABLE `administrador`
 -- Indices de la tabla `feligreses`
 --
 ALTER TABLE `feligreses`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cedula` (`cedula`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `metodos_pago`
@@ -289,9 +289,6 @@ ALTER TABLE `servicios`
   ADD KEY `id_categoria` (`id_categoria`);
 
 ALTER TABLE `categoria_de_servicios`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `intencion`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -367,7 +364,7 @@ ALTER TABLE `peticiones`
   );
 
 ALTER TABLE `servicios`
-  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE;
 
 COMMIT;
 
