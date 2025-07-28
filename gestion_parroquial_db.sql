@@ -84,19 +84,19 @@ INSERT INTO `feligreses` (`id`, `nombre`, `cedula`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `metodos_pago`
+-- Estructura de tabla para la tabla `metodos_de_pago`
 --
 
-CREATE TABLE `metodos_pago` (
+CREATE TABLE `metodos_de_pago` (
   `id` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `metodos_pago`
+-- Volcado de datos para la tabla `metodos_de_pago`
 --
 
-INSERT INTO `metodos_pago` (`id`, `nombre`) VALUES
+INSERT INTO `metodos_de_pago` (`id`, `nombre`) VALUES
 (1, 'Pago móvil'),
 (2, 'Efectivo'),
 (3, 'Punto de venta');
@@ -138,7 +138,7 @@ CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
   `pedido_por_id` int(11) NOT NULL,
   `por_quien_id` int(11) NOT NULL,
-  `intencion_id` int(11) DEFAULT NULL,
+  `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `fecha_inicio` DATETIME NOT NULL,
@@ -174,7 +174,7 @@ INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, 
 (26, 11, 2, 4, NULL, '2025-05-26', '2025-06-03');
 
 -- ------------------------- para intenciones ------------------
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
 (17, 2, 5, 4, 1, NULL, '2025-05-17', '2025-05-19'),
 (25, 10, 1, 1, 1, NULL, '2025-05-25', '2025-05-31'),
 (27, 1, 7, 2, 1, 'de un familiar', '2025-06-01', '2025-06-01'),
@@ -187,13 +187,13 @@ INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `intencion_id`,
 (39, 12, 5, 2, 1, 'Para la comunidad parroquial', '2025-07-12', '2025-07-12');
 -- --------------------------------------------------------
 
-CREATE TABLE intencion (
+CREATE TABLE tipo_de_intencion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT NOT NULL
 );
 
-INSERT INTO intencion (nombre, descripcion) VALUES
+INSERT INTO tipo_de_intencion (nombre, descripcion) VALUES
 ('Acción de Gracias', 'Intención ofrecida para agradecer a Dios por favores recibidos, bendiciones, logros o acontecimientos especiales.'),
 ('Salud', 'Intención dirigida a pedir por la recuperación o el bienestar físico, mental o espiritual de una persona.'),
 ('Aniversario', 'Intención ofrecida para conmemorar un aniversario de matrimonio, ordenación, fallecimiento u otro acontecimiento importante.'),
@@ -257,9 +257,9 @@ ALTER TABLE `feligreses`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `metodos_pago`
+-- Indices de la tabla `metodos_de_pago`
 --
-ALTER TABLE `metodos_pago`
+ALTER TABLE `metodos_de_pago`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -278,7 +278,7 @@ ALTER TABLE `peticiones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `pedido_por_id` (`pedido_por_id`),
   ADD KEY `por_quien_id` (`por_quien_id`),
-  ADD KEY `intencion_id` (`intencion_id`),
+  ADD KEY `tipo_de_intencion_id` (`tipo_de_intencion_id`),
   ADD KEY `servicio_id` (`servicio_id`);
 
 --
@@ -308,9 +308,9 @@ ALTER TABLE `feligreses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT de la tabla `metodos_pago`
+-- AUTO_INCREMENT de la tabla `metodos_de_pago`
 --
-ALTER TABLE `metodos_pago`
+ALTER TABLE `metodos_de_pago`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
@@ -334,7 +334,7 @@ ALTER TABLE `servicios`
 ALTER TABLE `categoria_de_servicios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
-ALTER TABLE `intencion`
+ALTER TABLE `tipo_de_intencion`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=0;
 
 --
@@ -347,7 +347,7 @@ ALTER TABLE `intencion`
 ALTER TABLE `pagos`
   ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`peticion_id`) REFERENCES `peticiones` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`metodo_pago_id`) REFERENCES `metodos_pago` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`metodo_pago_id`) REFERENCES `metodos_de_pago` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `peticiones`
@@ -356,11 +356,11 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`pedido_por_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`intencion_id`) REFERENCES `intencion` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
-  ADD CONSTRAINT `chk_intencion_servicio` CHECK (
-    (`servicio_id` != 1 AND `intencion_id` IS NULL) OR
-    (`servicio_id` = 1 AND `intencion_id` IS NOT NULL)
+  ADD CONSTRAINT `chk_tipo_de_intencion_servicio` CHECK (
+    (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
+    (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
   );
 
 ALTER TABLE `servicios`
