@@ -119,14 +119,6 @@ CREATE TABLE `pagos` (
   `actualizado_en` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `pagos`
---
-
-INSERT INTO `pagos` (`id`, `peticion_id`, `feligres_id`, `metodo_pago_id`, `monto_usd`, `referencia_pago`, `fecha_pago`) VALUES
-(2, 2, 7, 1, 620.00, '121232323', '2025-06-19'),
-(3, 14, 13, 1, 150.00, '032832323', '2025-06-25'),
-(4, 26, 9, 1, 2323.00, '45454545', '2025-06-25');
 
 -- --------------------------------------------------------
 
@@ -141,51 +133,13 @@ CREATE TABLE `peticiones` (
   `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
   `descripcion` text DEFAULT NULL,
+  `monto_usd_original` int(11) DEFAULT NULL,
   `fecha_inicio` DATETIME NOT NULL,
   `fecha_fin` DATETIME NOT NULL,
   `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `actualizado_en` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `peticiones`
---
-
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 4, 8, 4, NULL, '2025-05-02', '2025-05-15'),
-(2, 2, 2, 4, NULL, '2025-05-02', '2025-05-15'),
-(3, 3, 3, 6, NULL, '2025-05-03', '2025-06-01'),
-(4, 4, 4, 7, NULL, '2025-05-04', '2025-05-20'),
-(5, 5, 5, 8, NULL, '2025-05-05', '2025-05-06'),
-(6, 6, 6, 9, NULL, '2025-05-06', '2025-05-06'),
-(8, 8, 2, 4, NULL, '2025-05-08', '2025-05-18'),
-(9, 9, 3, 6, NULL, '2025-05-09', '2025-06-10'),
-(10, 10, 4, 7, NULL, '2025-05-10', '2025-05-21'),
-(11, 11, 5, 8, NULL, '2025-05-11', '2025-05-13'),
-(12, 12, 6, 9, NULL, '2025-05-12', '2025-05-12'),
-(14, 14, 2, 4, NULL, '2025-05-14', '2025-05-22'),
-(15, 15, 3, 6, NULL, '2025-05-15', '2025-06-15'),
-(18, 3, 6, 5, NULL, '2025-05-18', '2025-05-18'),
-(20, 5, 2, 4, NULL, '2025-05-20', '2025-05-29'),
-(21, 6, 3, 6, NULL, '2025-05-21', '2025-06-05'),
-(22, 7, 4, 7, NULL, '2025-05-22', '2025-05-28'),
-(23, 8, 5, 8, NULL, '2025-05-23', '2025-05-25'),
-(24, 9, 6, 9, NULL, '2025-05-24', '2025-05-24'),
-(26, 11, 2, 4, NULL, '2025-05-26', '2025-06-03');
-
--- ------------------------- para intenciones ------------------
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(17, 2, 5, 4, 1, NULL, '2025-05-17', '2025-05-19'),
-(25, 10, 1, 1, 1, NULL, '2025-05-25', '2025-05-31'),
-(27, 1, 7, 2, 1, 'de un familiar', '2025-06-01', '2025-06-01'),
-(31, 1, 11, 3, 1, 'El aniversario de mi abuela', '2025-06-15', '2025-06-15'),
-(33, 8, 1, 1, 1, 'Por un proyecto terminado', '2025-06-20', '2025-06-20'),
-(35, 3, 4, 2, 1, 'Recuperación de una enfermedad', '2025-06-28', '2025-06-28'),
-(36, 6, 9, 4, 1, 'Por el alma de mi padre', '2025-07-01', '2025-07-01'),
-(37, 9, 2, 1, 1, 'Por el éxito de un nuevo emprendimiento', '2025-07-05', '2025-07-05'),
-(38, 11, 7, 3, 1, 'Aniversario de bodas de mis padres', '2025-07-10', '2025-07-10'),
-(39, 12, 5, 2, 1, 'Para la comunidad parroquial', '2025-07-12', '2025-07-12');
--- --------------------------------------------------------
 
 CREATE TABLE tipo_de_intencion (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -366,8 +320,71 @@ ALTER TABLE `peticiones`
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE;
 
-COMMIT;
 
+/* borrar delimeter si se usa phpmyadmin !!!!!!!1 */ 
+DELIMITER //
+
+CREATE TRIGGER set_monto_usd_original_before_insert
+BEFORE INSERT ON peticiones
+FOR EACH ROW
+BEGIN
+  SET NEW.monto_usd_original = (
+    SELECT monto_usd FROM servicios WHERE id = NEW.servicio_id
+  );
+END;
+//
+
+DELIMITER ;
+
+
+
+--
+-- Volcado de datos para la tabla `peticiones`
+--
+
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 4, 8, 4, NULL, '2025-05-02', '2025-05-15'),
+(2, 2, 2, 4, NULL, '2025-05-02', '2025-05-15'),
+(3, 3, 3, 6, NULL, '2025-05-03', '2025-06-01'),
+(4, 4, 4, 7, NULL, '2025-05-04', '2025-05-20'),
+(5, 5, 5, 8, NULL, '2025-05-05', '2025-05-06'),
+(6, 6, 6, 9, NULL, '2025-05-06', '2025-05-06'),
+(8, 8, 2, 4, NULL, '2025-05-08', '2025-05-18'),
+(9, 9, 3, 6, NULL, '2025-05-09', '2025-06-10'),
+(10, 10, 4, 7, NULL, '2025-05-10', '2025-05-21'),
+(11, 11, 5, 8, NULL, '2025-05-11', '2025-05-13'),
+(12, 12, 6, 9, NULL, '2025-05-12', '2025-05-12'),
+(14, 14, 2, 4, NULL, '2025-05-14', '2025-05-22'),
+(15, 15, 3, 6, NULL, '2025-05-15', '2025-06-15'),
+(18, 3, 6, 5, NULL, '2025-05-18', '2025-05-18'),
+(20, 5, 2, 4, NULL, '2025-05-20', '2025-05-29'),
+(21, 6, 3, 6, NULL, '2025-05-21', '2025-06-05'),
+(22, 7, 4, 7, NULL, '2025-05-22', '2025-05-28'),
+(23, 8, 5, 8, NULL, '2025-05-23', '2025-05-25'),
+(24, 9, 6, 9, NULL, '2025-05-24', '2025-05-24'),
+(26, 11, 2, 4, NULL, '2025-05-26', '2025-06-03');
+
+-- ------------------------- para intenciones ------------------
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
+(17, 2, 5, 4, 1, NULL, '2025-05-17', '2025-05-19'),
+(25, 10, 1, 1, 1, NULL, '2025-05-25', '2025-05-31'),
+(27, 1, 7, 2, 1, 'de un familiar', '2025-06-01', '2025-06-01'),
+(31, 1, 11, 3, 1, 'El aniversario de mi abuela', '2025-06-15', '2025-06-15'),
+(33, 8, 1, 1, 1, 'Por un proyecto terminado', '2025-06-20', '2025-06-20'),
+(35, 3, 4, 2, 1, 'Recuperación de una enfermedad', '2025-06-28', '2025-06-28'),
+(36, 6, 9, 4, 1, 'Por el alma de mi padre', '2025-07-01', '2025-07-01'),
+(37, 9, 2, 1, 1, 'Por el éxito de un nuevo emprendimiento', '2025-07-05', '2025-07-05'),
+(38, 11, 7, 3, 1, 'Aniversario de bodas de mis padres', '2025-07-10', '2025-07-10'),
+(39, 12, 5, 2, 1, 'Para la comunidad parroquial', '2025-07-12', '2025-07-12');
+-- --------------------------------------------------------
+
+
+INSERT INTO `pagos` (`id`, `peticion_id`, `feligres_id`, `metodo_pago_id`, `monto_usd`, `referencia_pago`, `fecha_pago`) VALUES
+(2, 2, 7, 1, 620.00, '121232323', '2025-06-19'),
+(3, 14, 13, 1, 150.00, '032832323', '2025-06-25'),
+(4, 26, 9, 1, 2323.00, '45454545', '2025-06-25');
+
+COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
