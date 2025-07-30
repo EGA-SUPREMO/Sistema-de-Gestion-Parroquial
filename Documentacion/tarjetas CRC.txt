@@ -1,0 +1,153 @@
+@startuml
+' Activamos el modo de diagrama de clases para CRC Cards
+skinparam class {
+  BackgroundColor White
+  BorderColor Black
+  RoundCorner 15
+}
+
+left to right direction
+
+' Secretaria
+class Secretaria {
+  .. Responsabilidades ..
+  Interactuar con el sistema para administrar peticiones, pagos, generar constancias y manejar agenda.
+  --
+  .. Colaboradores ..
+  Sistema de Reportes
+  Sistema de Peticiones
+  Sistema de Pagos
+  Agenda
+}
+
+' Feligres
+class Feligres {
+  .. Responsabilidades ..
+  Representar a los miembros de la comunidad parroquial.
+  Hacer peticiones.
+  Realizar pagos.
+  INCOMPLETO - POR HACER
+  --
+  .. Colaboradores ..
+  Peticion
+  Pago
+}
+
+' Sistema de Peticiones
+class "Sistema de Peticiones" {
+  .. Responsabilidades ..
+  Gestionar el registro, edición y seguimiento de peticiones hechas por feligreses.
+  --
+  .. Colaboradores ..
+  Secretaria
+  Peticion
+}
+
+' Peticion
+class Peticion {
+  .. Responsabilidades ..
+  Registrar la solicitud de un servicio pedido, ya sea una intencion de misa, un bautizo, pedir una constancia, etc.
+  Registrar quien hace la petición.
+  Registrar por quien es la petición (si aplica).
+  Registrar la fecha de la solicitud.
+  Registrar la duración del servicio pedido.
+  Registrar intención de misa (si aplica).
+  Filtrar peticiones por tipo de servicio, fecha u otros criterios.
+  --
+  .. Colaboradores ..
+  Feligres
+  Tipo de Servicio
+  Tipo de Intencion (si aplica)
+}
+
+' Tipo de Servicio
+class "Tipo de Servicio" {
+  .. Responsabilidades ..
+  Representar el servicio solicitado: Intencion de misa, confirmacion, matrimonio, etc.
+  Establecer su precio y categoría.
+}
+
+' Tipo de Intencion
+class "Tipo de Intencion" {
+  .. Responsabilidades ..
+  Representar el motivo de la misa solicitada: Accion de gracias, aniversarios, etc.
+}
+
+' Agenda
+class Agenda {
+  .. Responsabilidades ..
+  Mostrar y gestionar eventos próximos como misas, bautizos, confirmaciones, etc.
+  Evitar solapamientos de horarios.
+  --
+  .. Colaboradores ..
+  Peticion
+  Secretaria
+}
+
+' Sistema de Pagos
+class "Sistema de Pagos" {
+  .. Responsabilidades ..
+  Gestionar el registro, edición y seguimiento de pagos hechos por feligreses.
+  --
+  .. Colaboradores ..
+  Pago
+  Secretaria
+}
+
+' Pago
+class Pago {
+  .. Responsabilidades ..
+  Registrar el pago de un feligrés a una petición.
+  Registrar datos de pago (método de pago, referencia, fecha y monto).
+  --
+  .. Colaboradores ..
+  Feligres
+  Peticion
+}
+
+' Sistema de Autentificacion
+class "Sistema de Autentificacion" {
+  .. Responsabilidades ..
+  Gestionar la sesión del usuario.
+  Verificar credenciales.
+  Bloquear el acceso no autorizado.
+  --
+  .. Colaboradores ..
+  Secretaria
+}
+
+' Sistema de Reportes
+class "Sistema de Reportes" {
+  .. Responsabilidades ..
+  -- Por hacer --
+}
+
+' Flechas de colaboración
+
+Secretaria --> "Sistema de Reportes"
+Secretaria --> "Sistema de Peticiones"
+Secretaria --> "Sistema de Pagos"
+Secretaria --> Agenda
+
+Feligres --> Peticion
+Feligres --> Pago
+
+"Sistema de Peticiones" --> Secretaria
+"Sistema de Peticiones" --> Peticion
+
+Peticion --> Feligres
+Peticion --> "Tipo de Servicio"
+Peticion --> "Tipo de Intencion"
+
+Agenda --> Peticion
+Agenda --> Secretaria
+
+"Sistema de Pagos" --> Pago
+"Sistema de Pagos" --> Secretaria
+
+Pago --> Feligres
+Pago --> Peticion
+
+"Sistema de Autentificacion" --> Secretaria
+
+@enduml 
