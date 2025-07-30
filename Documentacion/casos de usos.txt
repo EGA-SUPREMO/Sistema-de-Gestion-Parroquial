@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+actor Cliente as "Secretaria"
+
+rectangle "Sistema de Gestión" {
+  usecase "Generar constancia" as UC1
+  usecase "Manejar intenciones" as UC2
+  usecase "Manejar una agenda" as UC3
+  usecase "Administrar pagos" as UC4
+}
+
+Secretaria --> UC1
+Secretaria --> UC2
+Secretaria --> UC3
+Secretaria --> UC4
+@enduml 
