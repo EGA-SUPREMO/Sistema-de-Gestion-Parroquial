@@ -6,7 +6,7 @@ skinparam class {
   RoundCorner 15
 }
 
-left to right direction
+skinparam backgroundColor #F0F0F0
 
 ' Secretaria
 class Secretaria {
@@ -26,7 +26,7 @@ class Feligres {
   Representar a los miembros de la comunidad parroquial.
   Hacer peticiones.
   Realizar pagos.
-  INCOMPLETO - POR HACER
+  - INCOMPLETO - POR HACER
   --
   .. Colaboradores ..
   Peticion
@@ -37,22 +37,28 @@ class Feligres {
 class "Sistema de Peticiones" {
   .. Responsabilidades ..
   Gestionar el registro, edición y seguimiento de peticiones hechas por feligreses.
+  Validar que el tipo de servicio tenga los campos requeridos.
+  Validar que los datos estén correctos (intención, duración, fecha, etc.).
+  Filtrar por criterios variados, pueden ser por tipo, fecha, feligrés o estado.
+  Mostar el estado de la petición: pendiente, programada, cumplida.
   --
   .. Colaboradores ..
   Secretaria
   Peticion
+  Sistema de Reportes
 }
 
 ' Peticion
 class Peticion {
   .. Responsabilidades ..
   Registrar la solicitud de un servicio pedido, ya sea una intencion de misa, un bautizo, pedir una constancia, etc.
-  Registrar quien hace la petición.
+  Registrar autor de la petición.
   Registrar por quien es la petición (si aplica).
+  Registrar intención de misa (si aplica).
   Registrar la fecha de la solicitud.
   Registrar la duración del servicio pedido.
-  Registrar intención de misa (si aplica).
   Filtrar peticiones por tipo de servicio, fecha u otros criterios.
+  - INCOMPLETO - POR HACER
   --
   .. Colaboradores ..
   Feligres
@@ -70,28 +76,41 @@ class "Tipo de Servicio" {
 ' Tipo de Intencion
 class "Tipo de Intencion" {
   .. Responsabilidades ..
-  Representar el motivo de la misa solicitada: Accion de gracias, aniversarios, etc.
+  Representar el motivo de la misa solicitada: Accion de gracias, Salud, aniversarios y Difuntos.
 }
 
 ' Agenda
 class Agenda {
   .. Responsabilidades ..
-  Mostrar y gestionar eventos próximos como misas, bautizos, confirmaciones, etc.
-  Evitar solapamientos de horarios.
+  Mostrar eventos próximos (misas, bautizos, confirmaciones, bodas, etc.).
+  Registrar y actualizar fechas y horas de los eventos.
+  Evitar solapamientos de eventos en el mismo horario.
+  Permitir la reserva de fechas para servicios.
+  Notificar sobre eventos que se acercan.
+  Organizar eventos por tipo o fecha.
+  Permitir cancelaciones o reprogramaciones.
+  Posible impresión o exportación de la agenda (PDF, Excel).
   --
   .. Colaboradores ..
   Peticion
   Secretaria
+  Sistema de Reportes
 }
 
 ' Sistema de Pagos
 class "Sistema de Pagos" {
   .. Responsabilidades ..
-  Gestionar el registro, edición y seguimiento de pagos hechos por feligreses.
+  Registrar, editar y eliminar pagos
+  Registrar quien hizo el pago
+  Validar que el monto ingresado corresponda al tipo de servicio.
+  Asociar pagos a peticiones
+  Consultar historial de pagos por feligrés, por fecha o por tipo de servicio
+  Generar reportes financieros (PDF, Excel)
   --
   .. Colaboradores ..
-  Pago
   Secretaria
+  Sistema de Reportes
+  Pago
 }
 
 ' Pago
@@ -119,7 +138,7 @@ class "Sistema de Autentificacion" {
 ' Sistema de Reportes
 class "Sistema de Reportes" {
   .. Responsabilidades ..
-  -- Por hacer --
+  - INCOMPLETO - POR HACER
 }
 
 ' Flechas de colaboración
@@ -134,6 +153,7 @@ Feligres --> Pago
 
 "Sistema de Peticiones" --> Secretaria
 "Sistema de Peticiones" --> Peticion
+"Sistema de Peticiones" --> "Sistema de Reportes"
 
 Peticion --> Feligres
 Peticion --> "Tipo de Servicio"
@@ -141,8 +161,10 @@ Peticion --> "Tipo de Intencion"
 
 Agenda --> Peticion
 Agenda --> Secretaria
+Agenda --> "Sistema de Reportes"
 
 "Sistema de Pagos" --> Pago
+"Sistema de Pagos" --> "Sistema de Reportes"
 "Sistema de Pagos" --> Secretaria
 
 Pago --> Feligres
