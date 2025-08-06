@@ -1,0 +1,33 @@
+@startuml
+start
+
+:Ingresar a "Generar Reporte";
+:Seleccionar tipo de constancia;
+:Ir a página "Generar Constancia X";
+
+partition "Formulario de Pago" {
+    :Ingresar uno o más métodos de pago;
+    :Ingresar monto(s) y referencia(s);
+    :Registrar pago;
+}
+
+partition "Formulario de Datos del Feligrés" {
+    :Buscar feligrés (cédula o nombre, propia o padres);
+    if (¿Datos encontrados?) then (Sí)
+        :Autocompletar campos disponibles;
+    else (No)
+        :Mostrar formulario completo;
+        :Llenar datos sacramentales;
+    endif
+    if (¿Faltan campos?) then (Sí)
+        :Completar datos faltantes;
+    endif
+}
+
+:Generar constancia;
+:Guardar constancia y datos en la base de datos;
+:Mostrar opciones (imprimir o descargar);
+
+stop
+@enduml
+ 
