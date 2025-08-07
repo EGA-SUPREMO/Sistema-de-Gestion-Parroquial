@@ -30,24 +30,39 @@ class GeneradorPdf
             $pdf->Image($logo_path, 20, 12, 50);
         }
 
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetTextColor(68, 114, 196);
+        #$pdf->SetXY(10, 18);
+        #$pdf->Cell(0, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
+        #$pdf->Cell(0, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
+        #$pdf->Cell(0, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
+        $ancho_fijo = 200;
+        $margen_derecho = 10;
+        $x = 210 - $margen_derecho - $ancho_fijo;
 
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->SetXY(105, 18);
-        $pdf->Cell(0, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
+        $pdf->SetXY($x, 18);
+        $pdf->Cell($ancho_fijo, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
+
+        // Ajustamos 3 mm más a la derecha la línea larga
+        $pdf->SetX($x + 5);
+        $pdf->Cell($ancho_fijo - 3, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
+
+        $pdf->SetX($x);
+        $pdf->Cell($ancho_fijo, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
 
 
-        $pdf->Ln(5);
 
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('El Suscrito Administrador Parroquial de la Parroquia'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('San Diego de Alcalá y de la Candelaria'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('TLF. 02418911804'), 0, 1, 'R');
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Ln(12);
+
+        $ancho_bloque = 100;
+
+        // Calcula X para centrar horizontalmente el bloque
+        $x_centro = (210 - $ancho_bloque) / 2; // 210 es el ancho de A4 en mm
+
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetX($x_centro);
+        $pdf->MultiCell($ancho_bloque, 4, utf8_decode("El Suscrito Administrador Parroquial de la Parroquia\nSan Diego de Alcalá y de la Candelaria\nTLF. 02418911804"), 0, 'C');
 
 
 
@@ -58,16 +73,16 @@ class GeneradorPdf
 
         $pdf->SetFont('Arial', '', 12);
         $y = $pdf->GetY() + 10;
-        $left_margin = 20;
+        $left_margin = 12;
         $pdf->SetLeftMargin($left_margin);
         $pdf->SetRightMargin($left_margin);
 
 
-        $pdf->Cell(0, 10, utf8_decode('Que en el libro ' . $numeroLibro . ' de bautismo al folio ' . $folio . ' y bajo el N°. Marginal ' . $numeroMarginal), 0, 1, 'C');
+        $pdf->Cell(0, 10, utf8_decode('Que en el libro ' . $numeroLibro . ' folio ' . $folio . ' y bajo el N°. Marginal ' . $numeroMarginal . ". Se encuentra el"), 0, 1, 'C');
         $pdf->Ln(5);
 
         // "ACTA DE MATRIMONIO ECLESIÁSTICO"
-        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->SetFont('Arial', 'B', 20);
         $pdf->Cell(0, 10, utf8_decode('ACTA DE MATRIMONIO ECLESIÁSTICO'), 0, 1, 'C');
         $pdf->SetFont('Arial', '', 12);
         $pdf->Ln(5);
@@ -87,7 +102,7 @@ class GeneradorPdf
         $pdf->Ln(7);
 
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Arial', 'B', 20);
         $pdf->Cell(0, 5, utf8_decode('y'), 0, 1, 'C');
         $pdf->Ln(7);
 
@@ -103,7 +118,7 @@ class GeneradorPdf
         $pdf->Write(5, utf8_decode('Natural de: '));
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Write(5, utf8_decode($naturalContrayente2));
-        $pdf->Ln(10);
+        $pdf->Ln(15);
 
 
         $pdf->SetFont('Arial', '', 12);
@@ -130,30 +145,31 @@ class GeneradorPdf
 
 
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('La presente certificación se expide a petición de la parte interesada, en San Diego a los  '));
+        $pdf->Write(5, utf8_decode('La presente certificación se expide a petición de la parte interesada, en San Diego a los '));
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Write(5, $diaExpedicion);
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('  días '));
+        $pdf->Write(5, utf8_decode(' días '));
         $pdf->Ln(8);
-        $pdf->Write(5, utf8_decode('Del  mes de  '));
+        $pdf->Write(5, utf8_decode('Del  mes de '));
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Write(5, utf8_decode($mesExpedicion));
         $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('  del Año  '));
+        $pdf->Write(5, utf8_decode(' del Año '));
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Write(5, $anoExpedicion);
-        $pdf->Ln(20);
+        $pdf->Ln(70);
 
 
         $pdf->SetFont('Arial', 'B', 12);
         $pdf->Cell(0, 5, utf8_decode($nombreAdministradorParroquial), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 10);
+        $pdf->SetFont('Arial', '', 12);
         $pdf->Cell(0, 5, utf8_decode('Administrador Parroquial'), 0, 1, 'C');
         $pdf->Ln(5);
 
 
         $pdf->SetY(-30); // el pie de pagina
+        $pdf->SetTextColor(47, 84, 150);
         $pdf->SetFont('Arial', '', 8);
         $pdf->Cell(0, 3, utf8_decode('Calle Sucre Casa Nro. 1 Sector San Diego. Valencia Edo. Carabobo Zona Postal 2006'), 0, 1, 'C');
         $pdf->Cell(0, 3, utf8_decode('Contacto: 0241.891.18.04 / Instagram: sandiegoycandelaria'), 0, 1, 'C');
@@ -511,19 +527,18 @@ class GeneradorPdf
         $pdf->Ln(5);
         $sangria = 15;
 
-        // Guarda la posición X actual del cursor (opcional, si necesitas restaurarla después)
+        // Guardamos la posición original en X por si la necesitas después
         $x_original = $pdf->GetX();
 
-
+        // Sangría (indentación)
         $pdf->SetX($x_original + $sangria);
-        $pdf->MultiCell(0, 10, utf8_decode('Quien suscribe, Administrador Parroquial de San Diego de Alcalá y de La'), 5, 'C');
-        $pdf->MultiCell(0, 8, utf8_decode('Candelaria, por medio de la presente hace CONSTAR que el ciudadano'), 0, 'C');
 
-        // Línea con nombre y cédula llenados automáticamente
-        $pdf->Ln(3);
-        $pdf->Cell(0, 8, utf8_decode($nombreCiudadano . ', titular de la Cédula de'), 0, 1, 'C');
-        $pdf->Cell(0, 8, utf8_decode('Identidad N° ' . $cedulaIdentidad . ', Realizó su PRIMERA COMUNIÓN en esta'), 0, 1, 'C');
-        $pdf->Cell(0, 8, utf8_decode('Parroquia.'), 0, 1, 'C');
+        // Primer párrafo justificado
+        $pdf->MultiCell(0, 10, utf8_decode('Quien suscribe, Administrador Parroquial de San Diego de Alcalá y de La Candelaria, por medio de la presente hace CONSTAR que el ciudadano'), 0, 'J');
+
+        // Nombre y cédula, también justificado
+        $texto_nombre = utf8_decode($nombreCiudadano . ', titular de la Cédula de Identidad N° ' . $cedulaIdentidad . ', realizó su PRIMERA COMUNIÓN en esta Parroquia.');
+        $pdf->MultiCell(0, 10, $texto_nombre, 0, 'J');
 
         // Fecha de Primera Comunión
         $pdf->Ln(5);
