@@ -1,0 +1,35 @@
+@startuml
+title Crear Intención de Misa
+
+start
+
+:Secretaria accede a la página de intenciones;
+
+:Seleccionar opción "Crear intención";
+
+partition "Formulario de Datos de la Peticion " {
+    :Ingresar datos de la peticion;
+    note right
+    - Tipo de intención;
+    - Nombre de la persona por quien se ofrece;
+    - Fecha y hora de la misa;
+    end note
+
+    if (¿Feligres está registrado?) then (Sí)
+        :Seleccionar feligrés existente;
+    else (No)
+        :Ingresar nombre y cédula del nuevo feligrés;
+    endif
+
+    :Ingresar datos del pago;
+    note right
+    - Método de pago
+    - Referencia
+    - Fecha (si no es la actual)
+    end note
+}
+:Guardar intención de misa;
+
+stop
+@enduml
+ 
