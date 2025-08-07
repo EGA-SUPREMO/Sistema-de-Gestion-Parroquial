@@ -32,10 +32,6 @@ class GeneradorPdf
 
         $pdf->SetFont('Arial', 'B', 10);
         $pdf->SetTextColor(68, 114, 196);
-        #$pdf->SetXY(10, 18);
-        #$pdf->Cell(0, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
-        #$pdf->Cell(0, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
-        #$pdf->Cell(0, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
         $ancho_fijo = 200;
         $margen_derecho = 10;
         $x = 210 - $margen_derecho - $ancho_fijo;
@@ -213,7 +209,8 @@ class GeneradorPdf
         $propositoCertificacion,
         $diaExpedicion,
         $mesExpedicion,
-        $anoExpedicion
+        $anoExpedicion,
+        $notaMarginal
     ) {
 
         $pdf = new FPDF();
@@ -227,27 +224,44 @@ class GeneradorPdf
 
 
         // --- Encabezado ---
-        $pdf->SetFont('Arial', '', 9);
-        $pdf->SetXY(105, 18);
-        $pdf->Cell(0, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
+        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetTextColor(68, 114, 196);
+        $ancho_fijo = 200;
+        $margen_derecho = 10;
+        $x = 210 - $margen_derecho - $ancho_fijo;
 
-        $pdf->Ln(5);
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('El Suscrito Administrador Parroquial de la Parroquia'), 0, 1, 'R');
-        $pdf->SetX(105);
-        $pdf->Cell(0, 4, utf8_decode('Tlf. 02418911804'), 0, 1, 'R');
+        $pdf->SetXY($x, 18);
+        $pdf->Cell($ancho_fijo, 4, utf8_decode('AQUIDIÓCESIS DE VALENCIA'), 0, 1, 'R');
+
+        // Ajustamos 3 mm más a la derecha la línea larga
+        $pdf->SetX($x + 5);
+        $pdf->Cell($ancho_fijo - 3, 4, utf8_decode('PARROQUIA SAN DIEGO DE ALCALÁ Y DE LA CANDELARIA'), 0, 1, 'R');
+
+        $pdf->SetX($x);
+        $pdf->Cell($ancho_fijo, 4, utf8_decode('SAN DIEGO - EDO. CARABOBO'), 0, 1, 'R');
+
+
+
+        $pdf->SetTextColor(0, 0, 0);
+        $pdf->Ln(12);
+
+        $ancho_bloque = 100;
+
+        // Calcula X para centrar horizontalmente el bloque
+        $x_centro = (210 - $ancho_bloque) / 2; // 210 es el ancho de A4 en mm
+
+        $pdf->SetFont('Times', 'B', 10);
+        $pdf->SetX($x_centro);
+        $pdf->MultiCell($ancho_bloque, 4, utf8_decode("El Suscrito Administrador Parroquial de la Parroquia\nSan Diego de Alcalá y de la Candelaria\nTLF. 02418911804"), 0, 'C');
+
 
         // --- Título Central ---
-        $pdf->SetFont('Arial', 'B', 18);
+        $pdf->SetFont('Times', 'B', 20);
         $pdf->SetY(60);
         $pdf->Cell(0, 10, utf8_decode('CERTIFICA'), 0, 1, 'C');
 
         // --- Cuerpo del documento ---
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $y = $pdf->GetY() + 10;
         $left_margin = 20;
         $pdf->SetXY($left_margin, $y);
@@ -260,116 +274,115 @@ class GeneradorPdf
         // ACTA DE BAUTISMO
         $pdf->SetX($left_margin);
         $pdf->Cell(0, 10, utf8_decode('se encuentra el'), 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 16);
+        $pdf->SetFont('Times', 'B', 20);
         $pdf->Cell(200, 10, utf8_decode(' ACTA DE BAUTISMO '), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->Cell(200, 10, utf8_decode('De:' . mb_strtoupper($nombreBautizado)), 0, 1, 'C');
-        $pdf->Ln(15);
+        $pdf->SetFont('Times', '', 12);
+        $pdf->Cell(200, 10, utf8_decode('De: ' . mb_strtoupper($nombreBautizado)), 0, 1, 'C');
+        $pdf->Ln(7);
 
         // Nombre completo del bautizado
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
 
-        $pdf->Ln(1);
 
         // Padres
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('Hijo de: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($nombrePadre));
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode(' y '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($nombreMadre));
-        $pdf->Ln(5);
-        $y = $pdf->GetY() + 10;
+        $y = $pdf->GetY() + 7;
         $left_margin = 20;
         $pdf->SetXY($left_margin, $y);
         // Fecha y lugar de nacimiento
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         // Fecha de nacimiento
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('Que nació el '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, $diaNacimiento . utf8_decode(' de ' . $mesNacimiento . ' de ' . $anoNacimiento));
         $pdf->Ln(7); // Salto de línea adicional
 
         // Lugar de nacimiento
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('En '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($lugarNacimiento));
 
 
         $pdf->Ln(10);
 
         // Bautizado
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Cell(0, 5, utf8_decode('Y'), 0, 1, 'C');
-        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->Ln(3);
+        $pdf->SetFont('Times', 'B', 20);
         $pdf->Cell(0, 5, utf8_decode('FUE BAUTIZADO'), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Ln(5);
 
         // Día de bautismo
         $pdf->SetX($left_margin);
         $pdf->Write(5, utf8_decode('El '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, $diaBautismo . utf8_decode(' de ' . $mesBautismo . ' de ' . $anoBautismo));
-        $pdf->Ln(5);
+        $pdf->Ln(7);
 
         // Por el sacerdote
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('Por: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($nombreSacerdote));
-        $pdf->Ln(5);
+        $pdf->Ln(7);
 
         // Padrinos
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('siendo sus Padrinos: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($nombrePadrino));
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode(' y '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($nombreMadrina));
-        $pdf->Ln(5);
-
-        // Nota marginal
-        $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 10);
-
-        $pdf->Ln(10);
+        $pdf->Ln(7);
 
         // Finalidad
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('La anterior certificación, se expide para fines de: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($propositoCertificacion));
-        $pdf->Ln(10);
+        $pdf->Ln(7);
+        $pdf->SetX($left_margin);
+        $pdf->SetFont('Times', '', 14);
+        $pdf->Write(5, utf8_decode('Al margen hay una nota que dice así: '));
+        $pdf->SetFont('Times', 'B', 14);
+        $pdf->Write(5, utf8_decode($notaMarginal));
+        $pdf->Ln(7);
 
         // Lugar y fecha
         $pdf->SetX($left_margin);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode('En San Diego a los '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, $diaExpedicion);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode(' días del mes de '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode($mesExpedicion));
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 14);
         $pdf->Write(5, utf8_decode(' de '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, $anoExpedicion);
-        $pdf->Ln(20);
+        $pdf->Ln(70);
 
         // Firma
         $pdf->SetFont('Arial', 'B', 12);
@@ -381,6 +394,7 @@ class GeneradorPdf
         // Pie de página
         $pdf->SetY(-20);
         $pdf->SetFont('Arial', '', 8);
+        $pdf->SetTextColor(47, 84, 150);
         $pdf->Cell(0, 3, utf8_decode('Calle Sucre Casa Nro. 1 Sector San Diego. Valencia Edo. Carabobo Zona Postal 2006'), 0, 1, 'C');
         $pdf->Cell(0, 3, utf8_decode('Contacto: 0241.891.18.04 / Instagram: sandiegoycandelaria'), 0, 1, 'C');
         $pdf->Cell(0, 3, utf8_decode('Gmail: psandiegodealcalaylacandelaria@gmail.com'), 0, 1, 'C');

@@ -146,6 +146,8 @@
                         <div class="mb-3">
                             <label for="propositoCertificacion" class="form-label">Propósito de la Certificación:</label>
                             <input type="text" class="form-control" id="propositoCertificacion" name="propositoCertificacion" placeholder="Ej: Personal" value="Personal" required>
+                            <label for="propositoCertificacion" class="form-label">Nota marginal:</label>
+                            <input type="text" class="form-control" id="notaMarginal" name="notaMarginal" value="No hay nota marginal." required>
                         </div>
 
                         <div class="mb-3">

@@ -44,9 +44,10 @@ class fe_bautizocontrolador
         $diaExpedicion         = $_POST["diaExpedicion"] ?? null;
         $mesExpedicion         = $_POST["mesExpedicion"] ?? null;
         $anoExpedicion         = $_POST["anoExpedicion"] ?? null;
+        $notaMarginal          = $_POST["notaMarginal"] ?? null;
 
 
-        if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion)) {
+        if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion)|| empty($notaMarginal)) {
             header('Location:?c=reporte&a=fe_bautizo');
             exit();
         }
@@ -71,7 +72,8 @@ class fe_bautizocontrolador
             $propositoCertificacion,
             $diaExpedicion,
             $mesExpedicion,
-            $anoExpedicion
+            $anoExpedicion,
+            $notaMarginal
         );
     }
 
