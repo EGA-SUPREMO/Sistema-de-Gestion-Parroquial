@@ -51,23 +51,23 @@ class GeneradorPdf
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Ln(12);
 
-        $ancho_bloque = 100;
+        $ancho_bloque = 150;
 
         // Calcula X para centrar horizontalmente el bloque
         $x_centro = (210 - $ancho_bloque) / 2; // 210 es el ancho de A4 en mm
 
-        $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetFont('Times', 'B', 11);
         $pdf->SetX($x_centro);
         $pdf->MultiCell($ancho_bloque, 4, utf8_decode("El Suscrito Administrador Parroquial de la Parroquia\nSan Diego de Alcalá y de la Candelaria\nTLF. 02418911804"), 0, 'C');
 
 
 
-        $pdf->SetFont('Arial', 'B', 18);
+        $pdf->SetFont('Times', 'B', 18);
         $pdf->SetY(60);
         $pdf->Cell(0, 10, utf8_decode('CERTIFICA'), 0, 1, 'C');
 
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $y = $pdf->GetY() + 10;
         $left_margin = 12;
         $pdf->SetLeftMargin($left_margin);
@@ -78,81 +78,81 @@ class GeneradorPdf
         $pdf->Ln(5);
 
         // "ACTA DE MATRIMONIO ECLESIÁSTICO"
-        $pdf->SetFont('Arial', 'B', 20);
+        $pdf->SetFont('Times', 'B', 20);
         $pdf->Cell(0, 10, utf8_decode('ACTA DE MATRIMONIO ECLESIÁSTICO'), 0, 1, 'C');
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Ln(5);
 
         // "De: Contrayente 1"
         $pdf->Write(5, utf8_decode('De:  '));
-        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode(mb_strtoupper($nombreContrayente1))); // Uppercase name
-        $pdf->Ln(7);
+        $pdf->Ln(5);
 
 
         $pdf->SetX($left_margin + 0);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Write(10, utf8_decode('Natural de: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(10, utf8_decode($naturalContrayente1));
         $pdf->Ln(7);
 
 
-        $pdf->SetFont('Arial', 'B', 20);
+        $pdf->SetFont('Times', 'B', 20);
         $pdf->Cell(0, 5, utf8_decode('y'), 0, 1, 'C');
         $pdf->Ln(7);
 
 
         $pdf->Write(5, utf8_decode('        '));
-        $pdf->SetFont('Arial', 'B', 14);
+        $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, utf8_decode(mb_strtoupper($nombreContrayente2)));
         $pdf->Ln(7);
 
         // "Natural de: Valencia" (Contrayente 2)
         $pdf->SetX($left_margin + 0);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Write(5, utf8_decode('Natural de: '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, utf8_decode($naturalContrayente2));
         $pdf->Ln(15);
 
 
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('El Matrimonio se efectuó el día  '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', '', 12);
+        $pdf->Write(5, utf8_decode('El Matrimonio se efectuó el día '));
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, $diaMatrimonio);
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('  del mes de  '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', '', 12);
+        $pdf->Write(5, utf8_decode(' del mes de '));
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, utf8_decode($mesMatrimonio));
-        $pdf->SetFont('Arial', '', 12);
-        $pdf->Write(5, utf8_decode('  del   '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', '', 12);
+        $pdf->Write(5, utf8_decode(' del '));
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, $anoMatrimonio);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Ln(7);
 
         // "Y fue presenciado por el Pbro..."
-        $pdf->Write(5, utf8_decode('Y fue presenciado por el Pbro .  '));
-        $pdf->SetFont('Arial', 'B', 12);
-        $pdf->Write(5, utf8_decode(mb_strtoupper($nombreSacerdoteMatrimonio)));
+        $pdf->Write(5, utf8_decode('Y fue presenciado por el '));
+        $pdf->SetFont('Times', 'B', 12);
+        $pdf->Write(5, utf8_decode($nombreSacerdoteMatrimonio));
         $pdf->Ln(15);
 
 
 
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Write(5, utf8_decode('La presente certificación se expide a petición de la parte interesada, en San Diego a los '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, $diaExpedicion);
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Write(5, utf8_decode(' días '));
         $pdf->Ln(8);
         $pdf->Write(5, utf8_decode('Del  mes de '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, utf8_decode($mesExpedicion));
-        $pdf->SetFont('Arial', '', 12);
+        $pdf->SetFont('Times', '', 12);
         $pdf->Write(5, utf8_decode(' del Año '));
-        $pdf->SetFont('Arial', 'B', 12);
+        $pdf->SetFont('Times', 'B', 12);
         $pdf->Write(5, $anoExpedicion);
         $pdf->Ln(70);
 
@@ -245,12 +245,12 @@ class GeneradorPdf
         $pdf->SetTextColor(0, 0, 0);
         $pdf->Ln(12);
 
-        $ancho_bloque = 100;
+        $ancho_bloque = 150;
 
         // Calcula X para centrar horizontalmente el bloque
         $x_centro = (210 - $ancho_bloque) / 2; // 210 es el ancho de A4 en mm
 
-        $pdf->SetFont('Times', 'B', 10);
+        $pdf->SetFont('Times', 'B', 11);
         $pdf->SetX($x_centro);
         $pdf->MultiCell($ancho_bloque, 4, utf8_decode("El Suscrito Administrador Parroquial de la Parroquia\nSan Diego de Alcalá y de la Candelaria\nTLF. 02418911804"), 0, 'C');
 
@@ -382,7 +382,7 @@ class GeneradorPdf
         $pdf->Write(5, utf8_decode(' de '));
         $pdf->SetFont('Times', 'B', 14);
         $pdf->Write(5, $anoExpedicion);
-        $pdf->Ln(70);
+        $pdf->Ln(63);
 
         // Firma
         $pdf->SetFont('Arial', 'B', 12);
