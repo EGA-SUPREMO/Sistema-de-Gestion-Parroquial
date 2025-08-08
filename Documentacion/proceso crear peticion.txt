@@ -10,9 +10,10 @@ start
 partition "Formulario de Datos de la Peticion " {
     :Ingresar datos de la peticion;
     note right
-    - Tipo de intención;
-    - Nombre de la persona por quien se ofrece;
-    - Fecha y hora de la misa;
+    - Tipo de intención
+    - Nombre de la persona por quien se ofrece
+    - Fecha y hora de la misa
+    - Duracion en dias
     end note
 
     if (¿Feligres está registrado?) then (Sí)
