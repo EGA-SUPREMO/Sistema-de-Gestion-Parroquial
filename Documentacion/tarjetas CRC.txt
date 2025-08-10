@@ -11,12 +11,12 @@ skinparam backgroundColor #F0F0F0
 ' Secretaria
 class Secretaria {
   .. Responsabilidades ..
-  Interactuar con el sistema para administrar peticiones, pagos, generar constancias y manejar agenda.
+  Interactuar con el Gestor para administrar peticiones, pagos, generar constancias y manejar agenda.
   --
   .. Colaboradores ..
-  Sistema de Reportes
-  Sistema de Peticiones
-  Sistema de Pagos
+  Gestor de Reportes
+  Gestor de Peticiones
+  Gestor de Pagos
   Agenda
 }
 
@@ -33,8 +33,8 @@ class Feligres {
   Pago
 }
 
-' Sistema de Peticiones
-class "Sistema de Peticiones" {
+' Gestor de Peticiones
+class "Gestor de Peticiones" {
   .. Responsabilidades ..
   Gestionar el registro, edición y seguimiento de peticiones hechas por feligreses.
   Validar que el tipo de servicio tenga los campos requeridos.
@@ -45,7 +45,7 @@ class "Sistema de Peticiones" {
   .. Colaboradores ..
   Secretaria
   Peticion
-  Sistema de Reportes
+  Gestor de Reportes
 }
 
 ' Peticion
@@ -94,11 +94,11 @@ class Agenda {
   .. Colaboradores ..
   Peticion
   Secretaria
-  Sistema de Reportes
+  Gestor de Reportes
 }
 
-' Sistema de Pagos
-class "Sistema de Pagos" {
+' Gestor de Pagos
+class "Gestor de Pagos" {
   .. Responsabilidades ..
   Registrar, editar y eliminar pagos
   Registrar quien hizo el pago
@@ -109,7 +109,7 @@ class "Sistema de Pagos" {
   --
   .. Colaboradores ..
   Secretaria
-  Sistema de Reportes
+  Gestor de Reportes
   Pago
 }
 
@@ -124,8 +124,8 @@ class Pago {
   Peticion
 }
 
-' Sistema de Autentificacion
-class "Sistema de Autentificacion" {
+' Gestor de Autentificacion
+class "Gestor de Autentificacion" {
   .. Responsabilidades ..
   Gestionar la sesión del usuario.
   Verificar credenciales.
@@ -135,25 +135,25 @@ class "Sistema de Autentificacion" {
   Secretaria
 }
 
-' Sistema de Reportes
-class "Sistema de Reportes" {
+' Gestor de Reportes
+class "Gestor de Reportes" {
   .. Responsabilidades ..
   - INCOMPLETO - POR HACER
 }
 
 ' Flechas de colaboración
 
-Secretaria --> "Sistema de Reportes"
-Secretaria --> "Sistema de Peticiones"
-Secretaria --> "Sistema de Pagos"
+Secretaria --> "Gestor de Reportes"
+Secretaria --> "Gestor de Peticiones"
+Secretaria --> "Gestor de Pagos"
 Secretaria --> Agenda
 
 Feligres --> Peticion
 Feligres --> Pago
 
-"Sistema de Peticiones" --> Secretaria
-"Sistema de Peticiones" --> Peticion
-"Sistema de Peticiones" --> "Sistema de Reportes"
+"Gestor de Peticiones" --> Secretaria
+"Gestor de Peticiones" --> Peticion
+"Gestor de Peticiones" --> "Gestor de Reportes"
 
 Peticion --> Feligres
 Peticion --> "Tipo de Servicio"
@@ -161,15 +161,15 @@ Peticion --> "Tipo de Intencion"
 
 Agenda --> Peticion
 Agenda --> Secretaria
-Agenda --> "Sistema de Reportes"
+Agenda --> "Gestor de Reportes"
 
-"Sistema de Pagos" --> Pago
-"Sistema de Pagos" --> "Sistema de Reportes"
-"Sistema de Pagos" --> Secretaria
+"Gestor de Pagos" --> Pago
+"Gestor de Pagos" --> "Gestor de Reportes"
+"Gestor de Pagos" --> Secretaria
 
 Pago --> Feligres
 Pago --> Peticion
 
-"Sistema de Autentificacion" --> Secretaria
+"Gestor de Autentificacion" --> Secretaria
 
 @enduml 
