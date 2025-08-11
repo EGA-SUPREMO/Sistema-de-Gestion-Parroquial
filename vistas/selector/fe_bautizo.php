@@ -85,15 +85,15 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">
                                 <label for="numeroLibro" class="form-label">Libro N°:</label>
-                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" placeholder="Ej: 33" value="33" required>
+                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="folio" class="form-label">Folio:</label>
-                                <input type="text" class="form-control" id="folio" name="folio" placeholder="Ej: 179" value="179" required>
+                                <input type="text" class="form-control" id="folio" name="folio" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="numeroMarginal" class="form-label">N°. Marginal:</label>
-                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" placeholder="Ej: 535" value="535" required>
+                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" required>
                             </div>
                         </div>
 
@@ -128,7 +128,7 @@
 
                         <div class="mb-3">
                             <label for="nombreSacerdote" class="form-label">Nombre del Sacerdote que Bautizó:</label>
-                            <input type="text" class="form-control" id="nombreSacerdote" name="nombreSacerdote" placeholder="Ej: Pbro. Benito Ramírez" value="Pbro. Benito Ramírez" required>
+                            <input type="text" class="form-control" id="nombreSacerdote" name="nombreSacerdote" placeholder="Ej: Pbro. Benito Ramírez" required>
                         </div>
 
                         <div class="mb-3">

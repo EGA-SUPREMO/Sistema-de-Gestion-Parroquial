@@ -49,15 +49,15 @@
                         <div class="row g-3 mb-3">
                             <div class="col-md-4">
                                 <label for="numeroLibro" class="form-label">Libro N°:</label>
-                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" placeholder="Ej: 10" required value="10">
+                                <input type="text" class="form-control" id="numeroLibro" name="numeroLibro" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="folio" class="form-label">Folio:</label>
-                                <input type="text" class="form-control" id="folio" name="folio" placeholder="Ej: 191" required value="191">
+                                <input type="text" class="form-control" id="folio" name="folio" required>
                             </div>
                             <div class="col-md-4">
                                 <label for="numeroMarginal" class="form-label">N°. Marginal:</label>
-                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" placeholder="Ej: 382" required value="382">
+                                <input type="text" class="form-control" id="numeroMarginal" name="numeroMarginal" required>
                             </div>
                         </div>
 
@@ -92,7 +92,7 @@
 
                         <div class="mb-3">
                             <label for="nombreSacerdoteMatrimonio" class="form-label">Nombre del Sacerdote que Presenció el Matrimonio:</label>
-                            <input type="text" class="form-control" id="nombreSacerdoteMatrimonio" name="nombreSacerdoteMatrimonio" placeholder="Ej: Pbro. BENITO RAMÍREZ" value="Pbro. BENITO RAMÍREZ" required>
+                            <input type="text" class="form-control" id="nombreSacerdoteMatrimonio" name="nombreSacerdoteMatrimonio" placeholder="Ej: Pbro. BENITO RAMÍREZ"  required>
                         </div>
                         
                         <h4 class="mt-4 mb-3">Datos de Expedición</h4>
@@ -126,7 +126,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="nombreAdministradorParroquial" class="form-label">Nombre del Administrador Parroquial que expide:</label>
-                            <input type="text" class="form-control" id="nombreAdministradorParroquial" name="nombreAdministradorParroquial" placeholder="Ej: Pbro. Hedson Brizuela" value="Pbro. Hedson Brizuela" required>
+                            <input type="text" class="form-control" id="nombreAdministradorParroquial" name="nombreAdministradorParroquial" placeholder="Ej: Pbro. Hedson Brizuela" required>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100 mt-3">
