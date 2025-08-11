@@ -12,6 +12,18 @@ abstract class ModeloBase
         $this->db = $pdo;
     }
 
+    public function contarTodos() {
+        try {
+            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->tabla}");
+            $stmt->execute();
+            
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result['total'] ?? 0;
+        } catch (PDOException $e) {
+            error_log("Error en contarTodos para tabla {$this->tabla}: " . $e->getMessage());
+            return null;
+        }
+    }
     public function obtenerTodos()
     {
         try{
