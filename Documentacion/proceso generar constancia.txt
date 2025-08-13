@@ -13,7 +13,7 @@ partition "Formulario de Pago" {
 }
 
 partition "Formulario de Datos del Feligrés" {
-    :Buscar feligrés (cédula o nombre, propia o padres);
+    :Buscar feligrés (cédula, propia o padres);
     if (¿Datos encontrados?) then (Sí)
         :Autocompletar campos encontrados;
     else (No)

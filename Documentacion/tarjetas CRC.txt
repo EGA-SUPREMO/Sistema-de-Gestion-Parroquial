@@ -6,7 +6,7 @@ skinparam class {
   RoundCorner 15
 }
 
-skinparam backgroundColor #F0F0F0
+skinparam backgroundColor #FFF0F0
 
 ' Secretaria
 class Secretaria {
