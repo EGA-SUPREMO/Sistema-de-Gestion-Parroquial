@@ -178,9 +178,9 @@ CREATE TABLE `categoria_de_servicios` (
 --
 
 INSERT INTO `servicios` (`id`, `nombre`, `id_categoria`, `descripcion`, `monto_usd`) VALUES
-(1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 1),
+(1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarísticacon una intención específica solicitada por un fiel (por un difunto, por la salud, etc.).', 1),
 (2, 'Misa Unintencional', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 20),
-(3, 'Misa en ocasiones especiales / graduaciones', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 50),
+(3, 'Misa en ocasiones especiales / graduaciones', 1, 'Celebración eucarística para conmemorar un evento importante como graduaciones, bodas o aniversarios especiales.', 50),
 (4, 'Fe de Bautizo', 2, 'Sacramento de iniciación cristiana para niños o adultos.', 2),
 (5, 'Confirmacion', 2, 'Sacramento de confirmación.', 20),
 (6, 'Matrimonio', 2, 'Celebración del sacramento del matrimonio católico.', 100),

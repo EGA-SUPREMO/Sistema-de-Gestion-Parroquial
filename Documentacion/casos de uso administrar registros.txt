@@ -1,0 +1,1 @@
+por hacer trata sobre las operaciones CRUD para las tablas que no son usadas en los otros casos de uso

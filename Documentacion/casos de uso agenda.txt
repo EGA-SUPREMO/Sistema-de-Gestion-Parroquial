@@ -9,6 +9,7 @@ rectangle "Sistema de Agenda" {
   usecase "Ver intenciones en 4 tablas dividas por tipo" as UC4
   usecase "Editar intención" as UC5
   usecase "Borrar intención" as UC6
+  usecase "Crear nueva intención" as UC7
 }
 
 S --> UC1
@@ -17,6 +18,7 @@ UC2 --> UC3
 UC2 --> UC4
 UC4 --> UC5
 UC4 --> UC6
+UC4 --> UC7
 
 @enduml
  

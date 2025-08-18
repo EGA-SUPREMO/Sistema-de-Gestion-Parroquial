@@ -1,0 +1,17 @@
+@startuml
+title Casos de Uso: Administrar Pagos
+
+actor Secretaria
+
+rectangle "Administrar Pagos" {
+  usecase "Administrar pagos para misas especiales" as UC1
+  usecase "Administrar pagos para sacramentos" as UC2
+  usecase "Administrar métodos de pago" as UC3
+}
+
+' Relaciones
+Secretaria --> UC1
+Secretaria --> UC2
+Secretaria --> UC3
+
+@enduml
