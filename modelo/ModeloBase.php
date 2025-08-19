@@ -4,95 +4,83 @@ abstract class ModeloBase
 {
     protected $db;
     protected $tabla;
-    protected $clavePrimaria = 'id';
+    protected $clavePrimaria;
     protected $claseEntidad;
     
     public function __construct(PDO $pdo)
     {
         $this->db = $pdo;
+        $this ->clavePrimaria = 'id';
     }
 
-    public function contarTodos() {
-        try {
-            $stmt = $this->db->prepare("SELECT COUNT(*) as total FROM {$this->tabla}");
-            $stmt->execute();
-            
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $result['total'] ?? 0;
-        } catch (PDOException $e) {
-            error_log("Error en contarTodos para tabla {$this->tabla}: " . $e->getMessage());
-            return null;
-        }
-    }
-    public function obtenerTodos()
+    protected function hacerConsulta($consulta, $parametros = [], $modo_fetch = 'all')
     {
-        try{
-            $stmt = $this->db->prepare("SELECT * FROM {$this->tabla}");
-            $stmt->execute();
+        try {
+            $stmt = $this->db->prepare($consulta);
+            $stmt->execute($parametros);
 
-            if ($this->claseEntidad) {
-                return $stmt->fetchAll(PDO::FETCH_CLASS, $this->claseEntidad);
-            } else {
-                return $stmt->fetchAll(PDO::FETCH_OBJ);
+            switch ($modo_fetch) {
+                case 'all':
+                    if ($this->claseEntidad) {
+                        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->claseEntidad);
+                    }
+                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                case 'single':
+                    if ($this->claseEntidad) {
+                        return $stmt->fetch(PDO::FETCH_CLASS, $this->claseEntidad);
+                    }
+                    return $stmt->fetch(PDO::FETCH_OBJ);
+                case 'column':
+                    return $stmt->fetchColumn();
+                default:
+                    return $stmt; // para UPDATE, DELETE, INSERT, etc.
             }
         } catch (PDOException $e) {
-            error_log("Error en obtenerTodos para tabla {$this->tabla}: " . $e->getMessage());
+            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage());
             return null;
         }
+    }
+
+    public function contarTodos()
+    {
+        $sql = "SELECT COUNT(*) as total FROM {$this->tabla}";
+        $result = $this->hacerConsulta($sql, [], 'column');
+        return (int) $result;
+    }
+
+    public function obtenerTodos()
+    {
+        $sql = "SELECT * FROM {$this->tabla}";
+        return $this->hacerConsulta($sql, [], 'all');
     }
 
     public function obtenerPorId($id)
     {
-        try{
-            $stmt = $this->db->prepare("SELECT * FROM {$this->tabla} WHERE id = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            if ($this->claseEntidad) {
-                return $stmt->fetch(PDO::FETCH_CLASS, $this->claseEntidad);
-            } else {
-                return $stmt->fetch(PDO::FETCH_OBJ);
-            }
-        } catch (PDOException $e) {
-            error_log("Error en obtenerPorId para tabla {$this->tabla}: " . $e->getMessage());
-            return null;
-        }
+        $sql = "SELECT * FROM {$this->tabla} WHERE {$this->clavePrimaria} = ?";
+        return $this->hacerConsulta($sql, [$id], 'single');
     }
 
     public function eliminar($id)
     {
-        try{
-            $stmt = $this->db->prepare("DELETE FROM {$this->tabla} WHERE id = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-        return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log("Error en eliminar para tabla {$this->tabla}: " . $e->getMessage());
-            return null;
-        }
+        $sql = "DELETE FROM {$this->tabla} WHERE {$this->clavePrimaria} = ?";
+        error_log($sql);
+        return $this->hacerConsulta($sql, [$id], 'execute');
     }
 
-    public function insertar($datos) {
-        try{
-            $columnas = implode(", ", array_keys($datos));
-            $placeholders = implode(", ", array_fill(0, count($datos), '?'));
-            $stmt = $this->db->prepare("INSERT INTO {$this->tabla} ($columnas) VALUES ($placeholders)");
-            return $stmt->execute(array_values($datos));
-        } catch (PDOException $e) {
-            error_log("Error en insertar para tabla {$this->tabla}: " . $e->getMessage());
-            return null;
-        }
+    public function insertar($datos)
+    {
+        $columnas = implode(", ", array_keys($datos));
+        $placeholders = implode(", ", array_fill(0, count($datos), '?'));
+        $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
+        return $this->hacerConsulta($sql, array_values($datos), 'execute');
     }
 
-    public function actualizar($id, $datos) {
-        try{
-            $columnas = array_keys($datos);
-            $asignaciones = array_map(fn($col) => "$col = ?", $columnas);
-            $set = implode(", ", $asignaciones);
-            $stmt = $this->db->prepare("UPDATE {$this->tabla} SET $set WHERE {$this->clavePrimaria} = ?");
-            return $stmt->execute([...array_values($datos), $id]);
-        } catch (PDOException $e) {
-            error_log("Error en actualizar para tabla {$this->tabla}: " . $e->getMessage());
-            return null;
-        }
+    public function actualizar($id, $datos)
+    {
+        $columnas = array_keys($datos);
+        $asignaciones = array_map(fn($col) => "$col = ?", $columnas);
+        $set = implode(", ", $asignaciones);
+        $sql = "UPDATE {$this->tabla} SET {$set} WHERE {$this->clavePrimaria} = ?";
+        return $this->hacerConsulta($sql, [...array_values($datos), $id], 'execute');
     }
 }
- 

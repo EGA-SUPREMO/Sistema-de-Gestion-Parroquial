@@ -1,8 +1,9 @@
 <?php
 
-class Peticion
+require_once 'modelo/ModeloBase.php';
+
+class Peticion extends ModeloBase
 {
-    private $db;
     public $id;
     public $feligres_id;
     public $servicio_id;
@@ -13,10 +14,11 @@ class Peticion
 
     public function __construct(PDO $pdo)
     {
-        $this->db = $pdo;
+        parent::__construct($pdo);
+        $this ->tabla = "peticiones";        
     }
 
-    public function obtenerTodos()
+    public function obtenerTodos()//usar hacerConsulta del padre
     {
         try {
             $stmt = $this->db->prepare("SELECT
@@ -44,66 +46,6 @@ class Peticion
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return null;
-        }
-    }
-
-    public function obtenerPorId($id)
-    {
-        try {
-            $stmt = $this->db->prepare("SELECT * FROM peticiones WHERE id = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return null;
-        }
-    }
-
-    public function agregar($feligres_id, $servicio_id, $descripcion, $fecha_registro, $fecha_inicio, $fecha_fin)
-    {
-        try {
-            $stmt = $this->db->prepare("INSERT INTO peticiones (feligres_id, servicio_id, descripcion, fecha_registro, fecha_inicio, fecha_fin) VALUES (:feligres_id, :servicio_id, :descripcion, :fecha_registro, :fecha_inicio, :fecha_fin)");
-            $stmt->bindParam(":feligres_id", $feligres_id, PDO::PARAM_INT);
-            $stmt->bindParam(":servicio_id", $servicio_id, PDO::PARAM_INT);
-            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_registro", $fecha_registro, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_inicio", $fecha_inicio, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_fin", $fecha_fin, PDO::PARAM_STR);
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return false;
-        }
-    }
-
-    public function actualizar($id, $feligres_id, $servicio_id, $descripcion, $fecha_registro, $fecha_inicio, $fecha_fin)
-    {
-        try {
-            $stmt = $this->db->prepare("UPDATE peticiones SET feligres_id = :feligres_id, servicio_id = :servicio_id, descripcion = :descripcion, fecha_registro = :fecha_registro, fecha_inicio = :fecha_inicio, fecha_fin = :fecha_fin WHERE id = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->bindParam(":feligres_id", $feligres_id, PDO::PARAM_INT);
-            $stmt->bindParam(":servicio_id", $servicio_id, PDO::PARAM_INT);
-            $stmt->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_registro", $fecha_registro, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_inicio", $fecha_inicio, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_fin", $fecha_fin, PDO::PARAM_STR);
-            return $stmt->execute();
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return false;
-        }
-    }
-
-    public function eliminar($id)
-    {
-        try {
-            $consulta = $this->db->prepare("DELETE FROM peticiones WHERE id = ?;");
-            $consulta->execute(array($id));
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            return false;
         }
     }
 }

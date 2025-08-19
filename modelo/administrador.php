@@ -1,51 +1,18 @@
 <?php
 
-class administrador
+require_once 'modelo/ModeloBase.php';
+
+class administrador extends ModeloBase
 {
-    private $conexion;
     public $nombre_usuario;
     public $password;
     public $id_admin;
 
     public function __construct(PDO $pdo)
     {
-        $this->conexion = $pdo;
-    }
-
-    public function getAdminCount()
-    {
-        try {
-            $stmt = $this->conexion->prepare("SELECT COUNT(*) FROM administrador");
-            $stmt->execute();
-            return (int) $stmt->fetchColumn();
-        } catch (PDOException $e) {
-            error_log("Error no se pudo obtener numero de administradores: " . $e->getMessage());
-            return 0;
-        }
-    }
-
-    public function obtenerTodos()
-    {
-        try {
-            $stmt = $this->conexion->prepare("SELECT * FROM administrador");
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return null;
-        }
-    }
-    public function obtenerPorId($id_admin)
-    {
-        try {
-            $stmt = $this->conexion->prepare("SELECT * FROM administrador WHERE id_admin = :id_admin");
-            $stmt->bindParam(":id_admin", $id_admin, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_OBJ);
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return null;
-        }
+        parent::__construct($pdo);
+        $this ->tabla = "administrador";
+        $this ->clavePrimaria = 'id_admin';
     }
 
     public function agregar($nombre_usuario, $password)
@@ -58,7 +25,7 @@ class administrador
                 return false;
             }
 
-            $stmt = $this->conexion->prepare("INSERT INTO administrador (nombre_usuario, password) VALUES (:nombre_usuario, :password)");
+            $stmt = $this->db->prepare("INSERT INTO administrador (nombre_usuario, password) VALUES (:nombre_usuario, :password)");
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
             $stmt->bindParam(":password", $password_hashed, PDO::PARAM_STR);
             $stmt->execute();
@@ -70,19 +37,10 @@ class administrador
     }
     public function eliminar($id)
     {
-        if ($this->getAdminCount() <= 1) {
+        if ($this->contarTodos() <= 1) {
             throw new Exception("No se puede eliminar el ultimo administrador", 403);
         }
-        try {
-
-            $stmt = $this->conexion->prepare("DELETE FROM administrador WHERE id_admin = :id");
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->execute();
-            return true;
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return false;
-        }
+        parent::eliminar($id);
     }
 
     public function editar($id, $nombre_usuario, $password)
@@ -94,7 +52,7 @@ class administrador
             }
             $sql .= " WHERE id_admin = :id";
 
-            $stmt = $this->conexion->prepare($sql);
+            $stmt = $this->db->prepare($sql);
 
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
@@ -113,7 +71,7 @@ class administrador
     public function comprobar_datos_usuario($nombre_usuario, $password_ingresada)
     {
         try {
-            $query = $this->conexion->prepare("SELECT password FROM administrador WHERE nombre_usuario = :nombre_usuario");
+            $query = $this->db->prepare("SELECT password FROM administrador WHERE nombre_usuario = :nombre_usuario");
             $query->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
