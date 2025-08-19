@@ -1,1 +1,21 @@
-por hacer trata sobre las operaciones CRUD para las tablas que no son usadas en los otros casos de uso
+@startuml
+title Casos de Uso: Administrar Registros
+left to right direction
+
+actor Secretaria
+
+rectangle "Administrar Registros" {
+  usecase "Gestionar administrador" as UC1
+  usecase "Gestionar categorías de servicios" as UC2
+  usecase "Gestionar feligreses" as UC3
+  usecase "Gestionar servicios" as UC4
+  usecase "Gestionar tipos de intención" as UC5
+}
+
+Secretaria --> UC1
+Secretaria --> UC2
+Secretaria --> UC3
+Secretaria --> UC4
+Secretaria --> UC5
+
+@enduml
