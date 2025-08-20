@@ -1,1 +1,20 @@
- 
+@startuml
+left to right direction
+actor Secretaria
+
+rectangle "Sistema de Gestión Parroquial" {
+  usecase "Generar constancia" as UC0
+  usecase "Registrar o actualizar datos del feligrés" as UC1
+  usecase "Registrar o actualizar datos de la constancia" as UC2
+  usecase "Imprimir constancia" as UC3
+  usecase "Descargar constancia" as UC4
+}
+
+Secretaria --> UC0
+
+UC0 --> UC1 : <<include>>
+UC0 --> UC2 : <<include>>
+
+UC3 ..> UC0 : <<extend>>
+UC4 ..> UC0 : <<extend>>
+@enduml

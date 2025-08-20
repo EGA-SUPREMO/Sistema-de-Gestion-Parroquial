@@ -13,12 +13,12 @@ rectangle "Sistema de Agenda" {
 }
 
 S --> UC1
-UC1 --> UC2
-UC2 --> UC3
-UC2 --> UC4
-UC4 --> UC5
-UC4 --> UC6
-UC4 --> UC7
+UC2 ..> UC1
 
+UC3 ..> UC2 : <<extend>>
+UC4 ..> UC2 : <<extend>>
+
+UC5 ..> UC4 : <<extend>>
+UC6 ..> UC4 : <<extend>>
+UC7 ..> UC4 : <<extend>>
 @enduml
- 
