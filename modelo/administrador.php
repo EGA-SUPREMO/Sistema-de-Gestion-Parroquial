@@ -40,18 +40,10 @@ class administrador extends ModeloBase
 
     public function actualizar($id, $datos)
     {
-        try {
-            $sql = "UPDATE administrador SET nombre_usuario = ?";
-            if (!empty($datos['password'])) {
-                $sql .= ", password = ?";
-                $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
-            }
-            $sql .= " WHERE id_admin = ?";
-            return $this -> hacerConsulta($sql, [...array_values($datos), $id], "execute");
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return false;
+        if (!empty($datos['password'])) {
+            $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
         }
+        return parent::actualizar($id, $datos);
     }
 
     public function comprobar_datos_usuario($nombre_usuario, $password_ingresada)
