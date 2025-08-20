@@ -4,10 +4,6 @@ require_once 'modelo/ModeloBase.php';
 
 class administrador extends ModeloBase
 {
-    public $nombre_usuario;
-    public $password;
-    public $id_admin;
-
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
@@ -18,8 +14,8 @@ class administrador extends ModeloBase
     public function insertar($datos)
     {
         try {
-            $password_hashed = password_hash($datos['password'], PASSWORD_DEFAULT);
-            if (!$password_hashed) {
+            $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
+            if (!$datos['password']) {
                 error_log("Password hashing fallo para usuario: " . $datos['nombre_usuario']);
                 return false;
             }
