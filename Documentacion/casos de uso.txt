@@ -8,14 +8,12 @@ rectangle "Sistema de Gestión" {
   usecase "Generar constancia" as UC1
   usecase "Manejar una agenda" as UC2
   usecase "Manejar intenciones" as UC3
-  usecase "Administrar pagos" as UC4
   usecase "Administrar registros" as UC5
 }
 
 Secretaria --> UC1
 Secretaria --> UC2
 UC2 ..> UC3 : <<include>>
-Secretaria --> UC4
 Secretaria --> UC5
 Secretaria --> UC6
 UC6 --|> UC3

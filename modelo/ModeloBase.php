@@ -5,7 +5,6 @@ abstract class ModeloBase
     protected $db;
     protected $tabla;
     protected $clavePrimaria;
-    protected $claseEntidad;
 
     public function __construct(PDO $pdo)
     {
@@ -21,14 +20,8 @@ abstract class ModeloBase
 
             switch ($modo_fetch) {
                 case 'all':
-                    if ($this->claseEntidad) {
-                        return $stmt->fetchAll(PDO::FETCH_CLASS, $this->claseEntidad);
-                    }
                     return $stmt->fetchAll(PDO::FETCH_OBJ);
                 case 'single':
-                    if ($this->claseEntidad) {
-                        return $stmt->fetch(PDO::FETCH_CLASS, $this->claseEntidad);
-                    }
                     return $stmt->fetch(PDO::FETCH_OBJ);
                 case 'column':
                     return $stmt->fetchColumn();
@@ -38,7 +31,7 @@ abstract class ModeloBase
                     return $stmt; // para UPDATE, DELETE, INSERT, etc.
             }
         } catch (PDOException $e) {
-            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . "\n" . $consulta);
+            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . " Consulta: " . $consulta);
             return null;
         }
     }
