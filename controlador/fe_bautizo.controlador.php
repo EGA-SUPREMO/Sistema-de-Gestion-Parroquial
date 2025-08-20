@@ -47,7 +47,7 @@ class fe_bautizocontrolador
         $notaMarginal          = $_POST["notaMarginal"] ?? null;
 
 
-        if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion)|| empty($notaMarginal)) {
+        if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion) || empty($notaMarginal)) {
             header('Location:?c=reporte&a=fe_bautizo');
             exit();
         }

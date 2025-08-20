@@ -6,7 +6,7 @@ abstract class ModeloBase
     protected $tabla;
     protected $clavePrimaria;
     protected $claseEntidad;
-    
+
     public function __construct(PDO $pdo)
     {
         $this->db = $pdo;
@@ -32,11 +32,13 @@ abstract class ModeloBase
                     return $stmt->fetch(PDO::FETCH_OBJ);
                 case 'column':
                     return $stmt->fetchColumn();
+                case 'assoc':
+                    return $stmt->fetch(PDO::FETCH_ASSOC);
                 default:
                     return $stmt; // para UPDATE, DELETE, INSERT, etc.
             }
         } catch (PDOException $e) {
-            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage());
+            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . "\n" . $consulta);
             return null;
         }
     }
@@ -78,7 +80,7 @@ abstract class ModeloBase
     public function actualizar($id, $datos)
     {
         $columnas = array_keys($datos);
-        $asignaciones = array_map(fn($col) => "$col = ?", $columnas);
+        $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
         $set = implode(", ", $asignaciones);
         $sql = "UPDATE {$this->tabla} SET {$set} WHERE {$this->clavePrimaria} = ?";
         return $this->hacerConsulta($sql, [...array_values($datos), $id], 'execute');

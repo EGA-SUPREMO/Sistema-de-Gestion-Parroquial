@@ -15,7 +15,7 @@ class Peticion extends ModeloBase
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
-        $this ->tabla = "peticiones";        
+        $this ->tabla = "peticiones";
     }
 
     public function obtenerTodos()//usar hacerConsulta del padre

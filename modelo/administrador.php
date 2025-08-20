@@ -15,21 +15,16 @@ class administrador extends ModeloBase
         $this ->clavePrimaria = 'id_admin';
     }
 
-    public function agregar($nombre_usuario, $password)
+    public function insertar($datos)
     {
         try {
-            $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-            if ($password_hashed === false) {
-                error_log("Password hashing failed for user: " . $nombre_usuario);
-                print("Password hashing failed for user: " . $nombre_usuario);
+            $password_hashed = password_hash($datos['password'], PASSWORD_DEFAULT);
+            if (!$password_hashed) {
+                error_log("Password hashing fallo para usuario: " . $datos['nombre_usuario']);
                 return false;
             }
 
-            $stmt = $this->db->prepare("INSERT INTO administrador (nombre_usuario, password) VALUES (:nombre_usuario, :password)");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $password_hashed, PDO::PARAM_STR);
-            $stmt->execute();
-            return true;
+            return parent::insertar($datos);
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return false;
@@ -43,25 +38,16 @@ class administrador extends ModeloBase
         parent::eliminar($id);
     }
 
-    public function editar($id, $nombre_usuario, $password)
+    public function actualizar($id, $datos)
     {
         try {
-            $sql = "UPDATE administrador SET nombre_usuario = :nombre_usuario";
-            if (!empty($password)) {
-                $sql .= ", password = :password";
+            $sql = "UPDATE administrador SET nombre_usuario = ?";
+            if (!empty($datos['password'])) {
+                $sql .= ", password = ?";
+                $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
             }
-            $sql .= " WHERE id_admin = :id";
-
-            $stmt = $this->db->prepare($sql);
-
-            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            if (!empty($password)) {
-                $password_hashed = password_hash($password, PASSWORD_DEFAULT);
-                $stmt->bindParam(":password", $password_hashed, PDO::PARAM_STR);
-            }
-            $stmt->execute();
-            return true;
+            $sql .= " WHERE id_admin = ?";
+            return $this -> hacerConsulta($sql, [...array_values($datos), $id], "execute");
         } catch (PDOException $e) {
             error_log($e->getMessage());
             return false;
@@ -71,17 +57,16 @@ class administrador extends ModeloBase
     public function comprobar_datos_usuario($nombre_usuario, $password_ingresada)
     {
         try {
-            $query = $this->db->prepare("SELECT password FROM administrador WHERE nombre_usuario = :nombre_usuario");
-            $query->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-            if ($result) {
-                $hash = $result['password'];
+            $consulta = "SELECT password FROM administrador WHERE nombre_usuario = ?";
+            $resultado = $this->hacerConsulta($consulta, [$nombre_usuario], 'assoc');
+
+            if ($resultado) {
+                $hash = $resultado['password'];
 
                 return password_verify($password_ingresada, $hash);
-            } else {
-                return false;
             }
+
+            return false;
         } catch (PDOException $e) {
             error_log("Error verificando password: " . $e->getMessage());
             return false;

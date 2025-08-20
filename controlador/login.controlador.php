@@ -114,13 +114,19 @@ class loginControlador
         $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
         $password = $_REQUEST['password'];
 
-        if (empty($nombre_usuario) || empty($password)) {
+        if (empty($nombre_usuario)) {
             $this->editar("Por favor introduzca un nombre de usuario y contraseña valido.");
             exit();
         }
 
         try {
-            $resultado = $this->modelo->editar($id_admin, $nombre_usuario, $password);
+            $datos = [
+                'nombre_usuario' => $nombre_usuario,
+            ];
+            if (!empty($password)) {
+                $datos['password'] = $password;
+            }
+            $resultado = $this->modelo->actualizar($id_admin, $datos);
             if (!$resultado) {
                 $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
@@ -144,7 +150,11 @@ class loginControlador
             exit();
         }
         try {
-            $resultado = $this->modelo->agregar($nombre_usuario, $password);
+            $datos = [
+                'nombre_usuario' => $nombre_usuario,
+                'password' => $password
+            ];
+            $resultado = $this->modelo->insertar($datos);
             if (!$resultado) {
                 $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
