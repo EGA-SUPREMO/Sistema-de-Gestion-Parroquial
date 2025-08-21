@@ -13,7 +13,7 @@ rectangle "Sistema de Gestión" {
 
 Secretaria --> UC1
 Secretaria --> UC2
-UC2 ..> UC3 : <<include>>
+UC3 ..> UC2 : <<extends>>
 Secretaria --> UC5
 Secretaria --> UC6
 UC6 --|> UC3
