@@ -8,207 +8,188 @@ skinparam class {
 
 skinparam backgroundColor #FFF0F0
 
-' Secretaria
-class Secretaria {
-  .. Responsabilidades ..
-  Interactuar con el Gestor para administrar peticiones, generar constancias y manejar agenda.
-  --
-  .. Colaboradores ..
-  Gestor de Reportes
-  Gestor de Peticiones
-  Agenda
+package "Actores" {
+  ' Secretaria
+  class Secretaria {
+    .. Responsabilidades ..
+    Interactuar con el sistema.
+    --
+    .. Colaboradores ..
+    Gestor de Feligreses
+    Gestor de Reportes
+    Gestor de Peticiones
+    Agenda
+  }
+}
+package Gestores {
+  ' Gestor de Feligreses
+  class "Gestor de Feligreses" {
+    .. Responsabilidades ..
+    Registrar, editar y validar los datos de los feligreses.
+    Mantener la información del feligrés actualizada.
+    --
+    .. Colaboradores ..
+    Feligres
+  }
+
+  ' Gestor de Peticiones
+  class "Gestor de Peticiones" {
+    .. Responsabilidades ..
+    Gestionar el registro, edición y seguimiento de peticiones hechas por feligreses.
+    Validar que las peticiones tengan todos los datos necesarios (intención, duración, fecha, etc.).
+    Filtrar por criterios variados, pueden ser por tipo, fecha, feligrés o estado.
+    Mostar el estado de la petición: pendiente, programada, cumplida.
+    --
+    .. Colaboradores ..
+    Secretaria
+    Peticion
+    Gestor de Reportes
+    Feligres
+  }
+  ' Gestor de Autentificacion
+  class "Gestor de Autentificacion" {
+    .. Responsabilidades ..
+    Gestionar la sesión del usuario.
+    Verificar credenciales.
+    Bloquear el acceso no autorizado.
+    --
+    .. Colaboradores ..
+    Secretaria
+  }
+
+  ' Gestor de Reportes
+  class "Gestor de Reportes" {
+    .. Responsabilidades ..
+    Generar las constancias en formato PDF
+    Imprimir o exportar la agenda en formato PDF.
+    --
+    .. Colaboradores ..
+    Peticion
+    Constancia de Bautizo
+    Constancia de Comunion
+    Constancia de Confirmacion
+    Constancia de Matrimonio
+  }
 }
 
-' Feligres
-class Feligres {
-  .. Responsabilidades ..
-  Representar a los miembros de la comunidad parroquial.
-  Registrar el nombre completo, fecha de nacimiento.
-  Registrar cedula, si no posee, la partida de nacimiento.
-  Registrar parentesco de padre o hijo con otros feligreses.
-  --
-  .. Colaboradores ..
-  Gestor de Feligreses
+package Modelos {
+  ' Feligres
+  class Feligres {
+    .. Responsabilidades ..
+    Representar a los miembros de la comunidad parroquial.
+    Registrar el nombre completo, fecha de nacimiento.
+    Registrar cedula, si no posee, la partida de nacimiento.
+    Registrar parentesco de padre o hijo con otros feligreses.
+    --
+    .. Colaboradores ..
+    Gestor de Feligreses
+  }
+  ' Peticion
+  class Peticion {
+    .. Responsabilidades ..
+    Registrar la solicitud de un servicio pedido, ya sea una intencion de misa o pedir una constancia.
+    Registrar autor de la petición.
+    Registrar por quien es la petición.
+    Registrar intención de misa.
+    Registrar la fecha de la solicitud.
+    Registrar la duración del servicio pedido.
+    Filtrar peticiones por tipo de servicio, fecha u otros criterios.
+    
+    --
+    .. Colaboradores ..
+    Feligres
+    Santo
+    Tipo de Servicio
+    Tipo de Intencion(si aplica)
+    Constancia de Bautizo(si aplica)
+    Constancia de Comunion(si aplica)
+    Constancia de Matrimonio(si aplica)
+    Constancia de Confirmacion(si aplica)
+  }
+  ' Tipo de Servicio
+  class "Tipo de Servicio" {
+    .. Responsabilidades ..
+    Representar el servicio solicitado: Intencion de misa, constancia de confirmacion, de matrimonio, etc.
+  }
+
+
+  ' Tipo de Intencion
+  class "Tipo de Intencion" {
+    .. Responsabilidades ..
+    Representa el motivo de una misa.
+    Puede ser de 4 tipos: Acción de Gracias, Salud, Aniversario o Difuntos.
+  }
+
+  ' Santo
+  class "Santo" {
+    .. Responsabilidades ..
+    Representa un santo asociado a una intención.
+    Registra el nombre del santo.
+  }
+
+  ' Agenda
+  class Agenda {
+    .. Responsabilidades ..
+    Mostrar intenciones de misa próximas.
+    Registrar y actualizar fechas y horas de una intencion de misa en particular.
+    Repeticiones de una misma intencion de misa en el mismo horario.
+    Permitir cancelaciones o reprogramaciones.
+    --
+    .. Colaboradores ..
+    Peticion
+    Secretaria
+    Gestor de Reportes
+  }
+
+  ' Constancia de Bautizo
+  class "Constancia de Bautizo" {
+    .. Responsabilidades ..
+    Registrar fecha del bautizo, feligres bautizado, nombre de los padres y de la madrina o padrino.
+    Registrar las notas de observación, municipio presentado, ministro, ministro que certifica, registro civil.
+    Registrar el N° Libro, Pág. y N° marginal.
+    --
+    .. Colaboradores ..
+    Sacerdote
+    Feligres
+  }
+
+  ' Constancia de Comunion
+  class "Constancia de Comunion" {
+    .. Responsabilidades ..
+    Registrar el feligres que realizo la comunion y fecha.
+    --
+    .. Colaboradores ..
+    Feligres
+  }
+  ' Constancia de Confirmacion
+  class "Constancia de Confirmacion" {
+    .. Responsabilidades ..
+    Registrar fecha de la confirmacion, feligres confirmado, nombre de los padres y de la madrina o padrino.
+    Registrar el N° Libro, Pág. y N° marginal
+    --
+    .. Colaboradores ..
+    Sacerdote
+    Feligres
+  }
+
+  ' Constancia de Matrimonio
+  class "Constancia de Matrimonio" {
+    .. Responsabilidades ..
+    Registrar los feligreses de los contrayentes, natural de que lugar(estado).
+    Registrar el nombre de los testigos, el sacerdote que realizó la boda.
+    Registrar el N° Libro, Pág. y N° marginal
+    --
+    .. Colaboradores ..
+    Sacerdote
+    Feligres
+  }
+
+  ' Sacerdote
+  class Sacerdote {
+    .. Responsabilidades ..
+    Registrar el nombre completo
+    Estado de vida
+  }
 }
-
-' Gestor de Feligreses
-class "Gestor de Feligreses" {
-  .. Responsabilidades ..
-  Registrar, editar y validar los datos de los feligreses.
-  Mantener la información del feligrés actualizada.
-  --
-  .. Colaboradores ..
-  Feligres
-}
-
-' Gestor de Peticiones
-class "Gestor de Peticiones" {
-  .. Responsabilidades ..
-  Gestionar el registro, edición y seguimiento de peticiones hechas por feligreses.
-  Validar que las peticiones tengan todos los datos necesarios (intención, duración, fecha, etc.).
-  Filtrar por criterios variados, pueden ser por tipo, fecha, feligrés o estado.
-  Mostar el estado de la petición: pendiente, programada, cumplida.
-  --
-  .. Colaboradores ..
-  Secretaria
-  Peticion
-  Gestor de Reportes
-  Feligres
-}
-
-' Peticion
-class Peticion {
-  .. Responsabilidades ..
-  Registrar la solicitud de un servicio pedido, ya sea una intencion de misa o pedir una constancia.
-  Registrar autor de la petición.
-  Registrar por quien es la petición.
-  Registrar intención de misa.
-  Registrar la fecha de la solicitud.
-  Registrar la duración del servicio pedido.
-  Filtrar peticiones por tipo de servicio, fecha u otros criterios.
-  
-  --
-  .. Colaboradores ..
-  Feligres
-  Santo
-  Tipo de Servicio
-  Tipo de Intencion(si aplica)
-  Constancia de Bautizo(si aplica)
-  Constancia de Comunion(si aplica)
-  Constancia de Matrimonio(si aplica)
-  Constancia de Confirmacion(si aplica)
-}
-
-' Tipo de Servicio
-class "Tipo de Servicio" {
-  .. Responsabilidades ..
-  Representar el servicio solicitado: Intencion de misa, constancia de confirmacion, de matrimonio, etc.
-}
-
-
-' Tipo de Intencion
-class "Tipo de Intencion" {
-  .. Responsabilidades ..
-  Representa el motivo de una misa.
-  Puede ser de 4 tipos: Acción de Gracias, Salud, Aniversario o Difuntos.
-}
-
-' Santo
-class "Santo" {
-  .. Responsabilidades ..
-  Representa un santo asociado a una intención.
-  Registra el nombre del santo.
-}
-
-' Agenda
-class Agenda {
-  .. Responsabilidades ..
-  Mostrar intenciones de misa próximas.
-  Registrar y actualizar fechas y horas de una intencion de misa en particular.
-  Repeticiones de una misma intencion de misa en el mismo horario.
-  Permitir cancelaciones o reprogramaciones.
-  --
-  .. Colaboradores ..
-  Peticion
-  Secretaria
-  Gestor de Reportes
-}
-
-' Gestor de Autentificacion
-class "Gestor de Autentificacion" {
-  .. Responsabilidades ..
-  Gestionar la sesión del usuario.
-  Verificar credenciales.
-  Bloquear el acceso no autorizado.
-  --
-  .. Colaboradores ..
-  Secretaria
-}
-
-' Gestor de Reportes
-class "Gestor de Reportes" {
-  .. Responsabilidades ..
-  Generar las constancias en formato PDF
-  Imprimir o exportar la agenda en formato PDF.
-  --
-  .. Colaboradores ..
-  Peticion
-  Constancia de Bautizo
-  Constancia de Comunion
-  Constancia de Confirmacion
-  Constancia de Matrimonio
-}
-
-' Constancia de Bautizo
-class "Constancia de Bautizo" {
-  .. Responsabilidades ..
-  Registrar fecha del bautizo, feligres bautizado, nombre de los padres y de la madrina o padrino.
-  Registrar las notas de observación, municipio presentado, ministro, ministro que certifica, registro civil.
-  Registrar el N° Libro, Pág. y N° marginal.
-  --
-  .. Colaboradores ..
-  Sacerdote
-  Feligres
-}
-
-' Constancia de Comunion
-class "Constancia de Comunion" {
-  .. Responsabilidades ..
-  Registrar el feligres que realizo la comunion y fecha.
-  --
-  .. Colaboradores ..
-  Feligres
-}
-' Constancia de Confirmacion
-class "Constancia de Confirmacion" {
-  .. Responsabilidades ..
-  Registrar fecha de la confirmacion, feligres confirmado, nombre de los padres y de la madrina o padrino.
-  Registrar el N° Libro, Pág. y N° marginal
-  --
-  .. Colaboradores ..
-  Sacerdote
-  Feligres
-}
-
-' Constancia de Matrimonio
-class "Constancia de Matrimonio" {
-  .. Responsabilidades ..
-  Registrar los feligreses de los contrayentes, natural de que lugar(estado).
-  Registrar el nombre de los testigos, el sacerdote que realizó la boda.
-  Registrar el N° Libro, Pág. y N° marginal
-  --
-  .. Colaboradores ..
-  Sacerdote
-  Feligres
-}
-
-' Sacerdote
-class Sacerdote {
-  .. Responsabilidades ..
-  Registrar el nombre completo
-  Estado de vida
-}
-
-' Flechas de colaboración
-
-Secretaria --> "Gestor de Reportes"
-Secretaria --> "Gestor de Peticiones"
-Secretaria --> Agenda
-
-Feligres --> Peticion
-
-"Gestor de Peticiones" --> Secretaria
-"Gestor de Peticiones" --> Peticion
-"Gestor de Peticiones" --> "Gestor de Reportes"
-
-Peticion --> Feligres
-Peticion --> "Tipo de Servicio"
-Peticion --> "Tipo de Intencion"
-
-Agenda --> Peticion
-Agenda --> Secretaria
-Agenda --> "Gestor de Reportes"
-
-"Gestor de Autentificacion" --> Secretaria
 
 @enduml 
