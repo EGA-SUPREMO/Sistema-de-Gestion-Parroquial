@@ -6,10 +6,13 @@ actor Secretaria
 
 rectangle "Administrar Registros" {
   usecase "Gestionar administrador" as UC1
-  usecase "Gestionar categorías de servicios" as UC2
   usecase "Gestionar feligreses" as UC3
+  usecase "Gestionar santos" as UC5
+  usecase "Gestionar sacerdotes" as UC6
   usecase "Gestionar servicios" as UC4
-  usecase "Gestionar tipos de intención" as UC5
+  usecase "Gestionar categorías de servicios" as UC2
+  usecase "Gestionar tipos de intención" as UC7
+  usecase "Consultar Peticiones" as UC8
 }
 
 Secretaria --> UC1
@@ -17,5 +20,8 @@ Secretaria --> UC2
 Secretaria --> UC3
 Secretaria --> UC4
 Secretaria --> UC5
+Secretaria --> UC6
+Secretaria --> UC7
+Secretaria --> UC8
 
 @enduml
