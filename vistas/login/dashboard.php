@@ -53,22 +53,6 @@
                                 </div>
                             </a>
                         </div>
-                        <div class="col-sm-6">
-                            <a href="?c=pagos&a=index" class="card text-decoration-none text-dark h-100 lift-effect">
-                                <div class="card-body text-center">
-                                
-                                    <h5 class="card-title mb-0">Gestionar Pagos</h5>
-                                </div>
-                            </a>
-                        </div>
-                          <div class="col-sm-6">
-                            <a href="?c=metodosP&a=index" class="card text-decoration-none text-dark h-100 lift-effect">
-                                <div class="card-body text-center">
-                                   
-                                    <h5 class="card-title mb-0"> Gestionar <br>Metodos de Pagos</h5>
-                                </div>
-                            </a>
-                        </div>
                            <div class="col-sm-6">
                             <a href="?c=peticiones&a=index" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">

@@ -19,11 +19,9 @@
     </div>
     <ul class="menu-list">
       <li><a href="?c=login&a=dashboard">Inicio</a></li>
-      <li><a href="?c=reporte&a=index">Reportes</a></li>
+      <li><a href="?c=reporte&a=index">Constancia</a></li>
       <li><a href="?c=servicios&a=index">Servicios</a></li>
       <li><a href="?c=feligreses&a=index">Feligreses</a></li>
-      <li><a href="?c=pagos&a=index">Pagos</a></li>
-      <li><a href="?c=metodosP&a=index">Metodos de Pago</a></li>
       <li><a href="?c=peticiones&a=index">Peticiones</a></li>
       <li><a href="?c=login&a=mostrar">Administrador</a></li>
       <li> <a href="?c=login&a=cerrarSesion" class="w-100 d-flex align-items-center justify-content-center"
