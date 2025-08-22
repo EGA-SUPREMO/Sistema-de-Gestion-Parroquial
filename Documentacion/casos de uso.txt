@@ -9,12 +9,13 @@ rectangle "Sistema de Gestión" {
   usecase "Manejar una agenda" as UC2
   usecase "Manejar intenciones" as UC3
   usecase "Administrar registros" as UC5
+  usecase "Cerrar Sesión" as UC4
 }
 
 Secretaria --> UC1
-Secretaria --> UC2
 UC3 ..> UC2 : <<extends>>
 Secretaria --> UC5
 Secretaria --> UC6
+Secretaria --> UC4
 UC6 --|> UC3
 @enduml

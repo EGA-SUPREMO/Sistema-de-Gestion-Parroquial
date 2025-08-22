@@ -70,6 +70,19 @@ package Gestores {
     Constancia de Confirmacion
     Constancia de Matrimonio
   }
+  ' Agenda
+  class Agenda {
+    .. Responsabilidades ..
+    Mostrar intenciones de misa próximas.
+    Registrar y actualizar fechas y horas de una intencion de misa en particular.
+    Repeticiones de una misma intencion de misa en el mismo horario.
+    Permitir cancelaciones o reprogramaciones.
+    --
+    .. Colaboradores ..
+    Peticion
+    Secretaria
+    Gestor de Reportes
+  }
 }
 
 package Modelos {
@@ -125,20 +138,6 @@ package Modelos {
     .. Responsabilidades ..
     Representa un santo asociado a una intención.
     Registra el nombre del santo.
-  }
-
-  ' Agenda
-  class Agenda {
-    .. Responsabilidades ..
-    Mostrar intenciones de misa próximas.
-    Registrar y actualizar fechas y horas de una intencion de misa en particular.
-    Repeticiones de una misma intencion de misa en el mismo horario.
-    Permitir cancelaciones o reprogramaciones.
-    --
-    .. Colaboradores ..
-    Peticion
-    Secretaria
-    Gestor de Reportes
   }
 
   ' Constancia de Bautizo
