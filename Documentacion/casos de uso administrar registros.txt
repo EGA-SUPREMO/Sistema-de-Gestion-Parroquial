@@ -4,6 +4,7 @@ left to right direction
 
 actor Secretaria
 
+' COMO QUE TENGO QUE HACER EXTENDS PARA LAS OPERACIONES CRUD AAAAAA
 rectangle "Administrar Registros" {
   usecase "Gestionar administrador" as UC1
   usecase "Gestionar feligreses" as UC3
@@ -11,7 +12,7 @@ rectangle "Administrar Registros" {
   usecase "Gestionar sacerdotes" as UC6
   usecase "Gestionar servicios" as UC4
   usecase "Gestionar categorías de servicios" as UC2
-  usecase "Gestionar tipos de intención" as UC7
+  usecase "Editar tipos de intención" as UC7
   usecase "Consultar Peticiones" as UC8
 }
 
