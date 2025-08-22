@@ -26,7 +26,7 @@ USE gestion_parroquial_db;
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `registro de pagos`
+-- Base de datos: `gestion parroquial`
 --
 
 -- --------------------------------------------------------
@@ -56,15 +56,28 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
-  `cedula` int(10) UNSIGNED UNIQUE NOT NULL
+  `primer_nombre` VARCHAR(50) NOT NULL,
+  `segundo_nombre` VARCHAR(50),
+  `primer_apellido` VARCHAR(50) NOT NULL,
+  `segundo_apellido` VARCHAR(50),
+  `fecha_nacimiento` DATE DEFAULT NULL,
+  `cedula` int(10) UNSIGNED UNIQUE,
+  `partida_de_nacimiento` varchar(30) UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `parentescos` (
+  `id_padre` INT NOT NULL,
+  `id_hijo` INT NOT NULL,
+  `tipo_parentesco` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`id_padre`, `id_hijo`),
+  FOREIGN KEY (`id_padre`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`id_hijo`) REFERENCES `feligreses`(`id`)
+) ENGINE=InnoDB;
 --
 -- Volcado de datos para la tabla `feligreses`
 --
 
-INSERT INTO `feligreses` (`id`, `nombre`, `cedula`) VALUES
+INSERT INTO `feligreses` (`id`, `primer_nombre`, `primer_apellido`, `cedula`) VALUES
 (1, 'Ramírez Serrano', 12345678),
 (2, 'Carlos Rodríguez', 23456789),
 (3, 'María Gómez', 34567890),
@@ -84,56 +97,17 @@ INSERT INTO `feligreses` (`id`, `nombre`, `cedula`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `metodos_de_pago`
---
-
-CREATE TABLE `metodos_de_pago` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `metodos_de_pago`
---
-
-INSERT INTO `metodos_de_pago` (`id`, `nombre`) VALUES
-(1, 'Pago móvil'),
-(2, 'Efectivo'),
-(3, 'Punto de venta');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `pagos`
---
-
-CREATE TABLE `pagos` (
-  `id` int(11) NOT NULL,
-  `peticion_id` int(11) NOT NULL,
-  `feligres_id` int(11) NOT NULL,
-  `metodo_pago_id` int(11) NOT NULL,
-  `monto_usd` decimal(10,2) NOT NULL,
-  `referencia_pago` varchar(100) NOT NULL,
-  `fecha_pago` date NOT NULL,
-  `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
-  `actualizado_en` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `peticiones`
 --
 
 CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
-  `pedido_por_id` int(11) NOT NULL,
+  `pedido_por_id` int(11) DEFAULT NULL,
   `por_quien_id` int(11) NOT NULL,
+  `realizado_por_id` int(11) NOT NULL,
   `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
   `descripcion` text DEFAULT NULL,
-  `monto_usd_original` int(11) DEFAULT NULL,
   `fecha_inicio` DATETIME NOT NULL,
   `fecha_fin` DATETIME NOT NULL,
   `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -162,8 +136,7 @@ CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` text DEFAULT NULL,
-  `monto_usd` DECIMAL(10,2) NOT NULL
+  `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
@@ -177,22 +150,102 @@ CREATE TABLE `categoria_de_servicios` (
 -- Volcado de datos para la tabla `servicios`
 --
 
-INSERT INTO `servicios` (`id`, `nombre`, `id_categoria`, `descripcion`, `monto_usd`) VALUES
-(1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarísticacon una intención específica solicitada por un fiel (por un difunto, por la salud, etc.).', 1),
-(2, 'Misa Unintencional', 1, 'Celebración eucarística ofrecida por diferentes intenciones.', 20),
-(3, 'Misa en ocasiones especiales / graduaciones', 1, 'Celebración eucarística para conmemorar un evento importante como graduaciones, bodas o aniversarios especiales.', 50),
-(4, 'Fe de Bautizo', 2, 'Sacramento de iniciación cristiana para niños o adultos.', 2),
-(5, 'Confirmacion', 2, 'Sacramento de confirmación.', 20),
-(6, 'Matrimonio', 2, 'Celebración del sacramento del matrimonio católico.', 100),
-(7, 'Exp. Matrimonial', 2, 'Expediente matrimonial: proceso previo a la boda que incluye entrevistas, presentación de documentos y comprobación de libertad para casarse.', 9999),
-(8, 'Exequias', 2, 'Ritos funerarios: misa y oraciones ofrecidas por un difunto.', 9999),
-(9, 'Documentos Parroquiales', 3, 'Tramitación de constancias, partidas o certificados emitidos por la parroquia.', 10),
-(10, 'Autenticaciones', 3, 'Tramitación de constancias, partidas o certificados emitidos por la parroquia.', 10);
+INSERT INTO `servicios` (`id`, `nombre`, `id_categoria`, `descripcion`) VALUES
+(1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarísticacon una intención específica solicitada por un fiel (por un difunto, por la salud, etc.).'),
+(2, 'Fe de Bautizo', 2, 'Constancia de fe de bautizo.'),
+(3, 'Comunion', 2, 'Constancia de matrimonio.'),
+(4, 'Confirmacion', 2, 'Constancia de confirmación.'),
+(5, 'Matrimonio', 2, 'Constancia de matrimonio.');
 
 INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 (1, 'Misa'),
-(2, 'Ceremonias'),
-(3, 'Documentos');
+(2, 'Documentos');
+
+
+CREATE TABLE `santos` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `sacerdotes` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `vivo` BOOLEAN NOT NULL DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `constancia_bautizo` (
+  `id` INT(11) NOT NULL,
+  `fecha_bautizo` DATE NOT NULL,
+  `feligres_bautizado_id` INT(11) NOT NULL,
+  `padre_id` INT(11) NOT NULL,
+  `madre_id` INT(11) NOT NULL,
+  `padrino_id` INT(11) NOT NULL,
+  `madrina_id` INT(11) NOT NULL,
+  `observaciones` TEXT DEFAULT NULL,
+  `municipio` VARCHAR(100) NOT NULL,
+  `ministro_id` INT(11) NOT NULL,
+  `ministro_certifica_id` INT(11) NOT NULL,
+  `registro_civil` VARCHAR(100),
+  `numero_libro` INT(10) NOT NULL,
+  `numero_pagina` INT(10) NOT NULL,
+  `numero_marginal` INT(10) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`feligres_bautizado_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`)
+  FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
+  FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `constancia_comunion` (
+  `id` INT(11) NOT NULL,
+  `feligres_id` INT(11) NOT NULL,
+  `fecha_comunion` DATE NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`feligres_id`) REFERENCES `feligreses`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `constancia_confirmacion` (
+  `id` INT(11) NOT NULL,
+  `fecha_confirmacion` DATE NOT NULL,
+  `feligres_confirmado_id` INT(11) NOT NULL,
+  `padre_id` INT(11) NOT NULL,
+  `madre_id` INT(11) NOT NULL,
+  `padrino_id` INT(11) NOT NULL,
+  `madrina_id` INT(11) NOT NULL,
+  `numero_libro` VARCHAR(20) NOT NULL,
+  `numero_pagina` VARCHAR(20) NOT NULL,
+  `numero_marginal` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`feligres_confirmado_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `constancia_matrimonio` (
+  `id` INT(11) NOT NULL,
+  `contrayente_1_id` INT(11) NOT NULL,
+  `contrayente_2_id` INT(11) NOT NULL,
+  `fecha_matrimonio` DATE NOT NULL,
+  `natural_de_contrayente_1` VARCHAR(100),
+  `natural_de_contrayente_2` VARCHAR(100),
+  `testigo_1_id` INT(11) NOT NULL,
+  `testigo_2_id` INT(11) NOT NULL,
+  `sacerdote_id` INT(11) NOT NULL,
+  `numero_libro` VARCHAR(20) NOT NULL,
+  `numero_pagina` VARCHAR(20) NOT NULL,
+  `numero_marginal` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`contrayente_1_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`contrayente_2_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`testigo_1_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`testigo_2_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -211,27 +264,13 @@ ALTER TABLE `feligreses`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `metodos_de_pago`
---
-ALTER TABLE `metodos_de_pago`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `pagos`
---
-ALTER TABLE `pagos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `peticion_id` (`peticion_id`),
-  ADD KEY `feligres_id` (`feligres_id`),
-  ADD KEY `metodo_pago_id` (`metodo_pago_id`);
-
---
 -- Indices de la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `pedido_por_id` (`pedido_por_id`),
   ADD KEY `por_quien_id` (`por_quien_id`),
+  ADD KEY `realizado_por_id` (`realizado_por_id`),
   ADD KEY `tipo_de_intencion_id` (`tipo_de_intencion_id`),
   ADD KEY `servicio_id` (`servicio_id`);
 
@@ -262,18 +301,6 @@ ALTER TABLE `feligreses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
--- AUTO_INCREMENT de la tabla `metodos_de_pago`
---
-ALTER TABLE `metodos_de_pago`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de la tabla `pagos`
---
-ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
 -- AUTO_INCREMENT de la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
@@ -296,14 +323,6 @@ ALTER TABLE `tipo_de_intencion`
 --
 
 --
--- Filtros para la tabla `pagos`
---
-ALTER TABLE `pagos`
-  ADD CONSTRAINT `pagos_ibfk_1` FOREIGN KEY (`peticion_id`) REFERENCES `peticiones` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pagos_ibfk_2` FOREIGN KEY (`feligres_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pagos_ibfk_3` FOREIGN KEY (`metodo_pago_id`) REFERENCES `metodos_de_pago` (`id`) ON DELETE CASCADE;
-
---
 -- Filtros para la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
@@ -311,6 +330,7 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id_admin`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
   ADD CONSTRAINT `chk_tipo_de_intencion_servicio` CHECK (
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
@@ -319,24 +339,6 @@ ALTER TABLE `peticiones`
 
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE;
-
-
-/* borrar delimeter si se usa phpmyadmin !!!!!!!1 */ 
-DELIMITER //
-
-CREATE TRIGGER set_monto_usd_original_before_insert
-BEFORE INSERT ON peticiones
-FOR EACH ROW
-BEGIN
-  SET NEW.monto_usd_original = (
-    SELECT monto_usd FROM servicios WHERE id = NEW.servicio_id
-  );
-END;
-//
-
-DELIMITER ;
-
-
 
 --
 -- Volcado de datos para la tabla `peticiones`
@@ -379,10 +381,6 @@ INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `tipo_de_intenc
 -- --------------------------------------------------------
 
 
-INSERT INTO `pagos` (`id`, `peticion_id`, `feligres_id`, `metodo_pago_id`, `monto_usd`, `referencia_pago`, `fecha_pago`) VALUES
-(2, 2, 7, 1, 620.00, '121232323', '2025-06-19'),
-(3, 14, 13, 1, 150.00, '032832323', '2025-06-25'),
-(4, 26, 9, 1, 2323.00, '45454545', '2025-06-25');
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
