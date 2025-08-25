@@ -21,9 +21,9 @@ abstract class GestorBase
 
             switch ($modo_fetch) {
                 case 'all':
-                    return $stmt->fetchAll(PDO::FETCH_CLASS, $clase_nombre);
+                    return $stmt->fetchAll(PDO::FETCH_CLASS, $this->clase_nombre);
                 case 'single':
-                    return $stmt->fetchObject(PDO::FETCH_CLASS, $clase_nombre);
+                    return $stmt->fetchObject($this->clase_nombre);
                 case 'column':
                     return $stmt->fetchColumn();
                 case 'assoc':

@@ -1,4 +1,5 @@
 <?php
+require_once 'modelo/Validador.php';
 
 class Administrador {
     
@@ -6,44 +7,26 @@ class Administrador {
     private $nombre_usuario;
     private $password;
 
-    public function getIdAdmin(): ?int {
+    public function getIdAdmin() {
         return $this->id_admin;
     }
 
-    public function getNombreUsuario(): ?string {
+    public function getNombreUsuario() {
         return $this->nombre_usuario;
     }
-
-    
-    public function getPassword(): ?string {
+    public function getPassword() {
         return $this->password;
     }
 
-    public function setIdAdmin(?int $id_admin): void {
-        if ($id_admin !== null && !is_int($id_admin)) {
-            throw new InvalidArgumentException("El ID de admin debe ser un número entero.");
-        }
-        $this->id_admin = $id_admin;
-    }
-    public function setNombreUsuario(?string $nombre_usuario): void {
-        if ($nombre_usuario !== null) {
-            $nombre_usuario = trim($nombre_usuario);
-            if (empty($nombre_usuario)) {
-                throw new InvalidArgumentException("El nombre de usuario no puede estar vacío.");
-            }
-            if (strlen($nombre_usuario) > 30) {
-                throw new InvalidArgumentException("El nombre de usuario no puede exceder los 30 caracteres.");
-            }
-        }
-        $this->nombre_usuario = $nombre_usuario;
+    public function setIdAdmin($id_admin) {
+        $this->id_admin = Validador::validarEntero($id_admin, "id_admin");
     }
 
-    public function setPassword(?string $password): void {
-        if ($password !== null) {
-            if (empty($password)) {
-                throw new InvalidArgumentException("La contraseña no puede estar vacía.");
-            }
-        }
+    public function setNombreUsuario($nombre_usuario) {
+        $this->nombre_usuario = Validador::validarString($nombre_usuario, "nombre", 30, 3);
+    }
+
+    public function setPassword($password) {
         $this->password = $password;
     }
 } 

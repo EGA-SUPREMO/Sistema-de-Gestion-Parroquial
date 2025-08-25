@@ -1,5 +1,7 @@
 <?php
 
+require_once 'modelo/Validador.php';
+
 class CategoriaDeServicios {
     
     private $id;
@@ -11,10 +13,7 @@ class CategoriaDeServicios {
     }
 
     public function setId($id) {
-        if ($id !== null && !is_int($id)) {
-            throw new InvalidArgumentException("El ID debe ser un número entero.");
-        }
-        $this->id = $id;
+        $this->id = Validador::validarEntero($id, "id");
     }
 
     public function getNombre() {
@@ -22,16 +21,7 @@ class CategoriaDeServicios {
     }
 
     public function setNombre($nombre) {
-        if ($nombre !== null) {
-            $nombre = trim($nombre);
-            if (empty($nombre)) {
-                throw new InvalidArgumentException("El nombre no puede estar vacío.");
-            }
-            if (strlen($nombre) > 100) {
-                throw new InvalidArgumentException("El nombre no puede exceder los 100 caracteres.");
-            }
-        }
-        $this->nombre = $nombre;
+        $this->nombre = Validador::validarString($nombre, "nombre", 100, 3);
     }
 
     public function getDescripcion() {
@@ -39,9 +29,6 @@ class CategoriaDeServicios {
     }
 
     public function setDescripcion($descripcion) {
-        if ($descripcion !== null) {
-            $descripcion = trim($descripcion);
-        }
-        $this->descripcion = $descripcion;
+        $this->descripcion = Validador::validarString($descripcion, "descripcion");
     }
 }

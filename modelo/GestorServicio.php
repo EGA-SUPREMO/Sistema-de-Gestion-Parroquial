@@ -7,5 +7,6 @@ class GestorServicio extends GestorBase
     {
         parent::__construct($pdo);
         $this ->tabla = "servicios";
+        $this ->clase_nombre = "Servicio";
     }
 }

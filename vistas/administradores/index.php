@@ -58,14 +58,14 @@
                                         <?php foreach ($administradores as $admin):
                                             ?>
                                             <tr>
-                                                <?php htmlspecialchars($admin->id_admin) ?>
-                                                <td class="px-4"><?= htmlspecialchars($admin->nombre_usuario) ?></td>
+                                                <?php htmlspecialchars($admin->getIdAdmin()) ?>
+                                                <td class="px-4"><?= htmlspecialchars($admin->getNombreUsuario()) ?></td>
                                                 <td class="px-4"> 
-                                                      <a href="?c=login&a=editar&id_admin=<?= htmlspecialchars($admin->id_admin) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
+                                                      <a href="?c=login&a=editar&id_admin=<?= htmlspecialchars($admin->getIdAdmin()) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                                                        Editar
                                                     </a>
                                                     <a class="btn btn-danger zoom-out rounded-pill shadow-sm"
-                                                        onclick="javascript:return confirm('¿Seguro de eliminar el administrador: <?= htmlspecialchars($admin->nombre_usuario) ?>?');" href="?c=login&a=eliminar&id_admin=<?= htmlspecialchars($admin->id_admin) ?>">
+                                                        onclick="javascript:return confirm('¿Seguro de eliminar el administrador: <?= htmlspecialchars($admin->getNombreUsuario()) ?>?');" href="?c=login&a=eliminar&id_admin=<?= htmlspecialchars($admin->getIdAdmin()) ?>">
                                                         Eliminar
                                                     </a>
                                               </td>

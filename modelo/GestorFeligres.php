@@ -8,6 +8,7 @@ class GestorFeligres extends GestorBase
     {
         parent::__construct($pdo);
         $this ->tabla = "feligreses";
+        $this ->clase_nombre = "Feligres";
     }
 
 }

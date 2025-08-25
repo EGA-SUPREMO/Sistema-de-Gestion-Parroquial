@@ -1,15 +1,16 @@
 <?php
 
-require_once 'modelo/administrador.php';
+require_once 'modelo/Administrador.php';
+require_once 'modelo/GestorAdministrador.php';
 
 class loginControlador
 {
-    private $modelo;
+    private $gestor;
 
 
     public function __construct(PDO $pdo)
     {
-        $this->modelo = new administrador($pdo);
+        $this->gestor = new GestorAdministrador($pdo);
     }
 
 
@@ -36,7 +37,7 @@ class loginControlador
             $password = $_POST['password'];
 
 
-            $resultados_obtenido = $this->modelo->comprobar_datos_usuario($nombre_usuario, $password);
+            $resultados_obtenido = $this->gestor->comprobar_datos_usuario($nombre_usuario, $password);
 
             if ($resultados_obtenido) {
                 session_start();
@@ -74,7 +75,7 @@ class loginControlador
         $this->requerirLogin();
 
         try {
-            $this->modelo->eliminar($_REQUEST['id_admin']);
+            $this->gestor->eliminar($_REQUEST['id_admin']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $errorMessage = $e->getMessage();
@@ -87,7 +88,7 @@ class loginControlador
     public function editar($errorMessage = null)
     {
         $this->requerirLogin();
-        $admin = $this->modelo->obtenerPorId($_REQUEST['id_admin']);
+        $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
         require_once "vistas/administradores/administrador_actualizar.php";
@@ -98,7 +99,7 @@ class loginControlador
     {
 
         $this->requerirLogin();
-        $administradores = $this->modelo->obtenerTodos();
+        $administradores = $this->gestor->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
@@ -126,7 +127,7 @@ class loginControlador
             if (!empty($password)) {
                 $datos['password'] = $password;
             }
-            $resultado = $this->modelo->actualizar($id_admin, $datos);
+            $resultado = $this->gestor->actualizar($id_admin, $datos);
             if (!$resultado) {
                 $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
@@ -154,7 +155,7 @@ class loginControlador
                 'nombre_usuario' => $nombre_usuario,
                 'password' => $password
             ];
-            $resultado = $this->modelo->insertar($datos);
+            $resultado = $this->gestor->insertar($datos);
             if (!$resultado) {
                 $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
