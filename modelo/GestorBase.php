@@ -13,7 +13,7 @@ abstract class GestorBase
         $this ->clavePrimaria = 'id';
     }
 
-    protected function hacerConsulta($consulta, $parametros = [], $modo_fetch = 'all')
+    protected function hacerConsulta($consulta, $parametros, $modo_fetch = 'all')
     {
         try {
             $stmt = $this->db->prepare($consulta);
@@ -21,9 +21,9 @@ abstract class GestorBase
 
             switch ($modo_fetch) {
                 case 'all':
-                    return $stmt->fetchAll(PDO::FETCH_OBJ);
+                    return $stmt->fetchAll(PDO::FETCH_CLASS, $clase_nombre);
                 case 'single':
-                    return $stmt->fetch(PDO::FETCH_OBJ);
+                    return $stmt->fetchObject(PDO::FETCH_CLASS, $clase_nombre);
                 case 'column':
                     return $stmt->fetchColumn();
                 case 'assoc':
