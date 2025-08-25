@@ -55,19 +55,20 @@ INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
 --
 
 CREATE TABLE `feligreses` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `primer_nombre` VARCHAR(50) NOT NULL,
   `segundo_nombre` VARCHAR(50),
   `primer_apellido` VARCHAR(50) NOT NULL,
   `segundo_apellido` VARCHAR(50),
   `fecha_nacimiento` DATE DEFAULT NULL,
   `cedula` int(10) UNSIGNED UNIQUE,
-  `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL
+  `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `parentescos` (
   `id_padre` INT NOT NULL,
-  `id_hijo` INT NOT NULL
+  `id_hijo` INT NOT NULL,
   PRIMARY KEY (`id_padre`, `id_hijo`),
   FOREIGN KEY (`id_padre`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`id_hijo`) REFERENCES `feligreses`(`id`)
@@ -76,7 +77,7 @@ CREATE TABLE `parentescos` (
 -- Volcado de datos para la tabla `feligreses`
 --
 
----
+--
 
 INSERT INTO `feligreses` (`id`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nacimiento`, `cedula`) VALUES
 (1, 'Maria', 'Josefa', 'Garcia', 'Perez', '1980-03-15', 12345678),
@@ -96,9 +97,15 @@ INSERT INTO `feligreses` (`id`, `primer_nombre`, `segundo_nombre`, `primer_apell
 (13, 'Jorge', 'Sebastian', 'Perez', NULL, '1965-09-07', 20223344),
 (14, 'Isabel', 'Lucia', 'Ramos', 'Navarro', '2008-01-19', 30334455),
 (15, 'Andres', NULL, 'Diaz', 'Soto', '1990-03-25', 40445566),
-(16, 'Laura', 'Sofia', 'Vega', 'Muñoz', '1982-10-10', 50556677);
+(16, 'Juliana', 'Marina', 'Ortega', 'Guerrero', '1995-12-03', 8899001),
+(17, 'Pablo', NULL, 'Gimenez', 'Molina', '2001-08-14', 9001122),
+(18, 'Patricia', 'Andrea', 'Herrera', 'Fuentes', '1979-05-22', 112233),
+(19, 'Jorge', 'Sebastian', 'Perez', NULL, '1965-09-07', 223344),
+(20, 'Isabel', 'Lucia', 'Ramos', 'Navarro', '2008-01-19', 334455),
+(21, 'Andres', NULL, 'Diaz', 'Soto', '1990-03-25', 445566),
+(22, 'Laura', 'Sofia', 'Vega', 'Muñoz', '1982-10-10', 556677);
 
----
+--
 ## Dummy Data for `parentescos`
 
 INSERT INTO `parentescos` (`id_padre`, `id_hijo`) VALUES
@@ -178,13 +185,15 @@ INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 
 CREATE TABLE `santos` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL
+  `nombre` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `sacerdotes` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
-  `vivo` BOOLEAN NOT NULL DEFAULT TRUE
+  `vivo` BOOLEAN NOT NULL DEFAULT TRUE,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `constancia_bautizo` (
@@ -208,8 +217,8 @@ CREATE TABLE `constancia_bautizo` (
   FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`)
-  FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
+  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`),
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -271,11 +280,6 @@ CREATE TABLE `constancia_matrimonio` (
 ALTER TABLE `administrador`
   ADD PRIMARY KEY (`id_admin`);
 
---
--- Indices de la tabla `feligreses`
---
-ALTER TABLE `feligreses`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `peticiones`
@@ -307,12 +311,6 @@ ALTER TABLE `categoria_de_servicios`
 --
 ALTER TABLE `administrador`
   MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `feligreses`
---
-ALTER TABLE `feligreses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `peticiones`
@@ -355,7 +353,7 @@ ALTER TABLE `peticiones`
       (`tipo_de_intencion_id` IS NOT NULL AND `por_quien_id` IS NOT NULL)
       OR
       (`tipo_de_intencion_id` IS NULL AND `pedido_por_id` IS NOT NULL AND `por_quien_id` IS NULL)
-  )
+  ),
   ADD CONSTRAINT `chk_tipo_de_intencion_servicio` CHECK (
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
     (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
@@ -368,33 +366,32 @@ ALTER TABLE `servicios`
 -- Volcado de datos para la tabla `peticiones`
 --
 
--- Inserts para peticiones donde hay tipo_de_intencion (servicio_id = 1)
--- Se asume que existen IDs válidos en feligreses (ej. 1-20), administrador (ej. 1-3) y tipo_de_intencion (ej. 1-5).
 INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 1, 2, 1, 1, 1, NULL, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
-(2, 3, 1, 2, 2, 1, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
-(3, 4, 5, 1, 3, 1, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
-(4, 6, 7, 3, 1, 1, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00'),
-(5, 8, 9, 2, 4, 1, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00'),
-(6, 10, 1, 1, 2, 1, NULL, '2024-12-25 10:00:00', '2024-12-25 11:00:00'),
-(7, 2, 3, 3, 5, 1, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00'),
-(8, 5, 4, 2, 3, 1, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00'),
-(9, 7, 8, 1, 1, 1, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00'),
-(10, 9, 10, 3, 4, 1, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00');
+(1, NULL, 2, 1, 1, 1, NULL, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
+(2, NULL, 1, 1, 2, 1, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
+(3, NULL, 5, 1, 3, 1, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
+(4, NULL, 7, 1, 1, 1, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00'),
+(5, NULL, 9, 1, 4, 1, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00'),
+(6, NULL, 1, 1, 2, 1, NULL, '2024-12-25 10:00:00', '2024-12-25 11:00:00'),
+(7, NULL, 3, 1, 4, 1, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00'),
+(8, NULL, 4, 1, 3, 1, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00'),
+(9, NULL, 8, 1, 1, 1, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00'),
+(10, NULL, 10, 1, 4, 1, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00');
 
 -- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
 -- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (ej. 1-3).
+
 INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(11, 11, 12, 1, NULL, 2, NULL, '2024-07-20 14:00:00', '2024-07-20 15:00:00'),
-(12, 13, 14, 1, NULL, 3, NULL, '2024-08-10 09:00:00', '2024-08-10 10:00:00'),
-(13, 15, 16, 1, NULL, 4, NULL, '2024-09-18 11:00:00', '2024-09-18 12:00:00'),
-(14, 17, 18, 1, NULL, 5, NULL, '2024-10-25 15:00:00', '2024-10-25 16:00:00'),
-(15, 19, 20, 1, NULL, 2, NULL, '2024-11-03 10:00:00', '2024-11-03 11:00:00'),
-(16, 1, 2, 1, NULL, 3, NULL, '2024-12-08 13:00:00', '2024-12-08 14:00:00'),
-(17, 3, 4, 1, NULL, 4, NULL, '2025-01-19 16:00:00', '2025-01-19 17:00:00'),
-(18, 5, 6, 1, NULL, 5, NULL, '2025-02-28 09:00:00', '2025-02-28 10:00:00'),
-(19, 7, 8, 1, NULL, 2, NULL, '2025-03-05 14:00:00', '2025-03-05 15:00:00'),
-(20, 9, 10, 1, NULL, 3, NULL, '2025-04-12 11:00:00', '2025-04-12 12:00:00');
+(11, 11, NULL, 1, NULL, 2, NULL, '2024-07-20 14:00:00', '2024-07-20 15:00:00'),
+(12, 13, NULL, 1, NULL, 3, NULL, '2024-08-10 09:00:00', '2024-08-10 10:00:00'),
+(13, 15, NULL, 1, NULL, 4, NULL, '2024-09-18 11:00:00', '2024-09-18 12:00:00'),
+(14, 17, NULL, 1, NULL, 5, NULL, '2024-10-25 15:00:00', '2024-10-25 16:00:00'),
+(15, 19, NULL, 1, NULL, 2, NULL, '2024-11-03 10:00:00', '2024-11-03 11:00:00'),
+(16, 1, NULL, 1, NULL, 3, NULL, '2024-12-08 13:00:00', '2024-12-08 14:00:00'),
+(17, 3, NULL, 1, NULL, 4, NULL, '2025-01-19 16:00:00', '2025-01-19 17:00:00'),
+(18, 5, NULL, 1, NULL, 5, NULL, '2025-02-28 09:00:00', '2025-02-28 10:00:00'),
+(19, 7, NULL, 1, NULL, 2, NULL, '2025-03-05 14:00:00', '2025-03-05 15:00:00'),
+(20, 9, NULL, 1, NULL, 3, NULL, '2025-04-12 11:00:00', '2025-04-12 12:00:00');
 
 
 COMMIT;
