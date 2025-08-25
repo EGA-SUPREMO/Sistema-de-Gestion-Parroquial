@@ -62,7 +62,7 @@ CREATE TABLE `feligreses` (
   `segundo_apellido` VARCHAR(50),
   `fecha_nacimiento` DATE DEFAULT NULL,
   `cedula` int(10) UNSIGNED UNIQUE,
-  `partida_de_nacimiento` varchar(30) UNIQUE
+  `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `parentescos` (
@@ -76,22 +76,37 @@ CREATE TABLE `parentescos` (
 -- Volcado de datos para la tabla `feligreses`
 --
 
-INSERT INTO `feligreses` (`id`, `primer_nombre`, `primer_apellido`, `cedula`) VALUES
-(1, 'Ramírez Serrano', 12345678),
-(2, 'Carlos Rodríguez', 23456789),
-(3, 'María Gómez', 34567890),
-(4, 'José Martínez', 45678901),
-(5, 'Luisa Fernández', 56789012),
-(6, 'Pedro Suárez', 67890123),
-(7, 'Andrea Ramírez', 78901234),
-(8, 'Miguel Torres', 89012345),
-(9, 'Carmen Díaz', 90123456),
-(10, 'Luis Romero', 11223344),
-(11, 'Paola Mendoza', 22334455),
-(12, 'Jorge Silva', 33445566),
-(13, 'Claudia Rivaas', 44556677),
-(14, 'Santiago Herrera', 55667788),
-(15, 'Isabel Moreno', 66778899);
+---
+
+INSERT INTO `feligreses` (`id`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nacimiento`, `cedula`) VALUES
+(1, 'Maria', 'Josefa', 'Garcia', 'Perez', '1980-03-15', 12345678),
+(2, 'Juan', 'Carlos', 'Rodriguez', 'Lopez', '1975-11-20', 98765432),
+(3, 'Ana', NULL, 'Martinez', 'Sanchez', '1992-07-01', 11223344),
+(4, 'Pedro', 'Antonio', 'Fernandez', NULL, '1968-01-25', 22334455),
+(5, 'Sofia', 'Isabel', 'Gomez', 'Diaz', '2005-09-10', 33445566),
+(6, 'Luis', 'Alberto', 'Ramirez', 'Vargas', '1999-04-30', 44556677),
+(7, 'Elena', NULL, 'Morales', 'Reyes', '2010-06-05', 55667788),
+(8, 'Carlos', 'Andres', 'Acosta', 'Soto', '1972-12-12', 66778899);
+
+INSERT INTO `feligreses` (`id`, `primer_nombre`, `segundo_nombre`, `primer_apellido`, `segundo_apellido`, `fecha_nacimiento`, `cedula`) VALUES
+(9, 'Ricardo', 'Daniel', 'Silva', 'Castro', '1985-02-28', 77889900),
+(10, 'Julia', 'Marina', 'Ortega', 'Guerrero', '1995-12-03', 88990011),
+(11, 'Pablo', NULL, 'Gimenez', 'Molina', '2001-08-14', 99001122),
+(12, 'Patricia', 'Andrea', 'Herrera', 'Fuentes', '1979-05-22', 10112233),
+(13, 'Jorge', 'Sebastian', 'Perez', NULL, '1965-09-07', 20223344),
+(14, 'Isabel', 'Lucia', 'Ramos', 'Navarro', '2008-01-19', 30334455),
+(15, 'Andres', NULL, 'Diaz', 'Soto', '1990-03-25', 40445566),
+(16, 'Laura', 'Sofia', 'Vega', 'Muñoz', '1982-10-10', 50556677);
+
+---
+## Dummy Data for `parentescos`
+
+INSERT INTO `parentescos` (`id_padre`, `id_hijo`) VALUES
+(1, 5),
+(2, 5),
+(4, 3),
+(8, 6),
+(1, 7);
 
 -- --------------------------------------------------------
 
@@ -102,7 +117,7 @@ INSERT INTO `feligreses` (`id`, `primer_nombre`, `primer_apellido`, `cedula`) VA
 CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
   `pedido_por_id` int(11) DEFAULT NULL,
-  `por_quien_id` int(11) NOT NULL,
+  `por_quien_id` int(11) DEFAULT NULL,
   `realizado_por_id` int(11) NOT NULL,
   `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
@@ -321,6 +336,11 @@ ALTER TABLE `tipo_de_intencion`
 -- Restricciones para tablas volcadas
 --
 
+
+ALTER TABLE `feligreses`
+ADD CONSTRAINT `chk_cedula_partida_nacimiento` CHECK (
+    `cedula` IS NOT NULL OR `partida_de_nacimiento` IS NOT NULL
+);
 --
 -- Filtros para la tabla `peticiones`
 --
@@ -331,6 +351,11 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id_admin`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
+  ADD CONSTRAINT `chk_intencion_y_participantes` CHECK (
+      (`tipo_de_intencion_id` IS NOT NULL AND `por_quien_id` IS NOT NULL)
+      OR
+      (`tipo_de_intencion_id` IS NULL AND `pedido_por_id` IS NOT NULL AND `por_quien_id` IS NULL)
+  )
   ADD CONSTRAINT `chk_tipo_de_intencion_servicio` CHECK (
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
     (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
@@ -343,42 +368,33 @@ ALTER TABLE `servicios`
 -- Volcado de datos para la tabla `peticiones`
 --
 
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, 4, 8, 4, NULL, '2025-05-02', '2025-05-15'),
-(2, 2, 2, 4, NULL, '2025-05-02', '2025-05-15'),
-(3, 3, 3, 6, NULL, '2025-05-03', '2025-06-01'),
-(4, 4, 4, 7, NULL, '2025-05-04', '2025-05-20'),
-(5, 5, 5, 8, NULL, '2025-05-05', '2025-05-06'),
-(6, 6, 6, 9, NULL, '2025-05-06', '2025-05-06'),
-(8, 8, 2, 4, NULL, '2025-05-08', '2025-05-18'),
-(9, 9, 3, 6, NULL, '2025-05-09', '2025-06-10'),
-(10, 10, 4, 7, NULL, '2025-05-10', '2025-05-21'),
-(11, 11, 5, 8, NULL, '2025-05-11', '2025-05-13'),
-(12, 12, 6, 9, NULL, '2025-05-12', '2025-05-12'),
-(14, 14, 2, 4, NULL, '2025-05-14', '2025-05-22'),
-(15, 15, 3, 6, NULL, '2025-05-15', '2025-06-15'),
-(18, 3, 6, 5, NULL, '2025-05-18', '2025-05-18'),
-(20, 5, 2, 4, NULL, '2025-05-20', '2025-05-29'),
-(21, 6, 3, 6, NULL, '2025-05-21', '2025-06-05'),
-(22, 7, 4, 7, NULL, '2025-05-22', '2025-05-28'),
-(23, 8, 5, 8, NULL, '2025-05-23', '2025-05-25'),
-(24, 9, 6, 9, NULL, '2025-05-24', '2025-05-24'),
-(26, 11, 2, 4, NULL, '2025-05-26', '2025-06-03');
+-- Inserts para peticiones donde hay tipo_de_intencion (servicio_id = 1)
+-- Se asume que existen IDs válidos en feligreses (ej. 1-20), administrador (ej. 1-3) y tipo_de_intencion (ej. 1-5).
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 1, 2, 1, 1, 1, NULL, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
+(2, 3, 1, 2, 2, 1, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
+(3, 4, 5, 1, 3, 1, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
+(4, 6, 7, 3, 1, 1, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00'),
+(5, 8, 9, 2, 4, 1, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00'),
+(6, 10, 1, 1, 2, 1, NULL, '2024-12-25 10:00:00', '2024-12-25 11:00:00'),
+(7, 2, 3, 3, 5, 1, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00'),
+(8, 5, 4, 2, 3, 1, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00'),
+(9, 7, 8, 1, 1, 1, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00'),
+(10, 9, 10, 3, 4, 1, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00');
 
--- ------------------------- para intenciones ------------------
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(17, 2, 5, 4, 1, NULL, '2025-05-17', '2025-05-19'),
-(25, 10, 1, 1, 1, NULL, '2025-05-25', '2025-05-31'),
-(27, 1, 7, 2, 1, 'de un familiar', '2025-06-01', '2025-06-01'),
-(31, 1, 11, 3, 1, 'El aniversario de mi abuela', '2025-06-15', '2025-06-15'),
-(33, 8, 1, 1, 1, 'Por un proyecto terminado', '2025-06-20', '2025-06-20'),
-(35, 3, 4, 2, 1, 'Recuperación de una enfermedad', '2025-06-28', '2025-06-28'),
-(36, 6, 9, 4, 1, 'Por el alma de mi padre', '2025-07-01', '2025-07-01'),
-(37, 9, 2, 1, 1, 'Por el éxito de un nuevo emprendimiento', '2025-07-05', '2025-07-05'),
-(38, 11, 7, 3, 1, 'Aniversario de bodas de mis padres', '2025-07-10', '2025-07-10'),
-(39, 12, 5, 2, 1, 'Para la comunidad parroquial', '2025-07-12', '2025-07-12');
--- --------------------------------------------------------
-
+-- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
+-- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (ej. 1-3).
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
+(11, 11, 12, 1, NULL, 2, NULL, '2024-07-20 14:00:00', '2024-07-20 15:00:00'),
+(12, 13, 14, 1, NULL, 3, NULL, '2024-08-10 09:00:00', '2024-08-10 10:00:00'),
+(13, 15, 16, 1, NULL, 4, NULL, '2024-09-18 11:00:00', '2024-09-18 12:00:00'),
+(14, 17, 18, 1, NULL, 5, NULL, '2024-10-25 15:00:00', '2024-10-25 16:00:00'),
+(15, 19, 20, 1, NULL, 2, NULL, '2024-11-03 10:00:00', '2024-11-03 11:00:00'),
+(16, 1, 2, 1, NULL, 3, NULL, '2024-12-08 13:00:00', '2024-12-08 14:00:00'),
+(17, 3, 4, 1, NULL, 4, NULL, '2025-01-19 16:00:00', '2025-01-19 17:00:00'),
+(18, 5, 6, 1, NULL, 5, NULL, '2025-02-28 09:00:00', '2025-02-28 10:00:00'),
+(19, 7, 8, 1, NULL, 2, NULL, '2025-03-05 14:00:00', '2025-03-05 15:00:00'),
+(20, 9, 10, 1, NULL, 3, NULL, '2025-04-12 11:00:00', '2025-04-12 12:00:00');
 
 
 COMMIT;
