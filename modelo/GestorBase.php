@@ -1,10 +1,11 @@
 <?php
 
-abstract class ModeloBase
+abstract class GestorBase
 {
     protected $db;
     protected $tabla;
     protected $clavePrimaria;
+    protected $clase_nombre;
 
     public function __construct(PDO $pdo)
     {

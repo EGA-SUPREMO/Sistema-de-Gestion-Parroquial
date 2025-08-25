@@ -1,8 +1,8 @@
 <?php
 
-require_once 'modelo/ModeloBase.php';
+require_once 'modelo/GestorBase.php';
 
-class administrador extends ModeloBase
+class GestorAdministrador extends GestorBase
 {
     public function __construct(PDO $pdo)
     {

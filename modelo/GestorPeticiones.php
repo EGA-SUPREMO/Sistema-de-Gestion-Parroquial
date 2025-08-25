@@ -1,8 +1,8 @@
 <?php
 
-require_once 'modelo/ModeloBase.php';
+require_once 'modelo/GestorBase.php';
 
-class Peticion extends ModeloBase
+class GestorPeticion extends GestorBase
 {
     public $id;
     public $feligres_id;
