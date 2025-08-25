@@ -4,7 +4,7 @@ actor "Secretaria" as S
 
 rectangle "Sistema de Agenda" {
   usecase "Ver calendario" as UC1
-  usecase "Seleccionar día" as UC2
+  usecase "Seleccionar día y misa" as UC2
   usecase "Ver intenciones del día en PDF" as UC3
   usecase "Ver intenciones en 4 tablas dividas por tipo" as UC4
   usecase "Editar intención" as UC5
@@ -13,7 +13,7 @@ rectangle "Sistema de Agenda" {
 }
 
 S --> UC1
-UC2 ..> UC1
+UC2 ..> UC1 : <<extend>>
 
 UC3 ..> UC2 : <<extend>>
 UC4 ..> UC2 : <<extend>>

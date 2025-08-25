@@ -1,0 +1,18 @@
+@startuml
+left to right direction
+
+actor Secretaria
+
+rectangle "Registrar intenciones" {
+  usecase "Ingresar datos de la intencion" as UC1
+  usecase "Verificar datos" as UC2
+  usecase "Guardar" as UC3
+  usecase "Editar intenciones en la agenda" as UC4
+}
+
+Secretaria --> UC1
+Secretaria --> UC3
+UC1 ..> UC2 : <<include>>
+Secretaria --> UC4
+
+@enduml

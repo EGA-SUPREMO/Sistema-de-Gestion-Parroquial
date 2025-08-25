@@ -67,8 +67,7 @@ CREATE TABLE `feligreses` (
 
 CREATE TABLE `parentescos` (
   `id_padre` INT NOT NULL,
-  `id_hijo` INT NOT NULL,
-  `tipo_parentesco` VARCHAR(20) NOT NULL,
+  `id_hijo` INT NOT NULL
   PRIMARY KEY (`id_padre`, `id_hijo`),
   FOREIGN KEY (`id_padre`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`id_hijo`) REFERENCES `feligreses`(`id`)
