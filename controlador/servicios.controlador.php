@@ -34,6 +34,7 @@ class ServiciosControlador
 
     public function Registro()
     {
+        
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
         require_once "vistas/servicios/servicios_registro.php";

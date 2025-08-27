@@ -8,5 +8,4 @@
     <link rel="stylesheet" href="./public/css/font-awesome.min.css">
     <link rel="stylesheet" href="./public/css/boostrap-icons.min.css">
     <link rel="stylesheet" href="./public/css/all.min.css">
-
 </head>
