@@ -169,6 +169,11 @@ class loginControlador
 
     public function Registro($errorMessage = null)
     {
+        ?>
+        <script>
+            alert('hola');
+        </script>
+        <?php
         $this->requerirLogin();
         require_once "vistas/cabezera.php";
         require_once "vistas/menu.php";
