@@ -27,15 +27,12 @@ class ServiciosControlador
     public function Index()
     {
         $servicios = $this->model->obtenerTodos();
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
+
         require_once 'vistas/servicios/index.php';
     }
 
     public function Registro()
     {
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once "vistas/servicios/servicios_registro.php";
     }
 
@@ -46,8 +43,7 @@ class ServiciosControlador
         if (isset($_REQUEST['id'])) {
             $servicio = $this->model->obtenerPorId($_REQUEST['id']);
         }
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
+
         require_once 'vistas/servicios/servicios_actualizar.php';
     }
 

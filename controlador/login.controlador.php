@@ -24,7 +24,6 @@ class loginControlador
                 $errorMessage = 'Necesitas iniciar sesión para acceder a esta página';
             }
         }
-        require_once "vistas/cabezera.php";
         require_once 'vistas/login/login.php';
     }
 
@@ -56,7 +55,6 @@ class loginControlador
     public function dashboard()
     {
         $this->requerirLogin();
-        require_once "vistas/cabezera.php";
         require_once "vistas/login/dashboard.php";
     }
 
@@ -89,8 +87,6 @@ class loginControlador
     {
         $this->requerirLogin();
         $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once "vistas/administradores/administrador_actualizar.php";
     }
 
@@ -101,8 +97,6 @@ class loginControlador
         $this->requerirLogin();
         $administradores = $this->gestor->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once "vistas/administradores/index.php";
     }
 
@@ -171,12 +165,15 @@ class loginControlador
     {
         ?>
         <script>
-            alert('hola');
+            /*$.post('modelo/adminisrtrador_registrar.php', formData)
+                .done(function(data) {
+
+                }*/
+
         </script>
         <?php
         $this->requerirLogin();
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
+
         require_once "vistas/administradores/administrador_registro.php";
     }
 

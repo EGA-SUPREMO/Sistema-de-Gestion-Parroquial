@@ -7,7 +7,6 @@ class fe_bautizocontrolador
 {
     public function __construct()
     {
-
         $this->requerirLogin();
     }
 
