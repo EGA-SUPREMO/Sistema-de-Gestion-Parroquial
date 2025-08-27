@@ -19,11 +19,11 @@ class Administrador {
     }
 
     public function setIdAdmin($id_admin) {
-        $this->id_admin = Validador::validarEntero($id_admin, "id_admin");
+        $this->id_admin = Validador::validarEntero($id_admin, "id de administrador");
     }
 
     public function setNombreUsuario($nombre_usuario) {
-        $this->nombre_usuario = Validador::validarString($nombre_usuario, "nombre", 30, 3);
+        $this->nombre_usuario = Validador::validarString($nombre_usuario, "nombre de usuario", 30, 3);
     }
 
     public function setPassword($password) {
