@@ -24,6 +24,9 @@ class Administrador {
 
     public function setNombreUsuario($nombre_usuario) {
         $this->nombre_usuario = Validador::validarString($nombre_usuario, "nombre de usuario", 30, 3);
+        if ($this->nombre_usuario !== null) {
+            $this->nombre_usuario = strtolower($this->nombre_usuario);
+        }
     }
 
     public function setPassword($password) {
