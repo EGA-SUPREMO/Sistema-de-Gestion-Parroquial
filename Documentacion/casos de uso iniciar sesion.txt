@@ -1,0 +1,17 @@
+@startuml
+left to right direction
+
+actor Secretaria
+
+rectangle "Iniciar sesión" {
+  usecase "Ingresar datos" as UC1
+  usecase "Verificar datos" as UC2
+  usecase "Ingresar" as UC3
+}
+
+Secretaria --> UC1
+Secretaria --> UC3
+UC1 ..> UC2 : <<include>>
+
+@enduml
+ 
