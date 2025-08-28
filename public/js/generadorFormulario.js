@@ -5,6 +5,7 @@
  */
 function generateForm(definicionFormulario, tituloFormulario) {
   const $contenedor = $(definicionFormulario.contenedor);
+  $contenedor.empty();// Limpiar el contenedor antes de agregar el nuevo formulario
 
   const $htmlCardHeader = `
     <div class="card-header bg-success text-white">
@@ -15,9 +16,6 @@ function generateForm(definicionFormulario, tituloFormulario) {
       </header>
     </div>
   `
-
-  // Limpiar el contenedor antes de agregar el nuevo formulario
-  $contenedor.empty();
 
   // Crear el contenedor de la tarjeta y el cuerpo
   const $cardBody = $('<div class="card-body">');
