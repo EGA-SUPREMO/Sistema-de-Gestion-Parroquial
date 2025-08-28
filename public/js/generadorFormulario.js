@@ -3,7 +3,7 @@
  * @param {object} definicionFormulario - Objeto que define los campos del formulario.
  * @param {string} tituloFormulario - el titulo del formulario en la tarjeta
  */
-function generateForm(definicionFormulario, tituloFormulario) {
+function generarFormulario(definicionFormulario, tituloFormulario) {
   const $contenedor = $(definicionFormulario.contenedor);
   $contenedor.empty();// Limpiar el contenedor antes de agregar el nuevo formulario
 

@@ -102,7 +102,7 @@ class loginControlador
             };
 
             document.addEventListener('DOMContentLoaded', () => {
-                generateForm(definicionFormulario, 'Actualizar Administrador');
+                generarFormulario(definicionFormulario, 'Actualizar Administrador');
                 $('#nombre').focus();
             });
 
@@ -204,7 +204,7 @@ class loginControlador
                 };
 
                 document.addEventListener('DOMContentLoaded', () => {
-                    generateForm(definicionFormulario, 'Registrar Administrador');
+                    generarFormulario(definicionFormulario, 'Registrar Administrador');
                     $('#nombre').focus();
                 });
 
