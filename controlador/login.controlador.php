@@ -87,7 +87,27 @@ class loginControlador
     {
         $this->requerirLogin();
         $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
-        require_once "vistas/administradores/administrador_actualizar.php";
+        require_once "vistas/administradores/administrador_registro.php";
+        ?>
+        <script>
+            const definicionFormulario = {
+                action: 'index.php?c=login&a=actualizar',
+                cancelarBtn: 'index.php?c=login&a=mostrar',
+                contenedor: '#formulario-registrar-administrador',
+                campos: [
+                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
+                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
+                    { type: 'hidden', name: 'id_admin', value: ''},
+                ]
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                generateForm(definicionFormulario, 'Actualizar Administrador');
+                $('#nombre').focus();
+            });
+
+        </script>
+        <?php
     }
 
 
@@ -106,7 +126,7 @@ class loginControlador
         $this->requerirLogin();
 
         $id_admin = (int)($_REQUEST['id_admin']);
-        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario)) {
