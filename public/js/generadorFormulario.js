@@ -29,10 +29,14 @@ function generateForm(definicionFormulario, tituloFormulario) {
   // Iterar sobre las propiedades del objeto de definición para crear los campos
   $.each(definicionFormulario.campos, function(i, propiedadCampo) {
     const $formGroup = $('<div class="mb-3">');
-    const $label = $('<label>')
-      .attr('for', propiedadCampo.name)
-      .addClass('form-label')
-      .text(propiedadCampo.label);
+    if (propiedadCampo.label) {
+      const $label = $('<label>')
+        .attr('for', propiedadCampo.name)
+        .addClass('form-label')
+        .text(propiedadCampo.label);
+
+      $formGroup.append($label);
+    }
 
     let $inputElement;
 
@@ -63,7 +67,11 @@ function generateForm(definicionFormulario, tituloFormulario) {
       $inputElement.val(propiedadCampo.value);
     }
 
-    $formGroup.append($label, $inputElement);
+    if (propiedadCampo.placeholder) {
+      $inputElement.attr("placeholder", propiedadCampo.placeholder);
+    }
+
+    $formGroup.append($inputElement);
     $form.append($formGroup);
   });
 
