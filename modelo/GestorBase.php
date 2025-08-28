@@ -59,7 +59,6 @@ abstract class GestorBase
     public function eliminar($id)
     {
         $sql = "DELETE FROM {$this->tabla} WHERE {$this->clavePrimaria} = ?";
-        error_log($sql);
         return $this->hacerConsulta($sql, [$id], 'execute');
     }
 

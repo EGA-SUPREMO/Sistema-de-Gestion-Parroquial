@@ -137,7 +137,7 @@ class loginControlador
     {
         $this->requerirLogin();
 
-        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario) || empty($password)) {
@@ -174,7 +174,6 @@ class loginControlador
                 }*/
                 
                 const definicionFormulario = {
-                    method: 'POST',
                     action: 'index.php?c=login&a=guardar',
                     cancelarBtn: 'index.php?c=login&a=mostrar',
                     contenedor: '#formulario-registrar-administrador',
