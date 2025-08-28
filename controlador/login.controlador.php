@@ -97,7 +97,7 @@ class loginControlador
                 campos: [
                     { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
                     { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
-                    { type: 'hidden', name: 'id_admin', value: ''},
+                    { type: 'hidden', name: 'id_admin', value: 13},
                 ]
             };
 
