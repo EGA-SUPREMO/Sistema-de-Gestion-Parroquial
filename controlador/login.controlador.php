@@ -173,20 +173,19 @@ class loginControlador
 
                 }*/
                 
-                const formDefinition = {
+                const definicionFormulario = {
                     method: 'POST',
-                    action: 'modelo/administrador_registrar.php',
-                    cancel: 'index.php?c=login&a=mostrar',
-                    container: '#formulario-registrar-administrador',
-                    fields: [
+                    action: 'index.php?c=login&a=guardar',
+                    cancelarBtn: 'index.php?c=login&a=mostrar',
+                    contenedor: '#formulario-registrar-administrador',
+                    campos: [
                         { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
                         { type: 'password', name: 'password', label: 'Contraseña' },
-                    ],
-                    submitButtonText: 'Registrar'
+                    ]
                 };
 
                 document.addEventListener('DOMContentLoaded', () => {
-                    generateForm(formDefinition, 'Registrar Administrador');
+                    generateForm(definicionFormulario, 'Registrar Administrador');
                     $('#nombre').focus();
                 });
 

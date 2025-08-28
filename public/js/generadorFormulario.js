@@ -1,69 +1,68 @@
 /**
  * Genera un formulario dinámico a partir de un objeto de definición.
- * @param {object} formDefinition - Objeto que define los campos del formulario.
- * @param {string} containerSelector - Selector del contenedor donde se insertará el formulario.
- * @param {string} formAction - La URL a la que se enviará el formulario.
+ * @param {object} definicionFormulario - Objeto que define los campos del formulario.
+ * @param {string} tituloFormulario - el titulo del formulario en la tarjeta
  */
-function generateForm(formDefinition, formTitle) {
-  const $container = $(formDefinition.container);
+function generateForm(definicionFormulario, tituloFormulario) {
+  const $contenedor = $(definicionFormulario.contenedor);
 
   const $htmlCardHeader = `
     <div class="card-header bg-success text-white">
       <header class="bg-success text-white text-center py-3">
         <h1 class="mb-0">
-          ${formTitle}
+          ${tituloFormulario}
         </h1>
       </header>
     </div>
   `
 
   // Limpiar el contenedor antes de agregar el nuevo formulario
-  $container.empty();
+  $contenedor.empty();
 
   // Crear el contenedor de la tarjeta y el cuerpo
   const $cardBody = $('<div class="card-body">');
   const $form = $('<form>').attr({
-    'action': formDefinition.action,
+    'action': definicionFormulario.action,
     'method': 'POST',
     'autocomplete': 'off'
   });
-  $container.append($htmlCardHeader);
+  $contenedor.append($htmlCardHeader);
 
   // Iterar sobre las propiedades del objeto de definición para crear los campos
-  $.each(formDefinition.fields, function(fieldName, fieldProps) {
+  $.each(definicionFormulario.campos, function(i, propiedadCampo) {
     const $formGroup = $('<div class="mb-3">');
     const $label = $('<label>')
-      .attr('for', fieldProps.name)
+      .attr('for', propiedadCampo.name)
       .addClass('form-label')
-      .text(fieldProps.label);
+      .text(propiedadCampo.label);
 
     let $inputElement;
 
-    if (fieldProps.type === "textarea") {
+    if (propiedadCampo.type === "textarea") {
       $inputElement = $('<textarea>')
         .attr({
-          'name': fieldProps.name,
-          'id': fieldProps.name,
+          'name': propiedadCampo.name,
+          'id': propiedadCampo.name,
           'class': 'form-control',
           'rows': 4
         });
     } else {
       $inputElement = $('<input>')
         .attr({
-          'type': fieldProps.type,
-          'name': fieldProps.name,
-          'id': fieldProps.name,
+          'type': propiedadCampo.type,
+          'name': propiedadCampo.name,
+          'id': propiedadCampo.name,
           'class': 'form-control',
         });
     }
 
-    if (fieldProps.required) {
+    if (propiedadCampo.required) {
       $inputElement.prop('required', true);
     }
     
     // Asignar el valor si existe
-    if (fieldProps.value) {
-      $inputElement.val(fieldProps.value);
+    if (propiedadCampo.value) {
+      $inputElement.val(propiedadCampo.value);
     }
 
     $formGroup.append($label, $inputElement);
@@ -74,7 +73,7 @@ function generateForm(formDefinition, formTitle) {
   $form.append('<hr/>');
   const $buttonDiv = $('<div class="text-left">');
   const $cancelButton = $('<a>')
-    .attr('href', formDefinition.cancel)
+    .attr('href', definicionFormulario.cancelarBtn)
     .addClass('btn btn-secondary')
     .text('Cancelar');
   const $submitButton = $('<button>')
@@ -87,5 +86,5 @@ function generateForm(formDefinition, formTitle) {
 
   $cardBody.append($form);
 
-  $container.append($cardBody);
+  $contenedor.append($cardBody);
 }
