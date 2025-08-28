@@ -61,16 +61,20 @@ abstract class GestorBase
         return $this->hacerConsulta($sql, [$id], 'execute');
     }
 
-    public function insertar($datos)
+    public function insertar($objeto)
     {
+        $datos = get_object_vars($objeto);
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
         return $this->hacerConsulta($sql, array_values($datos), 'execute');
     }
 
-    public function actualizar($id, $datos)
+    public function actualizar($id, $objeto)
     {
+        $datos = get_object_vars($objeto);
+        unset($datos[$this->clavePrimaria]);
+        
         $columnas = array_keys($datos);
         $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
         $set = implode(", ", $asignaciones);
