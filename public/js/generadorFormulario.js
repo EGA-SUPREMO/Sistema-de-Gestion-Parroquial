@@ -33,7 +33,7 @@ function generateForm(formDefinition, formTitle) {
   $.each(formDefinition.fields, function(fieldName, fieldProps) {
     const $formGroup = $('<div class="mb-3">');
     const $label = $('<label>')
-      .attr('for', fieldName)
+      .attr('for', fieldProps.name)
       .addClass('form-label')
       .text(fieldProps.label);
 
@@ -42,8 +42,8 @@ function generateForm(formDefinition, formTitle) {
     if (fieldProps.type === "textarea") {
       $inputElement = $('<textarea>')
         .attr({
-          'name': fieldName,
-          'id': fieldName,
+          'name': fieldProps.name,
+          'id': fieldProps.name,
           'class': 'form-control',
           'rows': 4
         });
@@ -51,8 +51,8 @@ function generateForm(formDefinition, formTitle) {
       $inputElement = $('<input>')
         .attr({
           'type': fieldProps.type,
-          'name': fieldName,
-          'id': fieldName,
+          'name': fieldProps.name,
+          'id': fieldProps.name,
           'class': 'form-control',
         });
     }

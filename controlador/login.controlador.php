@@ -168,19 +168,16 @@ class loginControlador
         require_once "vistas/administradores/administrador_registro.php";
         ?>
             <script>
-                $(document).ready(function() {
-                    $('#nombre_usuario').focus();
-                });
                 /*$.post('modelo/adminisrtrador_registrar.php', formData)
                     .done(function(data) {
 
-                    }*/
-                // Define your form definition
+                }*/
+                
                 const formDefinition = {
                     method: 'POST',
                     action: 'modelo/administrador_registrar.php',
                     cancel: 'index.php?c=login&a=mostrar',
-                    container: '#formulario-epico',
+                    container: '#formulario-registrar-administrador',
                     fields: [
                         { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
                         { type: 'password', name: 'password', label: 'Contraseña' },
@@ -190,7 +187,9 @@ class loginControlador
 
                 document.addEventListener('DOMContentLoaded', () => {
                     generateForm(formDefinition, 'Registrar Administrador');
+                    $('#nombre').focus();
                 });
+
             </script>
         <?php
     }

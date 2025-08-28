@@ -1,67 +1,7 @@
 <body>
 
-<div class="container mt-5"><!-- id="formulario-epico">-->
-    <div class="card shadow-sm" id="formulario-epico">
-        <div class="card-header bg-success text-white">
-            <header class="bg-success text-white text-center py-3">
-                <h1 class="mb-0">
-                    <?php echo isset($admin->id_admin) && $admin->id_admin > 0 ? 'Editar Administrador' : 'Registrar Administrador'; ?>
-                </h1>
-            </header>
-        </div>
-    <div class="card-body">
-        <?php
-            if (isset($errorMessage) && !empty($errorMessage)) {
-                echo '<div class="alert alert-danger text-center" role="alert">' . htmlspecialchars($errorMessage) . '</div>';
-            }
-                ?>
-        <form action="index.php?c=login&a=Guardar" method="post" autocomplete="off">
-            
-            <input 
-                type="hidden" 
-                name="id_admin" 
-                value="<?= isset($admin->id_admin) ? htmlspecialchars($admin->id_admin) : '' ?>" 
-            />
-            
-            <div class="mb-3">
-                <label for="nombre_usuario" class="form-label">Nombre de Usuario</label>
-                <input 
-                    type="text" 
-                    name="nombre_usuario" 
-                    id="nombre_usuario"
-                    class="form-control" 
-                    placeholder="Ingrese el nombre de usuario"
-                    value="<?= isset($admin->nombre_usuario) ? htmlspecialchars($admin->nombre_usuario) : '' ?>" 
-                    required 
-                />
-            </div>
-            
-            <div class="mb-3">
-                <label for="password" class="form-label">Contraseña</label>
-                <input 
-                    type="password" 
-                    name="password"
-                    id="password"
-                    class="form-control" 
-                    placeholder="Ingrese la contraseña"
-                    value="" 
-                    required 
-                />
-                <?php if (isset($admin->id_admin) && $admin->id_admin > 0): ?>
-                    <small class="form-text text-muted">Deja este campo vacío si no deseas cambiar la contraseña.</small>
-                <?php endif; ?>
-            </div>
-            
-            <hr />
-            
-            <div class="text-left">
-                <a href="index.php?c=login&a=mostrar" class="btn btn-secondary">Cancelar</a>
-                <button type="submit" class="btn btn-primary">
-                    <?php echo isset($admin->id_admin) && $admin->id_admin > 0 ? 'Actualizar Administrador' : 'Guardar Administrador'; ?>
-                </button>
-            </div>
-        </form>
-    </div>
+<div class="container mt-5">
+    <div class="card shadow-sm" id="formulario-registrar-administrador"></div>
 </div>
 
 <script src="public/js/jquery-1.12.4.min.js"></script>
