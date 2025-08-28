@@ -24,7 +24,6 @@ class loginControlador
                 $errorMessage = 'Necesitas iniciar sesión para acceder a esta página';
             }
         }
-        require_once "vistas/cabezera.php";
         require_once 'vistas/login/login.php';
     }
 
@@ -56,7 +55,6 @@ class loginControlador
     public function dashboard()
     {
         $this->requerirLogin();
-        require_once "vistas/cabezera.php";
         require_once "vistas/login/dashboard.php";
     }
 
@@ -89,9 +87,27 @@ class loginControlador
     {
         $this->requerirLogin();
         $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
-        require_once "vistas/administradores/administrador_actualizar.php";
+        require_once "vistas/administradores/administrador_registro.php";
+        ?>
+        <script>
+            const definicionFormulario = {
+                action: 'index.php?c=login&a=actualizar',
+                cancelarBtn: 'index.php?c=login&a=mostrar',
+                contenedor: '#formulario-registrar-administrador',
+                campos: [
+                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
+                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
+                    { type: 'hidden', name: 'id_admin', value: 13},
+                ]
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                generateForm(definicionFormulario, 'Actualizar Administrador');
+                $('#nombre').focus();
+            });
+
+        </script>
+        <?php
     }
 
 
@@ -101,8 +117,6 @@ class loginControlador
         $this->requerirLogin();
         $administradores = $this->gestor->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once "vistas/administradores/index.php";
     }
 
@@ -112,7 +126,7 @@ class loginControlador
         $this->requerirLogin();
 
         $id_admin = (int)($_REQUEST['id_admin']);
-        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario)) {
@@ -143,7 +157,7 @@ class loginControlador
     {
         $this->requerirLogin();
 
-        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre_usuario'] ?? ''));
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
         if (empty($nombre_usuario) || empty($password)) {
@@ -170,9 +184,32 @@ class loginControlador
     public function Registro($errorMessage = null)
     {
         $this->requerirLogin();
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
+
         require_once "vistas/administradores/administrador_registro.php";
+        ?>
+            <script>
+                /*$.post('modelo/adminisrtrador_registrar.php', formData)
+                    .done(function(data) {
+
+                }*/
+                
+                const definicionFormulario = {
+                    action: 'index.php?c=login&a=guardar',
+                    cancelarBtn: 'index.php?c=login&a=mostrar',
+                    contenedor: '#formulario-registrar-administrador',
+                    campos: [
+                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
+                        { type: 'password', name: 'password', label: 'Contraseña' },
+                    ]
+                };
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    generateForm(definicionFormulario, 'Registrar Administrador');
+                    $('#nombre').focus();
+                });
+
+            </script>
+        <?php
     }
 
     public function cerrarSesion()

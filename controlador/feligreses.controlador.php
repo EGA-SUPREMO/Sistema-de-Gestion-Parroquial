@@ -27,8 +27,6 @@ class feligresesControlador
     {
 
         $feligreses = $this->model->obtenerTodos();
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once 'vistas/feligreses/index.php';
     }
 
@@ -48,16 +46,12 @@ class feligresesControlador
         if (isset($_REQUEST['id'])) {
             $feligres = $this->model->obtenerPorId($_REQUEST['id']);
         }
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once 'vistas/feligreses/feligreses_actualizar.php';
     }
 
 
     public function Registro($errorMessage = null)
     {
-        require_once "vistas/cabezera.php";
-        require_once "vistas/menu.php";
         require_once "vistas/feligreses/feligreses_nuevo.php";
     }
 

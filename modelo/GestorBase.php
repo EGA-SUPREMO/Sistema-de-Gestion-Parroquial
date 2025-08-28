@@ -18,7 +18,6 @@ abstract class GestorBase
         try {
             $stmt = $this->db->prepare($consulta);
             $stmt->execute($parametros);
-
             switch ($modo_fetch) {
                 case 'all':
                     return $stmt->fetchAll(PDO::FETCH_CLASS, $this->clase_nombre);
@@ -29,7 +28,7 @@ abstract class GestorBase
                 case 'assoc':
                     return $stmt->fetch(PDO::FETCH_ASSOC);
                 default:
-                    return $stmt; // para UPDATE, DELETE, INSERT, etc.
+                    return $stmt->rowCount(); // para UPDATE, DELETE, etc.
             }
         } catch (PDOException $e) {
             error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . " Consulta: " . $consulta);
@@ -59,7 +58,6 @@ abstract class GestorBase
     public function eliminar($id)
     {
         $sql = "DELETE FROM {$this->tabla} WHERE {$this->clavePrimaria} = ?";
-        error_log($sql);
         return $this->hacerConsulta($sql, [$id], 'execute');
     }
 

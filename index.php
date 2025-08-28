@@ -31,6 +31,12 @@ try {
         throw new Exception("Método no encontrado");
     }
 
+
+    require_once "vistas/cabezera.php";
+    if (!($controladorNombre == "login" && $accion == "index")) {
+        require_once "vistas/menu.php";
+    }
+
     call_user_func([$controladorInstanciado, $accion]);
 
 } catch (Exception $e) {
