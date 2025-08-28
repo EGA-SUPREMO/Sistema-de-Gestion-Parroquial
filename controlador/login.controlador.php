@@ -182,7 +182,7 @@ class loginControlador
                     cancel: 'index.php?c=login&a=mostrar',
                     container: '#formulario-epico',
                     fields: [
-                        { type: 'text', name: 'nombre', label: 'Nombre' },
+                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
                         { type: 'password', name: 'password', label: 'Contraseña' },
                     ],
                     submitButtonText: 'Registrar'

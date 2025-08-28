@@ -7,6 +7,16 @@
 function generateForm(formDefinition, formTitle) {
   const $container = $(formDefinition.container);
 
+  const $htmlCardHeader = `
+    <div class="card-header bg-success text-white">
+      <header class="bg-success text-white text-center py-3">
+        <h1 class="mb-0">
+          ${formTitle}
+        </h1>
+      </header>
+    </div>
+  `
+
   // Limpiar el contenedor antes de agregar el nuevo formulario
   $container.empty();
 
@@ -17,11 +27,7 @@ function generateForm(formDefinition, formTitle) {
     'method': 'POST',
     'autocomplete': 'off'
   });
-
-  // Agregar un título si se proporciona
-  if (formTitle) {
-    $cardBody.append(`<h2 class="card-title">${formTitle}</h2>`);
-  }
+  $container.append($htmlCardHeader);
 
   // Iterar sobre las propiedades del objeto de definición para crear los campos
   $.each(formDefinition.fields, function(fieldName, fieldProps) {
@@ -76,9 +82,10 @@ function generateForm(formDefinition, formTitle) {
     .addClass('btn btn-primary')
     .text('Guardar');
 
-  $buttonDiv.append($cancelButton, $submitButton);
+  $buttonDiv.append($cancelButton, ' ', $submitButton);
   $form.append($buttonDiv);
 
   $cardBody.append($form);
+
   $container.append($cardBody);
 }
