@@ -4,8 +4,8 @@
  * @param {string} containerSelector - Selector del contenedor donde se insertará el formulario.
  * @param {string} formAction - La URL a la que se enviará el formulario.
  */
-function generateForm(formDefinition, containerSelector, formAction) {
-  const $container = $(containerSelector);
+function generateForm(formDefinition, formTitle) {
+  const $container = $(formDefinition.container);
 
   // Limpiar el contenedor antes de agregar el nuevo formulario
   $container.empty();
@@ -13,8 +13,8 @@ function generateForm(formDefinition, containerSelector, formAction) {
   // Crear el contenedor de la tarjeta y el cuerpo
   const $cardBody = $('<div class="card-body">');
   const $form = $('<form>').attr({
-    'action': formAction,
-    'method': formMethod,
+    'action': formDefinition.action,
+    'method': 'POST',
     'autocomplete': 'off'
   });
 
@@ -24,7 +24,7 @@ function generateForm(formDefinition, containerSelector, formAction) {
   }
 
   // Iterar sobre las propiedades del objeto de definición para crear los campos
-  $.each(formDefinition, function(fieldName, fieldProps) {
+  $.each(formDefinition.fields, function(fieldName, fieldProps) {
     const $formGroup = $('<div class="mb-3">');
     const $label = $('<label>')
       .attr('for', fieldName)
@@ -39,7 +39,6 @@ function generateForm(formDefinition, containerSelector, formAction) {
           'name': fieldName,
           'id': fieldName,
           'class': 'form-control',
-          'placeholder': `Ingrese ${fieldProps.label.toLowerCase()}`,
           'rows': 4
         });
     } else {
@@ -49,7 +48,6 @@ function generateForm(formDefinition, containerSelector, formAction) {
           'name': fieldName,
           'id': fieldName,
           'class': 'form-control',
-          'placeholder': `Ingrese ${fieldProps.label.toLowerCase()}`
         });
     }
 
@@ -70,13 +68,13 @@ function generateForm(formDefinition, containerSelector, formAction) {
   $form.append('<hr/>');
   const $buttonDiv = $('<div class="text-left">');
   const $cancelButton = $('<a>')
-    .attr('href', 'index.php?c=servicios')
+    .attr('href', formDefinition.cancel)
     .addClass('btn btn-secondary')
     .text('Cancelar');
   const $submitButton = $('<button>')
     .attr('type', 'submit')
     .addClass('btn btn-primary')
-    .text('Guardar Servicio');
+    .text('Guardar');
 
   $buttonDiv.append($cancelButton, $submitButton);
   $form.append($buttonDiv);

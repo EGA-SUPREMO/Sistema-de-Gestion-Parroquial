@@ -10,6 +10,8 @@
                 </h1>
             </header>
         </div>
+        <div class="card-body" id="formulario-epico">
+        </div>
         <div class="card-body">
             <?php
                 if (isset($errorMessage) && !empty($errorMessage)) {
@@ -67,7 +69,7 @@
 </div>
 
 <script src="public/js/jquery-1.12.4.min.js"></script>
-<script src="public/js/generadorFormulario"></script>
+<script src="public/js/generadorFormulario.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

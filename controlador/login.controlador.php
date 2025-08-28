@@ -163,18 +163,36 @@ class loginControlador
 
     public function Registro($errorMessage = null)
     {
-        ?>
-        <script>
-            /*$.post('modelo/adminisrtrador_registrar.php', formData)
-                .done(function(data) {
-
-                }*/
-
-        </script>
-        <?php
         $this->requerirLogin();
 
         require_once "vistas/administradores/administrador_registro.php";
+        ?>
+            <script>
+                $(document).ready(function() {
+                    $('#nombre_usuario').focus();
+                });
+                /*$.post('modelo/adminisrtrador_registrar.php', formData)
+                    .done(function(data) {
+
+                    }*/
+                // Define your form definition
+                const formDefinition = {
+                    method: 'POST',
+                    action: 'modelo/administrador_registrar.php',
+                    cancel: 'index.php?c=login&a=mostrar',
+                    container: '#formulario-epico',
+                    fields: [
+                        { type: 'text', name: 'nombre', label: 'Nombre' },
+                        { type: 'password', name: 'password', label: 'Contraseña' },
+                    ],
+                    submitButtonText: 'Registrar'
+                };
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    generateForm(formDefinition, 'Registrar Administrador');
+                });
+            </script>
+        <?php
     }
 
     public function cerrarSesion()
