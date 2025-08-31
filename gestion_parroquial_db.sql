@@ -189,12 +189,36 @@ CREATE TABLE `santos` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `santos` (`id`, `nombre`) VALUES
+(1, 'San Pedro'),
+(2, 'Santa María'),
+(3, 'San José'),
+(4, 'San Pablo'),
+(5, 'San Francisco de Asís'),
+(6, 'Santa Teresa de Calcuta'),
+(7, 'San Juan Pablo II'),
+(8, 'Santa Clara de Asís'),
+(9, 'San Agustín de Hipona'),
+(10, 'San Antonio de Padua');
+
 CREATE TABLE `sacerdotes` (
   `id` int(11) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `vivo` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
+(1, 'Padre Juan Pérez', TRUE),
+(2, 'Padre José García', TRUE),
+(3, 'Padre Miguel Torres', TRUE),
+(4, 'Padre Francisco Gómez', FALSE),
+(5, 'Padre Carlos López', TRUE),
+(6, 'Padre Luis Fernández', FALSE),
+(7, 'Padre Javier Ruiz', TRUE),
+(8, 'Padre Antonio Martín', TRUE),
+(9, 'Padre David Herrera', TRUE),
+(10, 'Padre Ricardo Castillo', TRUE);
 
 CREATE TABLE `constancia_bautizo` (
   `id` INT(11) NOT NULL,
@@ -222,6 +246,11 @@ CREATE TABLE `constancia_bautizo` (
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+INSERT INTO `constancia_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_id`, `madrina_id`, `observaciones`, `municipio`, `ministro_id`, `ministro_certifica_id`, `registro_civil`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, '2023-01-15', 1, 4, 5, 6, 7, 'Bautizado en la parroquia principal.', 'Valencia', 1, 1, '12345-A', 1, 10, 5),
+(2, '2022-05-20', 2, 8, 9, 10, 11, NULL, 'Caracas', 2, 8, '67890-B', 2, 15, 8),
+(3, '2024-03-10', 3, 4, 10, 8, 7, NULL, 'Maracay', 3, 5, '13579-C', 3, 20, 12);
+
 CREATE TABLE `constancia_comunion` (
   `id` INT(11) NOT NULL,
   `feligres_id` INT(11) NOT NULL,
@@ -229,6 +258,11 @@ CREATE TABLE `constancia_comunion` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feligres_id`) REFERENCES `feligreses`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `constancia_comunion` (`id`, `feligres_id`, `fecha_comunion`) VALUES
+(1, 1, '2024-05-01'),
+(2, 2, '2023-06-15'),
+(3, 3, '2024-07-22');
 
 CREATE TABLE `constancia_confirmacion` (
   `id` INT(11) NOT NULL,
@@ -248,6 +282,11 @@ CREATE TABLE `constancia_confirmacion` (
   FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `constancia_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `madrina_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
+(2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
+(3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
 
 CREATE TABLE `constancia_matrimonio` (
   `id` INT(11) NOT NULL,
@@ -269,6 +308,11 @@ CREATE TABLE `constancia_matrimonio` (
   FOREIGN KEY (`testigo_2_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `constancia_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `natural_de_contrayente_1`, `natural_de_contrayente_2`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, 1, 2, '2023-11-20', 'Caracas', 'Valencia', 3, 4, 1, '1', '15', '5'),
+(2, 5, 8, '2024-02-10', 'Maracaibo', 'Caracas', 9, 10, 5, '2', '20', '8'),
+(3, 11, 3, '2024-06-05', 'Valencia', 'Maracay', 1, 2, 3, '3', '25', '12');
 
 --
 -- Índices para tablas volcadas
