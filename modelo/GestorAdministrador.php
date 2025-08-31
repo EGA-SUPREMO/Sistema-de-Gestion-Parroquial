@@ -12,21 +12,6 @@ class GestorAdministrador extends GestorBase
         $this ->clase_nombre = "Administrador";
     }
 
-    public function insertar($datos)
-    {
-        try {
-            $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
-            if (!$datos['password']) {
-                error_log("Password hashing fallo para usuario: " . $datos['nombre_usuario']);
-                return false;
-            }
-
-            return parent::insertar($datos);
-        } catch (PDOException $e) {
-            error_log($e->getMessage());
-            return false;
-        }
-    }
     public function eliminar($id)
     {
         if ($this->contarTodos() <= 1) {
@@ -35,12 +20,9 @@ class GestorAdministrador extends GestorBase
         parent::eliminar($id);
     }
 
-    public function actualizar($id, $datos)
+    public function actualizar($id, $objeto)
     {
-        if (!empty($datos['password'])) {
-            $datos['password'] = password_hash($datos['password'], PASSWORD_DEFAULT);
-        }
-        return parent::actualizar($id, $datos);
+        return parent::actualizar($id, $objeto);
     }
 
     public function comprobar_datos_usuario($nombre_usuario, $password_ingresada)

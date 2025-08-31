@@ -29,7 +29,17 @@ class Administrador {
         }
     }
 
-    public function setPassword($password) {
-        $this->password = $password;
+    public function setPassword($password, $encriptar = true)
+    {
+        $this->password = Validador::validarString($password, 'contraseña', 255, 6);
+
+        if ($encriptar) {
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            
+            if ($hashed_password === false) {
+                throw new Exception("Error al encriptar la contraseña para usuario: " . $this -> nombre_usuario);
+            }
+            $this->password = $hashed_password;
+        }
     }
 } 

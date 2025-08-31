@@ -135,13 +135,14 @@ class loginControlador
         }
 
         try {
-            $datos = [
-                'nombre_usuario' => $nombre_usuario,
-            ];
+            $admin = new Administrador();
+
+            $admin->setNombreUsuario($nombre_usuario);
             if (!empty($password)) {
-                $datos['password'] = $password;
+                $admin->setPassword($password);
             }
-            $resultado = $this->gestor->actualizar($id_admin, $datos);
+            
+            $resultado = $this->gestor->actualizar($id_admin, $admin);
             if (!$resultado) {
                 $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
@@ -165,11 +166,12 @@ class loginControlador
             exit();
         }
         try {
-            $datos = [
-                'nombre_usuario' => $nombre_usuario,
-                'password' => $password
-            ];
-            $resultado = $this->gestor->insertar($datos);
+            $admin = new Administrador();
+
+            $admin->setNombreUsuario($nombre_usuario);
+            $admin->setPassword($password);
+
+            $resultado = $this->gestor->insertar($admin);
             if (!$resultado) {
                 $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
                 exit();
