@@ -5,11 +5,12 @@ require_once 'modelo/GestorFactory.php';
 class formularioControlador
 {
     private $gestor;
+    private $nombreTabla;
 
     public function __construct(PDO $pdo)
     {
-        $nombreTabla = $_REQUEST['t'];
-        $this->gestor = new GestorFactory($pdo, $nombreTabla);
+        $this->nombreTabla = $_REQUEST['t'];
+        $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
     private function requerirLogin()
@@ -23,7 +24,7 @@ class formularioControlador
     public function editar($errorMessage = null)
     {
         $this->requerirLogin();
-        $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
+        $admin = $this->gestor->obtenerPorId($_REQUEST[$this->gestor->getClavePrimaria()]);
         require_once "vistas/administradores/administrador_registro.php";
         ?>
         <script>
@@ -51,7 +52,7 @@ class formularioControlador
     {
         $this->requerirLogin();
 
-        $id_admin = (int)($_REQUEST['id_admin']);
+        $id_admin = (int)($_REQUEST[$this->gestor->getClavePrimaria()]);
         $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
@@ -114,30 +115,7 @@ class formularioControlador
         $this->requerirLogin();
 
         require_once "vistas/administradores/administrador_registro.php";
-        ?>
-            <script>
-                /*$.post('modelo/adminisrtrador_registrar.php', formData)
-                    .done(function(data) {
-
-                }*/
-                
-                const definicionFormulario = {
-                    action: 'index.php?c=login&a=guardar',
-                    cancelarBtn: 'index.php?c=login&a=mostrar',
-                    contenedor: '#formulario-registrar-administrador',
-                    campos: [
-                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
-                        { type: 'password', name: 'password', label: 'Contraseña' },
-                    ]
-                };
-
-                document.addEventListener('DOMContentLoaded', () => {
-                    generarFormulario(definicionFormulario, 'Registrar Administrador');
-                    $('#nombre').focus();
-                });
-
-            </script>
-        <?php
+        require_once "controlador/formulario.php";
     }
 
 }

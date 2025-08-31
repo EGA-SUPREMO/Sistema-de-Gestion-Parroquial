@@ -102,5 +102,8 @@ abstract class GestorBase
 
         return $array_de_propiedades;
     }
-
+    public function getClavePrimaria()
+    {
+        return $this->clavePrimaria;
+    }
 }
