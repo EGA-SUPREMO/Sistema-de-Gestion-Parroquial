@@ -1,0 +1,143 @@
+<?php
+
+require_once 'modelo/GestorFactory.php';
+
+class formularioControlador
+{
+    private $gestor;
+
+    public function __construct(PDO $pdo)
+    {
+        $nombreTabla = $_REQUEST['t'];
+        $this->gestor = new GestorFactory($pdo, $nombreTabla);
+    }
+
+    private function requerirLogin()
+    {
+        if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
+            header('Location: ?c=login&a=index&mensaje=no_autenticado');
+            exit();
+        }
+    }
+
+    public function editar($errorMessage = null)
+    {
+        $this->requerirLogin();
+        $admin = $this->gestor->obtenerPorId($_REQUEST['id_admin']);
+        require_once "vistas/administradores/administrador_registro.php";
+        ?>
+        <script>
+            const definicionFormulario = {
+                action: 'index.php?c=login&a=actualizar',
+                cancelarBtn: 'index.php?c=login&a=mostrar',
+                contenedor: '#formulario-registrar-administrador',
+                campos: [
+                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
+                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
+                    { type: 'hidden', name: 'id_admin', value: 13},
+                ]
+            };
+
+            document.addEventListener('DOMContentLoaded', () => {
+                generarFormulario(definicionFormulario, 'Actualizar Administrador');
+                $('#nombre').focus();
+            });
+
+        </script>
+        <?php
+    }
+
+    public function actualizar()
+    {
+        $this->requerirLogin();
+
+        $id_admin = (int)($_REQUEST['id_admin']);
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
+        $password = $_REQUEST['password'];
+
+        if (empty($nombre_usuario)) {
+            $this->editar("Por favor introduzca un nombre de usuario y contraseña valido.");
+            exit();
+        }
+
+        try {
+            $admin = new Administrador();
+
+            $admin->setNombreUsuario($nombre_usuario);
+            if (!empty($password)) {
+                $admin->setPassword($password);
+            }
+            
+            $resultado = $this->gestor->actualizar($id_admin, $admin);
+            if (!$resultado) {
+                $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
+                exit();
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+        header('Location:?c=login&a=mostrar');
+        exit();
+    }
+
+    public function Guardar()
+    {
+        $this->requerirLogin();
+
+        $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
+        $password = $_REQUEST['password'];
+
+        if (empty($nombre_usuario) || empty($password)) {
+            $this->Registro("Por favor introduzca un nombre de usuario y contraseña valido.");
+            exit();
+        }
+        try {
+            $admin = new Administrador();
+
+            $admin->setNombreUsuario($nombre_usuario);
+            $admin->setPassword($password);
+
+            $resultado = $this->gestor->insertar($admin);
+            if (!$resultado) {
+                $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
+                exit();
+            }
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+        header('Location:?c=login&a=mostrar');
+        exit();
+    }
+
+    public function Registro($errorMessage = null)
+    {
+        $this->requerirLogin();
+
+        require_once "vistas/administradores/administrador_registro.php";
+        ?>
+            <script>
+                /*$.post('modelo/adminisrtrador_registrar.php', formData)
+                    .done(function(data) {
+
+                }*/
+                
+                const definicionFormulario = {
+                    action: 'index.php?c=login&a=guardar',
+                    cancelarBtn: 'index.php?c=login&a=mostrar',
+                    contenedor: '#formulario-registrar-administrador',
+                    campos: [
+                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario' },
+                        { type: 'password', name: 'password', label: 'Contraseña' },
+                    ]
+                };
+
+                document.addEventListener('DOMContentLoaded', () => {
+                    generarFormulario(definicionFormulario, 'Registrar Administrador');
+                    $('#nombre').focus();
+                });
+
+            </script>
+        <?php
+    }
+
+}
