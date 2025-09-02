@@ -5,15 +5,15 @@
             case 'administrador':
             if (datosPHP.id) {
                 formularioCampos = [
-                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario', value: datosPHP.nombre_usuario},
-                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
-                    { type: 'hidden', name: 'id', value: datosPHP.id},
+                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario', validarMetodo: '', value: datosPHP.nombre_usuario},
+                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.', validarMetodo: ''},
+                    { type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id},
                 ];
                 break;
             }
             formularioCampos = [
-                { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario' , value: datosPHP.nombre_usuario },
-                { type: 'password', name: 'password', label: 'Contraseña' },
+                { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario', validarMetodo: '', value: datosPHP.nombre_usuario },
+                { type: 'password', name: 'password', label: 'Contraseña', validarMetodo: ''},
             ];
             break;
 

@@ -73,7 +73,7 @@ class loginControlador
         $this->requerirLogin();
 
         try {
-            $this->gestor->eliminar($_REQUEST['id_admin']);
+            $this->gestor->eliminar($_POST['id_admin']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $errorMessage = $e->getMessage();
