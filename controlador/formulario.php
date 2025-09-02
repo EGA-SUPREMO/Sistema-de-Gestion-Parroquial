@@ -1,4 +1,29 @@
 <script>
+    function getFormularioCampos(tipo, datosPHP) {
+        let formularioCampos;
+        switch (tipo) {
+            case 'administrador':
+            if (datosPHP.id) {
+                formularioCampos = [
+                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario', value: datosPHP.nombre},
+                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
+                    { type: 'hidden', name: 'id', value: datosPHP.id},
+                ];
+                break;
+            }
+            formularioCampos = [
+                { type: 'text', name: 'nombre', label: 'Nombre de Usuario' , value: datosPHP.nombre },
+                { type: 'password', name: 'password', label: 'Contraseña' },
+            ];
+            break;
+
+            case 'categoria_de_servicio':
+            break;
+        }
+        return formularioCampos;
+    }
+
+
     $(document).ready(function() {
         const datosPHP = <?php echo $datos_formulario['formulario']; ?>;
 
@@ -8,25 +33,7 @@
         const actionUrl = 'index.php?c=formulario&a=guardar&t=' + tipo;
         const cancelarUrl = 'index.php?c=tablas&a=mostrar&t=' + tipo;
 
-        let formularioCampos;
-        switch (tipo) {
-            case 'administrador':
-                if (datosPHP.id) {
-                    formularioCampos = [
-                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario', value: datosPHP.nombre},
-                        { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
-                        { type: 'hidden', name: 'id', value: datosPHP.id},
-                    ];
-                    break;
-                }
-                formularioCampos = [
-                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario' , value: datosPHP.nombre },
-                    { type: 'password', name: 'password', label: 'Contraseña' },
-                ];
-                break;
-            case 'categoria_de_servicio':
-                break;
-        }
+        let formularioCampos = getFormularioCampos(tipo, datosPHP);
 
         const definicionFormulario = {
             action: actionUrl,

@@ -82,17 +82,17 @@ class formularioControlador
         exit();
     }
 
-    public function guardar1()
+    public function guardarRegistro()
     {
         $this->requerirLogin();
 
         $nombre_usuario = htmlspecialchars(trim($_REQUEST['nombre'] ?? ''));
         $password = $_REQUEST['password'];
 
-        if (empty($nombre_usuario) || empty($password)) {
+        /*if (empty($nombre_usuario) || empty($password)) {
             $this->Registro("Por favor introduzca un nombre de usuario y contraseña valido.");
             exit();
-        }
+        }*/
         try {
             $admin = new Administrador();
 
