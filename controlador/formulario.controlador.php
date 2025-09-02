@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modelo/GestorFactory.php';
+require_once 'modelo/FuncionesComunes.php';
 
 class formularioControlador
 {
@@ -81,7 +82,7 @@ class formularioControlador
         exit();
     }
 
-    public function Guardar()
+    public function guardar1()
     {
         $this->requerirLogin();
 
@@ -113,6 +114,41 @@ class formularioControlador
     public function Registro($errorMessage = null)
     {
         $this->requerirLogin();
+
+        $datos_formulario = [
+            'primerElemento' => "#nombre",
+            'titulo' => "Registrar Administrador",
+        ];
+
+        $datos_formulario['formulario'] = json_encode($datos_formulario);
+
+        require_once "vistas/administradores/administrador_registro.php";
+        require_once "controlador/formulario.php";
+    }
+
+    public function guardar($errorMessage = null)
+    {
+        $this->requerirLogin();
+
+        $id_admin = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
+
+        $nombre_usuario = '';
+        $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
+        if ($id_admin > 0) {
+            $admin = $this->gestor->obtenerPorId($id_admin);
+            $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
+            
+            $nombre_usuario = $admin->getNombreUsuario();
+        }
+
+        $datos_formulario = [
+            'primerElemento' => "#nombre",
+            'id_admin' => $id_admin,
+            'titulo' => $titulo,
+            'nombre' => $nombre_usuario,
+        ];
+
+        $datos_formulario['formulario'] = json_encode($datos_formulario);
 
         require_once "vistas/administradores/administrador_registro.php";
         require_once "controlador/formulario.php";
