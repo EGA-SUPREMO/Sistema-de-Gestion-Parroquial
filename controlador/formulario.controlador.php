@@ -130,12 +130,12 @@ class formularioControlador
     {
         $this->requerirLogin();
 
-        $id_admin = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
+        $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-        if ($id_admin > 0) {
-            $admin = $this->gestor->obtenerPorId($id_admin);
+        if ($id > 0) {
+            $admin = $this->gestor->obtenerPorId($id);
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             
             $nombre_usuario = $admin->getNombreUsuario();
@@ -143,7 +143,7 @@ class formularioControlador
 
         $datos_formulario = [
             'primerElemento' => "#nombre",
-            'id_admin' => $id_admin,
+            'id' => $id,
             'titulo' => $titulo,
             'nombre' => $nombre_usuario,
         ];

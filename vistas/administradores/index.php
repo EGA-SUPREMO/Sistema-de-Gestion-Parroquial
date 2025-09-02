@@ -32,7 +32,7 @@
                         </h2>
 
                         <div class="d-flex justify-content-end mb-4">
-                            <a href="?c=login&a=Registro" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                            <a href="?c=formulario&a=guardar&t=administrador" class="btn btn-primary btn-lg rounded-pill shadow-sm">
                                 Añadir Nuevo Administrador
                             </a>
                         </div>
@@ -61,7 +61,7 @@
                                                 <?php htmlspecialchars($admin->getIdAdmin()) ?>
                                                 <td class="px-4"><?= htmlspecialchars($admin->getNombreUsuario()) ?></td>
                                                 <td class="px-4"> 
-                                                      <a href="?c=login&a=editar&id_admin=<?= htmlspecialchars($admin->getIdAdmin()) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
+                                                      <a href="?c=formulario&a=guardar&t=administrador&id=<?= htmlspecialchars($admin->getIdAdmin()) ?>" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                                                        Editar
                                                     </a>
                                                     <a class="btn btn-danger zoom-out rounded-pill shadow-sm"

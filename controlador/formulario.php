@@ -8,28 +8,33 @@
         const actionUrl = 'index.php?c=formulario&a=guardar&t=' + tipo;
         const cancelarUrl = 'index.php?c=tablas&a=mostrar&t=' + tipo;
 
-        
+        let formularioCampos;
+        switch (tipo) {
+            case 'administrador':
+                if (datosPHP.id) {
+                    formularioCampos = [
+                        { type: 'text', name: 'nombre', label: 'Nombre de Usuario', value: datosPHP.nombre},
+                        { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
+                        { type: 'hidden', name: 'id', value: datosPHP.id},
+                    ];
+                    break;
+                }
+                formularioCampos = [
+                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario' , value: datosPHP.nombre },
+                    { type: 'password', name: 'password', label: 'Contraseña' },
+                ];
+                break;
+            case 'categoria_de_servicio':
+                break;
+        }
+
         const definicionFormulario = {
             action: actionUrl,
             cancelarBtn: cancelarUrl,
             contenedor: '#formulario-registrar-administrador',
-            campos: [
-                { type: 'text', name: 'nombre', label: 'Nombre de Usuario' , value: datosPHP.nombre},
-                { type: 'password', name: 'password', label: 'Contraseña'},
-            ]
+            campos: formularioCampos,
         };
-
-        const definicionFormulario1 = {
-                action: 'index.php?c=login&a=actualizar',
-                cancelarBtn: 'index.php?c=login&a=mostrar',
-                contenedor: '#formulario-registrar-administrador',
-                campos: [
-                    { type: 'text', name: 'nombre', label: 'Nombre de Usuario', value: datosPHP.nombre},
-                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'},
-                    { type: 'hidden', name: 'id_admin', value: datosPHP.id_admin},
-                ]
-        };
-
+        
         generarFormulario(definicionFormulario, datosPHP.titulo);
         $(datosPHP.primerElemento).focus();
     });
