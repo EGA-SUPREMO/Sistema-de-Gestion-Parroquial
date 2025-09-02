@@ -7,6 +7,9 @@ class formularioControlador
 {
     private $gestor;
     private $nombreTabla;
+    private $mapaDatos = [
+        'administrador' => ['nombre_usuario', 'password'],
+    ];
 
     public function __construct(PDO $pdo)
     {
@@ -93,15 +96,33 @@ class formularioControlador
             $this->Registro("Por favor introduzca un nombre de usuario y contraseña valido.");
             exit();
         }*/
+
+        if (!array_key_exists($this->nombreTabla, $this->mapaDatos)) {
+            throw new Exception("Tabla no válida: {$this->nombreTabla}");
+        }
+
+        $camposEsperados = $this->mapaDatos[$this->nombreTabla];
+
+        $datos = [];
+        foreach ($camposEsperados as $campo) {
+            if (isset($_POST[$campo]) and !empty($_POST[$campo])) {
+                $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
+            }
+        }
+
         try {
-            $admin = new Administrador();
-
-            $admin->setNombreUsuario($nombre_usuario);
-            $admin->setPassword($password);
-
-            $resultado = $this->gestor->insertar($admin);
+            $objeto = GestorFactory::crearObjeto($this->nombreTabla);
+            $objeto->hydrate($datos);
+            
+            $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
+            if ($id) {
+                $resultado = $this->gestor->actualizar($id, $objeto);
+            } else {
+                $resultado = $this->gestor->insertar($objeto);
+            }
+            
             if (!$resultado) {
-                $this->Registro("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");
+                $this->guardar("Error: Por favor, introduce datos válidos.");
                 exit();
             }
         } catch (Exception $e) {
@@ -137,15 +158,15 @@ class formularioControlador
         if ($id > 0) {
             $admin = $this->gestor->obtenerPorId($id);
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-            
+
             $nombre_usuario = $admin->getNombreUsuario();
         }
 
         $datos_formulario = [
-            'primerElemento' => "#nombre",
+            'primerElemento' => "#nombre_usuario",
             'id' => $id,
             'titulo' => $titulo,
-            'nombre' => $nombre_usuario,
+            'nombre_usuario' => $nombre_usuario,
         ];
 
         $datos_formulario['formulario'] = json_encode($datos_formulario);

@@ -15,5 +15,19 @@ class GestorFactory
         }
         throw new Exception("Gestor para la tabla '{$nombreTabla}' no encontrado.");
     }
+    
+    public static function crearObjeto($nombreTabla)
+    {
+        $nombreClaseObjeto = ucwords($nombreTabla);
+        $directorio = 'modelo/' . $nombreClaseObjeto . '.php';
+
+        if (file_exists($directorio)) {
+            require_once $directorio;
+            if (class_exists($nombreClaseObjeto)) {
+                return new $nombreClaseObjeto();
+            }
+        }
+        throw new Exception("Objeto para la tabla '{$nombreTabla}' no encontrado.");
+    }
 }
 ?> 
