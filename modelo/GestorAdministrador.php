@@ -9,7 +9,7 @@ class GestorAdministrador extends GestorBase
     {
         parent::__construct($pdo);
         $this ->tabla = "administrador";
-        $this ->clavePrimaria = 'id_admin';
+        $this ->clavePrimaria = 'id';
         $this ->clase_nombre = "Administrador";
     }
 

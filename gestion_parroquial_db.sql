@@ -36,7 +36,7 @@ USE gestion_parroquial_db;
 --
 
 CREATE TABLE `administrador` (
-  `id_admin` int(11) NOT NULL,
+  `id` int(11) NOT NULL,
   `nombre_usuario` varchar(30) UNIQUE NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -45,7 +45,7 @@ CREATE TABLE `administrador` (
 -- Volcado de datos para la tabla `administrador`
 --
 
-INSERT INTO `administrador` (`id_admin`, `nombre_usuario`, `password`) VALUES
+INSERT INTO `administrador` (`id`, `nombre_usuario`, `password`) VALUES
 (1, 'admin', '$2y$10$IppRaChWUZrkHweK4.S0guzkgupP.jg8caavQlIM4kG77lEceYnDS');
 
 -- --------------------------------------------------------
@@ -322,7 +322,7 @@ INSERT INTO `constancia_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id
 -- Indices de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  ADD PRIMARY KEY (`id_admin`);
+  ADD PRIMARY KEY (`id`);
 
 
 --
@@ -354,7 +354,7 @@ ALTER TABLE `categoria_de_servicios`
 -- AUTO_INCREMENT de la tabla `administrador`
 --
 ALTER TABLE `administrador`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `peticiones`
@@ -391,7 +391,7 @@ ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id_admin`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
   ADD CONSTRAINT `chk_intencion_y_participantes` CHECK (
       (`tipo_de_intencion_id` IS NOT NULL AND `por_quien_id` IS NOT NULL)

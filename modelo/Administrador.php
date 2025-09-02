@@ -3,12 +3,12 @@ require_once 'modelo/Validador.php';
 
 class Administrador {
     
-    private $id_admin;
+    private $id;
     private $nombre_usuario;
     private $password;
 
     public function getIdAdmin() {
-        return $this->id_admin;
+        return $this->id;
     }
 
     public function getNombreUsuario() {
@@ -18,8 +18,8 @@ class Administrador {
         return $this->password;
     }
 
-    public function setIdAdmin($id_admin) {
-        $this->id_admin = Validador::validarEntero($id_admin, "id de administrador");
+    public function setId($id) {
+        $this->id = Validador::validarEntero($id, "id de administrador");
     }
 
     public function setNombreUsuario($nombre_usuario) {
