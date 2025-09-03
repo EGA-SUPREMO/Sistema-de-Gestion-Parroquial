@@ -1,29 +1,35 @@
 <?php
+
 require_once 'modelo/Validador.php';
 require_once 'modelo/ModeloBase.php';
 
-class Administrador extends ModeloBase {
-    
+class Administrador extends ModeloBase
+{
     private $id;
     private $nombre_usuario;
     private $password;
 
-    public function getIdAdmin() {
+    public function getIdAdmin()
+    {
         return $this->id;
     }
 
-    public function getNombreUsuario() {
+    public function getNombreUsuario()
+    {
         return $this->nombre_usuario;
     }
-    public function getPassword() {
+    public function getPassword()
+    {
         return $this->password;
     }
 
-    public function setId($id) {
+    public function setId($id)
+    {
         $this->id = Validador::validarEntero($id, "id de administrador");
     }
 
-    public function setNombreUsuario($nombre_usuario) {
+    public function setNombreUsuario($nombre_usuario)
+    {
         $this->nombre_usuario = Validador::validarString($nombre_usuario, "nombre de usuario", 30, 3);
 
         if ($this->nombre_usuario !== null) {
@@ -37,11 +43,11 @@ class Administrador extends ModeloBase {
 
         if ($encriptar) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            
+
             if ($hashed_password === false) {
                 throw new Exception("Error al encriptar la contraseña para usuario: " . $this -> nombre_usuario);
             }
             $this->password = $hashed_password;
         }
     }
-} 
+}

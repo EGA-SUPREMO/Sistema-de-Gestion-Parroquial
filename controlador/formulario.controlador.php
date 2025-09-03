@@ -45,7 +45,7 @@ class formularioControlador
         try {
             $objeto = GestorFactory::crearObjeto($this->nombreTabla);
             $objeto->hydrate($datos);
-            
+
             $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
             if ($id) {
                 $resultado = $this->gestor->actualizar($id, $objeto);

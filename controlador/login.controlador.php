@@ -141,7 +141,7 @@ class loginControlador
             if (!empty($password)) {
                 $admin->setPassword($password);
             }
-            
+
             $resultado = $this->gestor->actualizar($id_admin, $admin);
             if (!$resultado) {
                 $this->editar("Error: Por favor, introduce un nombre de usuario y contraseña válidos. Asegúrate de que el nombre de usuario no este repetido.");

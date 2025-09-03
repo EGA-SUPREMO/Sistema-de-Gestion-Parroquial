@@ -74,7 +74,7 @@ abstract class GestorBase
     {
         $datos = self::get_object_vars_reflection($objeto);
         unset($datos[$this->clavePrimaria]);
-        
+
         $columnas = array_keys($datos);
         $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
         $set = implode(", ", $asignaciones);
@@ -94,7 +94,7 @@ abstract class GestorBase
             $nombre = $propiedad->getName();
             $valor = $propiedad->getValue($objeto);
 
-            if($valor === null) {
+            if ($valor === null) {
                 continue;
             }
             $array_de_propiedades[$nombre] = $valor;

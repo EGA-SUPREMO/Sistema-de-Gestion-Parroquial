@@ -15,7 +15,7 @@ class GestorFactory
         }
         throw new Exception("Gestor para la tabla '{$nombreTabla}' no encontrado.");
     }
-    
+
     public static function crearObjeto($nombreTabla)
     {
         $nombreClaseObjeto = ucwords($nombreTabla);

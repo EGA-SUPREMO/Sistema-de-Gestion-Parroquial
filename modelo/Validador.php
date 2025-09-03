@@ -20,15 +20,16 @@ class Validador
 
     }
 
-    public static function validarEntero($valor, $nombreCampo, $valorMaximo = 2147483647, $valorMinimo = null) {
+    public static function validarEntero($valor, $nombreCampo, $valorMaximo = 2147483647, $valorMinimo = null)
+    {
         if ($valor === null) {
-            return null; 
+            return null;
         }
 
         if (!filter_var($valor, FILTER_VALIDATE_INT)) {
             throw new InvalidArgumentException("El campo '$nombreCampo' debe ser un número entero.");
         }
-        
+
         $valor = (int) $valor;
 
         if ($valor > $valorMaximo) {
@@ -37,10 +38,11 @@ class Validador
         if ($valorMinimo !== null && $valor < $valorMinimo) {
             throw new InvalidArgumentException("El campo '$nombreCampo' debe ser mayor o igual a " . $valorMinimo . ".");
         }
-        
+
         return $valor;
     }
-    public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = null) {
+    public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = null)
+    {
         if ($valor === null) {
             return null;
         }
