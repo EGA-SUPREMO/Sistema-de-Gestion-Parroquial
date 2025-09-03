@@ -9,4 +9,18 @@ class FuncionesComunes
 
         return $titulo_formateado;
     }
+    
+    public static function requerirLogin()
+    {
+        if (empty($_SESSION['nombre_usuario'])) {
+            self::redirigir('Location: ?c=login&a=index&mensaje=no_autenticado', 302);
+        }
+    }
+
+    public static function redirigir($url, $codigo = 302)
+    {
+        http_response_code($codigo);
+        header($url);
+        exit();
+    }
 }
