@@ -5,6 +5,7 @@ actor Secretaria
 rectangle "Sistema de Gestión Parroquial" {
   usecase "Generar constancia" as UC0
   usecase "Registrar o actualizar datos del feligrés" as UC1
+  usecase "Registrar o actualizar datos del sacerdote" as UC5 'ACA suena raro poner registrar y actualizar junto, y tambien, no es un include, porque no siempre pasa
   usecase "Registrar o actualizar datos de la constancia" as UC2
   usecase "Imprimir constancia" as UC3
   usecase "Descargar constancia" as UC4
