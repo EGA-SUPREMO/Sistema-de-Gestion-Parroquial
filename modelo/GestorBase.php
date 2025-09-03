@@ -61,7 +61,7 @@ abstract class GestorBase
         return $this->hacerConsulta($sql, [$id], 'execute');
     }
 
-    public function insertar($objeto)
+    protected function insertar($objeto)
     {
         $datos = self::get_object_vars_reflection($objeto);
         $columnas = implode(", ", array_keys($datos));
@@ -70,7 +70,7 @@ abstract class GestorBase
         return $this->hacerConsulta($sql, array_values($datos), 'execute');
     }
 
-    public function actualizar($id, $objeto)
+    protected function actualizar($id, $objeto)
     {
         $datos = self::get_object_vars_reflection($objeto);
         unset($datos[$this->clavePrimaria]);
@@ -80,6 +80,14 @@ abstract class GestorBase
         $set = implode(", ", $asignaciones);
         $sql = "UPDATE {$this->tabla} SET {$set} WHERE {$this->clavePrimaria} = ?";
         return $this->hacerConsulta($sql, [...array_values($datos), $id], 'execute');
+    }
+    public function guardar($objeto, $id = 0)
+    {
+        if ($id) {
+            return $this->actualizar($id, $objeto);
+        }
+        return $this->insertar($objeto);
+        
     }
 
     private static function get_object_vars_reflection($objeto)

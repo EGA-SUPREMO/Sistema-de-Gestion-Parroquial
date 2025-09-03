@@ -47,11 +47,7 @@ class formularioControlador
             $objeto->hydrate($datos);
 
             $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
-            if ($id) {
-                $resultado = $this->gestor->actualizar($id, $objeto);
-            } else {
-                $resultado = $this->gestor->insertar($objeto);
-            }
+            $resultado = $this->gestor->guardar($objeto, $id);
 
             if (!$resultado) {
                 $this->guardar("Error: Por favor, introduce datos válidos.");
