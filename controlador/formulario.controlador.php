@@ -84,7 +84,7 @@ class formularioControlador
 
         $datos_formulario['formulario'] = json_encode($datos_formulario);
 
-        require_once "vistas/administradores/administrador_registro.php";
+        require_once "vistas/formulario.php";
         require_once "controlador/formulario.php";
     }
 

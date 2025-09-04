@@ -48,14 +48,14 @@
         const tipo = urlParams.get('t');
 
         const actionUrl = 'index.php?c=formulario&a=guardarRegistro&t=' + tipo;
-        const cancelarUrl = 'index.php?c=tablas&a=mostrar&t=' + tipo;
+        const cancelarUrl = 'index.php?c=panel&a=index&t=' + tipo;
 
         let formularioCampos = getFormularioCampos(tipo, datosPHP);
 
         const definicionFormulario = {
             action: actionUrl,
             cancelarBtn: cancelarUrl,
-            contenedor: '#formulario-registrar-administrador',
+            contenedor: '#formulario',
             campos: formularioCampos,
         };
         

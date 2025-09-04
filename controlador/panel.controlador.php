@@ -16,7 +16,7 @@ class formularioControlador
         $this->nombreTabla = $_REQUEST['t'];
         $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
     }
-    public function mostrar()
+    public function index()
     {
         include_once 'vistas/tabla.php';
         require_once "controlador/tabla.php";
