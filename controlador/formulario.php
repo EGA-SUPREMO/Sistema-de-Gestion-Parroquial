@@ -3,22 +3,40 @@
         let formularioCampos;
         switch (tipo) {
             case 'administrador':
-            if (datosPHP.id) {
                 formularioCampos = [
-                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario', validarMetodo: '', value: datosPHP.nombre_usuario},
-                    { type: 'password', name: 'password', label: 'Contraseña', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.', validarMetodo: ''},
-                    { type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id},
+                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario',  required: true, validarMetodo: '', value: datosPHP.nombre_usuario },
+                    { type: 'password', name: 'password', label: 'Contraseña',  required: true, validarMetodo: ''},
                 ];
+                if (datosPHP.id) {
+                    formularioCampos[1] = { type: 'password', name: 'password', label: 'Contraseña', required: false, placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.', validarMetodo: ''};
+                    break;
+                }
                 break;
-            }
-            formularioCampos = [
-                { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario', validarMetodo: '', value: datosPHP.nombre_usuario },
-                { type: 'password', name: 'password', label: 'Contraseña', validarMetodo: ''},
-            ];
-            break;
 
             case 'categoria_de_servicio':
             break;
+            case 'sacerdote':
+                formularioCampos = [
+                    { type: 'text', name: 'nombre', label: 'Nombre del Sacerdote',  required: true, validarMetodo: '', value: datosPHP.nombre },
+                    { type: 'hidden', name: 'vivo',  value: '0' },
+                    { type: 'checkbox', name: 'vivo', label: '¿Está vivo?', validarMetodo: '',  checked: datosPHP.vivo === 1 },
+                ];
+            break;
+            case 'feligres':
+                /*    private $id;
+    private $primer_nombre;
+    private $segundo_nombre;
+    private $primer_apellido;
+    private $segundo_apellido;
+    private $fecha_nacimiento;
+    private $cedula;
+    private $partida_de_nacimiento;*/
+            break;
+            default:
+                if (datosPHP.id) {
+                    formularioCampos.push({ type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id});
+                }
+
         }
         return formularioCampos;
     }

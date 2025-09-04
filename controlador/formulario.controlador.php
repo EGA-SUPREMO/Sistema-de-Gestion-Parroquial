@@ -9,6 +9,7 @@ class formularioControlador
     private $nombreTabla;
     private $mapaDatos = [
         'administrador' => ['nombre_usuario', 'password'],
+        'sacerdote' => ['nombre', 'vivo'],
     ];
 
     public function __construct(PDO $pdo)
@@ -32,12 +33,11 @@ class formularioControlador
         if (!array_key_exists($this->nombreTabla, $this->mapaDatos)) {
             throw new Exception("Tabla no válida: {$this->nombreTabla}");
         }
-
         $camposEsperados = $this->mapaDatos[$this->nombreTabla];
 
         $datos = [];
         foreach ($camposEsperados as $campo) {
-            if (isset($_POST[$campo]) and !empty($_POST[$campo])) {
+            if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
                 $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
             }
         }
