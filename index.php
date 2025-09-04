@@ -41,6 +41,6 @@ try {
 
 } catch (Exception $e) {
     error_log($e->getMessage());
-    header('Location: index.php?c=login&a=dashboard');
+    header('Location: index.php?c=dashboard&a=index');
     exit;
 }
