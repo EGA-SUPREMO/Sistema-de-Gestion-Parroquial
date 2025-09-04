@@ -9,7 +9,6 @@
                 ];
                 if (datosPHP.id) {
                     formularioCampos[1] = { type: 'password', name: 'password', label: 'Contraseña', required: false, placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.', validarMetodo: ''};
-                    break;
                 }
                 break;
 
@@ -32,11 +31,10 @@
     private $cedula;
     private $partida_de_nacimiento;*/
             break;
-            default:
-                if (datosPHP.id) {
-                    formularioCampos.push({ type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id});
-                }
 
+        }
+        if (datosPHP.id) {
+            formularioCampos.push({ type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id});
         }
         return formularioCampos;
     }

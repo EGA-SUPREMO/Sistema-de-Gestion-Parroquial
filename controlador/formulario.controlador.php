@@ -41,7 +41,6 @@ class formularioControlador
                 $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
             }
         }
-
         try {
             $objeto = GestorFactory::crearObjeto($this->nombreTabla);
             $objeto->hydrate($datos);
