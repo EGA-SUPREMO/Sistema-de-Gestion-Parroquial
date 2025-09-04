@@ -16,11 +16,6 @@ class reporteControlador
         }
     }
 
-
-    public function Index()
-    {
-        require_once 'vistas/selector/Selector_reporte.php';
-    }
     public function acta_matrimonio()
     {
         require_once "vistas/selector/matrimonio.php";

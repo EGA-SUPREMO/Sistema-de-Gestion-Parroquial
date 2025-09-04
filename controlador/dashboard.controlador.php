@@ -1,24 +1,23 @@
 <?php
 
-require_once 'modelo/GestorFactory.php';
 require_once 'modelo/FuncionesComunes.php';
 
-class formularioControlador
+class DashboardControlador
 {
-    private $gestor;
-    private $nombreTabla;
-    private $mapaDatos = [
-        'administrador' => ['nombre_usuario', 'password'],
-    ];
 
-    public function __construct(PDO $pdo)
+    public function index()
     {
-        $this->nombreTabla = $_REQUEST['t'];
-        $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
+        FuncionesComunes::requerirLogin();
+        require_once "vistas/dashboard/index.php";
     }
-    public function mostrar()
+    public function administracion()
     {
-        include_once 'vistas/tabla.php';
-        require_once "controlador/tabla.php";
+        FuncionesComunes::requerirLogin();
+        require_once "vistas/dashboard/administracion.php";
+    }
+    public function constancias()
+    {
+        FuncionesComunes::requerirLogin();
+        require_once 'vistas/dashboard/constancias.php';
     }
 }

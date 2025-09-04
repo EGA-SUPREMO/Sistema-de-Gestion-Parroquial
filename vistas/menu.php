@@ -5,11 +5,11 @@
       <i aria-hidden="true" >Ξ</i>
     </div>
     <ul class="menu-list">
-      <li><a href="?c=login&a=dashboard">Inicio</a></li>
-      <li><a href="?c=reporte&a=index">Constancia</a></li>
-      <li><a href="?c=servicios&a=index">Servicios</a></li>
-      <li><a href="?c=feligreses&a=index">Feligreses</a></li>
-      <li><a href="?c=peticiones&a=index">Peticiones</a></li>
+      <li><a href="?c=dashboard&a=index">Inicio</a></li>
+      <li><a href="?c=login&a=mostrar">Intenciones</a></li>
+      <li><a href="?c=dashboard&a=constancias">Constancia</a></li>
+      <li><a href="?c=login&a=mostrar">Agenda</a></li>
+      <li><a href="?c=dashboard&a=administracion">Administración</a></li>
       <li><a href="?c=login&a=mostrar">Administrador</a></li>
       <li> <a href="?c=login&a=cerrarSesion" class="w-100 d-flex align-items-center justify-content-center"
           onclick="javascript:return confirm('¿Seguro de salir');">
