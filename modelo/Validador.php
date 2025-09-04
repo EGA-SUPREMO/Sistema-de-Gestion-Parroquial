@@ -88,4 +88,15 @@ class Validador
         }
         return $fecha;
     }
+
+    public static function validarBooleano($valor, $campo)
+    {
+        $es_booleano = (bool)$valor;
+
+        if (is_string($valor) && $valor !== 'true' && $valor !== 'false' && $valor !== '1' && $valor !== '0') {
+             throw new Exception("El campo '{$campo}' no tiene un formato booleano válido.");
+        }
+        
+        return $es_booleano;
+    }
 }
