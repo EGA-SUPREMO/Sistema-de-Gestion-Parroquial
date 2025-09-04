@@ -10,6 +10,7 @@ class formularioControlador
     private $mapaDatos = [
         'administrador' => ['nombre_usuario', 'password'],
         'sacerdote' => ['nombre', 'vivo'],
+        'feligres' => ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'fecha_nacimiento', 'cedula', 'partida_de_nacimiento'],
     ];
 
     public function __construct(PDO $pdo)

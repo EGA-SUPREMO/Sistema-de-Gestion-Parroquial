@@ -97,7 +97,8 @@ class Feligres extends ModeloBase
 
     public function setFechaNacimiento($fecha_nacimiento)
     {
-        $this->fecha_nacimiento = Validador::validarFecha($fecha_nacimiento, "fecha de nacimiento", "1900-01-01", new DateTime()->format('Y-m-d'));
+        $fecha_actual = (new DateTime())->format('Y-m-d');
+        $this->fecha_nacimiento = Validador::validarFecha($fecha_nacimiento, "fecha de nacimiento", "1900-01-01", $fecha_actual);
     }
 
     public function setCedula($cedula)
