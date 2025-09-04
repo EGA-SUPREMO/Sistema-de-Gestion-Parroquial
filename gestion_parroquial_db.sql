@@ -184,7 +184,7 @@ INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 
 
 CREATE TABLE `santos` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -202,7 +202,7 @@ INSERT INTO `santos` (`id`, `nombre`) VALUES
 (10, 'San Antonio de Padua');
 
 CREATE TABLE `sacerdotes` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
   `vivo` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`id`)
@@ -221,7 +221,7 @@ INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
 (10, 'Padre Ricardo Castillo', TRUE);
 
 CREATE TABLE `constancia_bautizo` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_bautizo` DATE NOT NULL,
   `feligres_bautizado_id` INT(11) NOT NULL,
   `padre_id` INT(11) NOT NULL,
@@ -252,7 +252,7 @@ INSERT INTO `constancia_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`
 (3, '2024-03-10', 3, 4, 10, 8, 7, NULL, 'Maracay', 3, 5, '13579-C', 3, 20, 12);
 
 CREATE TABLE `constancia_comunion` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `feligres_id` INT(11) NOT NULL,
   `fecha_comunion` DATE NOT NULL,
   PRIMARY KEY (`id`),
@@ -265,7 +265,7 @@ INSERT INTO `constancia_comunion` (`id`, `feligres_id`, `fecha_comunion`) VALUES
 (3, 3, '2024-07-22');
 
 CREATE TABLE `constancia_confirmacion` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_confirmacion` DATE NOT NULL,
   `feligres_confirmado_id` INT(11) NOT NULL,
   `padre_id` INT(11) NOT NULL,
@@ -289,7 +289,7 @@ INSERT INTO `constancia_confirmacion` (`id`, `fecha_confirmacion`, `feligres_con
 (3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
 
 CREATE TABLE `constancia_matrimonio` (
-  `id` INT(11) NOT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `contrayente_1_id` INT(11) NOT NULL,
   `contrayente_2_id` INT(11) NOT NULL,
   `fecha_matrimonio` DATE NOT NULL,
