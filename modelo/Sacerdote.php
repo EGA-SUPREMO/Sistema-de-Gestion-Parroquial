@@ -39,7 +39,6 @@ class Sacerdote extends ModeloBase
 
     public function setVivo($vivo)
     {
-        error_log($vivo);
         if ($vivo === "on") {
             $this->vivo = true;
             return;

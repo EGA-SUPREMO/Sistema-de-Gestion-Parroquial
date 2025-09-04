@@ -156,14 +156,14 @@ INSERT INTO tipo_de_intencion (nombre, descripcion) VALUES
 CREATE TABLE `servicios` (
   `id` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
+  `nombre` varchar(100) UNIQUE NOT NULL,
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 CREATE TABLE `categoria_de_servicios` (
   `id` int(11) NOT NULL,
-  `nombre` varchar(100) NOT NULL,
+  `nombre` varchar(100) UNIQUE NOT NULL,
   `descripcion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -185,7 +185,7 @@ INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 
 CREATE TABLE `santos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
+  `nombre` varchar(100) UNIQUE NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -203,7 +203,7 @@ INSERT INTO `santos` (`id`, `nombre`) VALUES
 
 CREATE TABLE `sacerdotes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
+  `nombre` varchar(100) UNIQUE NOT NULL,
   `vivo` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
