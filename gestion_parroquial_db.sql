@@ -61,7 +61,7 @@ CREATE TABLE `feligreses` (
   `primer_apellido` VARCHAR(50) NOT NULL,
   `segundo_apellido` VARCHAR(50),
   `fecha_nacimiento` DATE DEFAULT NULL,
-  `cedula` int(10) UNSIGNED UNIQUE,
+  `cedula` int(9) UNSIGNED UNIQUE,
   `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

@@ -13,6 +13,7 @@ class Validador
                 return false;
             }
         } catch (Exception $e) {
+            throw new InvalidArgumentException("Error de formato de fecha en validacionRangoFechas: ");
             error_log("Error de formato de fecha en validacionRangoFechas: " . $e->getMessage());
             return false;
         }
@@ -41,6 +42,7 @@ class Validador
 
         return $valor;
     }
+
     public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = null)
     {
         if ($valor === null) {
@@ -64,4 +66,26 @@ class Validador
         return $valorRecortado;
     }
 
+    public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null)
+    {
+        if ($valor === null) {
+            return null;
+        }
+
+        if (empty($fecha)) {
+            throw new InvalidArgumentException("El campo '{$nombreCampo}' no puede estar vacío.");
+        }
+
+        $formato = 'Y-m-d';
+        $d = DateTime::createFromFormat($formato, $fecha);
+
+        if (!($d && $d->format($formato) === $fecha && checkdate($d->format('m'), $d->format('d'), $d->format('Y')))) {
+            throw new InvalidArgumentException("El campo '{$nombreCampo}' debe ser una fecha válida en formato YYYY-MM-DD.");
+        }
+
+        if ($fechaMinima !== null) {}// TODO
+        if ($fechaMaxima !== null) {// TODO
+        }
+        return $fecha;
+    }
 }
