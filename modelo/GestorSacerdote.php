@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modelo/GestorBase.php';
+require_once 'modelo/Sacerdote.php';
 
 class GestorSacerdote extends GestorBase
 {
