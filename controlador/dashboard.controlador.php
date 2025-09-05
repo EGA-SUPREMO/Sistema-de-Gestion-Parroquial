@@ -4,7 +4,6 @@ require_once 'modelo/FuncionesComunes.php';
 
 class DashboardControlador
 {
-
     public function index()
     {
         FuncionesComunes::requerirLogin();

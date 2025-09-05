@@ -6,4 +6,3 @@ require_once 'ModeloBase.php';
 class ConstanciaBautizo extends ModeloBase
 {
 }
- 

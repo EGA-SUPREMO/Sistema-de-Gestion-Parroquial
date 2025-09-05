@@ -46,4 +46,3 @@ class Sacerdote extends ModeloBase
         $this->vivo = Validador::validarBooleano($vivo, "estado de vida del sacerdote");
     }
 }
- 

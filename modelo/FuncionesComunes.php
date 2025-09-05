@@ -9,7 +9,7 @@ class FuncionesComunes
 
         return $titulo_formateado;
     }
-    
+
     public static function requerirLogin()
     {
         if (empty($_SESSION['nombre_usuario'])) {

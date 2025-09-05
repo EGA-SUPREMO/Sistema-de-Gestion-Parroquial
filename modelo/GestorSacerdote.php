@@ -13,4 +13,3 @@ class GestorSacerdote extends GestorBase
     }
 
 }
- 

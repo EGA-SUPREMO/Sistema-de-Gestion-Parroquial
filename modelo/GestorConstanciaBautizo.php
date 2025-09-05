@@ -13,4 +13,3 @@ class GestorConstanciaBautizo extends GestorBase
     }
 
 }
- 

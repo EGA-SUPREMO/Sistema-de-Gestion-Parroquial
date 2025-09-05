@@ -53,7 +53,7 @@ class loginControlador
     public function eliminar()
     {
         FuncionesComunes::requerirLogin();
-        
+
         try {
             $this->gestor->eliminar($_POST['id_admin']);
         } catch (Exception $e) {

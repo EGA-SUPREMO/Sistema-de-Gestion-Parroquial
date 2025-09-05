@@ -87,7 +87,7 @@ abstract class GestorBase
             return $this->actualizar($id, $objeto);
         }
         return $this->insertar($objeto);
-        
+
     }
 
     private static function get_object_vars_reflection($objeto)

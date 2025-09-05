@@ -23,7 +23,7 @@ class Feligres extends ModeloBase
     {
         return $this->primer_nombre;
     }
-    
+
     public function getSegundoNombre()
     {
         return $this->segundo_nombre;
@@ -111,4 +111,3 @@ class Feligres extends ModeloBase
         $this->partida_de_nacimiento = Validador::validarString($partida_de_nacimiento, "partida de nacimiento", 30, 4);
     }
 }
- 

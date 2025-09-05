@@ -83,7 +83,8 @@ class Validador
             throw new InvalidArgumentException("El campo '{$nombreCampo}' debe ser una fecha válida en formato YYYY-MM-DD.");
         }
 
-        if ($fechaMinima !== null) {}// TODO
+        if ($fechaMinima !== null) {
+        }// TODO
         if ($fechaMaxima !== null) {// TODO
         }
         return $fecha;
@@ -92,9 +93,9 @@ class Validador
     public static function validarBooleano($valor, $campo)
     {
         if (is_string($valor) && $valor !== 'true' && $valor !== 'false' && $valor !== '1' && $valor !== '0') {
-             throw new Exception("El campo '{$campo}' no tiene un formato booleano válido.");
+            throw new Exception("El campo '{$campo}' no tiene un formato booleano válido.");
         }
-        
+
         $es_booleano = (bool)$valor;
         return $es_booleano ? 1 : 0;
     }
