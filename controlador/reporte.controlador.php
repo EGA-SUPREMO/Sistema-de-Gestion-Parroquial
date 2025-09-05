@@ -1,19 +1,12 @@
 <?php
 
+require_once 'modelo/FuncionesComunes.php';
+
 class reporteControlador
 {
     public function __construct()
     {
-        $this->requerirLogin();
-    }
-
-    private function requerirLogin()
-    {
-
-        if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
-            header('Location: ?c=login&a=index&mensaje=no_autenticado');
-            exit();
-        }
+        FuncionesComunes::requerirLogin();
     }
 
     public function acta_matrimonio()

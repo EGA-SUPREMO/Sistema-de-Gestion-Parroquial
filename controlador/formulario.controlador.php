@@ -19,17 +19,9 @@ class formularioControlador
         $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
-    private function requerirLogin()
-    {
-        if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
-            header('Location: ?c=login&a=index&mensaje=no_autenticado');
-            exit();
-        }
-    }
-
     public function guardarRegistro()
     {
-        $this->requerirLogin();
+        FuncionesComunes::requerirLogin();
 
         if (!array_key_exists($this->nombreTabla, $this->mapaDatos)) {
             throw new Exception("Tabla no válida: {$this->nombreTabla}");
@@ -56,13 +48,12 @@ class formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
-        header('Location:?c=login&a=mostrar');
-        exit();
+        FuncionesComunes::redirigir('Location:?c=login&a=mostrar');
     }
 
     public function guardar($errorMessage = null)
     {
-        $this->requerirLogin();
+        FuncionesComunes::requerirLogin();
 
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 

@@ -1,5 +1,6 @@
 <?php
 
+require_once 'modelo/FuncionesComunes.php';
 require_once 'modelo/Administrador.php';
 require_once 'modelo/GestorAdministrador.php';
 
@@ -42,44 +43,31 @@ class loginControlador
                 session_start();
                 $_SESSION['nombre_usuario'] = $nombre_usuario;
 
-                header("Location:?c=dashboard&a=index");
-                exit();
+                FuncionesComunes::redirigir("Location:?c=dashboard&a=index");
             } else {
-
-                header("location:?c=login&a=index&mensaje=invalido");
-                exit();
+                FuncionesComunes::redirigir("location:?c=login&a=index&mensaje=invalido");
             }
-        }
-    }
-
-    private function requerirLogin()
-    {
-        if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
-            header('Location: ?c=login&a=index&mensaje=no_autenticado');
-            exit();
         }
     }
 
     public function eliminar()
     {
-        $this->requerirLogin();
-
+        FuncionesComunes::requerirLogin();
+        
         try {
             $this->gestor->eliminar($_POST['id_admin']);
         } catch (Exception $e) {
             error_log($e->getMessage());
             $errorMessage = $e->getMessage();
-            header('Location:?c=login&a=mostrar&mensaje=' . urlencode($errorMessage));
-            exit();
+            FuncionesComunes::redirigir('Location:?c=login&a=mostrar&mensaje=' . urlencode($errorMessage));
         }
-        header('Location:?c=login&a=mostrar');
-        exit();
+        FuncionesComunes::redirigir('Location:?c=login&a=mostrar');
     }
 
     public function mostrar()
     {
 
-        $this->requerirLogin();
+        FuncionesComunes::requerirLogin();
         $administradores = $this->gestor->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;
         require_once "vistas/administradores/index.php";
@@ -88,7 +76,6 @@ class loginControlador
     public function cerrarSesion()
     {
         session_destroy();
-        header("Location: index.php");
-        exit();
+        FuncionesComunes::redirigir('Location: index.php');
     }
 }

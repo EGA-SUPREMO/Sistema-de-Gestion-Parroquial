@@ -18,6 +18,7 @@ class formularioControlador
     }
     public function index()
     {
+        FuncionesComunes::requerirLogin();
         include_once 'vistas/tabla.php';
         require_once "controlador/tabla.php";
     }

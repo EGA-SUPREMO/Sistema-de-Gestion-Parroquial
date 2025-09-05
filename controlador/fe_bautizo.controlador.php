@@ -2,24 +2,14 @@
 
 require_once "modelo/GeneradorPdf.php";
 require_once "public/fpdf/fpdf.php";
+require_once 'modelo/FuncionesComunes.php';
 
 class fe_bautizocontrolador
 {
     public function __construct()
     {
-        $this->requerirLogin();
+        FuncionesComunes::requerirLogin();
     }
-
-    private function requerirLogin()
-    {
-
-        if (!isset($_SESSION['nombre_usuario']) || empty($_SESSION['nombre_usuario'])) {
-
-            header('Location: ?c=login&a=index&mensaje=no_autenticado');
-            exit();
-        }
-    }
-
 
     public function fe_bautizo()
     {
@@ -47,8 +37,7 @@ class fe_bautizocontrolador
 
 
         if (empty($nombreBautizado) || empty($nombreMadre) || empty($nombrePadre) || empty($nombreMadrina) || empty($nombrePadrino) || empty($nombreSacerdote) || empty($lugarNacimiento) || empty($propositoCertificacion) || empty($notaMarginal)) {
-            header('Location:?c=reporte&a=fe_bautizo');
-            exit();
+            FuncionesComunes::redirigir('Location:?c=reporte&a=fe_bautizo');
         }
 
         GeneradorPdf::generarPdfBautizo(
