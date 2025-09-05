@@ -56,7 +56,7 @@ class Feligres extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "id de feligrés");
+        $this->id = Validador::validarEntero($id, "id de feligrés", null, 1);
     }
 
     public function setPrimerNombre($primer_nombre)

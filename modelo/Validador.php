@@ -21,10 +21,13 @@ class Validador
 
     }
 
-    public static function validarEntero($valor, $nombreCampo, $valorMaximo = 2147483647, $valorMinimo = null)
+    public static function validarEntero($valor, $nombreCampo, $valorMaximo = null, $valorMinimo = null)
     {
         if ($valor === null) {
             return null;
+        }
+        if ($valorMaximo == null) {
+            $valorMaximo = 2147483647;
         }
 
         if (!filter_var($valor, FILTER_VALIDATE_INT)) {
