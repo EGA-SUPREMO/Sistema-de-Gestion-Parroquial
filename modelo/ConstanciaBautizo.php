@@ -159,7 +159,7 @@ class ConstanciaBautizo extends ModeloBase
     {
         $this->registro_civil = Validador::validarString($registro_civil, "registro civil", 100);
         if ($this->registro_civil !== null) {
-            $this->registro_civil = strtolower($this->registro_civil);
+            $this->registro_civil = strtoupper($this->registro_civil);
         }
     }
 
