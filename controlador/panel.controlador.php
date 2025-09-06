@@ -17,7 +17,12 @@ class PanelControlador
     {
         FuncionesComunes::requerirLogin();
         $modelos = $this->gestor->obtenerTodos();
-        include_once 'vistas/tabla.php';
-        require_once "controlador/tabla.php";
+        $datos = [];
+        foreach ($modelos as $modelo) {
+            $datos[] = $modelo->toArrayParaMostrar();
+        }
+        $datos_tabla['tabla'] = json_encode($datos);
+        include_once 'vistas/panel.php';
+        require_once "controlador/panel.php";
     }
 }

@@ -66,14 +66,14 @@ class formularioControlador
             $nombre_usuario = $admin->getNombreUsuario();
         }
 
-        $datos_formulario = [
+        $datos = [
             'primerElemento' => "#nombre_usuario",
             'id' => $id,
             'titulo' => $titulo,
             'nombre_usuario' => $nombre_usuario,
         ];
 
-        $datos_formulario['formulario'] = json_encode($datos_formulario);
+        $datos_formulario['formulario'] = json_encode($datos);
 
         require_once "vistas/formulario.php";
         require_once "controlador/formulario.php";
