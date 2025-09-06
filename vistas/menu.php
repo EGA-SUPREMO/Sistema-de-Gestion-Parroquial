@@ -10,7 +10,6 @@
       <li><a href="?c=dashboard&a=constancias">Constancia</a></li>
       <li><a href="?c=login&a=mostrar">Agenda</a></li>
       <li><a href="?c=dashboard&a=administracion">Administración</a></li>
-      <li><a href="?c=login&a=mostrar">Administrador</a></li>
       <li> <a href="?c=login&a=cerrarSesion" class="w-100 d-flex align-items-center justify-content-center"
           onclick="javascript:return confirm('¿Seguro de salir?');">
           Cerrar Sesión
