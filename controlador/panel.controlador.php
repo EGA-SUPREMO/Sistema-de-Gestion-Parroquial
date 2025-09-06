@@ -20,6 +20,7 @@ class PanelControlador
 
         $modelos = $this->gestor->obtenerTodos();
         $datos = [];
+        $datos_tabla = [];
 
         if (!empty($modelos)) {
             foreach ($modelos as $modelo) {
@@ -36,11 +37,13 @@ class PanelControlador
 
             $datos_tabla = [
                 'datos'  => $datos,
-                'campos_formateados' => $campos_formateados,
-                'campos' => $campos
+                'campos_formateados'      => $campos_formateados,
+                'campos'                  => $campos,
             ];
-            $datos_tabla = json_encode($datos_tabla);
         }
+        $datos_tabla['nombre_tabla_formateado'] = FuncionesComunes::formatearTitulo($this->nombreTabla);
+
+        $datos_tabla = json_encode($datos_tabla);
         include_once 'vistas/panel.php';
         require_once "controlador/panel.php";
     }

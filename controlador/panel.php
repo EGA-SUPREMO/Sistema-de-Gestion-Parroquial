@@ -1,20 +1,10 @@
-<!--                        <div class="alert alert-info text-center py-4 rounded-3" role="alert">
-                                <i class="bi bi-info-circle-fill me-2"></i> No hay administradores registrados aún.
-                                <p class="mt-2">¡Haz clic en "Añadir Nuevo Administrador" para empezar!</p>
-                            </div>
-
--->
 <script>
-    function generarTabla(nombreTabla, campos, campos_formateados, datos) {
-        const $contenedor = $('#tabla-contenedor');
-        const $subtitulo = $('#subtitulo-tabla');
-        $subtitulo.html('Listado de ' + nombreTabla);
-        
-        const $agregarBtn = $('#agregar-btn');
-        $agregarBtn.html('Agregar Nuevo ' + nombreTabla);
-        $agregarBtn.attr('href', 'index.php?c=formulario&a=guardar&t=' + nombreTabla);
+    function generarTabla(nombreTabla, datosPHP) {
+        const campos = datosPHP.campos;
+        const campos_formateados = datosPHP.campos_formateados;
+        const filas = datosPHP.datos;
 
-        if (datos.length > 0) {
+        if (filas?.length > 0) {
             $('#sin-registros').hide();
             $('#con-registros').show();
             
@@ -31,12 +21,12 @@
             $filaEncabezado.append('<th scope="col" class="py-3 px-4">Acciones</th>');
             $cabezaTabla.append($filaEncabezado);
 
-            datos.forEach(dato => {
+            filas.forEach(dato => {
                 const $filaDatos = $('<tr>');
                 campos.forEach(campo => {
                     $filaDatos.append(`<td class="py-3 px-4">${dato[campo]}</td>`);
                 });
-                // Agrega el campo de Acciones
+                
                 $filaDatos.append(`
                     <td class="text-center px-3">
                         <a href="index.php?c=formulario&a=guardar&t=${nombreTabla}&id=${dato.id}" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
@@ -58,14 +48,22 @@
         } else {
             $('#sin-registros').show();
             $('#con-registros').hide();
+            $('#sugerencia-sin-registro').html(`¡Haz clic en 'Agregar ${datosPHP.nombre_tabla_formateado}' para empezar!`);
         }
     }
     $(document).ready(function() {
         const datosPHP = <?php echo $datos_tabla; ?>;
 
         const urlParams = new URLSearchParams(window.location.search);
-        const tipo = urlParams.get('t');
+        const nombreTabla = urlParams.get('t');
+
+        const $agregarBtn = $('#agregar-btn');
+        $agregarBtn.html('Agregar ' + datosPHP.nombre_tabla_formateado);
+        $agregarBtn.attr('href', 'index.php?c=formulario&a=guardar&t=' + nombreTabla);
         
-        generarTabla(tipo, datosPHP.campos, datosPHP.campos_formateados, datosPHP.datos);
+        const $subtitulo = $('#subtitulo-tabla');
+        $subtitulo.html('Listado de ' + datosPHP.nombre_tabla_formateado);
+
+        generarTabla(nombreTabla, datosPHP);
     });
 </script>
