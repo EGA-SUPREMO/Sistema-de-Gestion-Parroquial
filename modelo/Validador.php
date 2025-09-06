@@ -71,7 +71,7 @@ class Validador
 
     public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null)
     {
-        if ($valor === null) {
+        if ($fecha === null) {
             return null;
         }
 
