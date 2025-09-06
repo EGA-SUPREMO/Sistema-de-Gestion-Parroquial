@@ -15,7 +15,7 @@ abstract class ModeloBase
             }
         }
     }
-    public function toArray()
+    public function toArrayParaBD()
     {
         $datos = [];
         $metodos = get_class_methods($this);
@@ -37,5 +37,9 @@ abstract class ModeloBase
         }
         
         return $datos;
+    }
+    public function toArrayParaMostrar()
+    {
+        $this->toArrayParaBD();
     }
 }

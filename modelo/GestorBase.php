@@ -63,7 +63,7 @@ abstract class GestorBase
 
     protected function insertar($objeto)
     {
-        $datos = $objeto->toArray($objeto);
+        $datos = $objeto->toArrayParaBD($objeto);
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
@@ -72,7 +72,7 @@ abstract class GestorBase
 
     protected function actualizar($id, $objeto)
     {
-        $datos = $objeto->toArray($objeto);
+        $datos = $objeto->toArrayParaBD($objeto);
         unset($datos[$this->clavePrimaria]);
 
         $columnas = array_keys($datos);

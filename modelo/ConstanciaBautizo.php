@@ -177,9 +177,9 @@ class ConstanciaBautizo extends ModeloBase
     {
         $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", null, 1);
     }
-    public function toArray()
+    public function toArrayParaMostrar()
     {
-        $datos = parent::toArray();
+        $datos = parent::toArrayParaMostrar();
         return $datos;
     }
 }
