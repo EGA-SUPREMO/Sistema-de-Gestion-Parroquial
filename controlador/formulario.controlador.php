@@ -7,11 +7,6 @@ class formularioControlador
 {
     private $gestor;
     private $nombreTabla;
-    private $mapaDatos = [
-        'administrador' => ['nombre_usuario', 'password'],
-        'sacerdote' => ['nombre', 'vivo'],
-        'feligres' => ['primer_nombre', 'segundo_nombre', 'primer_apellido', 'segundo_apellido', 'fecha_nacimiento', 'cedula', 'partida_de_nacimiento'],
-    ];
 
     public function __construct(PDO $pdo)
     {
@@ -23,10 +18,9 @@ class formularioControlador
     {
         FuncionesComunes::requerirLogin();
 
-        if (!array_key_exists($this->nombreTabla, $this->mapaDatos)) {
-            throw new Exception("Tabla no válida: {$this->nombreTabla}");
-        }
-        $camposEsperados = $this->mapaDatos[$this->nombreTabla];
+        $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
+        $arrayBD = $objeto->toArrayParaBD(true);
+        $camposEsperados = array_keys($arrayBD);
 
         $datos = [];
         foreach ($camposEsperados as $campo) {
@@ -38,7 +32,7 @@ class formularioControlador
             $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
             $objeto->hydrate($datos);
 
-            $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
+            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
             $resultado = $this->gestor->guardar($objeto, $id);
 
             if (!$resultado) {
@@ -57,22 +51,22 @@ class formularioControlador
 
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
+        $datos_modelo = [];
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
         if ($id > 0) {
-            $admin = $this->gestor->obtenerPorId($id);
+            $modelo = $this->gestor->obtenerPorId($id);
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
 
-            $nombre_usuario = $admin->getNombreUsuario();
+            $datos_modelo = $modelo->toArrayParaBD();
         }
 
         $datos = [
             'primerElemento' => "#nombre_usuario",
             'id' => $id,
             'titulo' => $titulo,
-            'nombre_usuario' => $nombre_usuario,
         ];
-
+        $datos = array_merge($datos_modelo, $datos);
         $datos_formulario['formulario'] = json_encode($datos);
 
         require_once "vistas/formulario.php";

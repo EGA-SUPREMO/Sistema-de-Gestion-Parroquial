@@ -14,7 +14,7 @@ abstract class ModeloBase
             }
         }
     }
-    public function toArrayParaBD()
+    public function toArrayParaBD($excluirId = false)
     {
         $datos = [];
         $metodos = get_class_methods($this);
@@ -33,6 +33,10 @@ abstract class ModeloBase
                 $snakeCaseNombre = strtolower($snakeCaseConMayusculas);
                 $datos[$snakeCaseNombre] = $this->$nombreDeMetodo();
             }
+        }
+
+        if ($excluirId) {
+            unset($datos['id']);
         }
         
         return $datos;

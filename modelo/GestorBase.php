@@ -72,8 +72,7 @@ abstract class GestorBase
 
     protected function actualizar($id, $objeto)
     {
-        $datos = $objeto->toArrayParaBD($objeto);
-        unset($datos[$this->clavePrimaria]);
+        $datos = $objeto->toArrayParaBD($objeto, true);
 
         $columnas = array_keys($datos);
         $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
