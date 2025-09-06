@@ -1,6 +1,7 @@
 <?php
 
 require_once 'modelo/GestorBase.php';
+require_once "modelo/Feligres.php";
 
 class GestorFeligres extends GestorBase
 {

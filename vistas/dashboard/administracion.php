@@ -35,28 +35,28 @@
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=panel&a=index&t=categoria_de_servicios" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=panel&a=index&t=categoria_de_servicio" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Gestionar Categoría de Servicios</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=panel&a=index&t=sacerdotes" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=panel&a=index&t=sacerdote" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Gestionar Sacerdotes</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=panel&a=index&t=santos" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=panel&a=index&t=santo" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Gestionar Santos</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=panel&a=index&t=feligreses" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=panel&a=index&t=feligres" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Gestionar Feligreses</h5>
                                 </div>
