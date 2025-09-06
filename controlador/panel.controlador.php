@@ -44,4 +44,17 @@ class PanelControlador
         include_once 'vistas/panel.php';
         require_once "controlador/panel.php";
     }
+
+    public function eliminar()
+    {
+        FuncionesComunes::requerirLogin();
+        try {
+            $this->gestor->eliminar($_POST[$this->gestor->getClavePrimaria()]);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $errorMessage = $e->getMessage();
+            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla.'&mensaje=' . urlencode($errorMessage));
+        }
+        FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
+    }
 }

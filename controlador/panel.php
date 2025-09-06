@@ -13,7 +13,6 @@
 -->
 <script>
     function generarTabla(nombreTabla, campos, campos_formateados, datos) {
-        alert(datos);
         const $contenedor = $('#tabla-contenedor');
         const $subtitulo = $('#subtitulo-tabla');
         $subtitulo.html('Listado de ' + nombreTabla);
@@ -47,14 +46,17 @@
                 // Agrega el campo de Acciones
                 $filaDatos.append(`
                     <td class="text-center px-3">
-                        <a href="?c=peticiones&a=Editar&id="" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
+                        <a href="index.php?c=formulario&a=guardar&t=${nombreTabla}&id=${dato.id}" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                             Editar
                         </a>
 
-                        <a class="btn btn-danger zoom-out rounded-pill shadow-sm"
-                            onclick="javascript:return confirm('¿Seguro de eliminar ?');" href="?c=peticiones&a=Eliminar&id=">
-                           Eliminar
-                        </a>
+                        <form action="?c=panel&a=eliminar&t=${nombreTabla}" method="POST" onsubmit="return confirm('¿Seguro de eliminar?');">
+                            <input type="hidden" name="id" value="${dato.id}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger zoom-out rounded-pill shadow-sm">
+                                Eliminar
+                            </button>
+                        </form>
                     </td>
                 `);
                 $cuerpoTabla.append($filaDatos);
