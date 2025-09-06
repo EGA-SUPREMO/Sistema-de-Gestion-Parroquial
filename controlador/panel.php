@@ -12,8 +12,8 @@
 
 -->
 <script>
-    function generarTabla(nombreTabla, campos, datos) {
-        alert(campos);
+    function generarTabla(nombreTabla, campos, campos_formateados, datos) {
+        alert(datos);
         const $contenedor = $('#tabla-contenedor');
         const $subtitulo = $('#subtitulo-tabla');
         $subtitulo.html('Listado de ' + nombreTabla);
@@ -33,7 +33,7 @@
             $cuerpoTabla.empty();
 
             const $filaEncabezado = $('<tr>');
-            campos.forEach(campo => {
+            campos_formateados.forEach(campo => {
                 $filaEncabezado.append(`<th scope="col" class="py-3 px-4">${campo}</th>`);
             });
             $filaEncabezado.append('<th scope="col" class="py-3 px-4">Acciones</th>');
@@ -42,7 +42,7 @@
             datos.forEach(dato => {
                 const $filaDatos = $('<tr>');
                 campos.forEach(campo => {
-                    $filaDatos.append(`<td class="py-3 px-4">${dato.campo}</td>`);
+                    $filaDatos.append(`<td class="py-3 px-4">${dato[campo]}</td>`);
                 });
                 // Agrega el campo de Acciones
                 $filaDatos.append(`
@@ -72,6 +72,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const tipo = urlParams.get('t');
         
-        generarTabla(tipo, datosPHP.campos, datosPHP.datos);
+        generarTabla(tipo, datosPHP.campos, datosPHP.campos_formateados, datosPHP.datos);
     });
 </script>
