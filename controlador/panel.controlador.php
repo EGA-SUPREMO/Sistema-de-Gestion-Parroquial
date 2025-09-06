@@ -13,15 +13,25 @@ class PanelControlador
         $this->nombreTabla = $_REQUEST['t'];
         $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
     }
+
     public function index()
     {
         FuncionesComunes::requerirLogin();
+        
         $modelos = $this->gestor->obtenerTodos();
         $datos = [];
-        foreach ($modelos as $modelo) {
-            $datos[] = $modelo->toArrayParaMostrar();
+
+        if (!empty($modelos)) {
+            foreach ($modelos as $modelo) {
+                $datos[] = $modelo->toArrayParaMostrar();
+            }
+            $datos_tabla = [
+                'datos'  => $datos,
+                'campos' => array_keys($datos[0])
+            ];
+
+            $datos_tabla = json_encode($datos_tabla);
         }
-        $datos_tabla['tabla'] = json_encode($datos);
         include_once 'vistas/panel.php';
         require_once "controlador/panel.php";
     }
