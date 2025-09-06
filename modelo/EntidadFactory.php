@@ -1,10 +1,12 @@
 <?php
 
-class GestorFactory
+require_once 'FuncionesComunes.php';
+
+class EntidadFactory
 {
     public static function crearGestor($pdo, $nombreTabla)
     {
-        $nombreClase = 'Gestor' . ucwords($nombreTabla);
+        $nombreClase = 'Gestor' . FuncionesComunes::formatearSnakeCaseAPascalCase($nombreTabla);
         $directorio = 'modelo/' . $nombreClase . '.php';
 
         if (file_exists($directorio)) {
@@ -18,7 +20,7 @@ class GestorFactory
 
     public static function crearObjeto($nombreTabla)
     {
-        $nombreClaseObjeto = ucwords($nombreTabla);
+        $nombreClaseObjeto = FuncionesComunes::formatearSnakeCaseAPascalCase($nombreTabla);
         $directorio = 'modelo/' . $nombreClaseObjeto . '.php';
 
         if (file_exists($directorio)) {

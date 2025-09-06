@@ -23,4 +23,11 @@ class FuncionesComunes
         header($url);
         exit();
     }
+    public static function formatearSnakeCaseAPascalCase($cadena)
+    {
+        $cadenaConEspacios = str_replace('_', ' ', $cadena);
+        $palabrasCapitalizadas = ucwords($cadenaConEspacios);
+        $sinEspacios = str_replace(' ', '', $palabrasCapitalizadas);
+        return $sinEspacios;
+    }
 }

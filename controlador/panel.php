@@ -3,13 +3,6 @@
                                 <p class="mt-2">¡Haz clic en "Añadir Nuevo Administrador" para empezar!</p>
                             </div>
 
-                                        <tr>
-                                            
-                                            <th scope="col" class="py-3 px-4">Nombre de Usuario</th>
-                                            <th scope="col" class="py-3 px-4">Acciones</th>
-                                       
-                                        </tr>
-
 -->
 <script>
     function generarTabla(nombreTabla, campos, campos_formateados, datos) {
@@ -22,8 +15,8 @@
         $agregarBtn.attr('href', 'index.php?c=formulario&a=guardar&t=' + nombreTabla);
 
         if (datos.length > 0) {
-            $('.sin-registros').hide();
-            $('.con-registros').show();
+            $('#sin-registros').hide();
+            $('#con-registros').show();
             
             const $cabezaTabla = $('#cabeza-tabla');
             const $cuerpoTabla = $('#cuerpo-tabla');
@@ -63,9 +56,8 @@
             });
 
         } else {
-            // Muestra el mensaje de que no hay registros si el array de datos está vacío
-            $('.sin-registros').show();
-            $('.con-registros').hide();
+            $('#sin-registros').show();
+            $('#con-registros').hide();
         }
     }
     $(document).ready(function() {

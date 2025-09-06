@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modelo/GestorFactory.php';
+require_once 'modelo/EntidadFactory.php';
 require_once 'modelo/FuncionesComunes.php';
 
 class PanelControlador
@@ -11,7 +11,7 @@ class PanelControlador
     public function __construct(PDO $pdo)
     {
         $this->nombreTabla = $_REQUEST['t'];
-        $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
+        $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
     public function index()

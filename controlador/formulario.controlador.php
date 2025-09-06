@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modelo/GestorFactory.php';
+require_once 'modelo/EntidadFactory.php';
 require_once 'modelo/FuncionesComunes.php';
 
 class formularioControlador
@@ -16,7 +16,7 @@ class formularioControlador
     public function __construct(PDO $pdo)
     {
         $this->nombreTabla = $_REQUEST['t'];
-        $this->gestor = GestorFactory::crearGestor($pdo, $this->nombreTabla);
+        $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
     public function guardarRegistro()
@@ -35,7 +35,7 @@ class formularioControlador
             }
         }
         try {
-            $objeto = GestorFactory::crearObjeto($this->nombreTabla);
+            $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
             $objeto->hydrate($datos);
 
             $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
@@ -48,7 +48,7 @@ class formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
-        FuncionesComunes::redirigir('Location:?c=login&a=mostrar');
+        FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
     }
 
     public function guardar($errorMessage = null)

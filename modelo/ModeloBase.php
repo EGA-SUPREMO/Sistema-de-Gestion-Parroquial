@@ -1,21 +1,20 @@
 <?php
 
+require_once 'FuncionesComunes.php';
+
 abstract class ModeloBase
 {
     public function hydrate($datos)
     {
         foreach ($datos as $llave => $valor) {
-            $llaveConEspacios = str_replace('_', ' ', $llave);
-            $palabrasCapitalizadas = ucwords($llaveConEspacios);
-            $sinEspacios = str_replace(' ', '', $palabrasCapitalizadas);
-            $setter = 'set' . $sinEspacios;
+            $setter = 'set' . FuncionesComunes::formatearSnakeCaseAPascalCase($llave);
 
             if (method_exists($this, $setter)) {
                 $this->$setter($valor);
             }
         }
     }
-    protected function toArrayParaBD()
+    public function toArrayParaBD()
     {
         $datos = [];
         $metodos = get_class_methods($this);
