@@ -50,4 +50,11 @@ class Administrador extends ModeloBase
             $this->password = $hashed_password;
         }
     }
+
+    public function toArrayParaMostrar()
+    {
+        $datos = parent::toArrayParaMostrar();
+        unset($datos['password']);
+        return $datos;
+    }
 }
