@@ -63,7 +63,7 @@ abstract class GestorBase
 
     protected function insertar($objeto)
     {
-        $datos = self::get_object_vars_reflection($objeto);
+        $datos = $objeto->toArray($objeto);
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
@@ -72,7 +72,7 @@ abstract class GestorBase
 
     protected function actualizar($id, $objeto)
     {
-        $datos = self::get_object_vars_reflection($objeto);
+        $datos = $objeto->toArray($objeto);
         unset($datos[$this->clavePrimaria]);
 
         $columnas = array_keys($datos);
@@ -90,26 +90,6 @@ abstract class GestorBase
 
     }
 
-    private static function get_object_vars_reflection($objeto)
-    {
-        $reflector = new ReflectionClass($objeto);
-        $propiedades = $reflector->getProperties();
-
-        $array_de_propiedades = [];
-
-        foreach ($propiedades as $propiedad) {
-            $propiedad->setAccessible(true);
-            $nombre = $propiedad->getName();
-            $valor = $propiedad->getValue($objeto);
-
-            if ($valor === null) {
-                continue;
-            }
-            $array_de_propiedades[$nombre] = $valor;
-        }
-
-        return $array_de_propiedades;
-    }
     public function getClavePrimaria()
     {
         return $this->clavePrimaria;

@@ -15,4 +15,27 @@ abstract class ModeloBase
             }
         }
     }
+    public function toArray()
+    {
+        $datos = [];
+        $metodos = get_class_methods($this);
+
+        foreach ($metodos as $nombreDeMetodo) {
+            if (strpos($nombreDeMetodo, 'get') === 0) {
+                $pascalCaseNombrePropiedad = substr($nombreDeMetodo, 3);
+                if (empty($pascalCaseNombrePropiedad)) {
+                    continue;
+                }
+                $patron = '/
+                    (?<!^) # Inspección negativa: Revisa que no estamos al inicio de la cadena.
+                    [A-Z]  # El objetivo a encontrar
+                /x';
+                $snakeCaseConMayusculas = preg_replace($patron, '_$0', $pascalCaseNombrePropiedad);
+                $snakeCaseNombre = strtolower($snakeCaseConMayusculas);
+                $datos[$snakeCaseNombre] = $this->$nombreDeMetodo();
+            }
+        }
+        
+        return $datos;
+    }
 }

@@ -9,7 +9,7 @@ class Administrador extends ModeloBase
     private $nombre_usuario;
     private $password;
 
-    public function getIdAdmin()
+    public function getId()
     {
         return $this->id;
     }
