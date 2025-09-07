@@ -12,4 +12,12 @@ class GestorConstanciaBautizo extends GestorBase
         $this ->clase_nombre = "ConstanciaBautizo";
     }
 
+    protected function insertar($objeto) {// TODO insertar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
+        parent::insertar($objeto);
+    }
+
+    protected function actualizar($id, $objeto) {// TODO actualizar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
+        parent::actualizar($id, $objeto);
+    }
+
 }

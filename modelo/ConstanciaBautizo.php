@@ -3,7 +3,7 @@
 require_once 'Validador.php';
 require_once 'ModeloBase.php';
 
-class ConstanciaBautizo extends ModeloBase
+class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
 {
     private $id;
     private $fecha_bautizo;
@@ -108,7 +108,7 @@ class ConstanciaBautizo extends ModeloBase
     }
 
     public function setFeligresBautizadoId($feligres_bautizado_id)
-    {
+    {// TODO aca tambien se deberia crear un objeto feligres y comprobar si existe, lo mismo para los otros campos
         $this->feligres_bautizado_id = Validador::validarEntero($feligres_bautizado_id, "ID del feligrés bautizado", null, 1);
     }
 
