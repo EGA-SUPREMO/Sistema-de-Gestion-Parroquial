@@ -110,4 +110,8 @@ class Feligres extends ModeloBase
     {
         $this->partida_de_nacimiento = Validador::validarString($partida_de_nacimiento, "partida de nacimiento", 30, 4);
     }
+    public function nombreCompleto()
+    {
+        return $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido;
+    }
 }
