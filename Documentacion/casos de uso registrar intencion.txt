@@ -3,8 +3,8 @@ left to right direction
 
 actor Secretaria
 
-rectangle "Registrar intenciones" {
-  usecase "Ingresar datos de la intencion" as UC1
+rectangle "Registrar intención" {
+  usecase "Ingresar datos de la intención" as UC1
   usecase "Verificar datos" as UC2
   usecase "Guardar" as UC3
   usecase "Editar intenciones en la agenda" as UC4

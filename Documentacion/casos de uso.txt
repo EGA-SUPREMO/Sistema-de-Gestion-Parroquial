@@ -3,7 +3,7 @@ left to right direction
 
 actor Secretaria
 
-rectangle "Sistema de Gestión" {
+rectangle "Página Principal del Sistema de Gestión" {
   usecase "Registrar intención" as UC1
   usecase "Generar constancia" as UC2
   usecase "Manejar agenda" as UC3

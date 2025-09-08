@@ -1,10 +1,8 @@
 @startuml
-title Casos de Uso: Administrar Registros
 left to right direction
 
 actor Secretaria
 
-' COMO QUE TENGO QUE HACER EXTENDS PARA LAS OPERACIONES CRUD AAAAAA
 rectangle "Administrar Registros" {
   usecase "Gestionar administrador" as UC1
   usecase "Gestionar feligreses" as UC3
