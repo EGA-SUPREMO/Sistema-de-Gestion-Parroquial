@@ -51,7 +51,7 @@ class Administrador extends ModeloBase
         }
     }
 
-    public function toArrayParaMostrar()
+    public function toArrayParaMostrar($criterio = null)
     {
         $datos = parent::toArrayParaMostrar();
         unset($datos['password']);

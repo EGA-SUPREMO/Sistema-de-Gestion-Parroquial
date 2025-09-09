@@ -41,7 +41,7 @@ abstract class ModeloBase
         
         return $datos;
     }
-    public function toArrayParaMostrar()
+    public function toArrayParaMostrar($criterio = null)
     {
         return $this->toArrayParaBD();
     }

@@ -13,10 +13,12 @@ class GestorConstanciaBautizo extends GestorBase
     }
 
     protected function insertar($objeto) {// TODO insertar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
+        // TODO insertar o actualizar feligres al crear constancia, en caso de que feligres no sea encontrado
         parent::insertar($objeto);
     }
 
     protected function actualizar($id, $objeto) {// TODO actualizar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
+        // TODO insertar o actualizar feligres al crear constancia, en caso de que feligres no sea encontrado
         parent::actualizar($id, $objeto);
     }
 
