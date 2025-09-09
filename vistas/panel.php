@@ -1,7 +1,7 @@
 <body class="d-flex flex-column min-vh-100 bg-light">
-    <main class="container my-5 flex-grow-1">
+    <main class="container-fluid my-5 flex-grow-1">
         <div class="row justify-content-center">
-            <div class="col-lg-10 col-xl-8">
+            <div class="col-lg-12 col-xl-12">
                 <section class="card shadow-lg rounded-4">
                     <div class="card-body p-4 p-md-5" id="contenedor-tabla">
                         <h2 class="card-title text-center mb-4 pb-2 border-bottom display-6 fw-bold text-success" id="subtitulo-tabla"></h2>
