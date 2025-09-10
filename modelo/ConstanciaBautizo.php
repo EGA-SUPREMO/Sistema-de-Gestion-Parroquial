@@ -2,8 +2,9 @@
 
 require_once 'Validador.php';
 require_once 'ModeloBase.php';
+require_once 'Constancia.php';
 
-class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
+class ConstanciaBautizo extends ModeloBase implements Constancia
 {
     private $id;
     private $fecha_bautizo;
@@ -182,4 +183,12 @@ class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
         $datos = parent::toArrayParaMostrar();
         return $datos;
     }
+    public function toArrayParaConstanciaPDF() {
+        $datos = $this->toArrayParaBD();
+        if ($value === null) {
+            throw new InvalidArgumentException("Error: {$propertyName} no puede ser nulo.");
+        }
+        return $datos
+    }
+
 }
