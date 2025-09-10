@@ -40,7 +40,25 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
 
     let $inputElement;
 
-    if (propiedadCampo.type === "textarea") {
+   if (propiedadCampo.type === "select") {
+      $inputElement = $('<select>')
+        .attr({
+          'name': propiedadCampo.name,
+          'id': propiedadCampo.name,
+          'class': 'form-control',
+        });
+
+      $.each(propiedadCampo.options, function(j, option) {
+        const $optionElement = $('<option>')
+          .attr('value', option.value)
+          .text(option.text);
+        
+        if (option.value === propiedadCampo.value) {
+          $optionElement.prop('selected', true);
+        }
+        $inputElement.append($optionElement);
+      });
+    } else if (propiedadCampo.type === "textarea") {
       $inputElement = $('<textarea>')
         .attr({
           'name': propiedadCampo.name,
