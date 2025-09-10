@@ -3,4 +3,4 @@
 interface Constancia
 {
     public function toArrayParaConstanciaPDF();
-} 
+}

@@ -38,7 +38,7 @@ abstract class ModeloBase
         if ($excluirId) {
             unset($datos['id']);
         }
-        
+
         return $datos;
     }
     public function toArrayParaMostrar($criterio = null)

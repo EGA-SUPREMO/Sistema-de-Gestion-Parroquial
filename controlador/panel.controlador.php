@@ -26,7 +26,7 @@ class PanelControlador
             foreach ($modelos as $modelo) {
                 $datos[] = $modelo->toArrayParaMostrar();
             }
-            
+
             $campos = array_keys($datos[0]);
             $campos_formateados = $campos;
             foreach ($campos_formateados as $llave => $campo) {

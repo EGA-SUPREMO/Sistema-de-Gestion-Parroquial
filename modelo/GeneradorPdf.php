@@ -1,12 +1,14 @@
 <?php
+
 require "../vendor/autoload.php";
 use PhpOffice\PhpWord\TemplateProcessor;
+
 //use TCPDF;
 
 class GeneradorPdf
 {
-    public function guardarPDF() {// TODO reescribir
-        $datos = $_POST;
+    public function guardarPDF() // TODO reescribir
+    {$datos = $_POST;
         $ruta_plantilla = "../public/plantillas estas seguro que es aca?/" . $plantilla;
 
         $archivo_generado = $this->crearDocumento($ruta_plantilla, $datos);
@@ -19,8 +21,8 @@ class GeneradorPdf
         }
     }
 
-    public function crearDocumentoDocx($plantilla, $ruta_salida, $datos) { // TODO adaptar a los objectos con sus clases
-        $nombre_plantilla = basename($plantilla);
+    public function crearDocumentoDocx($plantilla, $ruta_salida, $datos) // TODO adaptar a los objectos con sus clases
+    {$nombre_plantilla = basename($plantilla);
 
         $plantilla = new TemplateProcessor($plantilla);
         foreach ($datos as $key => $valor) {
@@ -28,7 +30,7 @@ class GeneradorPdf
         }
         $plantilla->saveAs($ruta_salida);
     }
-    
+
     public static function generarPdfMatrimonio(
         $nombreContrayente1,
         $naturalContrayente1,
