@@ -11,6 +11,9 @@ class Feligres extends ModeloBase
     private $primer_apellido;
     private $segundo_apellido;
     private $fecha_nacimiento;
+    private $municipio_de_nacimiento;
+    private $estado_de_nacimiento;
+    private $pais_de_nacimiento;
     private $cedula;
     private $partida_de_nacimiento;
 
@@ -42,6 +45,19 @@ class Feligres extends ModeloBase
     public function getFechaNacimiento()
     {
         return $this->fecha_nacimiento;
+    }
+
+    public function getMunicipioDeNacimiento()
+    {
+        return $this->municipio_de_nacimiento;
+    }
+    public function getEstadoDeNacimiento()
+    {
+        return $this->estado_de_nacimiento;
+    }
+    public function getPaisDeNacimiento()
+    {
+        return $this->pais_de_nacimiento;
     }
 
     public function getCedula()
@@ -101,6 +117,33 @@ class Feligres extends ModeloBase
         $this->fecha_nacimiento = Validador::validarFecha($fecha_nacimiento, "fecha de nacimiento", "1900-01-01", $fecha_actual);
     }
 
+    public function setMunicipioDeNacimiento($municipio_de_nacimiento)
+    {
+        $this->municipio_de_nacimiento = Validador::validarString($municipio_de_nacimiento, "municipio de nacimiento", 50, 4);
+
+        if ($this->municipio_de_nacimiento !== null) {
+            $this->municipio_de_nacimiento = ucwords($this->municipio_de_nacimiento);
+        }
+    }
+
+    public function setEstadoDeNacimiento($estado_de_nacimiento)
+    {
+        $this->estado_de_nacimiento = Validador::validarString($estado_de_nacimiento, "estado de nacimiento", 50, 4);
+
+        if ($this->estado_de_nacimiento !== null) {
+            $this->estado_de_nacimiento = ucwords($this->estado_de_nacimiento);
+        }
+    }
+
+    public function setPaisDeNacimiento($pais_de_nacimiento)
+    {
+        $this->pais_de_nacimiento = Validador::validarString($pais_de_nacimiento, "pais de nacimiento", 50, 4);
+
+        if ($this->pais_de_nacimiento !== null) {
+            $this->pais_de_nacimiento = ucwords($this->pais_de_nacimiento);
+        }
+    }
+
     public function setCedula($cedula)
     {
         $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 1000);
@@ -110,8 +153,19 @@ class Feligres extends ModeloBase
     {
         $this->partida_de_nacimiento = Validador::validarString($partida_de_nacimiento, "partida de nacimiento", 30, 4);
     }
-    public function nombreCompleto()
+    public function lugarDeNacimiento()
     {
-        return $this->primer_nombre . ' ' . $this->segundo_nombre . ' ' . $this->primer_apellido . ' ' . $this->segundo_apellido;
+        $partes = [];
+        if (!empty($this->municipio_nacimiento)) {
+            $partes[] = $this->municipio_nacimiento;
+        }
+        if (!empty($this->estado_nacimiento)) {
+            $partes[] = $this->estado_nacimiento;
+        }
+        if (!empty($this->pais_nacimiento)) {
+            $partes[] = $this->pais_nacimiento;
+        }
+
+        return implode(' - ', $partes);
     }
 }
