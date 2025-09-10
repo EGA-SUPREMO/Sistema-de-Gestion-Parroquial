@@ -28,7 +28,7 @@
                     { type: 'text', name: 'primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarString', value: datosPHP.primer_apellido },
                     { type: 'text', name: 'segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarString', value: datosPHP.segundo_apellido },
                     { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_nacimiento },
-                    { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarEntero', value: datosPHP.cedula },
+                    { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarEntero', value: datosPHP.cedula, pattern: '\\d{4,10}', maxlength: '10'},
                     { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarString', value: datosPHP.partida_de_nacimiento },
                 ];
             break;

@@ -71,6 +71,14 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
       $inputElement.attr("placeholder", propiedadCampo.placeholder);
     }
 
+    if (propiedadCampo.maxlength) {
+        $inputElement.attr("maxlength", propiedadCampo.maxlength);
+    }
+
+    if (propiedadCampo.pattern) {
+        $inputElement.attr("pattern", propiedadCampo.pattern);
+    }
+
     $formGroup.append($inputElement);
     $form.append($formGroup);
   });

@@ -226,8 +226,8 @@ CREATE TABLE `constancia_bautizo` (
   `feligres_bautizado_id` INT(11) NOT NULL,
   `padre_id` INT(11) NOT NULL,
   `madre_id` INT(11) NOT NULL,
-  `padrino_id` INT(11) NOT NULL,
-  `madrina_id` INT(11) NOT NULL,
+  `padrino_nombre` varchar(100) NOT NULL,
+  `madrina_nombre` varchar(100) NOT NULL,
   `observaciones` TEXT DEFAULT NULL,
   `municipio` VARCHAR(100) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
@@ -240,16 +240,14 @@ CREATE TABLE `constancia_bautizo` (
   FOREIGN KEY (`feligres_bautizado_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`),
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_id`, `madrina_id`, `observaciones`, `municipio`, `ministro_id`, `ministro_certifica_id`, `registro_civil`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
-(1, '2023-01-15', 1, 4, 5, 6, 7, 'Bautizado en la parroquia principal.', 'Valencia', 1, 1, '12345-A', 1, 10, 5),
-(2, '2022-05-20', 2, 8, 9, 10, 11, NULL, 'Caracas', 2, 8, '67890-B', 2, 15, 8),
-(3, '2024-03-10', 3, 4, 10, 8, 7, NULL, 'Maracay', 3, 5, '13579-C', 3, 20, 12);
+INSERT INTO `constancia_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `municipio`, `ministro_id`, `ministro_certifica_id`, `registro_civil`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, '2023-01-15', 1, 4, 5, "Jose", "Josefina", 'Bautizado en la parroquia principal.', 'Valencia', 1, 1, '12345-A', 1, 10, 5),
+(2, '2022-05-20', 2, 8, 9, "padrino", "madriana", NULL, 'Caracas', 2, 8, '67890-B', 2, 15, 8),
+(3, '2024-03-10', 3, 4, 10, "Mariano", "Mariana", NULL, 'Maracay', 3, 5, '13579-C', 3, 20, 12);
 
 CREATE TABLE `constancia_comunion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
