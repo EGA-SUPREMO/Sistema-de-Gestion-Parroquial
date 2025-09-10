@@ -10,8 +10,8 @@ class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
     private $feligres_bautizado_id;
     private $padre_id;
     private $madre_id;
-    private $padrino_id;
-    private $madrina_id;
+    private $padrino_nombre;
+    private $madrina_nombre;
     private $observaciones;
     private $municipio;
     private $ministro_id;
@@ -46,14 +46,14 @@ class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
         return $this->madre_id;
     }
 
-    public function getPadrinoId()
+    public function getPadrinoNombre()
     {
-        return $this->padrino_id;
+        return $this->padrino_nombre;
     }
 
-    public function getMadrinaId()
+    public function getMadrinaNombre()
     {
-        return $this->madrina_id;
+        return $this->madrina_nombre;
     }
 
     public function getObservaciones()
@@ -122,14 +122,14 @@ class ConstanciaBautizo extends ModeloBase// implements Constancia TODO
         $this->madre_id = Validador::validarEntero($madre_id, "ID de la madre", null, 1);
     }
 
-    public function setPadrinoId($padrino_id)
+    public function setPadrinoNombre($padrino_nombre)
     {
-        $this->padrino_id = Validador::validarEntero($padrino_id, "ID del padrino", null, 1);
+        $this->padrino_nombre = Validador::validarString($padrino_nombre, "nombre de la padrino", 100, 3);
     }
 
-    public function setMadrinaId($madrina_id)
+    public function setMadrinaNombre($madrina_nombre)
     {
-        $this->madrina_id = Validador::validarEntero($madrina_id, "ID de la madrina", null, 1);
+        $this->madrina_nombre = Validador::validarString($madrina_nombre, "nombre de la madrina", 100, 3);
     }
 
     public function setObservaciones($observaciones)
