@@ -122,7 +122,7 @@ class Feligres extends ModeloBase
         $this->municipio_de_nacimiento = Validador::validarString($municipio_de_nacimiento, "municipio de nacimiento", 50, 4);
 
         if ($this->municipio_de_nacimiento !== null) {
-            $this->municipio_de_nacimiento = ucwords($this->municipio_de_nacimiento);
+            $this->municipio_de_nacimiento = ucwords(strtolower($this->municipio_de_nacimiento));
         }
     }
 
@@ -131,7 +131,7 @@ class Feligres extends ModeloBase
         $this->estado_de_nacimiento = Validador::validarString($estado_de_nacimiento, "estado de nacimiento", 50, 4);
 
         if ($this->estado_de_nacimiento !== null) {
-            $this->estado_de_nacimiento = ucwords($this->estado_de_nacimiento);
+            $this->estado_de_nacimiento = ucwords(strtolower($this->estado_de_nacimiento));
         }
     }
 
@@ -140,7 +140,7 @@ class Feligres extends ModeloBase
         $this->pais_de_nacimiento = Validador::validarString($pais_de_nacimiento, "pais de nacimiento", 50, 4);
 
         if ($this->pais_de_nacimiento !== null) {
-            $this->pais_de_nacimiento = ucwords($this->pais_de_nacimiento);
+            $this->pais_de_nacimiento = ucwords(strtolower($this->pais_de_nacimiento));
         }
     }
 
