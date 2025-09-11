@@ -271,7 +271,7 @@ CREATE TABLE `constancia_confirmacion` (
   `padre_id` INT(11) NOT NULL,
   `madre_id` INT(11) NOT NULL,
   `padrino_id` INT(11) NOT NULL,
-  `madrina_id` INT(11) NOT NULL,
+  `ministro_id` INT(11) NOT NULL,
   `numero_libro` VARCHAR(20) NOT NULL,
   `numero_pagina` VARCHAR(20) NOT NULL,
   `numero_marginal` VARCHAR(20) NOT NULL,
@@ -280,10 +280,10 @@ CREATE TABLE `constancia_confirmacion` (
   FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`madrina_id`) REFERENCES `feligreses`(`id`)
+  FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `madrina_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
 (2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
 (3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
