@@ -4,7 +4,7 @@ require_once 'Validador.php';
 require_once 'ModeloBase.php';
 require_once 'Constancia.php';
 
-class ConstanciaBautizo extends ModeloBase implements Constancia
+class ConstanciaDeBautizo extends ModeloBase implements Constancia
 {
     private $id;
     private $fecha_bautizo;

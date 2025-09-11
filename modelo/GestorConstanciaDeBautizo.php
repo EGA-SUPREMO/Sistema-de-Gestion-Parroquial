@@ -1,15 +1,15 @@
 <?php
 
 require_once 'modelo/GestorBase.php';
-require_once 'modelo/ConstanciaBautizo.php';
+require_once 'modelo/ConstanciaDeBautizo.php';
 
-class GestorConstanciaBautizo extends GestorBase
+class GestorConstanciaDeBautizo extends GestorBase
 {
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
-        $this ->tabla = "constancia_bautizo";
-        $this ->clase_nombre = "ConstanciaBautizo";
+        $this ->tabla = "constancia_de_bautizo";
+        $this ->clase_nombre = "ConstanciaDeBautizo";
     }
 
     protected function insertar($objeto) // TODO insertar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo

@@ -223,7 +223,7 @@ INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
 (9, 'Padre David Herrera', TRUE),
 (10, 'Padre Ricardo Castillo', TRUE);
 
-CREATE TABLE `constancia_bautizo` (
+CREATE TABLE `constancia_de_bautizo` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_bautizo` DATE NOT NULL,
   `feligres_bautizado_id` INT(11) NOT NULL,
@@ -246,12 +246,12 @@ CREATE TABLE `constancia_bautizo` (
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `municipio`, `ministro_id`, `ministro_certifica_id`, `registro_civil`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `municipio`, `ministro_id`, `ministro_certifica_id`, `registro_civil`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2023-01-15', 1, 4, 5, "Jose", "Josefina", 'Bautizado en la parroquia principal.', 'Valencia', 1, 1, '12345-A', 1, 10, 5),
 (2, '2022-05-20', 2, 8, 9, "padrino", "madriana", NULL, 'Caracas', 2, 8, '67890-B', 2, 15, 8),
 (3, '2024-03-10', 3, 4, 10, "Mariano", "Mariana", NULL, 'Maracay', 3, 5, '13579-C', 3, 20, 12);
 
-CREATE TABLE `constancia_comunion` (
+CREATE TABLE `constancia_de_comunion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `feligres_id` INT(11) NOT NULL,
   `fecha_comunion` DATE NOT NULL,
@@ -259,12 +259,12 @@ CREATE TABLE `constancia_comunion` (
   FOREIGN KEY (`feligres_id`) REFERENCES `feligreses`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_comunion` (`id`, `feligres_id`, `fecha_comunion`) VALUES
+INSERT INTO `constancia_de_comunion` (`id`, `feligres_id`, `fecha_comunion`) VALUES
 (1, 1, '2024-05-01'),
 (2, 2, '2023-06-15'),
 (3, 3, '2024-07-22');
 
-CREATE TABLE `constancia_confirmacion` (
+CREATE TABLE `constancia_de_confirmacion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_confirmacion` DATE NOT NULL,
   `feligres_confirmado_id` INT(11) NOT NULL,
@@ -283,12 +283,12 @@ CREATE TABLE `constancia_confirmacion` (
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
 (2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
 (3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
 
-CREATE TABLE `constancia_matrimonio` (
+CREATE TABLE `constancia_de_matrimonio` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `contrayente_1_id` INT(11) NOT NULL,
   `contrayente_2_id` INT(11) NOT NULL,
@@ -307,7 +307,7 @@ CREATE TABLE `constancia_matrimonio` (
   FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, 1, 2, '2023-11-20', 3, 4, 1, '1', '15', '5'),
 (2, 5, 8, '2024-02-10', 9, 10, 5, '2', '20', '8'),
 (3, 11, 3, '2024-06-05', 1, 2, 3, '3', '25', '12');
