@@ -54,6 +54,12 @@
                 { type: 'number', name: 'numero_libro', label: 'Número de Libro', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_libro },
                 { type: 'number', name: 'numero_pagina', label: 'Número de Página', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_pagina },
                 { type: 'number', name: 'numero_marginal', label: 'Número Marginal', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_marginal },
+                { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, validarMetodo: 'validarEntero', value: 'Personal', options: [
+                      { value: 'Personal', text: 'Personal' },
+                      { value: 'Comunión', text: 'Comunión' },
+                      { value: 'Confirmación', text: 'Confirmación' },
+                      { value: 'Matrimonio', text: 'Matrimonio' },
+                    ] },
             ];
         break;
 

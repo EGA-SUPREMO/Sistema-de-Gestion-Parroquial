@@ -188,7 +188,7 @@ class ConstanciaBautizo extends ModeloBase implements Constancia
         if ($value === null) {
             throw new InvalidArgumentException("Error: {$propertyName} no puede ser nulo.");
         }
-        return $datos
+        return $datos;
     }
 
 }
