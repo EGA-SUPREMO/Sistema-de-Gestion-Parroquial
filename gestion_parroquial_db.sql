@@ -293,8 +293,6 @@ CREATE TABLE `constancia_matrimonio` (
   `contrayente_1_id` INT(11) NOT NULL,
   `contrayente_2_id` INT(11) NOT NULL,
   `fecha_matrimonio` DATE NOT NULL,
-  `natural_de_contrayente_1` VARCHAR(100),
-  `natural_de_contrayente_2` VARCHAR(100),
   `testigo_1_id` INT(11) NOT NULL,
   `testigo_2_id` INT(11) NOT NULL,
   `sacerdote_id` INT(11) NOT NULL,
@@ -309,10 +307,10 @@ CREATE TABLE `constancia_matrimonio` (
   FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `constancia_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `natural_de_contrayente_1`, `natural_de_contrayente_2`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
-(1, 1, 2, '2023-11-20', 'Caracas', 'Valencia', 3, 4, 1, '1', '15', '5'),
-(2, 5, 8, '2024-02-10', 'Maracaibo', 'Caracas', 9, 10, 5, '2', '20', '8'),
-(3, 11, 3, '2024-06-05', 'Valencia', 'Maracay', 1, 2, 3, '3', '25', '12');
+INSERT INTO `constancia_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, 1, 2, '2023-11-20', 3, 4, 1, '1', '15', '5'),
+(2, 5, 8, '2024-02-10', 9, 10, 5, '2', '20', '8'),
+(3, 11, 3, '2024-06-05', 1, 2, 3, '3', '25', '12');
 
 --
 -- Índices para tablas volcadas
