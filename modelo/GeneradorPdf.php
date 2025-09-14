@@ -7,29 +7,27 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class GeneradorPdf
 {
-    public static function guardarPDF($datos) // TODO reescribir
+    private static $ruta_plantillas = __DIR__ . "/../public/plantillas/";
+    private static $ruta_documentos = __DIR__ . "/../public/documentos/";
+
+    public static function generarDocumento($nombre_plantilla, $datos)
     {
-        $ruta_plantilla = "../public/plantillas_sugor_que_es_aca/" . $plantilla;
-
-        $archivo_generado = $this->crearDocumento($ruta_plantilla, $datos);
-
-        if ($archivo_generado) {
-            header("Location: ../public/documentos/$archivo_generado");
-            exit;
-        } else {
-            echo "Error: tipo de archivo no soportado o falló la generación.";
+        $ruta_plantilla_completa = self::ruta_plantillas . $nombre_plantilla;
+        
+        if (!file_exists($ruta_plantilla_completa)) {
+            error_log("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
+            throw new InvalidArgumentException("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
         }
-    }
+        $nombre_archivo_salida = uniqid('documento_', true) . '.docx';
+        $ruta_salida_completa = self::ruta_documentos . $nombre_archivo_salida;
 
-    public function crearDocumentoDocx($plantilla, $ruta_salida, $datos) // TODO adaptar a los objectos con sus clases
-    {
-        $nombre_plantilla = basename($plantilla);
-
-        $plantilla = new TemplateProcessor($plantilla);
+        $plantilla = new TemplateProcessor($ruta_plantilla_completa);
         foreach ($datos as $key => $valor) {
             $plantilla->setValue($key, $valor);
         }
-        $plantilla->saveAs($ruta_salida);
+        $plantilla->saveAs($ruta_salida_completa);
+
+        return $ruta_salida_completa;
     }
 
     public static function generarPdfMatrimonio(

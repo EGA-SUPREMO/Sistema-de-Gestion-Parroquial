@@ -401,6 +401,17 @@ ALTER TABLE `peticiones`
     (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
   );
 
+ALTER TABLE `peticiones`
+ADD COLUMN `constancia_de_bautizo_id` INT NULL,
+ADD COLUMN `constancia_de_confirmacion_id` INT NULL,
+ADD COLUMN `constancia_de_comunion_id` INT NULL,
+ADD COLUMN `constancia_de_matrimonio_id` INT NULL,
+ADD FOREIGN KEY (`constancia_de_bautizo_id`) REFERENCES `constancia_de_bautizo` (`id`),
+ADD FOREIGN KEY (`constancia_de_confirmacion_id`) REFERENCES `constancia_de_confirmacion` (`id`),
+ADD FOREIGN KEY (`constancia_de_comunion_id`) REFERENCES `constancia_de_comunion` (`id`),
+ADD FOREIGN KEY (`constancia_de_matrimonio_id`) REFERENCES `constancia_de_matrimonio` (`id`);
+
+
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE;
 

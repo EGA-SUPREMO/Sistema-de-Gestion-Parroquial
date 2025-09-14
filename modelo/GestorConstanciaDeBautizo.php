@@ -9,6 +9,7 @@ require_once 'modelo/ConstanciaDeBautizo.php';
 
 class GestorConstanciaDeBautizo extends GestorBase
 {
+    private static $plantilla_nombre;
     private $gestorFeligres;
     private $gestorSacerdote;
 
@@ -18,55 +19,49 @@ class GestorConstanciaDeBautizo extends GestorBase
         $this ->tabla = "constancia_de_bautizo";
         $this ->clase_nombre = "ConstanciaDeBautizo";
 
+        $this ->plantilla_nombre = "fe de bautizo.docx";
         $this->gestorFeligres = new GestorFeligres();
         $this->gestorSacerdote = new GestorSacerdote();
-    }
-
-    protected function insertar($objeto) // TODO insertar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
-    {// TODO insertar o actualizar feligres al crear constancia, en caso de que feligres no sea encontrado
-        parent::insertar($objeto);
-    }
-
-    protected function actualizar($id, $objeto) // TODO actualizar tambien una peticion con los datos para la constancia sin necesidad de pedirlos por el metodo
-    {// TODO insertar o actualizar feligres al crear constancia, en caso de que feligres no sea encontrado
-        parent::actualizar($id, $objeto);
     }
 
     public function guardar($objeto, $id = 0)
     {
         parent::guardar($objeto, $id);
+    }
 
-        $objeto->setFeligres($this->gestorFeligres->obtenerPorId($objeto->getFeligresBautizadoId());
-        $objeto->setPadre($this->gestorFeligres->obtenerPorId($objeto->getPadreId());
-        $objeto->setMadre($this->gestorFeligres->obtenerPorId($objeto->getMadreId());
-        $objeto->setMinistro($this->gestorSacerdote->obtenerPorId($objeto->getMinistroId());
-        $objeto->setMinistroCertifica($this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId());
+    public function generarPDF($constancia)
+    {
+        $constancia->setFeligres($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId());
+        $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId());
+        $constancia->setMadre($this->gestorFeligres->obtenerPorId($constancia->getMadreId());
+        $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId());
+        $constancia->setMinistroCertifica($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaId());
 
-        $datos = $objeto->toArrayParaConstanciaPDF();
-        GeneradorPdf::guardarPDF($datos);
+        $datos = $constancia->toArrayParaConstanciaPDF();
+        GeneradorPdf::guardarPDF($this->plantilla_nombre, $datos);
     }
 
 
     protected function validarDependencias($objeto)
     {
         if (!$this->gestorFeligres->obtenerPorId($objeto->getFeligresBautizadoId())) {
-            throw new InvalidArgumentException("Error: El feligrés bautizado no existe.");
+            throw new InvalidArgumentException("Error: El feligrés ${$objeto->getFeligresBautizadoId()} bautizado no existe.");
         }
 
         if (!$this->gestorFeligres->obtenerPorId($objeto->getPadreId())) {
-            throw new InvalidArgumentException("Error: El padre no existe.");
+            throw new InvalidArgumentException("Error: El padre ${$objeto->getPadreId()} no existe.");
         }
 
         if (!$this->gestorFeligres->obtenerPorId($objeto->getMadreId())) {
-            throw new InvalidArgumentException("Error: La madre no existe.");
+            throw new InvalidArgumentException("Error: La madre ${$objeto->getMadreId()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
-            throw new InvalidArgumentException("Error: El ministro no existe.");
+            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroId()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId())) {
-            throw new InvalidArgumentException("Error: El ministro que certifica no existe.");
+            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroCertificaId()} que certifica no existe.");
         }
     }
 
