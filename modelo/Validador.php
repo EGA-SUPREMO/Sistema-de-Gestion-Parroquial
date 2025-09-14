@@ -102,4 +102,12 @@ class Validador
         $es_booleano = (bool)$valor;
         return $es_booleano ? 1 : 0;
     }
+
+    public static function estaVacio($valor, $nombreCampo)
+    {
+        if (empty($valor) && $valor !== 0) {
+            throw new InvalidArgumentException("Error: El campo '{$nombreCampo}' no puede estar vacío.");
+        }
+        return $valor;
+    }
 }

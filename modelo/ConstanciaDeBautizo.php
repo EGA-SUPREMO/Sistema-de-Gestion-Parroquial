@@ -183,12 +183,67 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos = parent::toArrayParaMostrar();
         return $datos;
     }
+    /*
+${numero_libro}
+${numero_pagina}
+${numero_marginal}
+${nombre_bautizado}
+${padre}
+${madre}
+${dia_nacimiento}
+${mes_nacimiento}
+${ano_nacimiento}
+${lugar_nacimiento}
+${dia_bautizo}
+${mes_bautizo}
+${ano_bautizo}
+${ministro}
+${padrino_nombre}
+${madrina_nombre}
+${observaciones}
+${proposito}
+${dia_expedicion}
+${dia_mes}
+${ano_expedicion}
+${ministro_certifica}
+*/
+
     public function toArrayParaConstanciaPDF() {
-        $datos = $this->toArrayParaBD();
-        if ($value === null) {
-            throw new InvalidArgumentException("Error: {$propertyName} no puede ser nulo.");
-        }
-        return $datos;
+        $datos_bd = $this->toArrayParaBD();
+        $datos_constancia = [];
+
+        $datos_constancia['numero_libro'] = Validador::estaVacio($datos_bd['numero_libro'], 'Número de libro');
+        $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
+        $datos_constancia['numero_marginal'] = Validador::estaVacio($datos_bd['numero_marginal'], 'Número marginal');
+
+        $datos_constancia['nombre_bautizado'] = Validador::estaVacio($datos_bd['feligres_bautizado_id'], 'Nombre del bautizado')
+        $datos_constancia['padre'] = Validador::estaVacio($datos_bd['padre_id'], 'Nombre del padre')
+        $datos_constancia['madre'] = Validador::estaVacio($datos_bd['madre_id'], 'Nombre de la madre')
+        
+        $fecha_nacimiento = new DateTime(Validador::estaVacio($datos_bd['fecha_nacimiento'], 'Fecha de nacimiento'));
+        $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
+        $datos_constancia['mes_nacimiento'] = $fecha_nacimiento->format('m');
+        $datos_constancia['ano_nacimiento'] = $fecha_nacimiento->format('Y');
+
+        $fecha_bautizo = new DateTime(Validador::estaVacio($datos_bd['fecha_bautizo'], 'Fecha de bautizo'));
+        $datos_constancia['dia_bautizo'] = $fecha_bautizo->format('d');
+        $datos_constancia['mes_bautizo'] = $fecha_bautizo->format('m');
+        $datos_constancia['ano_bautizo'] = $fecha_bautizo->format('Y');
+
+        $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($datos_bd['municipio'], 'Lugar de nacimiento');
+        $datos_constancia['ministro'] = Validador::estaVacio($datos_bd['ministro_id'], 'Ministro');
+        $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del padrino');
+        $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');
+        $datos_constancia['observaciones'] = Validador::estaVacio($datos_bd['observaciones'], 'Observaciones');
+
+        // Datos de expedición
+        $datos_constancia['proposito'] = ''; // O el valor que corresponda
+        $datos_constancia['dia_expedicion'] = ''; // Llenar con la fecha actual o del registro
+        $datos_constancia['mes_expedicion'] = '';
+        $datos_constancia['ano_expedicion'] = '';
+        $datos_constancia['ministro_certifica'] = Validador::estaVacio($datos_bd['ministro_certifica_id'], 'Ministro que certifica');
+
+        return $datos_constancia;
     }
 
 }
