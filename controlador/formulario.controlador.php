@@ -18,29 +18,11 @@ class formularioControlador
     {
         FuncionesComunes::requerirLogin();
 
-        $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
-        $arrayBD = $objeto->toArrayParaBD(true);
-        $camposEsperados = array_keys($arrayBD);
+        $resultado = $this->guardarDatos();
 
-        $datos = [];
-        foreach ($camposEsperados as $campo) {
-            if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
-                $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
-            }
-        }
-        try {
-            $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
-            $objeto->hydrate($datos);
-
-            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
-            $resultado = $this->gestor->guardar($objeto, $id);
-
-            if (!$resultado) {
-                $this->guardar("Error: Por favor, introduce datos válidos.");
-                exit();
-            }
-        } catch (Exception $e) {
-            error_log($e->getMessage());
+        if (!$resultado) {
+            $this->guardar("Error: Por favor, introduce datos válidos.");
+            exit();
         }
         FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
     }
@@ -71,6 +53,34 @@ class formularioControlador
 
         require_once "vistas/formulario.php";
         require_once "controlador/formulario.php";
+    }
+
+    protected function guardarDatos()
+    {
+        $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
+        $arrayBD = $objeto->toArrayParaBD(true);
+        $camposEsperados = array_keys($arrayBD);
+
+        $datos = [];
+        foreach ($camposEsperados as $campo) {
+            if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
+                $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
+            }
+        }
+        try {
+            $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
+            $objeto->hydrate($datos);
+
+            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+            
+            if ($this->gestor->guardar($objeto, $id)) {
+                return $objeto;
+            }
+            return false;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+        return false;
     }
 
 }
