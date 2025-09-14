@@ -7,9 +7,9 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class GeneradorPdf
 {
-    public function guardarPDF() // TODO reescribir
-    {$datos = $_POST;
-        $ruta_plantilla = "../public/plantillas estas seguro que es aca?/" . $plantilla;
+    public static function guardarPDF($datos) // TODO reescribir
+    {
+        $ruta_plantilla = "../public/plantillas_sugor_que_es_aca/" . $plantilla;
 
         $archivo_generado = $this->crearDocumento($ruta_plantilla, $datos);
 
@@ -22,7 +22,8 @@ class GeneradorPdf
     }
 
     public function crearDocumentoDocx($plantilla, $ruta_salida, $datos) // TODO adaptar a los objectos con sus clases
-    {$nombre_plantilla = basename($plantilla);
+    {
+        $nombre_plantilla = basename($plantilla);
 
         $plantilla = new TemplateProcessor($plantilla);
         foreach ($datos as $key => $valor) {

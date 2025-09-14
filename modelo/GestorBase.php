@@ -82,6 +82,7 @@ abstract class GestorBase
     }
     public function guardar($objeto, $id = 0)
     {
+        $this->validarDedendecias($objeto);
         if ($id) {
             return $this->actualizar($id, $objeto);
         }
@@ -93,4 +94,5 @@ abstract class GestorBase
     {
         return $this->clavePrimaria;
     }
+    protected function validarDedendecias($objeto) {}
 }

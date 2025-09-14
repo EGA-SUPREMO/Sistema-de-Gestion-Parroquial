@@ -168,4 +168,22 @@ class Feligres extends ModeloBase
 
         return implode(' - ', $partes);
     }
+    public function nombreCompleto()
+    {
+        $partes = [];
+        if (!empty($this->primer_nombre)) {
+            $partes[] = $this->primer_nombre;
+        }
+        if (!empty($this->segundo_nombre)) {
+            $partes[] = $this->segundo_nombre;
+        }
+        if (!empty($this->primer_apellido)) {
+            $partes[] = $this->primer_apellido;
+        }
+        if (!empty($this->segundo_apellido)) {
+            $partes[] = $this->segundo_apellido;
+        }
+
+        return implode(' ', $partes);
+    }
 }
