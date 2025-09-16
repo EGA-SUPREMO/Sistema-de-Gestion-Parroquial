@@ -26,6 +26,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     private $numero_libro;
     private $numero_pagina;
     private $numero_marginal;
+    private $proposito;
 
     public function getId()
     {
@@ -153,6 +154,10 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function setObservaciones($observaciones)
     {
         $this->observaciones = Validador::validarString($observaciones, "observaciones", 1000);
+    }
+    public function setProposito($proposito)
+    {
+        $this->proposito = Validador::validarString($proposito, "proposito", 10, 5);
     }
 
     public function setMunicipio($municipio)
