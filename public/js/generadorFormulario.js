@@ -66,6 +66,14 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
           'class': 'form-control',
           'rows': 4
         });
+    } else if (propiedadCampo.type === "subtitulo") {
+      $inputElement = $('<h4>')
+        .attr({
+          'name': propiedadCampo.name,
+          'id': propiedadCampo.name,
+          'class': 'mt-4 mb-3'
+        });
+        $inputElement.html(propiedadCampo.value);
     } else {
       $inputElement = $('<input>')
         .attr({
