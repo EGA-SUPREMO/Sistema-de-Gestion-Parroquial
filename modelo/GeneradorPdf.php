@@ -1,6 +1,6 @@
 <?php
 
-require "../vendor/autoload.php";
+require "vendor/autoload.php";
 use PhpOffice\PhpWord\TemplateProcessor;
 
 //use TCPDF;

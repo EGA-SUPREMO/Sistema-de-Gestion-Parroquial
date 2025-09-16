@@ -250,9 +250,9 @@ ${ministro_certifica}
         $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
         $datos_constancia['numero_marginal'] = Validador::estaVacio($datos_bd['numero_marginal'], 'Número marginal');
 
-        $datos_constancia['nombre_bautizado'] = Validador::estaVacio($this->feligres_bautizado->nombreCompleto(), 'Nombre del bautizado')
-        $datos_constancia['padre'] = Validador::estaVacio($this->padre->nombreCompleto(), 'Nombre del padre')
-        $datos_constancia['madre'] = Validador::estaVacio($this->madre->nombreCompleto(), 'Nombre de la madre')
+        $datos_constancia['nombre_bautizado'] = Validador::estaVacio($this->feligres_bautizado->nombreCompleto(), 'Nombre del bautizado');
+        $datos_constancia['padre'] = Validador::estaVacio($this->padre->nombreCompleto(), 'Nombre del padre');
+        $datos_constancia['madre'] = Validador::estaVacio($this->madre->nombreCompleto(), 'Nombre de la madre');
         
         $fecha_nacimiento = new DateTime(Validador::estaVacio($datos_bd['fecha_nacimiento'], 'Fecha de nacimiento'));
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
