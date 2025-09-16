@@ -238,7 +238,8 @@ ${ano_expedicion}
 ${ministro_certifica}
 */
 
-    public function toArrayParaConstanciaPDF() {
+    public function toArrayParaConstanciaPDF()
+    {
         if (empty($this->feligres_bautizado) || empty($this->padre) || empty($this->madre) || empty($this->ministro) || empty($this->ministro_certifica)) {
             throw new InvalidArgumentException("Error: objeto feligres vacio"); // TODO expandir
         }
@@ -253,7 +254,7 @@ ${ministro_certifica}
         $datos_constancia['nombre_bautizado'] = Validador::estaVacio($this->feligres_bautizado->nombreCompleto(), 'Nombre del bautizado');
         $datos_constancia['padre'] = Validador::estaVacio($this->padre->nombreCompleto(), 'Nombre del padre');
         $datos_constancia['madre'] = Validador::estaVacio($this->madre->nombreCompleto(), 'Nombre de la madre');
-        
+
         $fecha_nacimiento = new DateTime(Validador::estaVacio($datos_bd['fecha_nacimiento'], 'Fecha de nacimiento'));
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
         $datos_constancia['mes_nacimiento'] = $fecha_nacimiento->format('m');
