@@ -72,7 +72,7 @@ class formularioControlador
             $objeto->hydrate($datos);
 
             $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
-            
+
             if ($this->gestor->guardar($objeto, $id)) {
                 return $objeto;
             }

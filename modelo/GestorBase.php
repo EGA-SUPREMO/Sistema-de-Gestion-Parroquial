@@ -94,5 +94,7 @@ abstract class GestorBase
     {
         return $this->clavePrimaria;
     }
-    protected function validarDedendecias($objeto) {}
+    protected function validarDedendecias($objeto)
+    {
+    }
 }

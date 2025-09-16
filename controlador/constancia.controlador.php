@@ -2,7 +2,7 @@
 
 require_once 'controlador/formulario.controlador.php';
 
-class constanciaControlador extends formularioControlador 
+class constanciaControlador extends formularioControlador
 {
     public function guardarRegistro()
     {

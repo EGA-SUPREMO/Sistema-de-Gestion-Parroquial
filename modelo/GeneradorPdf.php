@@ -13,7 +13,7 @@ class GeneradorPdf
     public static function generarDocumento($nombre_plantilla, $datos)
     {
         $ruta_plantilla_completa = self::ruta_plantillas . $nombre_plantilla;
-        
+
         if (!file_exists($ruta_plantilla_completa)) {
             error_log("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
             throw new InvalidArgumentException("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
