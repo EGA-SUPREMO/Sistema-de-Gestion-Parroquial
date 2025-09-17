@@ -66,9 +66,9 @@
                 { type: 'number', name: 'ministro_id', label: 'ID del Ministro', required: true, validarMetodo: 'validarEntero', value: datosPHP.ministro_id },
                 { type: 'number', name: 'ministro_certifica_id', label: 'ID del Ministro que Certifica', required: true, validarMetodo: 'validarEntero', value: datosPHP.ministro_certifica_id },
                 { type: 'text', name: 'registro_civil', label: 'Registro Civil', required: false, validarMetodo: 'validarString', value: datosPHP.registro_civil },
-                { type: 'number', name: 'numero_libro', label: 'Número de Libro', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_libro },
-                { type: 'number', name: 'numero_pagina', label: 'Número de Página', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_pagina },
-                { type: 'number', name: 'numero_marginal', label: 'Número Marginal', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_marginal },
+                { type: 'number', name: 'numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_libro },
+                { type: 'number', name: 'numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_pagina },
+                { type: 'number', name: 'numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEntero', value: datosPHP.numero_marginal },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de Expedición'},
                 { type: 'date', name: 'fecha-expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_expedicion },
