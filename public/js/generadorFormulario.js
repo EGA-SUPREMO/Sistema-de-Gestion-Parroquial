@@ -58,6 +58,41 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
         }
         $inputElement.append($optionElement);
       });
+    } else if (propiedadCampo.type === 'fila') {
+            const $row = $('<div class="row">'); // Contenedor de la fila
+
+            // Iteramos sobre los campos DENTRO de la fila
+            $.each(propiedadCampo.campos, function(j, campoInterno) {
+                // Creamos una columna para cada campo. 'col-md' hace que en pantallas pequeñas se pongan uno debajo del otro.
+                const $col = $('<div class="col-md mb-3">'); 
+                const $formGroup = $('<div>'); // No necesita la clase mb-3 porque ya la tiene la columna
+
+                if (campoInterno.label) {
+                    const $label = $('<label>').attr('for', campoInterno.name).addClass('form-label').text(campoInterno.label);
+                    $formGroup.append($label);
+                }
+
+                // La lógica para crear el input es la misma, solo que usamos 'campoInterno'
+                const $inputElement = $('<input>').attr({
+                    'type': campoInterno.type,
+                    'name': campoInterno.name,
+                    'id': campoInterno.name,
+                    'class': 'form-control',
+                });
+
+                if (campoInterno.required) $inputElement.prop('required', true);
+                if (campoInterno.value) $inputElement.val(campoInterno.value);
+                if (campoInterno.placeholder) $inputElement.attr("placeholder", campoInterno.placeholder);
+                if (campoInterno.maxlength) $inputElement.attr("maxlength", campoInterno.maxlength);
+                if (campoInterno.pattern) $inputElement.attr("pattern", campoInterno.pattern);
+                
+                $formGroup.append($inputElement);
+                $col.append($formGroup);
+                $row.append($col);
+            });
+
+            $form.append($row); // Añadimos la fila completa al formulario
+        
     } else if (propiedadCampo.type === "textarea") {
       $inputElement = $('<textarea>')
         .attr({
