@@ -400,6 +400,14 @@ ALTER TABLE `peticiones`
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
     (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
   );
+ALTER TABLE `peticiones`
+  ADD CONSTRAINT `chk_servicio_constancias` CHECK (
+    (`servicio_id` = 2 AND `constancia_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 4 AND `constancia_de_confirmacion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 5 AND `constancia_de_matrimonio_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL) OR
+    (`servicio_id` NOT IN (2, 3, 4, 5) AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL)
+);
 
 ALTER TABLE `peticiones`
 ADD COLUMN `constancia_de_bautizo_id` INT NULL,
@@ -433,19 +441,15 @@ INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_
 
 -- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
 -- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (ej. 1-3).
-
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(11, 11, NULL, 1, NULL, 2, NULL, '2024-07-20 14:00:00', '2024-07-20 15:00:00'),
-(12, 13, NULL, 1, NULL, 3, NULL, '2024-08-10 09:00:00', '2024-08-10 10:00:00'),
-(13, 15, NULL, 1, NULL, 4, NULL, '2024-09-18 11:00:00', '2024-09-18 12:00:00'),
-(14, 17, NULL, 1, NULL, 5, NULL, '2024-10-25 15:00:00', '2024-10-25 16:00:00'),
-(15, 19, NULL, 1, NULL, 2, NULL, '2024-11-03 10:00:00', '2024-11-03 11:00:00'),
-(16, 1, NULL, 1, NULL, 3, NULL, '2024-12-08 13:00:00', '2024-12-08 14:00:00'),
-(17, 3, NULL, 1, NULL, 4, NULL, '2025-01-19 16:00:00', '2025-01-19 17:00:00'),
-(18, 5, NULL, 1, NULL, 5, NULL, '2025-02-28 09:00:00', '2025-02-28 10:00:00'),
-(19, 7, NULL, 1, NULL, 2, NULL, '2025-03-05 14:00:00', '2025-03-05 15:00:00'),
-(20, 9, NULL, 1, NULL, 3, NULL, '2025-04-12 11:00:00', '2025-04-12 12:00:00');
-
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
+(11, 1, NULL, 1, NULL, 2, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00', 1, NULL, NULL, NULL),
+(12, 5, NULL, 1, NULL, 3, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00', NULL, NULL, 2, NULL),
+(13, 7, NULL, 1, NULL, 4, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00', NULL, 3, NULL, NULL),
+(14, 9, NULL, 1, NULL, 5, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00', NULL, NULL, NULL, 1),
+(15, 3, NULL, 1, NULL, 2, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00', 2, NULL, NULL, NULL),
+(16, 4, NULL, 1, NULL, 3, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00', NULL, NULL, 3, NULL),
+(17, 8, NULL, 1, NULL, 4, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00', NULL, 1, NULL, NULL),
+(18, 10, NULL, 1, NULL, 5, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00', NULL, NULL, NULL, 2);
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
