@@ -1,165 +1,175 @@
 /**
- * Genera un formulario dinámico a partir de un objeto de definición.
- * @param {object} definicionFormulario - Objeto que define los campos del formulario.
- * @param {string} tituloFormulario - el titulo del formulario en la tarjeta
+ * Asigna atributos comunes (required, value, pattern, etc.) a un elemento del formulario.
+ * @param {jQuery} $element - El elemento de jQuery al que se le asignarán los atributos.
+ * @param {object} properties - El objeto de definición del campo.
+ * @returns {jQuery} El mismo elemento para permitir encadenamiento.
  */
-function generarFormulario(definicionFormulario, tituloFormulario) {
-  const $contenedor = $(definicionFormulario.contenedor);
-  $contenedor.empty();// Limpiar el contenedor antes de agregar el nuevo formulario
+function asignarAtributosComunes($element, properties) {
+    const atributos = {
+        'value': properties.value,
+        'placeholder': properties.placeholder,
+        'maxlength': properties.maxlength,
+        'pattern': properties.pattern,
+    };
 
-  const $htmlCardHeader = `
-    <div class="card-header bg-success text-white">
-      <header class="bg-success text-white text-center py-3">
-        <h1 class="mb-0">
-          ${tituloFormulario}
-        </h1>
-      </header>
-    </div>
-  `
-
-  // Crear el contenedor de la tarjeta y el cuerpo
-  const $cardBody = $('<div class="card-body">');
-  const $form = $('<form>').attr({
-    'action': definicionFormulario.action,
-    'method': 'POST',
-    'autocomplete': 'off'
-  });
-  $contenedor.append($htmlCardHeader);
-
-  // Iterar sobre las propiedades del objeto de definición para crear los campos
-  $.each(definicionFormulario.campos, function(i, propiedadCampo) {
-    const $formGroup = $('<div class="mb-3">');
-    if (propiedadCampo.label) {
-      const $label = $('<label>')
-        .attr('for', propiedadCampo.name)
-        .addClass('form-label')
-        .text(propiedadCampo.label);
-
-      $formGroup.append($label);
-    }
-
-    let $inputElement;
-
-   if (propiedadCampo.type === "select") {
-      $inputElement = $('<select>')
-        .attr({
-          'name': propiedadCampo.name,
-          'id': propiedadCampo.name,
-          'class': 'form-control',
-        });
-
-      $.each(propiedadCampo.options, function(j, option) {
-        const $optionElement = $('<option>')
-          .attr('value', option.value)
-          .text(option.text);
-        
-        if (option.value === propiedadCampo.value) {
-          $optionElement.prop('selected', true);
+    // Asignar atributos solo si existen en la definición
+    for (const attr in atributos) {
+        if (atributos[attr]) {
+            $element.attr(attr, atributos[attr]);
         }
-        $inputElement.append($optionElement);
-      });
-    } else if (propiedadCampo.type === 'fila') {
-            const $row = $('<div class="row">'); // Contenedor de la fila
-
-            // Iteramos sobre los campos DENTRO de la fila
-            $.each(propiedadCampo.campos, function(j, campoInterno) {
-                // Creamos una columna para cada campo. 'col-md' hace que en pantallas pequeñas se pongan uno debajo del otro.
-                const $col = $('<div class="col-md mb-3">'); 
-                const $formGroup = $('<div>'); // No necesita la clase mb-3 porque ya la tiene la columna
-
-                if (campoInterno.label) {
-                    const $label = $('<label>').attr('for', campoInterno.name).addClass('form-label').text(campoInterno.label);
-                    $formGroup.append($label);
-                }
-
-                // La lógica para crear el input es la misma, solo que usamos 'campoInterno'
-                const $inputElement = $('<input>').attr({
-                    'type': campoInterno.type,
-                    'name': campoInterno.name,
-                    'id': campoInterno.name,
-                    'class': 'form-control',
-                });
-
-                if (campoInterno.required) $inputElement.prop('required', true);
-                if (campoInterno.value) $inputElement.val(campoInterno.value);
-                if (campoInterno.placeholder) $inputElement.attr("placeholder", campoInterno.placeholder);
-                if (campoInterno.maxlength) $inputElement.attr("maxlength", campoInterno.maxlength);
-                if (campoInterno.pattern) $inputElement.attr("pattern", campoInterno.pattern);
-                
-                $formGroup.append($inputElement);
-                $col.append($formGroup);
-                $row.append($col);
-            });
-
-            $form.append($row); // Añadimos la fila completa al formulario
-        
-    } else if (propiedadCampo.type === "textarea") {
-      $inputElement = $('<textarea>')
-        .attr({
-          'name': propiedadCampo.name,
-          'id': propiedadCampo.name,
-          'class': 'form-control',
-          'rows': 4
-        });
-    } else if (propiedadCampo.type === "subtitulo") {
-      $inputElement = $('<h4>')
-        .attr({
-          'name': propiedadCampo.name,
-          'id': propiedadCampo.name,
-          'class': 'mt-4 mb-3'
-        });
-        $inputElement.html(propiedadCampo.value);
-    } else {
-      $inputElement = $('<input>')
-        .attr({
-          'type': propiedadCampo.type,
-          'name': propiedadCampo.name,
-          'id': propiedadCampo.name,
-          'class': 'form-control',
-        });
-    }
-
-    if (propiedadCampo.required) {
-      $inputElement.prop('required', true);
     }
     
-    // Asignar el valor si existe
-    if (propiedadCampo.value) {
-      $inputElement.val(propiedadCampo.value);
+    // Asignar propiedades como 'required' y 'selected'
+    if (properties.required) {
+        $element.prop('required', true);
+    }
+    
+    // Para selects, selecciona el valor correcto
+    if (properties.type === 'select' && properties.value) {
+        $element.val(properties.value);
     }
 
-    if (propiedadCampo.placeholder) {
-      $inputElement.attr("placeholder", propiedadCampo.placeholder);
+    return $element;
+}
+
+// Objeto que contiene funciones para crear cada tipo de campo.
+// Esto reemplaza el bloque largo de if/else if.
+const creadoresDeCampos = {
+    crearInput: function(prop) {
+        const $input = $('<input>').attr({
+            type: prop.type,
+            name: prop.name,
+            id: prop.name,
+            class: 'form-control'
+        });
+        return asignarAtributosComunes($input, prop);
+    },
+    
+    crearSelect: function(prop) {
+        const $select = $('<select>').attr({
+            name: prop.name,
+            id: prop.name,
+            class: 'form-control'
+        });
+        
+        prop.options.forEach(option => {
+            const $option = $('<option>').val(option.value).text(option.text);
+            $select.append($option);
+        });
+        
+        return asignarAtributosComunes($select, prop);
+    },
+
+    crearTextarea: function(prop) {
+        const $textarea = $('<textarea>').attr({
+            name: prop.name,
+            id: prop.name,
+            class: 'form-control',
+            rows: 4
+        });
+        return asignarAtributosComunes($textarea, prop);
+    },
+
+    crearSubtitulo: function(prop) {
+        return $('<h4>').attr({
+            name: prop.name,
+            id: prop.name,
+            class: 'mt-4 mb-3'
+        }).html(prop.value);
+    },
+
+    crearFila: function(prop) {
+        const $row = $('<div class="row">');
+        prop.campos.forEach(campoInterno => {
+            const $col = $('<div class="col-md mb-3">');
+            const $formGroup = $('<div>');
+            
+            if (campoInterno.label) {
+                const $label = $('<label>').attr('for', campoInterno.name).addClass('form-label').text(campoInterno.label);
+                $formGroup.append($label);
+            }
+            
+            // Reutilizamos la misma lógica para crear el input interno
+            const $input = this.crearInput(campoInterno);
+            $formGroup.append($input);
+            $col.append($formGroup);
+            $row.append($col);
+        });
+        return $row;
     }
+};
 
-    if (propiedadCampo.maxlength) {
-        $inputElement.attr("maxlength", propiedadCampo.maxlength);
-    }
+/**
+ * Genera un formulario dinámico a partir de un objeto de definición.
+ * @param {object} definicionFormulario - Objeto que define los campos del formulario.
+ * @param {string} tituloFormulario - El título del formulario en la tarjeta.
+ */
+function generarFormulario(definicionFormulario, tituloFormulario) {
+    const $contenedor = $(definicionFormulario.contenedor).empty();
 
-    if (propiedadCampo.pattern) {
-        $inputElement.attr("pattern", propiedadCampo.pattern);
-    }
+    // 1. Crear la estructura base del formulario
+    const $cardHeader = $(`
+        <div class="card-header bg-success text-white">
+            <header class="bg-success text-white text-center py-3">
+                <h1 class="mb-0">${tituloFormulario}</h1>
+            </header>
+        </div>`);
 
-    $formGroup.append($inputElement);
-    $form.append($formGroup);
-  });
+    const $cardBody = $('<div class="card-body">');
+    const $form = $('<form>').attr({
+        action: definicionFormulario.action,
+        method: 'POST',
+        autocomplete: 'off'
+    });
 
-  // Separador y botones de acción
-  $form.append('<hr/>');
-  const $buttonDiv = $('<div class="text-left">');
-  const $cancelButton = $('<a>')
-    .attr('href', definicionFormulario.cancelarBtn)
-    .addClass('btn btn-secondary')
-    .text('Cancelar');
-  const $submitButton = $('<button>')
-    .attr('type', 'submit')
-    .addClass('btn btn-primary')
-    .text('Guardar');
+    // 2. Iterar y crear cada campo del formulario
+    definicionFormulario.campos.forEach(propiedadCampo => {
+        // Si es una fila, se maneja de forma especial porque no tiene un 'form-group'
+        if (propiedadCampo.type === 'fila') {
+            const $fila = creadoresDeCampos.crearFila(propiedadCampo);
+            $form.append($fila);
+            return; // Continuar con el siguiente campo
+        }
 
-  $buttonDiv.append($cancelButton, ' ', $submitButton);
-  $form.append($buttonDiv);
+        const $formGroup = $('<div class="mb-3">');
+        
+        // Crear la etiqueta si existe
+        if (propiedadCampo.label) {
+            const $label = $('<label>').attr('for', propiedadCampo.name).addClass('form-label').text(propiedadCampo.label);
+            $formGroup.append($label);
+        }
+        
+        // Seleccionar la función correcta para crear el elemento
+        let $elemento;
+        switch(propiedadCampo.type) {
+            case 'select':
+                $elemento = creadoresDeCampos.crearSelect(propiedadCampo);
+                break;
+            case 'textarea':
+                $elemento = creadoresDeCampos.crearTextarea(propiedadCampo);
+                break;
+            case 'subtitulo':
+                $elemento = creadoresDeCampos.crearSubtitulo(propiedadCampo);
+                break;
+            default:
+                $elemento = creadoresDeCampos.crearInput(propiedadCampo);
+        }
+        
+        $formGroup.append($elemento);
+        $form.append($formGroup);
+    });
 
-  $cardBody.append($form);
+    // 3. Crear botones de acción
+    const $actionButtons = $(`
+        <hr/>
+        <div class="text-left">
+            <a href="${definicionFormulario.cancelarBtn}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>`);
+    
+    $form.append($actionButtons);
 
-  $contenedor.append($cardBody);
+    // 4. Ensamblar todo y añadirlo al DOM
+    $cardBody.append($form);
+    $contenedor.append($cardHeader, $cardBody);
 }
