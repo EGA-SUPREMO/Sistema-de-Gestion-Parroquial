@@ -131,7 +131,6 @@ CREATE TABLE `peticiones` (
   `realizado_por_id` int(11) NOT NULL,
   `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
-  `descripcion` text DEFAULT NULL,
   `fecha_inicio` DATETIME NOT NULL,
   `fecha_fin` DATETIME NOT NULL,
   `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -427,29 +426,29 @@ ALTER TABLE `servicios`
 -- Volcado de datos para la tabla `peticiones`
 --
 
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`) VALUES
-(1, NULL, 2, 1, 1, 1, NULL, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
-(2, NULL, 1, 1, 2, 1, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
-(3, NULL, 5, 1, 3, 1, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
-(4, NULL, 7, 1, 1, 1, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00'),
-(5, NULL, 9, 1, 4, 1, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00'),
-(6, NULL, 1, 1, 2, 1, NULL, '2024-12-25 10:00:00', '2024-12-25 11:00:00'),
-(7, NULL, 3, 1, 4, 1, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00'),
-(8, NULL, 4, 1, 3, 1, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00'),
-(9, NULL, 8, 1, 1, 1, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00'),
-(10, NULL, 10, 1, 4, 1, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00');
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, NULL, 2, 1, 1, 1, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
+(2, NULL, 1, 1, 2, 1, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
+(3, NULL, 5, 1, 3, 1, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
+(4, NULL, 7, 1, 1, 1, '2024-10-10 12:00:00', '2024-10-10 13:00:00'),
+(5, NULL, 9, 1, 4, 1, '2024-11-20 17:00:00', '2024-11-20 18:00:00'),
+(6, NULL, 1, 1, 2, 1, '2024-12-25 10:00:00', '2024-12-25 11:00:00'),
+(7, NULL, 3, 1, 4, 1, '2025-01-07 08:00:00', '2025-01-07 09:00:00'),
+(8, NULL, 4, 1, 3, 1, '2025-02-14 11:00:00', '2025-02-14 12:00:00'),
+(9, NULL, 8, 1, 1, 1, '2025-03-22 16:00:00', '2025-03-22 17:00:00'),
+(10, NULL, 10, 1, 4, 1, '2025-04-30 09:00:00', '2025-04-30 10:00:00');
 
 -- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
--- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (ej. 1-3).
-INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `descripcion`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
-(11, 1, NULL, 1, NULL, 2, NULL, '2024-08-01 18:00:00', '2024-08-01 19:00:00', 1, NULL, NULL, NULL),
-(12, 5, NULL, 1, NULL, 3, NULL, '2024-09-05 09:30:00', '2024-09-05 10:30:00', NULL, NULL, 2, NULL),
-(13, 7, NULL, 1, NULL, 4, NULL, '2024-10-10 12:00:00', '2024-10-10 13:00:00', NULL, 3, NULL, NULL),
-(14, 9, NULL, 1, NULL, 5, NULL, '2024-11-20 17:00:00', '2024-11-20 18:00:00', NULL, NULL, NULL, 1),
-(15, 3, NULL, 1, NULL, 2, NULL, '2025-01-07 08:00:00', '2025-01-07 09:00:00', 2, NULL, NULL, NULL),
-(16, 4, NULL, 1, NULL, 3, NULL, '2025-02-14 11:00:00', '2025-02-14 12:00:00', NULL, NULL, 3, NULL),
-(17, 8, NULL, 1, NULL, 4, NULL, '2025-03-22 16:00:00', '2025-03-22 17:00:00', NULL, 1, NULL, NULL),
-(18, 10, NULL, 1, NULL, 5, NULL, '2025-04-30 09:00:00', '2025-04-30 10:00:00', NULL, NULL, NULL, 2);
+-- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (1).
+INSERT INTO `peticiones` (`id`, `pedido_por_id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
+(11, 1, NULL, 1, NULL, 2, '2024-08-01 18:00:00', '2024-08-01 19:00:00', 1, NULL, NULL, NULL),
+(12, 5, NULL, 1, NULL, 3, '2024-09-05 09:30:00', '2024-09-05 10:30:00', NULL, NULL, 2, NULL),
+(13, 7, NULL, 1, NULL, 4, '2024-10-10 12:00:00', '2024-10-10 13:00:00', NULL, 3, NULL, NULL),
+(14, 9, NULL, 1, NULL, 5, '2024-11-20 17:00:00', '2024-11-20 18:00:00', NULL, NULL, NULL, 1),
+(15, 3, NULL, 1, NULL, 2, '2025-01-07 08:00:00', '2025-01-07 09:00:00', 2, NULL, NULL, NULL),
+(16, 4, NULL, 1, NULL, 3, '2025-02-14 11:00:00', '2025-02-14 12:00:00', NULL, NULL, 3, NULL),
+(17, 8, NULL, 1, NULL, 4, '2025-03-22 16:00:00', '2025-03-22 17:00:00', NULL, 1, NULL, NULL),
+(18, 10, NULL, 1, NULL, 5, '2025-04-30 09:00:00', '2025-04-30 10:00:00', NULL, NULL, NULL, 2);
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
