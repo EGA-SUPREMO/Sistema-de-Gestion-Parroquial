@@ -22,7 +22,7 @@
                             <label for="usuario" class="form-label">Usuario</label>
                             <div class="input-group">
                                 <span class="input-group-text">​​👤</span>
-                                <input type="text" class="form-control" id="usuario" name="nombre_usuario" placeholder="Escribe tu usuario" required>
+                                <input type="text" class="form-control" id="usuario" name="nombre_usuario" placeholder="" required>
                             </div>
                         </div>
 
@@ -30,7 +30,7 @@
                             <label for="contrasena" class="form-label">Contraseña</label>
                              <div class="input-group">
                                 <span class="input-group-text">🔑​</span>
-                                <input type="password" class="form-control" id="contrasena" name="password" placeholder="Escribe tu contraseña" required>
+                                <input type="password" class="form-control" id="contrasena" name="password" placeholder="" required>
                             </div>
                         </div>
                         

@@ -208,6 +208,14 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     {
         $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", null, 1);
     }
+
+    public function toArrayParaBD($excluirId = false)
+    {
+        $datos = parent::toArrayParaBD($excluirId);
+        unset($datos['municipio']);
+        error_log(print_r($datos));
+        return $datos;
+    }
     public function toArrayParaMostrar($criterio = null)
     {
         $datos = parent::toArrayParaMostrar();

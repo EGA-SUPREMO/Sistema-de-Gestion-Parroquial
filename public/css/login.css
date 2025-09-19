@@ -49,6 +49,7 @@ body {
 }
 
 .form-control {
+    text-transform: uppercase;
     background-color: var(--white-card-bg);
     border: none;
     border-bottom: 2px solid var(--white-border-input-text);

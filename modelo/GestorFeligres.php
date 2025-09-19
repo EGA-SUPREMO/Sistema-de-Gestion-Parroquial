@@ -12,4 +12,9 @@ class GestorFeligres extends GestorBase
         $this ->clase_nombre = "Feligres";
     }
 
+    public function obtenerPorCedula($cedula)
+    {
+        $sql = "SELECT * FROM {$this->tabla} WHERE {cedula} = ?";
+        return $this->hacerConsulta($sql, [$cedula], 'single');
+    }
 }
