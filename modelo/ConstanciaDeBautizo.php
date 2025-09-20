@@ -277,7 +277,7 @@ ${ministro_certifica}
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
         $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del padrino');
         $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');
-        $datos_constancia['observaciones'] = Validador::estaVacio($datos_bd['observaciones'], 'Observaciones');
+        $datos_constancia['observaciones'] = $datos_bd['observaciones'] ?: 'No hay nota marginal.';
 
         // Datos de expedición
         $datos_constancia['proposito'] = ''; // O el valor que corresponda
