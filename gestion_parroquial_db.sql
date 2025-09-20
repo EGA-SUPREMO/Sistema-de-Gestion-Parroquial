@@ -70,9 +70,10 @@ CREATE TABLE `feligreses` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `parentescos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_padre` INT NOT NULL,
   `id_hijo` INT NOT NULL,
-  PRIMARY KEY (`id_padre`, `id_hijo`),
+  PRIMARY KEY (`id`),
   FOREIGN KEY (`id_padre`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`id_hijo`) REFERENCES `feligreses`(`id`)
 ) ENGINE=InnoDB;

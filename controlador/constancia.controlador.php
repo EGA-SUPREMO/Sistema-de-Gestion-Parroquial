@@ -21,4 +21,29 @@ class constanciaControlador extends formularioControlador
         }
         $this->guardar("Error al guardar la constancia.");
     }
+
+    protected function guardarDatos()
+    {
+        $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
+        $arrayBD = $objeto->toArrayParaBD(true);
+        $camposEsperados = array_keys($arrayBD);
+
+        $datos = [];
+        foreach ($camposEsperados as $campo) {
+            if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
+                $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
+            }
+        }
+        try {
+            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+
+            if ($this->gestor->registrarConstancia($id, $datosFormulario)) {
+                return false;
+            }
+            return false;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+        return false;
+    }
 }
