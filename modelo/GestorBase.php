@@ -64,6 +64,7 @@ abstract class GestorBase
     protected function insertar($objeto)
     {
         $datos = $objeto->toArrayParaBD($objeto);
+        print_r($datos);
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";

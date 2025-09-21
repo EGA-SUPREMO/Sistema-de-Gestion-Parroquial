@@ -1,11 +1,13 @@
 <?php
 
 require_once 'modelo/Feligres.php';
-require_once 'modelo/Peticion.php';
+//require_once 'modelo/Peticion.php';
+require_once 'modelo/Sacerdote.php';
 require_once 'modelo/ConstanciaDeBautizo.php';
 
 require_once 'modelo/GestorConstanciaDeBautizo.php';
 require_once 'modelo/GestorPeticion.php';
+require_once 'modelo/GestorSacerdote.php';
 require_once 'modelo/GestorFeligres.php';
 
 
@@ -14,17 +16,19 @@ class ServicioConstanciaDeBautizo
     private $pdo;
     private $gestorPeticion;
     private $gestorFeligres;
+    private $gestorSacerdote;
     private $gestorConstanciaDeBautizo;
 
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        $this->gestorPeticion = new GestorPeticion($pdo);
+        //$this->gestorPeticion = new GestorPeticion($pdo);
         $this->gestorConstanciaDeBautizo = new GestorConstanciaDeBautizo($pdo);
         $this->gestorFeligres = new GestorFeligres($pdo);
+        $this->gestorSacerdote = new gestorSacerdote($pdo);
     }
 
-    public function registrarConstancia($idConstancia, $datosFormulario)
+    public function registrarConstancia($datosFormulario)
     {
         $this->pdo->beginTransaction();
 
@@ -37,8 +41,11 @@ class ServicioConstanciaDeBautizo
             $feligresPadreId = $this->obtenerOcrearFeligresId($datosDelFeligres);
             $feligresMadreId = $this->obtenerOcrearFeligresId($datosDelFeligres);
             
-            $datosConstancia['feligres_id'] = $feligresId;
-
+            $constancia = new ConstanciaDeBautizo();
+            $datosConstancia['feligres_bautizado_id'] = $feligresId;
+            $datosConstancia['padre_id'] = $feligresMadreId;
+            $datosConstancia['madre_id'] = $feligresPadreId;
+            $constancia -> hydrate($datosConstancia);
 /*
             $peticionGuardada = $this->gestorPeticion->guardar($peticion);
             if (!$peticionGuardada) {
@@ -92,5 +99,44 @@ class ServicioConstanciaDeBautizo
             'fecha_nacimiento'  => $datosFormulario[$prefijo . '-fecha_nacimiento']  ?? '',
             'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? '',
         ];
+    }
+
+    public function generarPDF($constancia)
+    {
+        $constancia->setFeligres($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId()));
+        $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId()));
+        $constancia->setMadre($this->gestorFeligres->obtenerPorId($constancia->getMadreId()));
+        $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));
+        $constancia->setMinistroCertifica($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaId()));
+
+        $datos = $constancia->toArrayParaConstanciaPDF();
+        GeneradorPdf::guardarPDF($this->plantilla_nombre, $datos);
+    }
+
+
+    protected function validarDependencias($objeto)
+    {
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getFeligresBautizadoId())) {
+            throw new InvalidArgumentException("Error: El feligrés ${$objeto->getFeligresBautizadoId()} bautizado no existe.");
+        }
+
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getPadreId())) {
+            throw new InvalidArgumentException("Error: El padre ${$objeto->getPadreId()} no existe.");
+        }
+
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getMadreId())) {
+            throw new InvalidArgumentException("Error: La madre ${$objeto->getMadreId()} no existe.");
+        }
+
+        if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
+            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroId()} no existe.");
+        }
+
+        if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId())) {
+            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroCertificaId()} que certifica no existe.");
+        }
+    }
+    public function getClavePrimaria() {
+        return "id";
     }
 }

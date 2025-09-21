@@ -22,7 +22,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     private $ministro;
     private $ministro_certifica_id;
     private $ministro_certifica;
-    private $registro_civil;
     private $numero_libro;
     private $numero_pagina;
     private $numero_marginal;
@@ -81,11 +80,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function getMinistroCertificaId()
     {
         return $this->ministro_certifica_id;
-    }
-
-    public function getRegistroCivil()
-    {
-        return $this->registro_civil;
     }
 
     public function getNumeroLibro()
@@ -186,13 +180,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     {
         $this->ministro_certifica = $ministro_certifica;
     }
-    public function setRegistroCivil($registro_civil)
-    {
-        $this->registro_civil = Validador::validarString($registro_civil, "registro civil", 100);
-        if ($this->registro_civil !== null) {
-            $this->registro_civil = strtoupper($this->registro_civil);
-        }
-    }
 
     public function setNumeroLibro($numero_libro)
     {
@@ -213,7 +200,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     {
         $datos = parent::toArrayParaBD($excluirId);
         unset($datos['municipio']);
-        error_log(print_r($datos));
+        //error_log(print_r($datos));
         return $datos;
     }
     public function toArrayParaMostrar($criterio = null)

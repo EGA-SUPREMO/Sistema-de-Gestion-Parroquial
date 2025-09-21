@@ -148,10 +148,12 @@ class Feligres extends ModeloBase
     {
         $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 1000);
     }
-
     public function setPartidaDeNacimiento($partida_de_nacimiento)
     {
         $this->partida_de_nacimiento = Validador::validarString($partida_de_nacimiento, "partida de nacimiento", 30, 4);
+        if ($this->partida_de_nacimiento !== null) {
+            $this->partida_de_nacimiento = strtoupper($this->partida_de_nacimiento);
+        }
     }
     public function lugarDeNacimiento()
     {

@@ -2,8 +2,48 @@
 
 require_once 'controlador/formulario.controlador.php';
 
-class constanciaControlador extends formularioControlador
+class constanciaControlador// extends formularioControlador
 {
+
+    private $servicio;
+    private $gestor;
+    private $nombreTabla;
+
+    public function __construct(PDO $pdo)
+    {
+        $this->nombreTabla = $_REQUEST['t'];
+        $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
+        $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
+    }
+    
+    public function guardar($errorMessage = null)
+    {
+        FuncionesComunes::requerirLogin();
+
+        $id = (int)($_REQUEST['id'] ?? 0);
+
+        $datos_modelo = [];
+        $nombre_usuario = '';
+        $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
+        if ($id > 0) {
+            $modelo = $this->gestor->obtenerPorId($id);
+            $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
+
+            $datos_modelo = $modelo->toArrayParaBD();
+        }
+
+        $datos = [
+            'primerElemento' => "#nombre_usuario",
+            'id' => $id,
+            'titulo' => $titulo,
+        ];
+        $datos = array_merge($datos_modelo, $datos);
+        $datos_formulario['formulario'] = json_encode($datos);
+
+        require_once "vistas/formulario.php";
+        require_once "controlador/formulario.php";
+    }
+
     public function guardarRegistro()
     {
         FuncionesComunes::requerirLogin();
@@ -12,7 +52,7 @@ class constanciaControlador extends formularioControlador
 
         if ($objetoConstancia) {
             try {
-                $rutaPdf = $this->gestor->generarPdf($objetoConstancia);
+                $rutaPdf = $this->servicio->generarPdf($objetoConstancia);
                 FuncionesComunes::redirigir($rutaPdf);
             } catch (Exception $e) {
                 error_log("Error generando PDF: " . $e->getMessage());
@@ -28,16 +68,16 @@ class constanciaControlador extends formularioControlador
         $arrayBD = $objeto->toArrayParaBD(true);
         $camposEsperados = array_keys($arrayBD);
 
-        $datos = [];
-        foreach ($camposEsperados as $campo) {
-            if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
-                $datos[$campo] = htmlspecialchars(trim($_POST[$campo]));
+        $datosFormulario = $_POST;
+        foreach ($datosFormulario as $campo => $valor) {
+            if (is_string($valor)) {
+                $datosFormulario[$campo] = htmlspecialchars(trim($valor));
             }
         }
         try {
-            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+            $id = (int)($_POST['id'] ?? 0);
 
-            if ($this->gestor->registrarConstancia($id, $datosFormulario)) {
+            if ($this->servicio->registrarConstancia($datosFormulario)) {
                 return false;
             }
             return false;
