@@ -245,6 +245,18 @@ CREATE TABLE `constancia_de_bautizo` (
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+ALTER TABLE constancia_de_bautizo
+ADD CONSTRAINT chk_numeros_registro_positivos
+CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
+
+ALTER TABLE constancia_de_bautizo
+ADD CONSTRAINT chk_roles_familiares_distintos
+CHECK (feligres_bautizado_id <> padre_id AND feligres_bautizado_id <> madre_id AND padre_id <> madre_id);
+
+ALTER TABLE constancia_de_bautizo
+ADD CONSTRAINT uq_registro_sacramental
+UNIQUE (numero_libro, numero_pagina, numero_marginal);
+
 INSERT INTO `constancia_de_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `ministro_id`, `ministro_certifica_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2023-01-15', 1, 4, 5, "Jose", "Josefina", 'Bautizado en la parroquia principal.', 1, 1, 1, 10, 5),
 (2, '2022-05-20', 2, 8, 9, "padrino", "madriana", NULL, 2, 8, 2, 15, 8),
@@ -282,6 +294,18 @@ CREATE TABLE `constancia_de_confirmacion` (
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+ALTER TABLE constancia_de_confirmacion
+ADD CONSTRAINT chk_numeros_registro_positivos_confirmacion
+CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
+
+ALTER TABLE constancia_de_confirmacion
+ADD CONSTRAINT chk_roles_familiares_distintos_confirmacion
+CHECK (feligres_confirmado_id <> padre_id AND feligres_confirmado_id <> madre_id AND padre_id <> madre_id);
+
+ALTER TABLE constancia_de_confirmacion
+ADD CONSTRAINT uq_registro_sacramental
+UNIQUE (numero_libro, numero_pagina, numero_marginal);
+
 INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
 (2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
@@ -305,6 +329,23 @@ CREATE TABLE `constancia_de_matrimonio` (
   FOREIGN KEY (`testigo_2_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE constancia_de_matrimonio
+ADD CONSTRAINT chk_numeros_registro_positivos_matrimonio
+CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
+
+ALTER TABLE constancia_de_matrimonio
+ADD CONSTRAINT chk_roles_matrimonio_distintos
+CHECK (
+    contrayente_1_id <> contrayente_2_id AND
+    testigo_1_id <> testigo_2_id AND
+    contrayente_1_id NOT IN (testigo_1_id, testigo_2_id) AND
+    contrayente_2_id NOT IN (testigo_1_id, testigo_2_id)
+);
+
+ALTER TABLE constancia_de_matrimonio
+ADD CONSTRAINT uq_registro_sacramental
+UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
 INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, 1, 2, '2023-11-20', 3, 4, 1, '1', '15', '5'),
