@@ -91,7 +91,7 @@ class ServicioConstanciaDeBautizo
     {
         return [
             'cedula'            => $datosFormulario[$prefijo . '-cedula']            ?? '',
-            'registro_civil'    => $datosFormulario[$prefijo . '-registro_civil']    ?? '',
+            'partida_de_nacimiento'    => $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
             'primer_nombre'     => $datosFormulario[$prefijo . '-primer_nombre'],
             'segundo_nombre'    => $datosFormulario[$prefijo . '-segundo_nombre']    ?? '',
             'primer_apellido'   => $datosFormulario[$prefijo . '-primer_apellido'],

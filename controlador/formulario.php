@@ -62,7 +62,7 @@
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarEntero', pattern: '\\d{4,10}', maxlength: '10', value: 223344 },
-                        { type: 'text', name: 'feligres-registro_civil', label: 'Registro Civil del Bautizado', required: true, validarMetodo: 'validarString', value: 'ASDDE' },
+                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarString', value: 'ASDDE' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
