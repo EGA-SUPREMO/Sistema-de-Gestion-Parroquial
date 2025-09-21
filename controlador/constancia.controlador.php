@@ -2,9 +2,8 @@
 
 require_once 'controlador/formulario.controlador.php';
 
-class constanciaControlador// extends formularioControlador
+class constanciaControlador // extends formularioControlador
 {
-
     private $servicio;
     private $gestor;
     private $nombreTabla;
@@ -15,7 +14,7 @@ class constanciaControlador// extends formularioControlador
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
-    
+
     public function guardar($errorMessage = null)
     {
         FuncionesComunes::requerirLogin();
@@ -77,11 +76,11 @@ class constanciaControlador// extends formularioControlador
             }
         }
         error_log(print_r($datosFormulario, true));
-    
+
         $id = (int)($_POST['id'] ?? 0);
         $constancia = $this->servicio->registrarConstancia($datosFormulario);
         return $constancia;
-    
+
         return false;
     }
 }

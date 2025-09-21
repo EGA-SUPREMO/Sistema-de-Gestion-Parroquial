@@ -46,19 +46,19 @@ class ServicioConstanciaDeBautizo
             $feligresId = $this->obtenerOcrearFeligresId($datosDelFeligres);
             $feligresPadreId = $this->obtenerOcrearFeligresId($datosDelPadre);
             $feligresMadreId = $this->obtenerOcrearFeligresId($datosDeLaMadre);
-            
+
             $constancia = new ConstanciaDeBautizo();
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
             $datosConstancia['padre_id'] = $feligresMadreId;
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
-/*
-            $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
+            /*
+                        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
-            $peticion->setConstanciaDeBautizoId($constanciaId);
+                        $peticion->setConstanciaDeBautizoId($constanciaId);
 
-            // TODO LO MISMO PARA LOS PARENTESCOS
-*/
+                        // TODO LO MISMO PARA LOS PARENTESCOS
+            */
             $constanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia);
 
             $this->pdo->commit();
@@ -78,8 +78,8 @@ class ServicioConstanciaDeBautizo
             return $feligres->getId();
         }
         $nuevoFeligres = new Feligres();
-        $nuevoFeligres->hydrate($datosFeligres); 
-        
+        $nuevoFeligres->hydrate($datosFeligres);
+
         $guardadoId = $this->gestorFeligres->guardar($nuevoFeligres);
         if (!$guardadoId) {
             throw new Exception("Error al crear el feligrés con cédula: " . $datosFeligres['cedula']);
@@ -90,7 +90,7 @@ class ServicioConstanciaDeBautizo
     {
         return [
             'cedula'            => $datosFormulario[$prefijo . '-cedula']            ?? '',
-            'partida_de_nacimiento'=> $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
+            'partida_de_nacimiento' => $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
             'primer_nombre'     => $datosFormulario[$prefijo . '-primer_nombre'],
             'segundo_nombre'    => $datosFormulario[$prefijo . '-segundo_nombre']    ?? '',
             'primer_apellido'   => $datosFormulario[$prefijo . '-primer_apellido'],
@@ -135,7 +135,8 @@ class ServicioConstanciaDeBautizo
             throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroCertificaId()} que certifica no existe.");
         }
     }
-    public function getClavePrimaria() {
+    public function getClavePrimaria()
+    {
         return "id";
     }
 }

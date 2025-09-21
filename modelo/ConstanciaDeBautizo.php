@@ -236,7 +236,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
         $datos_constancia['mes_nacimiento'] = $formateador->format($fecha_nacimiento);
         $datos_constancia['ano_nacimiento'] = $fecha_nacimiento->format('Y');
-        
+
         $fecha_bautizo = new DateTime(Validador::estaVacio($datos_bd['fecha_bautizo'], 'Fecha de bautizo'));
         $datos_constancia['dia_bautizo'] = $fecha_bautizo->format('d');
         $datos_constancia['mes_bautizo'] = $formateador->format($fecha_bautizo);
@@ -250,7 +250,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
         // Datos de expedición
         $datos_constancia['proposito'] = Validador::estaVacio($this->proposito, 'Proposito');
-        
+
         $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
         $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
         $datos_constancia['mes_expedicion'] = $formateador->format($fecha_expedicion);

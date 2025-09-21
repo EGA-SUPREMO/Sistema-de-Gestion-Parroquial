@@ -34,7 +34,7 @@ class GeneradorPdf
     {
         self::generarDocumento($nombre_plantilla, $datos);
     }
-    
+
     public static function generarPdfMatrimonio(
         $nombreContrayente1,
         $naturalContrayente1,
