@@ -34,8 +34,6 @@ class ServicioConstanciaDeBautizo
 
     public function registrarConstancia($datosFormulario)
     {
-        //error_log(print_r($datosFormulario));
-
         $this->pdo->beginTransaction();
 
         try {
@@ -54,7 +52,6 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['padre_id'] = $feligresMadreId;
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
-            //error_log(print_r($constancia->toArrayParaBD(), true));
 /*
             $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
@@ -93,7 +90,7 @@ class ServicioConstanciaDeBautizo
     {
         return [
             'cedula'            => $datosFormulario[$prefijo . '-cedula']            ?? '',
-            'partida_de_nacimiento'    => $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
+            'partida_de_nacimiento'=> $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
             'primer_nombre'     => $datosFormulario[$prefijo . '-primer_nombre'],
             'segundo_nombre'    => $datosFormulario[$prefijo . '-segundo_nombre']    ?? '',
             'primer_apellido'   => $datosFormulario[$prefijo . '-primer_apellido'],

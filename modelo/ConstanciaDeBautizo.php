@@ -110,7 +110,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     }
     public function setFechaExpedicion($fecha_expedicion)
     {
-        error_log("HOLAHONHOSAOEUHAOEHU");
         $fecha_actual = (new DateTime())->format('Y-m-d');
         $this->fecha_expedicion = Validador::validarFecha($fecha_expedicion, "fecha de expedicion", "1900-01-01");
     }
@@ -207,7 +206,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     {
         $datos = parent::toArrayParaBD($excluirId);
         unset($datos['municipio']);
-        //error_log(print_r($datos));
         return $datos;
     }
     public function toArrayParaMostrar($criterio = null)
@@ -225,8 +223,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
         $datos_bd = $this->toArrayParaBD();
         $datos_constancia = [];
-        error_log(print_r($datos_bd));
-        error_log($this->fecha_expedicion);
 
         $datos_constancia['numero_libro'] = Validador::estaVacio($datos_bd['numero_libro'], 'Número de libro');
         $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
@@ -255,7 +251,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         // Datos de expedición
         $datos_constancia['proposito'] = Validador::estaVacio($this->proposito, 'Proposito');
         
-        error_log("Valor antes de la validación: " . $this->fecha_expedicion);
         $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
         $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
         $datos_constancia['mes_expedicion'] = $formateador->format($fecha_expedicion);
