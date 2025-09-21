@@ -154,6 +154,9 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function setObservaciones($observaciones)
     {
         $this->observaciones = Validador::validarString($observaciones ?: 'No hay nota marginal', "observaciones", 1000);
+        if (substr($observaciones, -1) === '.') {
+            $observaciones = substr($observaciones, 0, -1);
+        }
     }
     public function setProposito($proposito)
     {
@@ -248,7 +251,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');
         $datos_constancia['observaciones'] = $datos_bd['observaciones'] ?: 'No hay nota marginal';
 
-        // Datos de expedición
         $datos_constancia['proposito'] = Validador::estaVacio($this->proposito, 'Proposito');
 
         $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
