@@ -399,14 +399,6 @@ ALTER TABLE `peticiones`
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
     (`servicio_id` = 1 AND `tipo_de_intencion_id` IS NOT NULL)
   );
-ALTER TABLE `peticiones`
-  ADD CONSTRAINT `chk_servicio_constancias` CHECK (
-    (`servicio_id` = 2 AND `constancia_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 4 AND `constancia_de_confirmacion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 5 AND `constancia_de_matrimonio_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL) OR
-    (`servicio_id` NOT IN (2, 3, 4, 5) AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL)
-);
 
 ALTER TABLE `peticiones`
 ADD COLUMN `constancia_de_bautizo_id` INT NULL,
@@ -418,6 +410,14 @@ ADD FOREIGN KEY (`constancia_de_confirmacion_id`) REFERENCES `constancia_de_conf
 ADD FOREIGN KEY (`constancia_de_comunion_id`) REFERENCES `constancia_de_comunion` (`id`),
 ADD FOREIGN KEY (`constancia_de_matrimonio_id`) REFERENCES `constancia_de_matrimonio` (`id`);
 
+ALTER TABLE `peticiones`
+  ADD CONSTRAINT `chk_servicio_constancias` CHECK (
+    (`servicio_id` = 2 AND `constancia_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 4 AND `constancia_de_confirmacion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 5 AND `constancia_de_matrimonio_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL) OR
+    (`servicio_id` NOT IN (2, 3, 4, 5) AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL)
+);
 
 ALTER TABLE `servicios`
   ADD CONSTRAINT `servicios_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_de_servicios` (`id`) ON DELETE CASCADE;
