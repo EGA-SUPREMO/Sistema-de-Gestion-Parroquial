@@ -146,7 +146,6 @@ class Feligres extends ModeloBase
 
     public function setCedula($cedula)
     {
-        error_log(print_r($cedula));
         $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 1000);
     }
     public function setPartidaDeNacimiento($partida_de_nacimiento)
@@ -169,7 +168,6 @@ class Feligres extends ModeloBase
             $partes[] = $this->pais;
         }
 
-        error_log(print_r($this->estado));
         return implode(' - ', $partes);
     }
     public function nombreCompleto()

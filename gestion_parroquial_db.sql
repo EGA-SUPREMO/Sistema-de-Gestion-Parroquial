@@ -212,16 +212,16 @@ CREATE TABLE `sacerdotes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
-(1, 'Padre Juan Pérez', TRUE),
-(2, 'Padre José García', TRUE),
-(3, 'Padre Miguel Torres', TRUE),
-(4, 'Padre Francisco Gómez', FALSE),
-(5, 'Padre Carlos López', TRUE),
-(6, 'Padre Luis Fernández', FALSE),
-(7, 'Padre Javier Ruiz', TRUE),
-(8, 'Padre Antonio Martín', TRUE),
-(9, 'Padre David Herrera', TRUE),
-(10, 'Padre Ricardo Castillo', TRUE);
+(1, 'Juan Pérez', TRUE),
+(2, 'José García', TRUE),
+(3, 'Miguel Torres', TRUE),
+(4, 'Francisco Gómez', FALSE),
+(5, 'Carlos López', TRUE),
+(6, 'Luis Fernández', FALSE),
+(7, 'Javier Ruiz', TRUE),
+(8, 'Antonio Martín', TRUE),
+(9, 'David Herrera', TRUE),
+(10, 'Ricardo Castillo', TRUE);
 
 CREATE TABLE `constancia_de_bautizo` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,

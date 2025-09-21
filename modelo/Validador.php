@@ -76,7 +76,7 @@ class Validador
         }
 
         if (empty($fecha)) {
-            throw new InvalidArgumentException("El campo '{$nombreCampo}' no puede estar vacío.");
+            throw new InvalidArgumentException("Validador: El campo '{$nombreCampo}' no puede estar vacío.");
         }
 
         $formato = 'Y-m-d';

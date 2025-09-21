@@ -10,7 +10,6 @@ require_once 'modelo/ConstanciaDeBautizo.php';
 
 class GestorConstanciaDeBautizo extends GestorBase
 {
-    private static $plantilla_nombre;
     private $gestorFeligres;
     private $gestorSacerdote;
 
@@ -20,7 +19,6 @@ class GestorConstanciaDeBautizo extends GestorBase
         $this ->tabla = "constancia_de_bautizo";
         $this ->clase_nombre = "ConstanciaDeBautizo";
 
-        self::$plantilla_nombre = "fe de bautizo.docx";
         $this->gestorFeligres = new GestorFeligres($pdo);
         $this->gestorSacerdote = new GestorSacerdote($pdo);
     }

@@ -8,6 +8,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 {
     private $id;
     private $fecha_bautizo;
+    private $fecha_expedicion;
     private $feligres_bautizado_id;
     private $feligres_bautizado;
     private $padre_id;
@@ -107,6 +108,12 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $fecha_actual = (new DateTime())->format('Y-m-d');
         $this->fecha_bautizo = Validador::validarFecha($fecha_bautizo, "fecha de bautizo", "1900-01-01", $fecha_actual);
     }
+    public function setFechaExpedicion($fecha_expedicion)
+    {
+        error_log("HOLAHONHOSAOEUHAOEHU");
+        $fecha_actual = (new DateTime())->format('Y-m-d');
+        $this->fecha_expedicion = Validador::validarFecha($fecha_expedicion, "fecha de expedicion", "1900-01-01");
+    }
 
     public function setFeligresBautizadoId($feligres_bautizado_id)
     {
@@ -147,7 +154,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
     public function setObservaciones($observaciones)
     {
-        $this->observaciones = Validador::validarString($observaciones ?: 'No hay nota marginal.', "observaciones", 1000);
+        $this->observaciones = Validador::validarString($observaciones ?: 'No hay nota marginal', "observaciones", 1000);
     }
     public function setProposito($proposito)
     {
@@ -208,39 +215,18 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos = parent::toArrayParaMostrar();
         return $datos;
     }
-    /*
-${numero_libro}
-${numero_pagina}
-${numero_marginal}
-${nombre_bautizado}
-${padre}
-${madre}
-${dia_nacimiento}
-${mes_nacimiento}
-${ano_nacimiento}
-${lugar_nacimiento}
-${dia_bautizo}
-${mes_bautizo}
-${ano_bautizo}
-${ministro}
-${padrino_nombre}
-${madrina_nombre}
-${observaciones}
-${proposito}
-${dia_expedicion}
-${dia_mes}
-${ano_expedicion}
-${ministro_certifica}
-*/
 
     public function toArrayParaConstanciaPDF()
     {
         if (empty($this->feligres_bautizado) || empty($this->padre) || empty($this->madre) || empty($this->ministro) || empty($this->ministro_certifica)) {
             throw new InvalidArgumentException("Error: objeto feligres vacio"); // TODO expandir
         }
+        $formateador = new IntlDateFormatter('es', IntlDateFormatter::NONE, IntlDateFormatter::NONE, 'America/Caracas', IntlDateFormatter::GREGORIAN, 'MMMM');
 
         $datos_bd = $this->toArrayParaBD();
         $datos_constancia = [];
+        error_log(print_r($datos_bd));
+        error_log($this->fecha_expedicion);
 
         $datos_constancia['numero_libro'] = Validador::estaVacio($datos_bd['numero_libro'], 'Número de libro');
         $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
@@ -252,25 +238,28 @@ ${ministro_certifica}
 
         $fecha_nacimiento = new DateTime(Validador::estaVacio($this->feligres_bautizado->getFechaNacimiento(), 'Fecha de nacimiento'));
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
-        $datos_constancia['mes_nacimiento'] = $fecha_nacimiento->format('m');
+        $datos_constancia['mes_nacimiento'] = $formateador->format($fecha_nacimiento);
         $datos_constancia['ano_nacimiento'] = $fecha_nacimiento->format('Y');
-
+        
         $fecha_bautizo = new DateTime(Validador::estaVacio($datos_bd['fecha_bautizo'], 'Fecha de bautizo'));
         $datos_constancia['dia_bautizo'] = $fecha_bautizo->format('d');
-        $datos_constancia['mes_bautizo'] = $fecha_bautizo->format('m');
+        $datos_constancia['mes_bautizo'] = $formateador->format($fecha_bautizo);
         $datos_constancia['ano_bautizo'] = $fecha_bautizo->format('Y');
 
         $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'Lugar de nacimiento');
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
         $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del padrino');
         $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');
-        $datos_constancia['observaciones'] = $datos_bd['observaciones'] ?: 'No hay nota marginal.';
+        $datos_constancia['observaciones'] = $datos_bd['observaciones'] ?: 'No hay nota marginal';
 
         // Datos de expedición
-        $datos_constancia['proposito'] = ''; // O el valor que corresponda
-        $datos_constancia['dia_expedicion'] = ''; // Llenar con la fecha actual o del registro
-        $datos_constancia['mes_expedicion'] = '';
-        $datos_constancia['ano_expedicion'] = '';
+        $datos_constancia['proposito'] = Validador::estaVacio($this->proposito, 'Proposito');
+        
+        error_log("Valor antes de la validación: " . $this->fecha_expedicion);
+        $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
+        $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
+        $datos_constancia['mes_expedicion'] = $formateador->format($fecha_expedicion);
+        $datos_constancia['ano_expedicion'] = $fecha_expedicion->format('Y');
         $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica->getNombre(), 'Ministro que certifica');
 
         return $datos_constancia;

@@ -47,16 +47,20 @@ class constanciaControlador// extends formularioControlador
     public function guardarRegistro()
     {
         FuncionesComunes::requerirLogin();
-
-        $objetoConstancia = $this->guardarDatos();
-
+        $objetoConstancia = null;
+        try {
+            $objetoConstancia = $this->guardarDatos();
+        } catch (Exception $e) {
+            error_log("Error guardando registro: " . $e->getMessage());
+            $this->guardar("El registro no se guardó");
+        }
         if ($objetoConstancia) {
             try {
                 $rutaPdf = $this->servicio->generarPdf($objetoConstancia);
                 FuncionesComunes::redirigir($rutaPdf);
             } catch (Exception $e) {
                 error_log("Error generando PDF: " . $e->getMessage());
-                $this->guardar("El registro se guardó, pero falló la creación del PDF.");
+                $this->guardar("El registro se guardó, pero falló la creación del PDF.");// TODO ESTO NO DEBERIA PASAR BAJO NINGUN CASO
             }
         }
         $this->guardar("Error al guardar la constancia.");
@@ -72,15 +76,12 @@ class constanciaControlador// extends formularioControlador
                 $datosFormulario[$campo] = htmlspecialchars(trim($valor));
             }
         }
-//        error_log(print_r($datosFormulario, true));
-//        error_log(print_r($_POST, true));
-        try {
-            $id = (int)($_POST['id'] ?? 0);
-            $constancia = $this->servicio->registrarConstancia($datosFormulario);
-            return $constancia;
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
+        error_log(print_r($datosFormulario, true));
+    
+        $id = (int)($_POST['id'] ?? 0);
+        $constancia = $this->servicio->registrarConstancia($datosFormulario);
+        return $constancia;
+    
         return false;
     }
 }

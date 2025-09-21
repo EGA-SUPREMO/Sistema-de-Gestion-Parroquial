@@ -12,14 +12,14 @@ class GeneradorPdf
 
     public static function generarDocumento($nombre_plantilla, $datos)
     {
-        $ruta_plantilla_completa = self::ruta_plantillas . $nombre_plantilla;
+        $ruta_plantilla_completa = self::$ruta_plantillas . $nombre_plantilla;
 
         if (!file_exists($ruta_plantilla_completa)) {
             error_log("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
             throw new InvalidArgumentException("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
         }
         $nombre_archivo_salida = uniqid('documento_', true) . '.docx';
-        $ruta_salida_completa = self::ruta_documentos . $nombre_archivo_salida;
+        $ruta_salida_completa = self::$ruta_documentos . $nombre_archivo_salida;
 
         $plantilla = new TemplateProcessor($ruta_plantilla_completa);
         foreach ($datos as $key => $valor) {
@@ -30,6 +30,11 @@ class GeneradorPdf
         return $ruta_salida_completa;
     }
 
+    public static function guardarPDF($nombre_plantilla, $datos)
+    {
+        self::generarDocumento($nombre_plantilla, $datos);
+    }
+    
     public static function generarPdfMatrimonio(
         $nombreContrayente1,
         $naturalContrayente1,

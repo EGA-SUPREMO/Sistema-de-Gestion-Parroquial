@@ -19,6 +19,8 @@ class ServicioConstanciaDeBautizo
     private $gestorSacerdote;
     private $gestorConstanciaDeBautizo;
 
+    private static $plantilla_nombre;
+
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
@@ -26,6 +28,8 @@ class ServicioConstanciaDeBautizo
         $this->gestorConstanciaDeBautizo = new GestorConstanciaDeBautizo($pdo);
         $this->gestorFeligres = new GestorFeligres($pdo);
         $this->gestorSacerdote = new gestorSacerdote($pdo);
+
+        self::$plantilla_nombre = "fe de bautizo.docx";
     }
 
     public function registrarConstancia($datosFormulario)
@@ -108,7 +112,7 @@ class ServicioConstanciaDeBautizo
         $constancia->setMinistroCertifica($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaId()));
 
         $datos = $constancia->toArrayParaConstanciaPDF();
-        GeneradorPdf::guardarPDF($this->plantilla_nombre, $datos);
+        GeneradorPdf::guardarPDF(self::$plantilla_nombre, $datos);
     }
 
 
