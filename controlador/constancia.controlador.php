@@ -65,8 +65,6 @@ class constanciaControlador// extends formularioControlador
     protected function guardarDatos()
     {
         $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
-        $arrayBD = $objeto->toArrayParaBD(true);
-        $camposEsperados = array_keys($arrayBD);
 
         $datosFormulario = $_POST;
         foreach ($datosFormulario as $campo => $valor) {
@@ -74,13 +72,12 @@ class constanciaControlador// extends formularioControlador
                 $datosFormulario[$campo] = htmlspecialchars(trim($valor));
             }
         }
+//        error_log(print_r($datosFormulario, true));
+//        error_log(print_r($_POST, true));
         try {
             $id = (int)($_POST['id'] ?? 0);
-
-            if ($this->servicio->registrarConstancia($datosFormulario)) {
-                return false;
-            }
-            return false;
+            $constancia = $this->servicio->registrarConstancia($datosFormulario);
+            return $constancia;
         } catch (Exception $e) {
             error_log($e->getMessage());
         }

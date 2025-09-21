@@ -61,9 +61,9 @@ CREATE TABLE `feligreses` (
   `primer_apellido` VARCHAR(50) NOT NULL,
   `segundo_apellido` VARCHAR(50),
   `fecha_nacimiento` DATE DEFAULT NULL,
-  `municipio_de_nacimiento` VARCHAR(50) DEFAULT NULL,
-  `estado_de_nacimiento` VARCHAR(50) DEFAULT NULL,
-  `pais_de_nacimiento` VARCHAR(50) DEFAULT NULL,
+  `municipio` VARCHAR(50) DEFAULT NULL,
+  `estado` VARCHAR(50) DEFAULT NULL,
+  `pais` VARCHAR(50) DEFAULT NULL,
   `cedula` int(9) UNSIGNED UNIQUE,
   `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -226,7 +226,7 @@ INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
 CREATE TABLE `constancia_de_bautizo` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_bautizo` DATE NOT NULL,
-  `feligres_bautizado_id` INT(11) NOT NULL,
+  `feligres_bautizado_id` INT(11) UNIQUE NOT NULL,
   `padre_id` INT(11) NOT NULL,
   `madre_id` INT(11) NOT NULL,
   `padrino_nombre` varchar(100) NOT NULL,
@@ -252,7 +252,7 @@ INSERT INTO `constancia_de_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_
 
 CREATE TABLE `constancia_de_comunion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `feligres_id` INT(11) NOT NULL,
+  `feligres_id` INT(11) UNIQUE NOT NULL,
   `fecha_comunion` DATE NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feligres_id`) REFERENCES `feligreses`(`id`)
@@ -266,7 +266,7 @@ INSERT INTO `constancia_de_comunion` (`id`, `feligres_id`, `fecha_comunion`) VAL
 CREATE TABLE `constancia_de_confirmacion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_confirmacion` DATE NOT NULL,
-  `feligres_confirmado_id` INT(11) NOT NULL,
+  `feligres_confirmado_id` INT(11) UNIQUE NOT NULL,
   `padre_id` INT(11) NOT NULL,
   `madre_id` INT(11) NOT NULL,
   `padrino_id` INT(11) NOT NULL,

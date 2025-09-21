@@ -19,8 +19,7 @@ class formularioControlador
         FuncionesComunes::requerirLogin();
 
         $resultado = $this->guardarDatos();
-
-        if (!$resultado) {
+        if ($resultado) {
             $this->guardar("Error: Por favor, introduce datos válidos.");
             exit();
         }
@@ -30,7 +29,6 @@ class formularioControlador
     public function guardar($errorMessage = null)
     {
         FuncionesComunes::requerirLogin();
-
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
         $datos_modelo = [];
@@ -74,7 +72,7 @@ class formularioControlador
             $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
             if ($this->gestor->guardar($objeto, $id)) {
-                return $objeto;
+                return true;
             }
             return false;
         } catch (Exception $e) {

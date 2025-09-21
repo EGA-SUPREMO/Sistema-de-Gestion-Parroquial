@@ -11,9 +11,9 @@ class Feligres extends ModeloBase
     private $primer_apellido;
     private $segundo_apellido;
     private $fecha_nacimiento;
-    private $municipio_de_nacimiento;
-    private $estado_de_nacimiento;
-    private $pais_de_nacimiento;
+    private $municipio;
+    private $estado;
+    private $pais;
     private $cedula;
     private $partida_de_nacimiento;
 
@@ -47,17 +47,17 @@ class Feligres extends ModeloBase
         return $this->fecha_nacimiento;
     }
 
-    public function getMunicipioDeNacimiento()
+    public function getMunicipio()
     {
-        return $this->municipio_de_nacimiento;
+        return $this->municipio;
     }
-    public function getEstadoDeNacimiento()
+    public function getEstado()
     {
-        return $this->estado_de_nacimiento;
+        return $this->estado;
     }
-    public function getPaisDeNacimiento()
+    public function getPais()
     {
-        return $this->pais_de_nacimiento;
+        return $this->pais;
     }
 
     public function getCedula()
@@ -117,35 +117,36 @@ class Feligres extends ModeloBase
         $this->fecha_nacimiento = Validador::validarFecha($fecha_nacimiento, "fecha de nacimiento", "1900-01-01", $fecha_actual);
     }
 
-    public function setMunicipioDeNacimiento($municipio_de_nacimiento)
+    public function setMunicipio($municipio)
     {
-        $this->municipio_de_nacimiento = Validador::validarString($municipio_de_nacimiento, "municipio de nacimiento", 50, 4);
+        $this->municipio = Validador::validarString($municipio, "municipio de nacimiento", 50, 4);
 
-        if ($this->municipio_de_nacimiento !== null) {
-            $this->municipio_de_nacimiento = ucwords(strtolower($this->municipio_de_nacimiento));
+        if ($this->municipio !== null) {
+            $this->municipio = ucwords(strtolower($this->municipio));
         }
     }
 
-    public function setEstadoDeNacimiento($estado_de_nacimiento)
+    public function setEstado($estado)
     {
-        $this->estado_de_nacimiento = Validador::validarString($estado_de_nacimiento, "estado de nacimiento", 50, 4);
+        $this->estado = Validador::validarString($estado, "estado de nacimiento", 50, 4);
 
-        if ($this->estado_de_nacimiento !== null) {
-            $this->estado_de_nacimiento = ucwords(strtolower($this->estado_de_nacimiento));
+        if ($this->estado !== null) {
+            $this->estado = ucwords(strtolower($this->estado));
         }
     }
 
-    public function setPaisDeNacimiento($pais_de_nacimiento)
+    public function setPais($pais)
     {
-        $this->pais_de_nacimiento = Validador::validarString($pais_de_nacimiento, "pais de nacimiento", 50, 4);
+        $this->pais = Validador::validarString($pais, "pais de nacimiento", 50, 4);
 
-        if ($this->pais_de_nacimiento !== null) {
-            $this->pais_de_nacimiento = ucwords(strtolower($this->pais_de_nacimiento));
+        if ($this->pais !== null) {
+            $this->pais = ucwords(strtolower($this->pais));
         }
     }
 
     public function setCedula($cedula)
     {
+        error_log(print_r($cedula));
         $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 1000);
     }
     public function setPartidaDeNacimiento($partida_de_nacimiento)
@@ -158,16 +159,17 @@ class Feligres extends ModeloBase
     public function lugarDeNacimiento()
     {
         $partes = [];
-        if (!empty($this->municipio_nacimiento)) {
-            $partes[] = $this->municipio_nacimiento;
+        if (!empty($this->municipio)) {
+            $partes[] = $this->municipio;
         }
-        if (!empty($this->estado_nacimiento)) {
-            $partes[] = $this->estado_nacimiento;
+        if (!empty($this->estado)) {
+            $partes[] = $this->estado;
         }
-        if (!empty($this->pais_nacimiento)) {
-            $partes[] = $this->pais_nacimiento;
+        if (!empty($this->pais)) {
+            $partes[] = $this->pais;
         }
 
+        error_log(print_r($this->estado));
         return implode(' - ', $partes);
     }
     public function nombreCompleto()

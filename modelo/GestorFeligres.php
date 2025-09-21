@@ -14,7 +14,7 @@ class GestorFeligres extends GestorBase
 
     public function obtenerPorCedula($cedula)
     {
-        $sql = "SELECT * FROM {$this->tabla} WHERE {cedula} = ?";
+        $sql = "SELECT * FROM {$this->tabla} WHERE `cedula` = ?";
         return $this->hacerConsulta($sql, [$cedula], 'single');
     }
 }

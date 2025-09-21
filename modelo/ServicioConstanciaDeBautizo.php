@@ -30,40 +30,38 @@ class ServicioConstanciaDeBautizo
 
     public function registrarConstancia($datosFormulario)
     {
+        //error_log(print_r($datosFormulario));
+
         $this->pdo->beginTransaction();
 
         try {
+            $datosConstancia = $datosFormulario;
+
             $datosDelFeligres = $this->mapearDatos($datosFormulario, 'feligres');
             $datosDelPadre = $this->mapearDatos($datosFormulario, 'padre');
             $datosDeLaMadre = $this->mapearDatos($datosFormulario, 'madre');
 
             $feligresId = $this->obtenerOcrearFeligresId($datosDelFeligres);
-            $feligresPadreId = $this->obtenerOcrearFeligresId($datosDelFeligres);
-            $feligresMadreId = $this->obtenerOcrearFeligresId($datosDelFeligres);
+            $feligresPadreId = $this->obtenerOcrearFeligresId($datosDelPadre);
+            $feligresMadreId = $this->obtenerOcrearFeligresId($datosDeLaMadre);
             
             $constancia = new ConstanciaDeBautizo();
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
             $datosConstancia['padre_id'] = $feligresMadreId;
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
+            //error_log(print_r($constancia->toArrayParaBD(), true));
 /*
-            $peticionGuardada = $this->gestorPeticion->guardar($peticion);
-            if (!$peticionGuardada) {
-                throw new Exception("No se pudo guardar la petición.");
-            }
-            $constanciaId = $this->pdo->lastInsertId();
+            $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
             $peticion->setConstanciaDeBautizoId($constanciaId);
 
             // TODO LO MISMO PARA LOS PARENTESCOS
 */
             $constanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia);
-            if (!$constanciaGuardada) {
-                throw new Exception("No se pudo guardar la constancia de bautizo.");
-            }
 
             $this->pdo->commit();
-            return true;
+            return $constancia;
 
         } catch (Exception $e) {
             $this->pdo->rollBack();
@@ -73,7 +71,7 @@ class ServicioConstanciaDeBautizo
     }
     private function obtenerOcrearFeligresId($datosFeligres)
     {
-        $feligres = $this->gestorFeligres->buscarPorCedula($datosFeligres['cedula']);
+        $feligres = $this->gestorFeligres->obtenerPorCedula($datosFeligres['cedula']);
 
         if ($feligres) {
             return $feligres->getId();
@@ -81,11 +79,11 @@ class ServicioConstanciaDeBautizo
         $nuevoFeligres = new Feligres();
         $nuevoFeligres->hydrate($datosFeligres); 
         
-        $guardado = $this->gestorFeligres->guardar($nuevoFeligres);
-        if (!$guardado) {
-            throw new Exception("Error al crear el feligrés con cédula: " . $cedula);
+        $guardadoId = $this->gestorFeligres->guardar($nuevoFeligres);
+        if (!$guardadoId) {
+            throw new Exception("Error al crear el feligrés con cédula: " . $datosFeligres['cedula']);
         }
-        return (int)$this->pdo->lastInsertId();
+        return $guardadoId;
     }
     private function mapearDatos($datosFormulario, $prefijo)
     {
@@ -103,7 +101,7 @@ class ServicioConstanciaDeBautizo
 
     public function generarPDF($constancia)
     {
-        $constancia->setFeligres($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId()));
+        $constancia->setFeligresBautizado($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId()));
         $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId()));
         $constancia->setMadre($this->gestorFeligres->obtenerPorId($constancia->getMadreId()));
         $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));

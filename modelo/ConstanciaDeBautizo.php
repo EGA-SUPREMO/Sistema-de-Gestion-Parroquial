@@ -147,7 +147,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
     public function setObservaciones($observaciones)
     {
-        $this->observaciones = Validador::validarString($observaciones, "observaciones", 1000);
+        $this->observaciones = Validador::validarString($observaciones ?: 'No hay nota marginal.', "observaciones", 1000);
     }
     public function setProposito($proposito)
     {
@@ -250,7 +250,7 @@ ${ministro_certifica}
         $datos_constancia['padre'] = Validador::estaVacio($this->padre->nombreCompleto(), 'Nombre del padre');
         $datos_constancia['madre'] = Validador::estaVacio($this->madre->nombreCompleto(), 'Nombre de la madre');
 
-        $fecha_nacimiento = new DateTime(Validador::estaVacio($datos_bd['fecha_nacimiento'], 'Fecha de nacimiento'));
+        $fecha_nacimiento = new DateTime(Validador::estaVacio($this->feligres_bautizado->getFechaNacimiento(), 'Fecha de nacimiento'));
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
         $datos_constancia['mes_nacimiento'] = $fecha_nacimiento->format('m');
         $datos_constancia['ano_nacimiento'] = $fecha_nacimiento->format('Y');

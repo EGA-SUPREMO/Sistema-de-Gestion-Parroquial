@@ -27,6 +27,8 @@ abstract class GestorBase
                     return $stmt->fetchColumn();
                 case 'assoc':
                     return $stmt->fetch(PDO::FETCH_ASSOC);
+                case 'insert':
+                    return (int)$this->db->lastInsertId();
                 default:
                     return $stmt->rowCount(); // para UPDATE, DELETE, etc.
             }
@@ -64,11 +66,11 @@ abstract class GestorBase
     protected function insertar($objeto)
     {
         $datos = $objeto->toArrayParaBD($objeto);
-        print_r($datos);
+        //print_r($datos);
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
-        return $this->hacerConsulta($sql, array_values($datos), 'execute');
+        return $this->hacerConsulta($sql, array_values($datos), 'insert');
     }
 
     protected function actualizar($id, $objeto)
@@ -79,7 +81,7 @@ abstract class GestorBase
         $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
         $set = implode(", ", $asignaciones);
         $sql = "UPDATE {$this->tabla} SET {$set} WHERE {$this->clavePrimaria} = ?";
-        return $this->hacerConsulta($sql, [...array_values($datos), $id], 'execute');
+        return $this->hacerConsulta($sql, [...array_values($datos), $id], 'insert');
     }
     public function guardar($objeto, $id = 0)
     {
