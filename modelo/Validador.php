@@ -51,8 +51,11 @@ class Validador
         if ($valor === null) {
             return null;
         }
-
         $valorRecortado = trim($valor);
+
+        if (substr($valorRecortado, -1) === '.') {
+            $valorRecortado = substr($valorRecortado, 0, -1);
+        }
 
         if (empty($valorRecortado)) {
             throw new InvalidArgumentException("El campo '$nombreCampo' no puede estar vacío.");

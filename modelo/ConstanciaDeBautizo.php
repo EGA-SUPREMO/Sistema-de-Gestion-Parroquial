@@ -154,9 +154,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function setObservaciones($observaciones)
     {
         $this->observaciones = Validador::validarString($observaciones ?: 'No hay nota marginal', "observaciones", 1000);
-        if (substr($observaciones, -1) === '.') {
-            $observaciones = substr($observaciones, 0, -1);
-        }
     }
     public function setProposito($proposito)
     {
@@ -237,12 +234,12 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
         $fecha_nacimiento = new DateTime(Validador::estaVacio($this->feligres_bautizado->getFechaNacimiento(), 'Fecha de nacimiento'));
         $datos_constancia['dia_nacimiento'] = $fecha_nacimiento->format('d');
-        $datos_constancia['mes_nacimiento'] = $formateador->format($fecha_nacimiento);
+        $datos_constancia['mes_nacimiento'] = ucwords($formateador->format($fecha_nacimiento));
         $datos_constancia['ano_nacimiento'] = $fecha_nacimiento->format('Y');
 
         $fecha_bautizo = new DateTime(Validador::estaVacio($datos_bd['fecha_bautizo'], 'Fecha de bautizo'));
         $datos_constancia['dia_bautizo'] = $fecha_bautizo->format('d');
-        $datos_constancia['mes_bautizo'] = $formateador->format($fecha_bautizo);
+        $datos_constancia['mes_bautizo'] = ucwords($formateador->format($fecha_bautizo));
         $datos_constancia['ano_bautizo'] = $fecha_bautizo->format('Y');
 
         $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'Lugar de nacimiento');
@@ -255,7 +252,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
         $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
         $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
-        $datos_constancia['mes_expedicion'] = $formateador->format($fecha_expedicion);
+        $datos_constancia['mes_expedicion'] = ucwords($formateador->format($fecha_expedicion));
         $datos_constancia['ano_expedicion'] = $fecha_expedicion->format('Y');
         $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica->getNombre(), 'Ministro que certifica');
 
