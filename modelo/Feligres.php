@@ -11,6 +11,7 @@ class Feligres extends ModeloBase
     private $primer_apellido;
     private $segundo_apellido;
     private $fecha_nacimiento;
+    private $localidad;
     private $municipio;
     private $estado;
     private $pais;
@@ -50,6 +51,11 @@ class Feligres extends ModeloBase
     public function getMunicipio()
     {
         return $this->municipio;
+    }
+
+    public function getLocalidad()
+    {
+        return $this->localidad;
     }
     public function getEstado()
     {
@@ -123,6 +129,14 @@ class Feligres extends ModeloBase
 
         if ($this->municipio !== null) {
             $this->municipio = ucwords(strtolower($this->municipio));
+        }
+    }
+    public function setLocalidad($localidad)
+    {
+        $this->localidad = Validador::validarString($localidad, "localidad de nacimiento", 50, 4);
+
+        if ($this->localidad !== null) {
+            $this->localidad = ucwords(strtolower($this->localidad));
         }
     }
 

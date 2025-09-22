@@ -189,17 +189,17 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
     public function setNumeroLibro($numero_libro)
     {
-        $this->numero_libro = Validador::validarEntero($numero_libro, "número de libro", null, 1);
+        $this->numero_libro = Validador::validarEntero($numero_libro, "número de libro", 1000, 1);
     }
 
     public function setNumeroPagina($numero_pagina)
     {
-        $this->numero_pagina = Validador::validarEntero($numero_pagina, "número de página", null, 1);
+        $this->numero_pagina = Validador::validarEntero($numero_pagina, "número de página", 1000, 1);
     }
 
     public function setNumeroMarginal($numero_marginal)
     {
-        $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", null, 1);
+        $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", 1000, 1);
     }
 
     public function toArrayParaBD($excluirId = false)

@@ -61,6 +61,7 @@ CREATE TABLE `feligreses` (
   `primer_apellido` VARCHAR(50) NOT NULL,
   `segundo_apellido` VARCHAR(50),
   `fecha_nacimiento` DATE DEFAULT NULL,
+  `localidad` VARCHAR(50) DEFAULT NULL,
   `municipio` VARCHAR(50) DEFAULT NULL,
   `estado` VARCHAR(50) DEFAULT NULL,
   `pais` VARCHAR(50) DEFAULT NULL,

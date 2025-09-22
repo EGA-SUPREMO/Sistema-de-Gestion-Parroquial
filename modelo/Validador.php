@@ -21,13 +21,10 @@ class Validador
 
     }
 
-    public static function validarEntero($valor, $nombreCampo, $valorMaximo = null, $valorMinimo = null)
+    public static function validarEntero($valor, $nombreCampo, $valorMaximo = 2147483647, $valorMinimo = null)
     {
         if ($valor === null) {
             return null;
-        }
-        if ($valorMaximo == null) {
-            $valorMaximo = 2147483647;
         }
 
         if (!filter_var($valor, FILTER_VALIDATE_INT)) {
@@ -36,7 +33,7 @@ class Validador
 
         $valor = (int) $valor;
 
-        if ($valor > $valorMaximo) {
+        if ($valorMaximo !== null && $valor > $valorMaximo) {
             throw new InvalidArgumentException("El campo '$nombreCampo' debe ser menor o igual a " . $valorMaximo . ".");
         }
         if ($valorMinimo !== null && $valor < $valorMinimo) {
@@ -46,12 +43,9 @@ class Validador
         return $valor;
     }
 
-    public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = null)
+    public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = 0)
     {
-        if ($valor === null || $valor === '') {
-            if ($longitudMinima > 0) {
-                 throw new InvalidArgumentException("El campo '$nombreCampo' no puede estar vacío.");
-            }
+        if ($valor === null) {
             return;
         }
 
