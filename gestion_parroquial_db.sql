@@ -142,7 +142,7 @@ CREATE TABLE `peticiones` (
 
 CREATE TABLE tipo_de_intencion (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre VARCHAR(100) UNIQUE NOT NULL,
     descripcion TEXT NOT NULL
 );
 
