@@ -176,10 +176,10 @@ class Feligres extends ModeloBase
             $partes[] = $this->municipio;
         }
         if (!empty($this->estado)) {
-            $partes[] = $this->estado;
+            $partes[] = 'Estado ' . $this->estado;
         }
         if (!empty($this->pais)) {
-            $partes[] = $this->pais;
+            $partes[] = 'País '$this->pais;
         }
 
         return implode(' - ', $partes);

@@ -228,7 +228,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
         $datos_constancia['numero_marginal'] = Validador::estaVacio($datos_bd['numero_marginal'], 'Número marginal');
 
-        $datos_constancia['nombre_bautizado'] = Validador::estaVacio($this->feligres_bautizado->nombreCompleto(), 'Nombre del bautizado');
+        $datos_constancia['nombre_bautizado'] = strtoupper(Validador::estaVacio($this->feligres_bautizado->nombreCompleto(), 'Nombre del bautizado'));
         $datos_constancia['padre'] = Validador::estaVacio($this->padre->nombreCompleto(), 'Nombre del padre');
         $datos_constancia['madre'] = Validador::estaVacio($this->madre->nombreCompleto(), 'Nombre de la madre');
 
