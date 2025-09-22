@@ -1,5 +1,6 @@
 <?php
 
+require_once 'modelo/FuncionesComunes.php';
 require_once 'controlador/formulario.controlador.php';
 
 class constanciaControlador // extends formularioControlador
@@ -72,15 +73,11 @@ class constanciaControlador // extends formularioControlador
         $datosFormulario = $_POST;
         foreach ($datosFormulario as $campo => $valor) {
             if (is_string($valor)) {
-                $datosFormulario[$campo] = htmlspecialchars(trim($valor));
+                $datosFormulario[$campo] = FuncionesComunes::limpiarString($valor);
             }
         }
-        error_log(print_r($datosFormulario, true));
 
-        $id = (int)($_POST['id'] ?? 0);
         $constancia = $this->servicio->registrarConstancia($datosFormulario);
         return $constancia;
-
-        return false;
     }
 }

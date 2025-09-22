@@ -48,28 +48,21 @@ class Validador
 
     public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = null)
     {
-        if ($valor === null) {
-            return null;
-        }
-        $valorRecortado = trim($valor);
-
-        if (substr($valorRecortado, -1) === '.') {
-            $valorRecortado = substr($valorRecortado, 0, -1);
+        if ($valor === null || $valor === '') {
+            if ($longitudMinima > 0) {
+                 throw new InvalidArgumentException("El campo '$nombreCampo' no puede estar vacío.");
+            }
+            return;
         }
 
-        if (empty($valorRecortado)) {
-            throw new InvalidArgumentException("El campo '$nombreCampo' no puede estar vacío.");
-        }
-
-        if (strlen($valorRecortado) > $longitudMaxima) {
+        if (strlen($valor) > $longitudMaxima) {
             throw new InvalidArgumentException("El campo '$nombreCampo' no puede exceder los $longitudMaxima caracteres.");
         }
 
-        if ($longitudMinima !== null && strlen($valorRecortado) < $longitudMinima) {
+        if (strlen($valor) < $longitudMinima) {
             throw new InvalidArgumentException("El campo '$nombreCampo' debe tener al menos $longitudMinima caracteres.");
         }
-
-        return $valorRecortado;
+        return $valor;
     }
 
     public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null)

@@ -30,4 +30,18 @@ class FuncionesComunes
         $sinEspacios = str_replace(' ', '', $palabrasCapitalizadas);
         return $sinEspacios;
     }
+    
+    public static function limpiarString($valor)
+    {
+        if (!is_string($valor)) {
+            return $valor;
+        }
+        $valorRecortado = htmlspecialchars(trim($valor));
+
+        if (substr($valorRecortado, -1) === '.') {
+            $valorRecortado = substr($valorRecortado, 0, -1);
+        }
+
+        return $valorRecortado;
+    }
 }
