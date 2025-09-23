@@ -7,6 +7,7 @@ class constanciaControlador // extends formularioControlador
 {
     private $servicio;
     private $gestor;
+    private $gestorSacerdote;
     private $nombreTabla;
 
     public function __construct(PDO $pdo)
@@ -14,6 +15,7 @@ class constanciaControlador // extends formularioControlador
         $this->nombreTabla = $_REQUEST['t'];
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
+        $this->gestorSacerdote = EntidadFactory::crearGestor($pdo, 'sacerdote');
     }
 
     public function guardar($errorMessage = null)
@@ -23,6 +25,7 @@ class constanciaControlador // extends formularioControlador
         $id = (int)($_REQUEST['id'] ?? 0);
 
         $datos_modelo = [];
+        $datos_sacerdotes = [];
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
         if ($id > 0) {
@@ -31,6 +34,12 @@ class constanciaControlador // extends formularioControlador
 
             $datos_modelo = $modelo->toArrayParaBD();
         }
+        $sacerdotes = [];
+        $sacerdotes['sacerdotes'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
+        
+        foreach ($this->gestorSacerdote->obtenerTodos() as $sacerdote_objeto) {
+            $sacerdotes['sacerdotes'][] = $sacerdote_objeto->toArrayParaMostrar();
+        }
 
         $datos = [
             'primerElemento' => "#nombre_usuario",
@@ -38,6 +47,7 @@ class constanciaControlador // extends formularioControlador
             'titulo' => $titulo,
         ];
         $datos = array_merge($datos_modelo, $datos);
+        $datos = array_merge($sacerdotes, $datos);
         $datos_formulario['formulario'] = json_encode($datos);
 
         require_once "vistas/formulario.php";

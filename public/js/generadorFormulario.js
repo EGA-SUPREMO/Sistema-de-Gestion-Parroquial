@@ -52,11 +52,20 @@ const creadoresDeCampos = {
             class: 'form-control'
         });
         
-        prop.options.forEach(option => {
+        prop.options.forEach((option, index) => {
             const $option = $('<option>').val(option.value).text(option.text);
+
+            if (prop.value === option.value || (!prop.value && index === 0)) {
+                $option.attr('selected', 'selected');
+            }
+
+            if (option.disabled) {
+                $option.prop('disabled', true);
+            }
             $select.append($option);
         });
         
+
         return asignarAtributosComunes($select, prop);
     },
 
@@ -89,9 +98,24 @@ const creadoresDeCampos = {
                 $formGroup.append($label);
             }
             
-            // Reutilizamos la misma lógica para crear el input interno
-            const $input = this.crearInput(campoInterno);
-            $formGroup.append($input);
+            switch (campoInterno.type) {
+                case 'input':
+                    $campo = this.crearInput(campoInterno);
+                    break;
+                case 'select':
+                    $campo = this.crearSelect(campoInterno);
+                    break;
+                case 'textarea':
+                    $campo = this.crearTextarea(campoInterno);
+                    break;
+                case 'subtitulo':
+                    $campo = this.crearSubtitulo(campoInterno);
+                    break;
+                default:
+                    $campo = this.crearInput(campoInterno);
+            }
+
+            $formGroup.append($campo);
             $col.append($formGroup);
             $row.append($col);
         });

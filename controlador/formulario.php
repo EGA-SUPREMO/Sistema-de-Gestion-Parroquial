@@ -51,6 +51,11 @@
                 ];
             break;
         case 'constancia_de_bautizo':
+            const sacerdoteOptions = datosPHP.sacerdotes.map(sacerdote => ({
+                value: sacerdote.id,
+                text: sacerdote.nombre,
+                disabled: sacerdote.id === 0
+            }));
             formularioCampos = [
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
@@ -123,8 +128,8 @@
                 { type: 'textarea', name: 'observaciones', label: 'Observaciones', required: false, validarMetodo: 'validarString', value: 'datosPHP.observaciones' },
                 { type: 'fila', 
                     campos: [
-                        { type: 'number', name: 'ministro_id', label: 'ID del Ministro', required: true, validarMetodo: 'validarEntero', value: 1 },
-                        { type: 'number', name: 'ministro_certifica_id', label: 'ID del Ministro que Certifica', required: true, validarMetodo: 'validarEntero', value: 1 },
+                        { type: 'select', name: 'ministro_id', label: 'Ministro', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions},
+                        { type: 'select', name: 'ministro_certifica_id', label: 'Ministro que Certifica', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions },
                     ]
                 },
 
@@ -139,7 +144,7 @@
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
-                { type: 'number', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', value: 1 },
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions },
                 { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, validarMetodo: 'validarString', value: 'Personal', options: [
                       { value: 'Personal', text: 'Personal' },
                       { value: 'Comunión', text: 'Comunión' },
