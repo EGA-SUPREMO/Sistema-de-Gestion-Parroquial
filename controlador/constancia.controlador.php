@@ -37,7 +37,7 @@ class constanciaControlador // extends formularioControlador
         $sacerdotes = [];
         $sacerdotes['sacerdotes'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
         $sacerdotes['sacerdotes_vivos'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
-        
+
         foreach ($this->gestorSacerdote->obtenerTodos() as $sacerdote_objeto) {
             $sacerdotes['sacerdotes'][] = $sacerdote_objeto->toArrayParaMostrar();
             if ($sacerdote_objeto->getVivo()) {
@@ -61,7 +61,7 @@ class constanciaControlador // extends formularioControlador
     public function guardarRegistro()
     {
         FuncionesComunes::requerirLogin();
-        
+
         try {
             $rutaPdf = $this->guardarDatos();
             FuncionesComunes::redirigir('Location: ' . $rutaPdf);
@@ -69,7 +69,7 @@ class constanciaControlador // extends formularioControlador
             error_log("Error generando PDF: " . $e->getMessage());
             $this->guardar("error.");
         }
-    
+
         $this->guardar("Error al guardar la constancia.");
     }
 

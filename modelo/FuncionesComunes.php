@@ -30,7 +30,7 @@ class FuncionesComunes
         $sinEspacios = str_replace(' ', '', $palabrasCapitalizadas);
         return $sinEspacios;
     }
-    
+
     public static function limpiarString($valor)
     {
         if (!is_string($valor)) {
@@ -42,7 +42,7 @@ class FuncionesComunes
 
         return $valorRecortado;
     }
-    public static function rutaDocumentoAUrl($rutaAbsoluta) 
+    public static function rutaDocumentoAUrl($rutaAbsoluta)
     {
         $rutaRaizServidor = $_SERVER['DOCUMENT_ROOT'];
         $rutaNormalizada = realpath($rutaAbsoluta);

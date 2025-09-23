@@ -63,7 +63,7 @@ class ServicioConstanciaDeBautizo
             */
             $rutaPDF = $this->generarPDF($constancia);
             $this->pdo->commit();
-            error_log($rutaPDF);
+
             return $rutaPDF;
         } catch (Exception $e) {
             $this->pdo->rollBack();
@@ -74,7 +74,7 @@ class ServicioConstanciaDeBautizo
     private function obtenerOcrearFeligresId($datosFeligres)
     {
         $feligres = $this->gestorFeligres->obtenerPorCedula($datosFeligres['cedula']);
-        $id=0;
+        $id = 0;
 
         if ($feligres) {
             $feligres->hydrate($datosFeligres);
