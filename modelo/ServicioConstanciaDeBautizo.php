@@ -73,18 +73,21 @@ class ServicioConstanciaDeBautizo
     private function obtenerOcrearFeligresId($datosFeligres)
     {
         $feligres = $this->gestorFeligres->obtenerPorCedula($datosFeligres['cedula']);
+        $id=0;
 
         if ($feligres) {
-            return $feligres->getId();
+            $feligres->hydrate($datosFeligres);
+            $id = $feligres->getId();
+            $this->gestorFeligres->guardar($feligres, $id);
+        } else {
+            $nuevoFeligres = new Feligres();
+            $nuevoFeligres->hydrate($datosFeligres);
+            $id = $this->gestorFeligres->guardar($nuevoFeligres);
         }
-        $nuevoFeligres = new Feligres();
-        $nuevoFeligres->hydrate($datosFeligres);
-
-        $guardadoId = $this->gestorFeligres->guardar($nuevoFeligres);
-        if (!$guardadoId) {
+        if (!$id) {
             throw new Exception("Error al crear el feligrés con cédula: " . $datosFeligres['cedula']);
         }
-        return $guardadoId;
+        return $id;
     }
     private function mapearDatos($datosFormulario, $prefijo)
     {
@@ -97,6 +100,8 @@ class ServicioConstanciaDeBautizo
             'segundo_apellido'  => $datosFormulario[$prefijo . '-segundo_apellido']  ?? '',
             'fecha_nacimiento'  => $datosFormulario[$prefijo . '-fecha_nacimiento']  ?? '',
             'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? '',
+            'estado'            => $datosFormulario[$prefijo . '-estado']            ?? '',
+            'pais'              => $datosFormulario[$prefijo . '-pais']              ?? '',
         ];
     }
 
@@ -106,7 +111,7 @@ class ServicioConstanciaDeBautizo
         $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId()));
         $constancia->setMadre($this->gestorFeligres->obtenerPorId($constancia->getMadreId()));
         $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));
-        $constancia->setMinistroCertifica($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaId()));
+        $constancia->setMinistroCertificaExpedicion($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaExpedicionId()));
 
         $datos = $constancia->toArrayParaConstanciaPDF();
         GeneradorPdf::guardarPDF(self::$plantilla_nombre, $datos);

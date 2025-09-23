@@ -62,7 +62,7 @@ class formularioControlador
         $datos = [];
         foreach ($camposEsperados as $campo) {
             if (isset($_POST[$campo]) and $_POST[$campo] !== '') {
-                $datos[$campo] = FuncionesComunes::limpiarString($_POST[$campo]));
+                $datos[$campo] = FuncionesComunes::limpiarString($_POST[$campo]);
             }
         }
         try {

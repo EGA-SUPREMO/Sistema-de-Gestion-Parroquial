@@ -137,8 +137,9 @@
                     ] 
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de Expedición'},
+                { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
+                { type: 'number', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', value: 1 },
                 { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, validarMetodo: 'validarString', value: 'Personal', options: [
                       { value: 'Personal', text: 'Personal' },
                       { value: 'Comunión', text: 'Comunión' },

@@ -23,6 +23,8 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     private $ministro;
     private $ministro_certifica_id;
     private $ministro_certifica;
+    private $ministro_certifica_expedicion_id;
+    private $ministro_certifica_expedicion;
     private $numero_libro;
     private $numero_pagina;
     private $numero_marginal;
@@ -186,6 +188,15 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     {
         $this->ministro_certifica = $ministro_certifica;
     }
+    public function setMinistroCertificaExpedicionId($ministro_certifica_expedicion_id)
+    {
+        $this->ministro_certifica_expedicion_id = Validador::validarEntero($ministro_certifica_expedicion_id, "ID del ministro que certifica", null, 1);
+    }
+
+    public function setMinistroCertificaExpedicion($ministro_certifica_expedicion)
+    {
+        $this->ministro_certifica_expedicion = $ministro_certifica_expedicion;
+    }
 
     public function setNumeroLibro($numero_libro)
     {
@@ -254,7 +265,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
         $datos_constancia['mes_expedicion'] = ucwords($formateador->format($fecha_expedicion));
         $datos_constancia['ano_expedicion'] = $fecha_expedicion->format('Y');
-        $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica->getNombre(), 'Ministro que certifica');
+        $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica_expedicion->getNombre(), 'Ministro que certifica');
 
         return $datos_constancia;
     }
