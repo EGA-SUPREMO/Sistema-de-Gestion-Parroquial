@@ -56,6 +56,11 @@
                 text: sacerdote.nombre,
                 disabled: sacerdote.id === 0
             }));
+            const sacerdoteVivosOptions = datosPHP.sacerdotes_vivos.map(sacerdote => ({
+                value: sacerdote.id,
+                text: sacerdote.nombre,
+                disabled: sacerdote.id === 0
+            }));
             formularioCampos = [
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
@@ -144,7 +149,7 @@
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
-                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions },
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', options: sacerdoteVivosOptions },
                 { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, validarMetodo: 'validarString', value: 'Personal', options: [
                       { value: 'Personal', text: 'Personal' },
                       { value: 'Comunión', text: 'Comunión' },

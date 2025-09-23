@@ -36,9 +36,13 @@ class constanciaControlador // extends formularioControlador
         }
         $sacerdotes = [];
         $sacerdotes['sacerdotes'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
+        $sacerdotes['sacerdotes_vivos'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
         
         foreach ($this->gestorSacerdote->obtenerTodos() as $sacerdote_objeto) {
             $sacerdotes['sacerdotes'][] = $sacerdote_objeto->toArrayParaMostrar();
+            if ($sacerdote_objeto->getVivo()) {
+                $sacerdotes['sacerdotes_vivos'][] = $sacerdote_objeto->toArrayParaMostrar();
+            }
         }
 
         $datos = [
