@@ -100,9 +100,9 @@ class ServicioConstanciaDeBautizo
             'primer_apellido'   => $datosFormulario[$prefijo . '-primer_apellido'],
             'segundo_apellido'  => $datosFormulario[$prefijo . '-segundo_apellido']  ?? '',
             'fecha_nacimiento'  => $datosFormulario[$prefijo . '-fecha_nacimiento']  ?? '',
-            'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? '',
-            'estado'            => $datosFormulario[$prefijo . '-estado']            ?? '',
-            'pais'              => $datosFormulario[$prefijo . '-pais']              ?? '',
+            'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? null,
+            'estado'            => $datosFormulario[$prefijo . '-estado']            ?? null,
+            'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
         ];
     }
 
