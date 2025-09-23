@@ -1,9 +1,9 @@
 <?php
 
-require "vendor/autoload.php";
+require_once "vendor/autoload.php";
 use PhpOffice\PhpWord\TemplateProcessor;
 
-//use TCPDF;
+require_once "modelo/FuncionesComunes.php";
 
 class GeneradorPdf
 {
@@ -32,7 +32,8 @@ class GeneradorPdf
 
     public static function guardarPDF($nombre_plantilla, $datos)
     {
-        self::generarDocumento($nombre_plantilla, $datos);
+        $rutaAbsolutaDocumento = self::generarDocumento($nombre_plantilla, $datos);
+        return FuncionesComunes::rutaDocumentoAUrl($rutaAbsolutaDocumento);
     }
 
     public static function generarPdfMatrimonio(

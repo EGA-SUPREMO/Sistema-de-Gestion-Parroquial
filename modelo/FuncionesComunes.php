@@ -44,4 +44,19 @@ class FuncionesComunes
 
         return $valorRecortado;
     }
+    public static function rutaDocumentoAUrl($rutaAbsoluta) 
+    {
+        $rutaRaizServidor = $_SERVER['DOCUMENT_ROOT'];
+        $rutaNormalizada = realpath($rutaAbsoluta);
+
+        if ($rutaNormalizada === false) {
+            throw new Exception("Error: ruta no existe");
+        }
+
+        $rutaRelativa = str_replace($rutaRaizServidor, '', $rutaNormalizada);
+
+        $rutaFinal = '//' . $_SERVER['HTTP_HOST'] . $rutaRelativa;
+
+        return $rutaFinal;
+    }
 }

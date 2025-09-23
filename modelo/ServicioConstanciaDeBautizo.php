@@ -32,7 +32,7 @@ class ServicioConstanciaDeBautizo
         self::$plantilla_nombre = "fe de bautizo.docx";
     }
 
-    public function registrarConstancia($datosFormulario)
+    public function guardarConstancia($datosFormulario)
     {
         $this->pdo->beginTransaction();
 
@@ -61,13 +61,13 @@ class ServicioConstanciaDeBautizo
 
                         // TODO LO MISMO PARA LOS PARENTESCOS
             */
-
+            $rutaPDF = $this->generarPDF($constancia);
             $this->pdo->commit();
-            return $constancia;
-
+            error_log($rutaPDF);
+            return $rutaPDF;
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            error_log("Error en la transacción de registro de constancia: " . $e->getMessage());
+            error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
             return false;
         }
     }
@@ -106,7 +106,7 @@ class ServicioConstanciaDeBautizo
         ];
     }
 
-    public function generarPDF($constancia)
+    protected function generarPDF($constancia)
     {
         $constancia->setFeligresBautizado($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId()));
         $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId()));
@@ -115,7 +115,7 @@ class ServicioConstanciaDeBautizo
         $constancia->setMinistroCertificaExpedicion($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaExpedicionId()));
 
         $datos = $constancia->toArrayParaConstanciaPDF();
-        GeneradorPdf::guardarPDF(self::$plantilla_nombre, $datos);
+        return GeneradorPdf::guardarPDF(self::$plantilla_nombre, $datos);
     }
 
 

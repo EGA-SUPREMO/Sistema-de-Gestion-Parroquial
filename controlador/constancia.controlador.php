@@ -47,22 +47,15 @@ class constanciaControlador // extends formularioControlador
     public function guardarRegistro()
     {
         FuncionesComunes::requerirLogin();
-        $objetoConstancia = null;
+        
         try {
-            $objetoConstancia = $this->guardarDatos();
+            $rutaPdf = $this->guardarDatos();
+            FuncionesComunes::redirigir('Location: ' . $rutaPdf);
         } catch (Exception $e) {
-            error_log("Error guardando registro: " . $e->getMessage());
-            $this->guardar("El registro no se guardó");
+            error_log("Error generando PDF: " . $e->getMessage());
+            $this->guardar("error.");
         }
-        if ($objetoConstancia) {
-            try {
-                $rutaPdf = $this->servicio->generarPdf($objetoConstancia);
-                FuncionesComunes::redirigir($rutaPdf);
-            } catch (Exception $e) {
-                error_log("Error generando PDF: " . $e->getMessage());
-                $this->guardar("El registro se guardó, pero falló la creación del PDF.");// TODO ESTO NO DEBERIA PASAR BAJO NINGUN CASO
-            }
-        }
+    
         $this->guardar("Error al guardar la constancia.");
     }
 
@@ -77,7 +70,7 @@ class constanciaControlador // extends formularioControlador
             }
         }
 
-        $constancia = $this->servicio->registrarConstancia($datosFormulario);
-        return $constancia;
+        $rutaPdf = $this->servicio->guardarConstancia($datosFormulario);
+        return $rutaPdf;
     }
 }
