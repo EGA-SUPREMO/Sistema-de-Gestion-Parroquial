@@ -52,6 +52,8 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['padre_id'] = $feligresMadreId;
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
+            $this->validarDependencias($constancia);
+            $constanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia);
             /*
                         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
@@ -59,7 +61,6 @@ class ServicioConstanciaDeBautizo
 
                         // TODO LO MISMO PARA LOS PARENTESCOS
             */
-            $constanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia);
 
             $this->pdo->commit();
             return $constancia;
@@ -85,7 +86,7 @@ class ServicioConstanciaDeBautizo
             $id = $this->gestorFeligres->guardar($nuevoFeligres);
         }
         if (!$id) {
-            throw new Exception("Error al crear el feligrés con cédula: " . $datosFeligres['cedula']);
+            throw new Exception("Error al crear o actualizar el feligrés con cédula: " . $datosFeligres['cedula']);
         }
         return $id;
     }

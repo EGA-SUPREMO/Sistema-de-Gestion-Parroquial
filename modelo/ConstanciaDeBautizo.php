@@ -218,9 +218,22 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
 
     public function toArrayParaConstanciaPDF()
     {
-        if (empty($this->feligres_bautizado) || empty($this->padre) || empty($this->madre) || empty($this->ministro) || empty($this->ministro_certifica)) {
-            throw new InvalidArgumentException("Error: objeto feligres vacio"); // TODO expandir
+        if (empty($this->feligres_bautizado)) {
+            throw new InvalidArgumentException("Error: 'feligres_bautizado' está vacío");
         }
+        if (empty($this->padre)) {
+            throw new InvalidArgumentException("Error: 'padre' está vacío");
+        }
+        if (empty($this->madre)) {
+            throw new InvalidArgumentException("Error: 'madre' está vacío");
+        }
+        if (empty($this->ministro)) {
+            throw new InvalidArgumentException("Error: 'ministro' está vacío");
+        }
+        if (empty($this->ministro_certifica_expedicion)) {
+            throw new InvalidArgumentException("Error: 'ministro_certifica_expedicion' está vacío");
+        }
+
         $formateador = new IntlDateFormatter('es', IntlDateFormatter::NONE, IntlDateFormatter::NONE, 'America/Caracas', IntlDateFormatter::GREGORIAN, 'MMMM');
 
         $datos_bd = $this->toArrayParaBD();
