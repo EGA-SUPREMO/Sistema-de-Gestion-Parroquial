@@ -37,10 +37,8 @@ class FuncionesComunes
             return $valor;
         }
         $valorRecortado = htmlspecialchars(trim($valor));
-
-        if (substr($valorRecortado, -1) === '.') {
-            $valorRecortado = substr($valorRecortado, 0, -1);
-        }
+        $valorRecortado = preg_replace('/\s+/', ' ', $valorRecortado);
+        $valorRecortado = rtrim($valorRecortado, '.,;');
 
         return $valorRecortado;
     }
