@@ -78,6 +78,13 @@ CREATE TABLE `parentescos` (
   FOREIGN KEY (`id_padre`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`id_hijo`) REFERENCES `feligreses`(`id`)
 ) ENGINE=InnoDB;
+
+ALTER TABLE `parentescos`
+ADD UNIQUE KEY `idx_parentesco_unico` (`id_padre`, `id_hijo`);
+
+ALTER TABLE `parentescos`
+ADD CONSTRAINT `chk_no_auto_padre` CHECK (`id_padre` != `id_hijo`);
+
 --
 -- Volcado de datos para la tabla `feligreses`
 --

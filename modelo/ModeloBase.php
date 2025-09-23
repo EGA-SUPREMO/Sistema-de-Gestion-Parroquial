@@ -7,6 +7,9 @@ abstract class ModeloBase
     public function hydrate($datos)
     {
         foreach ($datos as $llave => $valor) {
+            if ($valor === null || $valor === '') {
+                continue;
+            }
             $setter = 'set' . FuncionesComunes::formatearSnakeCaseAPascalCase($llave);
 
             if (method_exists($this, $setter)) {
