@@ -18,7 +18,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     private $padrino_nombre;
     private $madrina_nombre;
     private $observaciones;
-    private $municipio;
     private $ministro_id;
     private $ministro;
     private $ministro_certifica_id;
@@ -70,11 +69,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         return $this->observaciones;
     }
 
-    public function getMunicipio()
-    {
-        return $this->municipio;
-    }
-
     public function getMinistroId()
     {
         return $this->ministro_id;
@@ -83,6 +77,11 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function getMinistroCertificaId()
     {
         return $this->ministro_certifica_id;
+    }
+
+    public function getMinistroCertificaExpedicionId()
+    {
+        return $this->ministro_certifica_expedicion_id;
     }
 
     public function getNumeroLibro()
@@ -162,14 +161,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $this->proposito = Validador::validarString($proposito, "proposito", 10, 5);
     }
 
-    public function setMunicipio($municipio)
-    {
-        $this->municipio = Validador::validarString($municipio, "municipio", 100, 6);
-        if ($this->municipio !== null) {
-            $this->municipio = ucwords(strtolower($this->municipio));
-        }
-    }
-
     public function setMinistroId($ministro_id)
     {
         $this->ministro_id = Validador::validarEntero($ministro_id, "ID del ministro", null, 1);
@@ -216,7 +207,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     public function toArrayParaBD($excluirId = false)
     {
         $datos = parent::toArrayParaBD($excluirId);
-        unset($datos['municipio']);
+        unset($datos['ministro_certifica_expedicion_id']);
         return $datos;
     }
     public function toArrayParaMostrar($criterio = null)

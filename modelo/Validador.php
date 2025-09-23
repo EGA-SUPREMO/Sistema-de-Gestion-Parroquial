@@ -45,8 +45,8 @@ class Validador
 
     public static function validarString($valor, $nombreCampo, $longitudMaxima, $longitudMinima = 0)
     {
-        if ($valor === null) {
-            return;
+        if ($valor === null || $valor === '') {
+            return null;
         }
 
         if (strlen($valor) > $longitudMaxima) {
@@ -61,7 +61,7 @@ class Validador
 
     public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null)
     {
-        if ($fecha === null) {
+        if ($fecha === null || $fecha === '') {
             return null;
         }
 
