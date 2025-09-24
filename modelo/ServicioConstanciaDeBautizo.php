@@ -62,14 +62,17 @@ class ServicioConstanciaDeBautizo
                         // TODO LO MISMO PARA LOS PARENTESCOS
             */
             $rutaPDF = $this->generarPDF($constancia);
+            if (!$rutaPDF) {
+                throw Exception("Error generando la constancia");
+            }
             $this->pdo->commit();
 
             return $rutaPDF;
         } catch (Exception $e) {
             $this->pdo->rollBack();
             error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
-            return false;
         }
+        return false;
     }
     private function obtenerOcrearFeligresId($datosFeligres)
     {
