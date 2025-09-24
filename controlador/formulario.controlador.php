@@ -19,7 +19,7 @@ class formularioControlador
         FuncionesComunes::requerirLogin();
 
         $resultado = $this->guardarDatos();
-        if ($resultado) {
+        if (!$resultado) {
             $this->guardar("Error: Por favor, introduce datos válidos.");
             exit();
         }
@@ -78,6 +78,7 @@ class formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
+        
         return false;
     }
 
