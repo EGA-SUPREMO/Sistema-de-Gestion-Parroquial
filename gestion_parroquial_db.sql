@@ -230,6 +230,7 @@ INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
 (8, 'Antonio Martín', TRUE),
 (9, 'David Herrera', TRUE),
 (10, 'Ricardo Castillo', TRUE);
+(11, 'Máximo Tovar', TRUE);
 
 CREATE TABLE `constancia_de_bautizo` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
