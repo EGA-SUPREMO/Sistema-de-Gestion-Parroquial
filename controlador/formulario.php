@@ -167,6 +167,15 @@
 
 
     $(document).ready(function() {
+        let nombre = ["ale aaaaa"];
+        let datos = JSON.stringify({ usuario: nombre });
+        $.post("modelo/formulario.php", { json: datos }).done(function(response) {
+            console.log(response);
+        })
+        .fail(function(xhr, status, error) {
+            console.error("Error:", error);
+        });
+        
         const datosPHP = <?php echo $datos_formulario['formulario']; ?>;
 
         const urlParams = new URLSearchParams(window.location.search);
