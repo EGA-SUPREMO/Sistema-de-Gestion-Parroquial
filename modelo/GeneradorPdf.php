@@ -2,6 +2,8 @@
 
 require_once "vendor/autoload.php";
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Settings;
 
 require_once "modelo/FuncionesComunes.php";
 
@@ -32,8 +34,43 @@ class GeneradorPdf
 
     public static function guardarPDF($nombre_plantilla, $datos)
     {
-        $rutaAbsolutaDocumento = self::generarDocumento($nombre_plantilla, $datos);
-        return FuncionesComunes::rutaDocumentoAUrl($rutaAbsolutaDocumento);
+        $rutaAbsolutaDocumentoDocx = self::generarDocumento($nombre_plantilla, $datos);
+        $rutaAbsolutaDocumentoPdf = self::convertirDocxAPdf($rutaAbsolutaDocumentoDocx);
+        return FuncionesComunes::rutaDocumentoAUrl($rutaAbsolutaDocumentoPdf);
+    }
+
+    public static function convertirDocxAPdf($ruta_docx)
+    {
+        $ruta_pdf = str_replace('.docx', '.pdf', $ruta_docx);
+
+        $salida = dirname($ruta_docx);
+
+        // Detectar sistema operativo
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            // Windows
+            // En Windows el comando es soffice.exe, que suele estar en:
+            // C:\Program Files\LibreOffice\program\soffice.exe
+            // OJO: asegúrate de que esté en el PATH, si no, pon la ruta completa. "C:\Program Files\LibreOffice\program\soffice.exe"
+            $comando = 'soffice --headless --convert-to pdf "' . $ruta_docx . '" --outdir "' . $salida . '"';
+        } else {
+            // Linux
+            // Usamos un directorio temporal como HOME para evitar problemas de permisos
+            $lo_profile = sys_get_temp_dir() . '/lo_profile';
+            if (!is_dir($lo_profile)) {
+                mkdir($lo_profile, 0777, true);
+            }
+            $comando = 'export HOME="' . $lo_profile . '" && libreoffice --headless --convert-to pdf "' . $ruta_docx . '" --outdir "' . $salida . '"';
+        }
+
+        // Comando con la variable de entorno definida
+        $comando = 'export HOME="' . $lo_profile . '" && libreoffice --headless --convert-to pdf "' . $ruta_docx . '" --outdir "' . dirname($ruta_docx) . '"';
+        exec($comando . " 2>&1", $output, $return_var);
+
+        if ($return_var !== 0) {
+            throw new \Exception("Error al convertir DOCX a PDF: " . implode("\n", $output));
+        }
+
+        return $ruta_pdf;
     }
 
     public static function generarPdfMatrimonio(
