@@ -52,9 +52,9 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
+            $this->gestorConstanciaDeBautizo->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
 
-            $idConstanciaEncontrada = $this->gestorConstanciaDeBautizo->obtenerConstanciaPorFeligresId($feligresId);
-            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontrada);
+            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres);
             /*
                         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
