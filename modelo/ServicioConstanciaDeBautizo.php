@@ -35,7 +35,6 @@ class ServicioConstanciaDeBautizo
     public function guardarConstancia($datosFormulario)
     {
         $this->pdo->beginTransaction();
-
         try {
             $datosConstancia = $datosFormulario;
 
@@ -53,7 +52,9 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
-            $constanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia);
+
+            $idConstanciaEncontrada = $this->gestorConstanciaDeBautizo->obtenerConstanciaPorFeligresId($feligresId);
+            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontrada);
             /*
                         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 

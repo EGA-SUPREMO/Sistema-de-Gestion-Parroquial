@@ -27,13 +27,15 @@ abstract class GestorBase
                     return $stmt->fetchColumn();
                 case 'assoc':
                     return $stmt->fetch(PDO::FETCH_ASSOC);
+                case 'update':
                 case 'insert':
                     return (int)$this->db->lastInsertId();
                 default:
-                    return $stmt->rowCount(); // para UPDATE, DELETE, etc.
+                    return $stmt->rowCount();
             }
         } catch (PDOException $e) {
             error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . " Consulta: " . $consulta);
+            throw new Exception("Error ejecutando consulta para tabla {$this->tabla}:");
             return null;
         }
     }
@@ -81,7 +83,7 @@ abstract class GestorBase
         $asignaciones = array_map(fn ($col) => "$col = ?", $columnas);
         $set = implode(", ", $asignaciones);
         $sql = "UPDATE {$this->tabla} SET {$set} WHERE {$this->clavePrimaria} = ?";
-        return $this->hacerConsulta($sql, [...array_values($datos), $id], 'insert');
+        return $this->hacerConsulta($sql, [...array_values($datos), $id], 'update');
     }
     public function guardar($objeto, $id = 0)
     {

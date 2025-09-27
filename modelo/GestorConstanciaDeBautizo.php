@@ -23,9 +23,11 @@ class GestorConstanciaDeBautizo extends GestorBase
         $this->gestorSacerdote = new GestorSacerdote($pdo);
     }
 
-    public function guardar($objeto, $id = 0)
+    public function obtenerConstanciaPorFeligresId($id)
     {
-        parent::guardar($objeto, $id);
+        $sql = "SELECT * FROM {$this->tabla} WHERE `feligres_bautizado_id` = ?";
+        $resultado = $this->hacerConsulta($sql, [$id], 'single');
+        return $resultado->getId();
     }
 
 }
