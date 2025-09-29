@@ -1,3 +1,23 @@
+function pedirDatos(llave) {
+    let nombre = ["ale aaaaa"];
+    let datos = JSON.stringify({ usuario: nombre });
+    $.post("modelo/formulario.php", { json: datos }).done(function(response) {
+        console.log(response);
+    })
+    .fail(function(xhr, status, error) {
+        console.error("Error:", error);
+    });
+}
+
+function autocompletarPadreCedula() {
+    // 'this' es el input de la cédula gracias a .call(this)
+    const cedula = $(this).val(); 
+    $('input[name="padre-primer_nombre"]').val('Juan');
+    $('input[name="padre-segundo_nombre"]').val('Jose');
+    $('input[name="padre-primer_apellido"]').val('Pérez');
+    $('input[name="padre-segundo_apellido"]').val('Leiva');
+}
+
 /**
  * Asigna atributos comunes (required, value, pattern, etc.) a un elemento del formulario.
  * @param {jQuery} $element - El elemento de jQuery al que se le asignarán los atributos.
@@ -27,6 +47,13 @@ function asignarAtributosComunes($element, properties) {
     // Para selects, selecciona el valor correcto
     if (properties.type === 'select' && properties.value) {
         $element.val(properties.value);
+    }
+
+    if (properties.autocompletarMetodo) {
+        $element.on('focusout', function() {// TODO que gemini me explice esto
+            // Llamamos a la función. 'this' dentro de la función se referirá al input.
+            window[properties.autocompletarMetodo].call(this);
+        });
     }
 
     return $element;

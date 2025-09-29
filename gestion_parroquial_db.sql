@@ -52,7 +52,7 @@ INSERT INTO `administrador` (`id`, `nombre_usuario`, `password`) VALUES
 
 --
 -- Estructura de tabla para la tabla `feligreses`
---
+-- TODO AAAAAAAAAAAAAAA, como es eso de nacionalidad + cedula, el codigo no esta listo para esto
 
 CREATE TABLE `feligreses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -66,6 +66,7 @@ CREATE TABLE `feligreses` (
   `estado` VARCHAR(50) DEFAULT NULL,
   `pais` VARCHAR(50) DEFAULT NULL,
   `cedula` int(9) UNSIGNED UNIQUE,
+  `nacionalidad` CHAR(1) DEFAULT NULL
   `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

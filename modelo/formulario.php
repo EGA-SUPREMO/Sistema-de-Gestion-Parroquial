@@ -1,6 +1,6 @@
 <?php
 
-$data = json_decode($_POST['json'], true);
+$datos = json_decode($_POST['json'], true);
 
-$usuario = $data['usuario'][0];
+$usuario = $datos['feligres_cedula-padre'][0];
 echo "Hola, yutgio, $usuario!";
