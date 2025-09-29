@@ -65,7 +65,7 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Padre del Bautizado', required: true, validarMetodo: 'validarEntero', pattern: '\\d{4,10}', maxlength: '10', value: 112233 },
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Padre del Bautizado', required: true, validarMetodo: 'validarEntero', autocompletarMetodo: 'padreCedula', pattern: '\\d{4,10}', maxlength: '10', value: 112233 },
                         { type: 'text', name: 'madre-cedula', label: 'Cédula de la Madre del Bautizado', required: true, validarMetodo: 'validarEntero', pattern: '\\d{4,10}', maxlength: '10', value: 334455 },
                     ]
                 },
