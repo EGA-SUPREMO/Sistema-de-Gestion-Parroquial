@@ -1,4 +1,18 @@
 <?php
+require_once 'cargarEnv.php'; 
+require_once 'conexion.php';
+
+// Cargar las variables de entorno
+cargarVariablesDeEntorno(__DIR__ . '/../');
+
+// 1. Crear la conexión $pdo dentro del script AJAX
+$pdo = BaseDatos::obtenerConexion(
+    $_ENV['DB_HOST'], 
+    $_ENV['DB_NAME'], 
+    $_ENV['DB_USER'], 
+    $_ENV['DB_PASS']
+);
+
 // Asegúrate de incluir tu gestor de base de datos y la clase GestorFeligres
 require_once 'GestorFeligres.php'; 
 // Asume que también necesitas Feligres.php o similar si obtienes un objeto Feligres
@@ -19,7 +33,7 @@ $respuesta = [
 
 if (!empty($cedula_padre)) {
     // 3. Crear una instancia del gestor
-    $gestorFeligres = new GestorFeligres(null); 
+    $gestorFeligres = new GestorFeligres($pdo); 
 
     // 4. Buscar el feligrés (padre) por la cédula
     $padre_objeto = $gestorFeligres->obtenerPorCedula($cedula_padre);

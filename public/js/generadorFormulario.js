@@ -28,20 +28,22 @@ function completarCampos(datos) {
     });
 }
 
-function pedirDatos(llave) {
-    let nombre = ["ale aaaaa"];
-    let datos = JSON.stringify({ usuario: nombre });
-    $.post("modelo/formulario.php", { json: datos }).done(function(response) {
-        console.log(response);
-    })
+function pedirDatos(datos) {
+    $.post("modelo/formulario.php", { json: datos }, function(resultado) {
+        // 1. Aquí, 'resultado' YA es un objeto JavaScript (si la conversión fue exitosa)
+        console.log("Respuesta del servidor (Objeto JS):", resultado); 
+        // 2. Procesar y autocompletar los campos
+        completarCampos(resultado);
+
+    }, 'json') // <--- ¡AÑADE 'json' AQUÍ!
     .fail(function(xhr, status, error) {
-        console.error("Error:", error);
+        console.log("Error en la respuesta del servidor (Objeto JS):", xhr);
     });
 }
 
 function autocompletarPadreCedula($element) {
     // Obtenemos la cédula del elemento que dispaó el evento
-    const cedula = $element.val(); 
+    const cedula = $element.val();
     
     // Si la cédula está vacía, no hacemos nada
     if (!cedula) {
@@ -50,28 +52,7 @@ function autocompletarPadreCedula($element) {
 
     // Estructura de datos a enviar al servidor
     let datos = JSON.stringify({ cedula: cedula }); 
-    
-    // Ejecutamos la llamada AJAX
-    $.post("modelo/formulario.php", { json: datos })
-        .done(function(response) {
-            console.log("Respuesta del servidor:", response);
-            
-            try {
-                // 1. Intentar parsear la respuesta JSON
-                const data = JSON.parse(response); 
-                
-                // 2. Procesar y autocompletar los campos
-                completarCampos(data);
-
-            } catch (e) {
-                console.error("Error al parsear la respuesta del servidor como JSON:", e, response);
-                alert("Error al obtener los datos. La respuesta no fue JSON válido.");
-            }
-        })
-        .fail(function(xhr, status, error) {
-            console.error("Error en la solicitud AJAX:", error);
-            alert("Error de conexión al servidor. Intente de nuevo.");
-        });
+    pedirDatos(datos);
 }
 
 /**
