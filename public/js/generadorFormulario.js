@@ -1,3 +1,33 @@
+function completarCampos(datos) {
+    const prefijos = ['padre', 'madre', 'feligres'];
+
+    prefijos.forEach(prefijo => {
+        const objetoDatos = datos[prefijo]; // Obtener los datos para 'padre', 'madre', o 'feligres'
+
+        if (objetoDatos && typeof objetoDatos === 'object') {
+            // Iterar sobre las propiedades del objeto (e.g., 'primer_nombre', 'cedula')
+            for (const key in objetoDatos) {
+                if (objetoDatos.hasOwnProperty(key)) {
+                    const valor = objetoDatos[key];
+                    // Construir el nombre completo del campo en el formulario (e.g., 'padre-primer_nombre')
+                    const nombreCampo = `${prefijo}-${key}`;
+                    
+                    // Buscar el input y asignarle el valor si existe
+                    const $input = $(`[name="${nombreCampo}"]`);
+
+                    if ($input.length) {
+                        // Usar .val() para inputs, textareas y selects
+                        $input.val(valor); 
+                        console.log(`Autocompletado: ${nombreCampo} = ${valor}`);
+                    }
+                }
+            }
+        } else {
+            // console.log(`No se encontraron datos para ${prefijo}.`);
+        }
+    });
+}
+
 function pedirDatos(llave) {
     let nombre = ["ale aaaaa"];
     let datos = JSON.stringify({ usuario: nombre });
@@ -9,13 +39,39 @@ function pedirDatos(llave) {
     });
 }
 
-function autocompletarPadreCedula() {
-    // 'this' es el input de la cédula gracias a .call(this)
-    const cedula = $(this).val(); 
-    $('input[name="padre-primer_nombre"]').val('Juan');
-    $('input[name="padre-segundo_nombre"]').val('Jose');
-    $('input[name="padre-primer_apellido"]').val('Pérez');
-    $('input[name="padre-segundo_apellido"]').val('Leiva');
+function autocompletarPadreCedula($element) {
+    // Obtenemos la cédula del elemento que dispaó el evento
+    const cedula = $element.val(); 
+    
+    // Si la cédula está vacía, no hacemos nada
+    if (!cedula) {
+        return;
+    }
+
+    // Estructura de datos a enviar al servidor
+    let datos = JSON.stringify({ cedula: cedula }); 
+    
+    // Ejecutamos la llamada AJAX
+    $.post("modelo/formulario.php", { json: datos })
+        .done(function(response) {
+            console.log("Respuesta del servidor:", response);
+            
+            try {
+                // 1. Intentar parsear la respuesta JSON
+                const data = JSON.parse(response); 
+                
+                // 2. Procesar y autocompletar los campos
+                completarCampos(data);
+
+            } catch (e) {
+                console.error("Error al parsear la respuesta del servidor como JSON:", e, response);
+                alert("Error al obtener los datos. La respuesta no fue JSON válido.");
+            }
+        })
+        .fail(function(xhr, status, error) {
+            console.error("Error en la solicitud AJAX:", error);
+            alert("Error de conexión al servidor. Intente de nuevo.");
+        });
 }
 
 /**
@@ -52,7 +108,7 @@ function asignarAtributosComunes($element, properties) {
     if (properties.autocompletarMetodo) {
         $element.on('focusout', function() {// TODO que gemini me explice esto
             // Llamamos a la función. 'this' dentro de la función se referirá al input.
-            window[properties.autocompletarMetodo].call(this);
+            window[properties.autocompletarMetodo].call(null, $element);
         });
     }
 

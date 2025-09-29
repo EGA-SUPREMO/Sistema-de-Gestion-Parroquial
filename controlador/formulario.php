@@ -38,13 +38,14 @@
                         ] 
                     },
                     { type: 'subtitulo', name: 'subtitulo-datos-nacimiento', value: 'Datos de Nacimiento'},
-                    { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_nacimiento },
+                    { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: false, validarMetodo: 'validarFecha', value: datosPHP.fecha_nacimiento },
                     { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarString', value: datosPHP.partida_de_nacimiento },
                     { type: 'subtitulo', name: 'subtitulo-lugar-nacimiento', value: 'Lugar de Nacimiento'},
                     { type: 'fila', 
                         campos: [
                             { type: 'text', name: 'pais', label: 'País', required: false, validarMetodo: 'validarString', value: datosPHP.pais },
                             { type: 'text', name: 'estado', label: 'Estado', required: false, validarMetodo: 'validarString', value: datosPHP.estado },
+                            { type: 'text', name: 'localidad', label: 'Ciudad', required: false, validarMetodo: 'validarString', value: datosPHP.localidad },
                             { type: 'text', name: 'municipio', label: 'Municipio', required: false, validarMetodo: 'validarString', value: datosPHP.municipio },
                         ] 
                     },

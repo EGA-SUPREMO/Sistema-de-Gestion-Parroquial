@@ -18,8 +18,10 @@ class formularioControlador
     {
         FuncionesComunes::requerirLogin();
 
-        $resultado = $this->guardarDatos();
-        if (!$resultado) {
+        $this->guardarDatos();
+        if (false) {// TODO usar un catcha aca para los posibles errores
+            error_log($resultado);
+            error_log(!$resultado);
             $this->guardar("Error: Por favor, introduce datos válidos.");
             exit();
         }
@@ -71,12 +73,11 @@ class formularioControlador
 
             $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
-            if ($this->gestor->guardar($objeto, $id)) {
-                return true;
-            }
-            return false;
-        } catch (Exception $e) {
+            $this->gestor->guardar($objeto, $id);
+            return true;
+        } catch (Exception $e) {// TODO, MOVER, QUE NO ESTA HACIENDO NADA
             error_log($e->getMessage());
+            throw new Exception("Error Processing Request" . $e->getMessage());
         }
         
         return false;
