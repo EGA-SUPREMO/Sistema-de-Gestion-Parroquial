@@ -43,15 +43,17 @@ function pedirDatos(datos) {
 
 function autocompletarPadreCedula($element) {
     // Obtenemos la cédula del elemento que dispaó el evento
-    const cedula = $element.val();
+    const cedulaPadre = $element.val();
+    const cedulaMadre = $element.val();
+    const cedulaFeligres = $element.val();
     
     // Si la cédula está vacía, no hacemos nada
-    if (!cedula) {
+    if (!cedulaPadre) {
         return;
     }
 
     // Estructura de datos a enviar al servidor
-    let datos = JSON.stringify({ cedula: cedula }); 
+    let datos = JSON.stringify({ 'padre-cedula': cedulaPadre }); 
     pedirDatos(datos);
 }
 

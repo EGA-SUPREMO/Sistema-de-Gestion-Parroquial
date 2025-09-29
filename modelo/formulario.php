@@ -23,7 +23,9 @@ $datos = json_decode($datos_json, true);
 
 // 2. Extraer la cédula del padre
 // El JS envía: { "cedula": "12345678" }
-$cedula_padre = $datos['cedula'] ?? null;
+$cedula_padre = $datos['padre-cedula'] ?? null;
+$cedula_madre = $datos['madre-cedula'] ?? null;
+$cedula_feligres = $datos['feligres-cedula'] ?? null;
 
 $respuesta = [
     'padre' => null,
