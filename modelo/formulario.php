@@ -47,7 +47,7 @@ if (!empty($cedula_padre)) {
         
         // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
         // Solo incluimos las claves que queremos que el autocompletado use.
-        $respuesta['padre'] = [
+        $respuesta['padre'] = [// TODO usar mapear datos de servicio
             'cedula' => $datos_padre_raw['cedula'] ?? '',
             'primer_nombre' => $datos_padre_raw['primer_nombre'] ?? '',
             'segundo_nombre' => $datos_padre_raw['segundo_nombre'] ?? '',
