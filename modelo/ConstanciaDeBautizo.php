@@ -212,7 +212,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     }
     public function toArrayParaMostrar($criterio = null)
     {
-        $datos = parent::toArrayParaMostrar()
+        $datos = parent::toArrayParaMostrar();
         return $datos;
     }
 
@@ -269,7 +269,7 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
         $datos_constancia['dia_expedicion'] = $fecha_expedicion->format('d');
         $datos_constancia['mes_expedicion'] = ucwords($formateador->format($fecha_expedicion));
         $datos_constancia['ano_expedicion'] = $fecha_expedicion->format('Y');
-        $datos_constancia['ministroo_certifica'] = Validador::estaVacio($this->ministro_certifica_expedicion->getNombre(), 'Ministro que certifica');
+        $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica_expedicion->getNombre(), 'Ministro que certifica');
 
         return $datos_constancia;
     }
