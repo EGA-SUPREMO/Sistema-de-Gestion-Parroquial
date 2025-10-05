@@ -195,13 +195,13 @@ INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 (2, 'Documentos');
 
 
-CREATE TABLE `santos` (
+CREATE TABLE `personas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) UNIQUE NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `santos` (`id`, `nombre`) VALUES
+INSERT INTO `personas` (`id`, `nombre`) VALUES
 (1, 'San Pedro'),
 (2, 'Santa María'),
 (3, 'San José'),
@@ -436,7 +436,7 @@ ADD CONSTRAINT `chk_cedula_partida_nacimiento` CHECK (
 --
 ALTER TABLE `peticiones`
   ADD CONSTRAINT `peticiones_ibfk_1` FOREIGN KEY (`pedido_por_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `feligreses` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `personas` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id`) ON DELETE CASCADE,
