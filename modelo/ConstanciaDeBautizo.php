@@ -2,9 +2,8 @@
 
 require_once 'Validador.php';
 require_once 'ModeloBase.php';
-require_once 'Constancia.php';
 
-class ConstanciaDeBautizo extends ModeloBase implements Constancia
+class ConstanciaDeBautizo extends ModeloBase
 {
     private $id;
     private $fecha_bautizo;
@@ -111,7 +110,6 @@ class ConstanciaDeBautizo extends ModeloBase implements Constancia
     }
     public function setFechaExpedicion($fecha_expedicion)
     {
-        $fecha_actual = (new DateTime())->format('Y-m-d');
         $this->fecha_expedicion = Validador::validarFecha($fecha_expedicion, "fecha de expedicion", "1900-01-01");
     }
 
