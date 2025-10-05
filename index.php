@@ -2,7 +2,7 @@
 
 session_start();
 require_once 'modelo/cargarEnv.php';
-require_once 'modelo/conexion.php';
+require_once 'modelo/BaseDatos.php';
 
 cargarVariablesDeEntorno();
 

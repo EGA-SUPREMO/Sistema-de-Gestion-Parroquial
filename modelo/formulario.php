@@ -1,18 +1,7 @@
 <?php
 
-require_once 'cargarEnv.php';
-require_once 'conexion.php';
-
-// Cargar las variables de entorno
-cargarVariablesDeEntorno(__DIR__ . '/../');
-
-// 1. Crear la conexión $pdo dentro del script AJAX
-$pdo = BaseDatos::obtenerConexion(
-    $_ENV['DB_HOST'],
-    $_ENV['DB_NAME'],
-    $_ENV['DB_USER'],
-    $_ENV['DB_PASS']
-);
+require_once 'BaseDatos.php';
+$pdo = BaseDatos::obtenerConexion();
 
 // Asegúrate de incluir tu gestor de base de datos y la clase GestorFeligres
 require_once 'GestorFeligres.php';
