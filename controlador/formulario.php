@@ -23,7 +23,7 @@
             break;
             case 'intencion':
                 formularioCampos = [
-                    { type: 'text', name: 'nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: '', value: datosPHP.nombre },
+                    { type: 'autocomplete', name: 'nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: '', value: datosPHP.nombre },
                     { type: 'select', name: 'nombre', label: 'Selecciona el tipo de intención',  required: true, validarMetodo: '', value: datosPHP.nombre, options: [
                       { value: '0', text: 'Selecciona un tipo de intención', disabled: true },
                       { value: '1', text: 'Acción de Gracias' },
@@ -33,8 +33,8 @@
                     ]},
                     { type: 'fila', 
                         campos: [
-                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Inicio', required: false, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
-                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Fin', required: false, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
+                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
+                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
                         ]
                     },
                 ];
