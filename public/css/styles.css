@@ -56,24 +56,54 @@ footer {
     width: 100%;
 }
 
-/* Estilo CSS */
-.lista-compacta {
-    /* Define que el texto se divida automáticamente en 3 columnas */
-    column-count: 3;
-    
-    /* Añade un espacio visible entre las columnas (opcional, pero mejora la lectura) */
-    column-gap: 30px; 
-    
-    /* Elimina el margen inferior por defecto de <p> para que no haya mucho espacio extra */
-    margin-bottom: 10px;
-    
-    /* Opcional: Para asegurar la compatibilidad con navegadores antiguos */
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-}
-
 subtitulo-intenciones {
     /* Añade espacio después de la categoría para separarla del texto de la lista */
     margin-top: 25px;
     margin-bottom: 15px;
+}
+
+/* 1. ESTILO PARA EL CONTENEDOR DE COLUMNAS (<ul>) */
+.lista-compacta {
+    /* Mantenemos tus 4 columnas y tu espaciado */
+    column-count: 4;
+    column-gap: 5px; 
+    list-style: none;
+    padding-left: 0;
+    width: 100%; 
+    
+    /* Si estás usando Bootstrap, también puedes añadir esta regla */
+    display: block !important;    
+    /* SOLUCIÓN AL ESPACIO BLANCO (Mantenemos): */
+    font-size: 0; 
+    
+    /* Asegura compatibilidad */
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+}
+
+/* 2. ESTILO PARA CADA ÍTEM (<li>) */
+.lista-compacta li {
+    display: inline-block; 
+    break-inside: avoid; 
+    font-size: 1rem; 
+    
+    margin-right: 5px; /* Espacio entre nombres (horizontal) */
+    
+    /* OPTIMIZACIÓN CLAVE: Eliminar o reducir el margen vertical entre líneas */
+    margin-bottom: 0; 
+}
+
+/* 3. ESTILO PARA LOS ÍCONOS (<a>) */
+.btn-accion {
+    text-decoration: none; 
+    
+    /* OPTIMIZACIÓN CLAVE: Reducir el espacio a la izquierda del ícono */
+    margin-left: 2px; 
+    
+    font-size: 0.8em; 
+    color: #999;
+}
+
+.btn-accion:hover {
+    color: #333;
 }
