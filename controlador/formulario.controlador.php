@@ -10,14 +10,13 @@ class formularioControlador
 
     public function __construct(PDO $pdo)
     {
+        FuncionesComunes::requerirLogin();
         $this->nombreTabla = $_REQUEST['t'];
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
     public function guardarRegistro()
     {
-        FuncionesComunes::requerirLogin();
-
         $this->guardarDatos();
         if (false) {// TODO usar un catcha aca para los posibles errores
             error_log($resultado);
@@ -30,7 +29,6 @@ class formularioControlador
 
     public function guardar($errorMessage = null)
     {
-        FuncionesComunes::requerirLogin();
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
         $datos_modelo = [];

@@ -10,14 +10,13 @@ class PanelControlador
 
     public function __construct(PDO $pdo)
     {
+        FuncionesComunes::requerirLogin();
         $this->nombreTabla = $_REQUEST['t'];
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
     public function index()
     {
-        FuncionesComunes::requerirLogin();
-
         $modelos = $this->gestor->obtenerTodos();
         $datos = [];
         $datos_tabla = [];
@@ -50,7 +49,6 @@ class PanelControlador
 
     public function eliminar()
     {
-        FuncionesComunes::requerirLogin();
         try {
             $this->gestor->eliminar($_POST[$this->gestor->getClavePrimaria()]);
         } catch (Exception $e) {

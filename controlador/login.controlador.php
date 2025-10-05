@@ -66,7 +66,6 @@ class loginControlador
 
     public function mostrar()
     {
-
         FuncionesComunes::requerirLogin();
         $administradores = $this->gestor->obtenerTodos();
         $errorMessage = $_GET['mensaje'] ?? null;

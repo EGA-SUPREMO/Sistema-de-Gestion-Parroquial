@@ -12,6 +12,7 @@ class constanciaControlador // extends formularioControlador
 
     public function __construct(PDO $pdo)
     {
+        FuncionesComunes::requerirLogin();
         $this->nombreTabla = $_REQUEST['t'];
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
@@ -20,8 +21,6 @@ class constanciaControlador // extends formularioControlador
 
     public function guardar($errorMessage = null)
     {
-        FuncionesComunes::requerirLogin();
-
         $id = (int)($_REQUEST['id'] ?? 0);
 
         $datos_modelo = [];
@@ -60,7 +59,6 @@ class constanciaControlador // extends formularioControlador
 
     public function guardarRegistro()
     {
-        FuncionesComunes::requerirLogin();
 
         try {
             $rutaPdf = $this->guardarDatos();
