@@ -55,3 +55,25 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
+/* Estilo CSS */
+.lista-compacta {
+    /* Define que el texto se divida automáticamente en 3 columnas */
+    column-count: 3;
+    
+    /* Añade un espacio visible entre las columnas (opcional, pero mejora la lectura) */
+    column-gap: 30px; 
+    
+    /* Elimina el margen inferior por defecto de <p> para que no haya mucho espacio extra */
+    margin-bottom: 10px;
+    
+    /* Opcional: Para asegurar la compatibilidad con navegadores antiguos */
+    -webkit-column-count: 3;
+    -moz-column-count: 3;
+}
+
+subtitulo-intenciones {
+    /* Añade espacio después de la categoría para separarla del texto de la lista */
+    margin-top: 25px;
+    margin-bottom: 15px;
+}

@@ -15,6 +15,11 @@ class PanelControlador
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
+    public function intenciones()
+    {
+        include_once 'vistas/intenciones.php';
+    }
+
     public function index()
     {
         $modelos = $this->gestor->obtenerTodos();
