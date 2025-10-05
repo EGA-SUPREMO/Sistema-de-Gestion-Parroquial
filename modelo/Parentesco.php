@@ -21,7 +21,7 @@ class Parentesco extends ModeloBase
     {
         return $this->id_hijo;
     }
-    
+
     public function setId($id)
     {
         $this->id = Validador::validarEntero($id, "id de feligrés", null, 1);

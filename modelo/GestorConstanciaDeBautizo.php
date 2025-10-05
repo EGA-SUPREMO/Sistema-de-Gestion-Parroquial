@@ -40,7 +40,7 @@ class GestorConstanciaDeBautizo extends GestorBase
         $idConstanciaEncontradaPorFeligres = $this->obtenerConstanciaIdPorFeligresId($feligresId);
         $idConstanciaEncontradaPorLibro = $this->obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal);
 
-        if ($idConstanciaEncontradaPorFeligres !== $idConstanciaEncontradaPorLibro) {   
+        if ($idConstanciaEncontradaPorFeligres !== $idConstanciaEncontradaPorLibro) {
             throw new Exception("Error: el feligrés y el registro de libro apuntan a constancias distintas (IDs: $idConstanciaEncontradaPorFeligres vs $idConstanciaEncontradaPorLibro).");
         }
     }
