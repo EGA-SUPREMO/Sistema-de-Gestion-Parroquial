@@ -40,8 +40,8 @@ class GestorAdministrador extends GestorBase
 
             return false;
         } catch (PDOException $e) {
-            error_log("Error verificando password: " . $e->getMessage());
-            return false;
+            error_log("Error verificando la contraseña: " . $e->getMessage());
+            throw new Exception("Error verificando la contraseña");
         }
     }
 }
