@@ -3,6 +3,7 @@
         <h1 class="mb-0">Bienvenido al Panel de Administración</h1>
     </header>
 <main class="container mt-5">
+    <div id="error-message-container" style="display:none;"></div>
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <section class="card shadow-lg border-0 rounded-3">
@@ -50,5 +51,6 @@
     </div>
 </main>
 <script src="public/js/bootstrap.bundle.min.js"></script>
+<script src="public/js/mostrarError.js"></script>
 </body>
 </html>

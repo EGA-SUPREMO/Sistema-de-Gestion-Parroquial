@@ -3,6 +3,7 @@
 session_start();
 require_once 'modelo/cargarEnv.php';
 require_once 'modelo/BaseDatos.php';
+require_once 'modelo/FuncionesComunes.php';
 
 cargarVariablesDeEntorno();
 
@@ -16,19 +17,19 @@ try {
     $pdo = BaseDatos::obtenerConexion($_ENV['DB_HOST'], $_ENV['DB_NAME'], $_ENV['DB_USER'], $_ENV['DB_PASS']);
 
     if (!file_exists($controlador)) {
-        throw new Exception("Controlador no encontrado");
+        throw new Exception("Url invalida: Controlador no encontrado");
     }
 
     require_once $controlador;
 
     if (!class_exists($controladorclase)) {
-        throw new Exception("Clase del controlador no encontrada");
+        throw new Exception("Url invalida: Clase del controlador no encontrada");
     }
 
     $controladorInstanciado = new $controladorclase($pdo);
 
     if (!method_exists($controladorInstanciado, $accion)) {
-        throw new Exception("Método no encontrado");
+        throw new Exception("Url invalida: Método no encontrado");
     }
 
 
@@ -41,6 +42,6 @@ try {
 
 } catch (Exception $e) {
     error_log($e->getMessage());
-    header('Location: index.php?c=dashboard&a=index');
-    exit;
+    $mensajeCodificado = urlencode($e->getMessage());
+    FuncionesComunes::redirigir('Location: index.php?c=dashboard&a=index&error=' . $mensajeCodificado);
 }
