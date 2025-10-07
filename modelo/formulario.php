@@ -4,8 +4,8 @@ require_once 'cargarEnv.php';
 require_once 'BaseDatos.php';
 // Cargar las variables de entorno
 cargarVariablesDeEntorno(__DIR__ . '/../');
+define('ROOT_PATH', dirname(__DIR__) . '/');
 
-// 1. Crear la conexión $pdo dentro del script AJAX
 $pdo = BaseDatos::obtenerConexion(
     $_ENV['DB_HOST'],
     $_ENV['DB_NAME'],
@@ -13,8 +13,9 @@ $pdo = BaseDatos::obtenerConexion(
     $_ENV['DB_PASS']
 );
 
-// Asegúrate de incluir tu gestor de base de datos y la clase GestorFeligres
+require_once 'Feligres.php';
 require_once 'GestorFeligres.php';
+require_once 'ServicioConstanciaDeBautizo.php';
 // Asume que también necesitas Feligres.php o similar si obtienes un objeto Feligres
 
 // 1. Decodificar los datos JSON recibidos de JavaScript
@@ -33,33 +34,34 @@ $respuesta = [
     'feligres' => null,
 ];
 
-if (!empty($cedula_padre)) {
+if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres)) {
     // 3. Crear una instancia del gestor
     $gestorFeligres = new GestorFeligres($pdo);
 
     // 4. Buscar el feligrés (padre) por la cédula
     $padre_objeto = $gestorFeligres->obtenerPorCedula($cedula_padre);
+    $madre_objeto = $gestorFeligres->obtenerPorCedula($cedula_madre);
+    $feligres_objeto = $gestorFeligres->obtenerPorCedula($cedula_feligres);
 
-    // 5. Formatear la respuesta
+    $datos_padre_raw = [];
     if ($padre_objeto) {
-        // Usar el método toArrayParaBD() para obtener el array de datos
         $datos_padre_raw = $padre_objeto->toArrayParaBD();
-
-        // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
-        // Solo incluimos las claves que queremos que el autocompletado use.
-        $respuesta['padre'] = [// TODO usar mapear datos de servicio
-            'cedula' => $datos_padre_raw['cedula'] ?? '',
-            'primer_nombre' => $datos_padre_raw['primer_nombre'] ?? '',
-            'segundo_nombre' => $datos_padre_raw['segundo_nombre'] ?? '',
-            'primer_apellido' => $datos_padre_raw['primer_apellido'] ?? '',
-            'segundo_apellido' => $datos_padre_raw['segundo_apellido'] ?? '',
-            // Puedes agregar más campos que coincidan con los inputs del formulario
-        ];
-
-        // Opcional: Si el padre tiene un ID de feligrés asociado,
-        // podrías buscar a la madre y al propio feligrés aquí.
-        // Por ahora, solo devolvemos al padre.
     }
+    $datos_madre_raw = [];
+    if ($madre_objeto) {
+        $datos_madre_raw = $madre_objeto->toArrayParaBD();
+    }
+    $datos_feligres_raw = [];
+    if ($feligres_objeto) {
+        $datos_feligres_raw = $feligres_objeto->toArrayParaBD();
+    }
+    // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
+    // Solo incluimos las claves que queremos que el autocompletado use.
+    $respuesta['padre'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_padre_raw, 'padre');
+    $respuesta['madre'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_madre_raw, 'madre');
+    $respuesta['feligres'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_feligres_raw, 'feligres');
+
+    // TODO usar parentesco para devolver hijos tambien
 }
 
 // 6. Devolver la respuesta como JSON

@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modelo/GestorBase.php';
+require_once 'GestorBase.php';
 
 class GestorPeticion extends GestorBase
 {

@@ -1,11 +1,11 @@
 <?php
 
-require_once "vendor/autoload.php";
+require_once ROOT_PATH . "vendor/autoload.php";
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\Settings;
 
-require_once "modelo/FuncionesComunes.php";
+require_once "FuncionesComunes.php";
 
 class GeneradorPdf
 {

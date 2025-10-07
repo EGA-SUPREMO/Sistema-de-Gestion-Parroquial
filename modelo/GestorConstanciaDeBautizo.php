@@ -1,12 +1,12 @@
 <?php
 
-require_once 'modelo/GestorBase.php';
-require_once 'modelo/GestorFeligres.php';
-require_once 'modelo/GestorSacerdote.php';
-require_once 'modelo/GestorPeticion.php';
+require_once 'GestorBase.php';
+require_once 'GestorFeligres.php';
+require_once 'GestorSacerdote.php';
+require_once 'GestorPeticion.php';
 
-require_once 'modelo/GeneradorPdf.php';
-require_once 'modelo/ConstanciaDeBautizo.php';
+require_once 'GeneradorPdf.php';
+require_once 'ConstanciaDeBautizo.php';
 
 class GestorConstanciaDeBautizo extends GestorBase
 {

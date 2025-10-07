@@ -29,4 +29,5 @@ function cargarVariablesDeEntorno($ruta = '.', $nombreArchivo = '.env')
 
         $_ENV[$key] = $valor;
     }
+
 }

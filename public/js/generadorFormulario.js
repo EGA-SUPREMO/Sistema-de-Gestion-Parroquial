@@ -10,7 +10,7 @@ function completarCampos(datos) {
                 if (objetoDatos.hasOwnProperty(key)) {
                     const valor = objetoDatos[key];
                     // Construir el nombre completo del campo en el formulario (e.g., 'padre-primer_nombre')
-                    const nombreCampo = `${prefijo}-${key}`;
+                    const nombreCampo = `${key}`;
                     
                     // Buscar el input y asignarle el valor si existe
                     const $input = $(`[name="${nombreCampo}"]`);
@@ -35,7 +35,7 @@ function pedirDatos(datos) {
         // 2. Procesar y autocompletar los campos
         completarCampos(resultado);
 
-    }, 'json') // <--- ¡AÑADE 'json' AQUÍ!
+    }, 'json')
     .fail(function(xhr, status, error) {
         console.log("Error en la respuesta del servidor (Objeto JS):", xhr);
     });

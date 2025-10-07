@@ -1,14 +1,14 @@
 <?php
 
-require_once 'modelo/Feligres.php';
-//require_once 'modelo/Peticion.php';
-require_once 'modelo/Sacerdote.php';
-require_once 'modelo/ConstanciaDeBautizo.php';
+require_once 'Feligres.php';
+//require_once 'Peticion.php';
+require_once 'Sacerdote.php';
+require_once 'ConstanciaDeBautizo.php';
 
-require_once 'modelo/GestorConstanciaDeBautizo.php';
-require_once 'modelo/GestorPeticion.php';
-require_once 'modelo/GestorSacerdote.php';
-require_once 'modelo/GestorFeligres.php';
+require_once 'GestorConstanciaDeBautizo.php';
+require_once 'GestorPeticion.php';
+require_once 'GestorSacerdote.php';
+require_once 'GestorFeligres.php';
 
 
 class ServicioConstanciaDeBautizo
@@ -38,9 +38,9 @@ class ServicioConstanciaDeBautizo
         try {
             $datosConstancia = $datosFormulario;
 
-            $datosDelFeligres = $this->mapearDatos($datosFormulario, 'feligres');
-            $datosDelPadre = $this->mapearDatos($datosFormulario, 'padre');
-            $datosDeLaMadre = $this->mapearDatos($datosFormulario, 'madre');
+            $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
+            $datosDelPadre = self::mapearParaEntidad($datosFormulario, 'padre');
+            $datosDeLaMadre = self::mapearParaEntidad($datosFormulario, 'madre');
 
             $feligresId = $this->upsertFeligresId($datosDelFeligres);
             $feligresPadreId = $this->upsertFeligresId($datosDelPadre);
@@ -100,7 +100,7 @@ class ServicioConstanciaDeBautizo
         return $id;
     }
 
-    private function mapearDatos($datosFormulario, $prefijo)
+    public static function mapearParaEntidad($datosFormulario, $prefijo)
     {
         return [
             'cedula'            => $datosFormulario[$prefijo . '-cedula']            ?? '',
@@ -114,6 +114,30 @@ class ServicioConstanciaDeBautizo
             'estado'            => $datosFormulario[$prefijo . '-estado']            ?? null,
             'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
         ];
+    }
+    public static function mapearParaFormulario($datosEntidad, $prefijo)
+    {
+        $datosFormulario = [];
+        $claves = [
+            'cedula', 
+            'partida_de_nacimiento', 
+            'primer_nombre', 
+            'segundo_nombre', 
+            'primer_apellido', 
+            'segundo_apellido', 
+            'fecha_nacimiento', 
+            'municipio', 
+            'estado', 
+            'pais',
+        ];
+
+        foreach ($claves as $clave) {
+            $nuevaClave = $prefijo . '-' . $clave;
+            
+            $datosFormulario[$nuevaClave] = $datosEntidad[$clave] ?? null;
+        }
+
+        return $datosFormulario;
     }
 
     protected function generarPDF($constancia)

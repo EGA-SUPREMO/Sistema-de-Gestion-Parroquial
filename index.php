@@ -6,6 +6,7 @@ require_once 'modelo/BaseDatos.php';
 require_once 'modelo/FuncionesComunes.php';
 
 cargarVariablesDeEntorno();
+define('ROOT_PATH', __DIR__ . '/');
 
 $controladorNombre = strtolower(isset($_REQUEST['c']) ? $_REQUEST['c'] : 'login');
 $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'index';
