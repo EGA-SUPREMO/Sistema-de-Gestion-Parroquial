@@ -17,14 +17,14 @@ class formularioControlador
 
     public function guardarRegistro()
     {
-        $this->guardarDatos();
-        if (false) {// TODO usar un catcha aca para los posibles errores
-            error_log($resultado);
-            error_log(!$resultado);
-            $this->guardar("Error: Por favor, introduce datos válidos.");
+        try {
+            $this->guardarDatos();
+            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $this->guardar($e->getMessage());
             exit();
         }
-        FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
     }
 
     public function guardar($errorMessage = null)
@@ -65,20 +65,13 @@ class formularioControlador
                 $datos[$campo] = FuncionesComunes::limpiarString($_POST[$campo]);
             }
         }
-        try {
-            $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
-            $objeto->hydrate($datos);
+        $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
+        $objeto->hydrate($datos);
 
-            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+        $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
-            $this->gestor->guardar($objeto, $id);
-            return true;
-        } catch (Exception $e) {// TODO, MOVER, QUE NO ESTA HACIENDO NADA
-            error_log($e->getMessage());
-            throw new Exception("Error Processing Request" . $e->getMessage());
-        }
-
-        return false;
+        $this->gestor->guardar($objeto, $id);
+        return true;
     }
 
 }

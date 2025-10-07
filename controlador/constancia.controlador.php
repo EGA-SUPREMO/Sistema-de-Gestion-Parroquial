@@ -59,13 +59,12 @@ class constanciaControlador // extends formularioControlador
 
     public function guardarRegistro()
     {
-
         try {
             $rutaPdf = $this->guardarDatos();
             FuncionesComunes::redirigir('Location: ' . $rutaPdf);
         } catch (Exception $e) {
-            error_log("Error generando PDF: " . $e->getMessage());
-            $this->guardar("error.");
+            error_log($e->getMessage());
+            $this->guardar($e->getMessage());
         }
 
         $this->guardar("Error al guardar la constancia.");

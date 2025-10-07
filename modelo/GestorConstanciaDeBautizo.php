@@ -23,7 +23,7 @@ class GestorConstanciaDeBautizo extends GestorBase
         $this->gestorSacerdote = new GestorSacerdote($pdo);
     }
 
-    public function obtenerConstanciaIdPorFeligresId($id)
+    public function obtenerConstanciaIdPorFeligresBautizadoId($id)
     {
         $sql = "SELECT * FROM {$this->tabla} WHERE `feligres_bautizado_id` = ?";
         $resultado = $this->hacerConsulta($sql, [$id], 'single');
@@ -37,7 +37,7 @@ class GestorConstanciaDeBautizo extends GestorBase
     }
     public function verificarConsistenciaIds($feligresId, $numero_libro, $numero_pagina, $numero_marginal)
     {
-        $idConstanciaEncontradaPorFeligres = $this->obtenerConstanciaIdPorFeligresId($feligresId);
+        $idConstanciaEncontradaPorFeligres = $this->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
         $idConstanciaEncontradaPorLibro = $this->obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal);
 
         if ($idConstanciaEncontradaPorFeligres !== $idConstanciaEncontradaPorLibro) {

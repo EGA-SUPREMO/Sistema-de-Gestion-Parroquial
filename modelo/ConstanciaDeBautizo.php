@@ -255,7 +255,7 @@ class ConstanciaDeBautizo extends ModeloBase
         $datos_constancia['mes_bautizo'] = ucwords($formateador->format($fecha_bautizo));
         $datos_constancia['ano_bautizo'] = $fecha_bautizo->format('Y');
 
-        $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'Lugar de nacimiento');
+        $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'oooLugar de nacimiento');
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
         $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del padrino');
         $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');

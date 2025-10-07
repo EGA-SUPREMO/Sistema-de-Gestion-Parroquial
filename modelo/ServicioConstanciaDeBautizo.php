@@ -42,9 +42,9 @@ class ServicioConstanciaDeBautizo
             $datosDelPadre = $this->mapearDatos($datosFormulario, 'padre');
             $datosDeLaMadre = $this->mapearDatos($datosFormulario, 'madre');
 
-            $feligresId = $this->obtenerOcrearFeligresId($datosDelFeligres);
-            $feligresPadreId = $this->obtenerOcrearFeligresId($datosDelPadre);
-            $feligresMadreId = $this->obtenerOcrearFeligresId($datosDeLaMadre);
+            $feligresId = $this->upsertFeligresId($datosDelFeligres);
+            $feligresPadreId = $this->upsertFeligresId($datosDelPadre);
+            $feligresMadreId = $this->upsertFeligresId($datosDeLaMadre);
 
             $constancia = new ConstanciaDeBautizo();
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
@@ -52,13 +52,15 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['madre_id'] = $feligresPadreId;
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
+
+            $idConstanciaEncontradaPorFeligres = $this->gestorConstanciaDeBautizo->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
             $this->gestorConstanciaDeBautizo->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
 
-            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres); // TODO ver de donde sale este id??? de que metodo
+            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres);
             /*
-                        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
-
                         $peticion->setConstanciaDeBautizoId($constanciaId);
+
+                        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
                         // TODO LO MISMO PARA LOS PARENTESCOS
             */
@@ -72,28 +74,32 @@ class ServicioConstanciaDeBautizo
         } catch (Exception $e) {
             $this->pdo->rollBack();
             error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
+            throw Exception($e->getMessage());
         }
         return false;
     }
-    private function obtenerOcrearFeligresId($datosFeligres)
+
+    private function upsertFeligresId($datosFeligres)
     {
         $feligres = $this->gestorFeligres->obtenerPorCedula($datosFeligres['cedula']);
         $id = 0;
-
         if ($feligres) {
             $feligres->hydrate($datosFeligres);
             $id = $feligres->getId();
             $this->gestorFeligres->guardar($feligres, $id);
         } else {
-            $nuevoFeligres = new Feligres();
-            $nuevoFeligres->hydrate($datosFeligres);
-            $id = $this->gestorFeligres->guardar($nuevoFeligres);
+            $feligres = new Feligres();
+            $feligres->hydrate($datosFeligres);
+            $id = $this->gestorFeligres->guardar($feligres);
         }
+
         if (!$id) {
-            throw new Exception("Error al crear o actualizar el feligrés con cédula: " . $datosFeligres['cedula']);
+            throw new Exception("Error al persistir el feligrés con cédula: " . $datosFeligres['cedula']);
         }
+
         return $id;
     }
+
     private function mapearDatos($datosFormulario, $prefijo)
     {
         return [
