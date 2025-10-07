@@ -27,6 +27,7 @@ $datos = json_decode($datos_json, true);
 $cedula_padre = $datos['padre-cedula'] ?? null;
 $cedula_madre = $datos['madre-cedula'] ?? null;
 $cedula_feligres = $datos['feligres-cedula'] ?? null;
+$partida_de_nacimiento_feligres = $datos['feligres-partida_de_nacimiento'] ?? null;
 
 $respuesta = [
     'padre' => null,
@@ -34,7 +35,7 @@ $respuesta = [
     'feligres' => null,
 ];
 
-if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres)) {
+if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres) || !empty($partida_de_nacimiento_feligres)) {
     // 3. Crear una instancia del gestor
     $gestorFeligres = new GestorFeligres($pdo);
 
@@ -42,24 +43,28 @@ if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres)) 
     $padre_objeto = $gestorFeligres->obtenerPorCedula($cedula_padre);
     $madre_objeto = $gestorFeligres->obtenerPorCedula($cedula_madre);
     $feligres_objeto = $gestorFeligres->obtenerPorCedula($cedula_feligres);
-
+    if (!$feligres_objeto) {
+        $feligres_objeto = $gestorFeligres->obtenerPorPartidaDeNacimiento($partida_de_nacimiento_feligres);
+    }
+    
     $datos_padre_raw = [];
     if ($padre_objeto) {
-        $datos_padre_raw = $padre_objeto->toArrayParaBD();
+        $datos_padre_raw = $padre_objeto->toArrayParaBD() ?? [];
     }
     $datos_madre_raw = [];
     if ($madre_objeto) {
-        $datos_madre_raw = $madre_objeto->toArrayParaBD();
+        $datos_madre_raw = $madre_objeto->toArrayParaBD() ?? [];
     }
     $datos_feligres_raw = [];
     if ($feligres_objeto) {
-        $datos_feligres_raw = $feligres_objeto->toArrayParaBD();
+        $datos_feligres_raw = $feligres_objeto->toArrayParaBD() ?? [];
     }
     // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
     // Solo incluimos las claves que queremos que el autocompletado use.
-    $respuesta['padre'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_padre_raw, 'padre');
-    $respuesta['madre'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_madre_raw, 'madre');
-    $respuesta['feligres'] = ServicioConstanciaDeBautizo::mapearParaFormulario($datos_feligres_raw, 'feligres');
+    $respuesta['padre'] = $datos_padre_raw;
+    $respuesta['madre'] = $datos_madre_raw;
+    $respuesta['feligres'] = $datos_feligres_raw;
+    error_log(print_r($respuesta, true));
 
     // TODO usar parentesco para devolver hijos tambien
 }

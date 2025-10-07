@@ -17,4 +17,10 @@ class GestorFeligres extends GestorBase
         $sql = "SELECT * FROM {$this->tabla} WHERE `cedula` = ?";
         return $this->hacerConsulta($sql, [$cedula], 'single');
     }
+
+    public function obtenerPorPartidaDeNacimiento($partida_de_nacimiento)
+    {
+        $sql = "SELECT * FROM {$this->tabla} WHERE `partida_de_nacimiento` = ?";
+        return $this->hacerConsulta($sql, [$partida_de_nacimiento], 'single');
+    }
 }

@@ -41,20 +41,33 @@ function pedirDatos(datos) {
     });
 }
 
-function autocompletarPadreCedula($element) {
-    // Obtenemos la cédula del elemento que dispaó el evento
-    const cedulaPadre = $element.val();
-    const cedulaMadre = $element.val();
-    const cedulaFeligres = $element.val();
-    
-    // Si la cédula está vacía, no hacemos nada
-    if (!cedulaPadre && !cedulaMadre && !cedulaFeligres) {
+function autocompletarCampo($elemento) {
+    const valorIdentificador = $elemento.val();
+
+    if (!valorIdentificador) {
         return;
     }
 
-    // Estructura de datos a enviar al servidor
-    let datos = JSON.stringify({ 'padre-cedula': cedulaPadre, 'madre-cedula': cedulaMadre, 'feligres-cedula': cedulaFeligres }); 
-    pedirDatos(datos);
+    // 2. Obtener el nombre completo del campo (e.g., 'padre-cedula', 'madre-partida_de_nacimiento')
+    const nombreCompleto = $elemento.attr('name');    
+    // 3. Dividir el nombre completo para obtener el prefijo y la clave
+    const partes = nombreCompleto.split('-'); 
+    // El prefijo es la primera parte (e.g., 'padre')
+    const prefijo = partes[0];   
+    // La clave es el resto de las partes unidas, en caso de claves con guiones (e.g., 'partida-de-nacimiento')
+    const claveIdentificador = partes[1]; 
+
+    let datos = {};
+    const claveDinamica = `${prefijo}-${claveIdentificador}`;
+    datos[claveDinamica] = valorIdentificador;
+
+    // console.log(`Buscando con: ${claveDinamica} = ${valorIdentificador}`);
+    
+    pedirDatos(JSON.stringify(datos));
+}
+
+function autocompletarFeligresBautizado($elemento) {
+    autocompletarCampo($elemento);
 }
 
 /**

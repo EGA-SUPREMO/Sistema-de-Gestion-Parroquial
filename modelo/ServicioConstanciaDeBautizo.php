@@ -115,7 +115,7 @@ class ServicioConstanciaDeBautizo
             'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
         ];
     }
-    public static function mapearParaFormulario($datosEntidad, $prefijo)
+    public static function mapearParaFormulario($datosEntidad)
     {
         $datosFormulario = [];
         $claves = [
