@@ -10,7 +10,7 @@ function completarCampos(datos) {
                 if (objetoDatos.hasOwnProperty(key)) {
                     const valor = objetoDatos[key];
                     // Construir el nombre completo del campo en el formulario (e.g., 'padre-primer_nombre')
-                    const nombreCampo = `${key}`;
+                    const nombreCampo = `${prefijo}-${key}`;
                     
                     // Buscar el input y asignarle el valor si existe
                     const $input = $(`[name="${nombreCampo}"]`);
@@ -48,12 +48,12 @@ function autocompletarPadreCedula($element) {
     const cedulaFeligres = $element.val();
     
     // Si la cédula está vacía, no hacemos nada
-    if (!cedulaPadre) {
+    if (!cedulaPadre && !cedulaMadre && !cedulaFeligres) {
         return;
     }
 
     // Estructura de datos a enviar al servidor
-    let datos = JSON.stringify({ 'padre-cedula': cedulaPadre }); 
+    let datos = JSON.stringify({ 'padre-cedula': cedulaPadre, 'madre-cedula': cedulaMadre, 'feligres-cedula': cedulaFeligres }); 
     pedirDatos(datos);
 }
 

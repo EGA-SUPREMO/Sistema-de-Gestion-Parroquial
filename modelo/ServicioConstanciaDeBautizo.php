@@ -132,9 +132,7 @@ class ServicioConstanciaDeBautizo
         ];
 
         foreach ($claves as $clave) {
-            $nuevaClave = $prefijo . '-' . $clave;
-            
-            $datosFormulario[$nuevaClave] = $datosEntidad[$clave] ?? null;
+            $datosFormulario[$clave] = $datosEntidad[$clave] ?? null;
         }
 
         return $datosFormulario;
