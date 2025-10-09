@@ -2,6 +2,7 @@
     <main class="container-fluid my-5 flex-grow-1">
         <div class="row justify-content-center">
             <div class="col-lg-12 col-xl-12">
+                <div id="error-message-container" style="display:none;"></div>
                 <section class="card shadow-lg rounded-4">
                     <div class="card-body p-4 p-md-5" id="contenedor-tabla">
                         <h2 class="card-title text-center mb-4 pb-2 border-bottom display-6 fw-bold text-success" id="subtitulo-tabla"></h2>
@@ -34,6 +35,7 @@
 
     <script src="public/js/jquery-1.12.4.min.js"></script>
     <script src="public/js/bootstrap.bundle.min.js"></script>
+    <script src="public/js/mostrarError.js"></script>
 </body>
 
 </html>

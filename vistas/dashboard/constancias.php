@@ -5,6 +5,7 @@
  <main class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
+            <div id="error-message-container" style="display:none;"></div>
             <section class="card shadow-lg border-0 rounded-3">
                 <div class="card-body p-4">
                     <h2 class="card-title text-center text-primary fw-bold mb-4">Opciones disponibles </h2>
@@ -48,5 +49,6 @@
 </style>
 
 <script src="public/js/bootstrap.bundle.min.js"></script>
+<script src="public/js/mostrarError.js"></script>
 </body>
 </html>

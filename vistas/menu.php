@@ -8,7 +8,7 @@
       <li><a href="?c=dashboard&a=index">Inicio</a></li>
       <li><a href="?c=formulario&a=guardar&t=intencion">Intenciones</a></li>
       <li><a href="?c=dashboard&a=constancias">Constancia</a></li>
-      <li><a href="?c=login&a=mostrar">Agenda</a></li>
+      <li><a href="?c=panel&a=intenciones&t=intenciones">Agenda</a></li>
       <li><a href="?c=dashboard&a=administracion">Administración</a></li>
       <li> <a href="?c=login&a=cerrarSesion" class="w-100 d-flex align-items-center justify-content-center"
           onclick="javascript:return confirm('¿Seguro de salir?');">
