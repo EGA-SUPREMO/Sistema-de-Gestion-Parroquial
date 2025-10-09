@@ -22,8 +22,8 @@ class formularioControlador
             FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $this->guardar($e->getMessage());
-            exit();
+            $mensajeCodificado = urlencode($e->getMessage());
+            FuncionesComunes::redirigir('Location:?c=formulario&a=guardar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
         }
     }
 

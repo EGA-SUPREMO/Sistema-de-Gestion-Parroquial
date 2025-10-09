@@ -48,8 +48,8 @@ class PanelControlador
         $datos_tabla['nombre_tabla_formateado'] = FuncionesComunes::formatearTitulo($this->nombreTabla);
 
         $datos_tabla = json_encode($datos_tabla);
-        include_once 'vistas/panel.php';
-        require_once "controlador/panel.php";
+        require_once 'vistas/panel.php';
+        require_once "controlador/panel.php";        
     }
 
     public function eliminar()
@@ -59,7 +59,7 @@ class PanelControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
             $errorMessage = $e->getMessage();
-            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla.'&mensaje=' . urlencode($errorMessage));
+            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla.'&error=' . urlencode($errorMessage));
         }
         FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
     }

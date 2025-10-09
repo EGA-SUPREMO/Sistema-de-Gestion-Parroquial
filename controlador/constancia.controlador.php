@@ -64,10 +64,9 @@ class constanciaControlador // extends formularioControlador
             FuncionesComunes::redirigir('Location: ' . $rutaPdf);
         } catch (Exception $e) {
             error_log($e->getMessage());
-            $this->guardar($e->getMessage());
+            $mensajeCodificado = urlencode($e->getMessage());
+            FuncionesComunes::redirigir('Location:?c=constancia&a=guardar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
         }
-
-        $this->guardar("Error al guardar la constancia.");
     }
 
     protected function guardarDatos()

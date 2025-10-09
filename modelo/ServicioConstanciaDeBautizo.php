@@ -74,7 +74,7 @@ class ServicioConstanciaDeBautizo
         } catch (Exception $e) {
             $this->pdo->rollBack();
             error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
-            throw Exception($e->getMessage());
+            throw new Exception($e->getMessage());
         }
         return false;
     }
@@ -114,28 +114,6 @@ class ServicioConstanciaDeBautizo
             'estado'            => $datosFormulario[$prefijo . '-estado']            ?? null,
             'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
         ];
-    }
-    public static function mapearParaFormulario($datosEntidad)
-    {
-        $datosFormulario = [];
-        $claves = [
-            'cedula', 
-            'partida_de_nacimiento', 
-            'primer_nombre', 
-            'segundo_nombre', 
-            'primer_apellido', 
-            'segundo_apellido', 
-            'fecha_nacimiento', 
-            'municipio', 
-            'estado', 
-            'pais',
-        ];
-
-        foreach ($claves as $clave) {
-            $datosFormulario[$clave] = $datosEntidad[$clave] ?? null;
-        }
-
-        return $datosFormulario;
     }
 
     protected function generarPDF($constancia)

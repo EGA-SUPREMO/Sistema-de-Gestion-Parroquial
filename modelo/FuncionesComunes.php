@@ -13,7 +13,8 @@ class FuncionesComunes
     public static function requerirLogin()
     {
         if (empty($_SESSION['nombre_usuario'])) {
-            self::redirigir('Location: ?c=login&a=index&mensaje=no_autenticado', 302);
+            $mensajeCodificado = urlencode('Necesitas iniciar sesión para acceder a esta página');
+            self::redirigir('Location: ?c=login&a=index&error='.$mensajeCodificado);
         }
     }
 
