@@ -64,7 +64,6 @@ if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres) |
     $respuesta['padre'] = $datos_padre_raw;
     $respuesta['madre'] = $datos_madre_raw;
     $respuesta['feligres'] = $datos_feligres_raw;
-    error_log(print_r($respuesta, true));
 
     // TODO usar parentesco para devolver hijos tambien
 }
