@@ -19,7 +19,7 @@ class constanciaControlador // extends formularioControlador
         $this->gestorSacerdote = EntidadFactory::crearGestor($pdo, 'sacerdote');
     }
 
-    public function guardar($errorMessage = null)
+    public function mostrar()
     {
         $id = (int)($_REQUEST['id'] ?? 0);
 
@@ -45,7 +45,6 @@ class constanciaControlador // extends formularioControlador
         }
 
         $datos = [
-            'primerElemento' => "#nombre_usuario",
             'id' => $id,
             'titulo' => $titulo,
         ];
@@ -57,7 +56,7 @@ class constanciaControlador // extends formularioControlador
         require_once "controlador/formulario.php";
     }
 
-    public function guardarRegistro()
+    public function procesarFormulario()
     {
         try {
             $rutaPdf = $this->guardarDatos();
@@ -65,7 +64,7 @@ class constanciaControlador // extends formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
             $mensajeCodificado = urlencode($e->getMessage());
-            FuncionesComunes::redirigir('Location:?c=constancia&a=guardar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
+            FuncionesComunes::redirigir('Location:?c=constancia&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
         }
     }
 

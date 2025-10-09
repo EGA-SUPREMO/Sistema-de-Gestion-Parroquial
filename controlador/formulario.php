@@ -192,7 +192,7 @@
         const tipo = urlParams.get('t');
         const controlador = urlParams.get('c');
 
-        const actionUrl = 'index.php?c=' + controlador + '&a=guardarRegistro&t=' + tipo;
+        const actionUrl = 'index.php?c=' + controlador + '&a=procesarFormulario&t=' + tipo;
         const cancelarUrl = 'index.php?c=panel&a=index&t=' + tipo;
 
         let formularioCampos = getFormularioCampos(tipo, datosPHP);

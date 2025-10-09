@@ -29,7 +29,7 @@
                 
                 $filaDatos.append(`
                     <td class="text-center px-3">
-                        <a href="index.php?c=formulario&a=guardar&t=${nombreTabla}&id=${dato.id}" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
+                        <a href="index.php?c=formulario&a=mostrar&t=${nombreTabla}&id=${dato.id}" class="btn btn-sm btn-warning me-2 rounded-pill shadow-sm">
                             Editar
                         </a>
 
@@ -59,7 +59,7 @@
 
         const $agregarBtn = $('#agregar-btn');
         $agregarBtn.html('Agregar ' + datosPHP.nombre_tabla_formateado);
-        $agregarBtn.attr('href', 'index.php?c=formulario&a=guardar&t=' + nombreTabla);
+        $agregarBtn.attr('href', 'index.php?c=formulario&a=mostrar&t=' + nombreTabla);
         
         const $subtitulo = $('#subtitulo-tabla');
         $subtitulo.html('Listado de ' + datosPHP.nombre_tabla_formateado);

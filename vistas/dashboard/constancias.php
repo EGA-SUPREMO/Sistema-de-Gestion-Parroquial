@@ -11,7 +11,7 @@
                     <h2 class="card-title text-center text-primary fw-bold mb-4">Opciones disponibles </h2>
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <a href="?c=reporte&a=fe_bautizo" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=constancia&a=mostrar&t=constancia_de_bautizo" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Fe de Bautizo</h5>
                                 </div>
@@ -20,21 +20,21 @@
                         <div class="col-sm-6">
                             <a href="?c=reporte&a=constancia_c" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title mb-0">Constancia primera comunion</h5>
+                                    <h5 class="card-title mb-0">Primera Comunion</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="col-sm-6">
                             <a href="?c=reporte&a=constancia_c" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title mb-0">Constancia confirmación</h5>
+                                    <h5 class="card-title mb-0">Confirmación</h5>
                                 </div>
                             </a>
                         </div>
                         <div class="col-sm-6">
                             <a href="?c=reporte&a=acta_matrimonio" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title mb-0">Acta de matrimonio eclesiastico</h5>
+                                    <h5 class="card-title mb-0">Acta de matrimonio</h5>
                                 </div>
                             </a>
                         </div>

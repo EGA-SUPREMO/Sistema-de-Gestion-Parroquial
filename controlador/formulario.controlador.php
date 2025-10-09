@@ -15,7 +15,7 @@ class formularioControlador
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
     }
 
-    public function guardarRegistro()
+    public function procesarFormulario()
     {
         try {
             $this->guardarDatos();
@@ -23,11 +23,11 @@ class formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
             $mensajeCodificado = urlencode($e->getMessage());
-            FuncionesComunes::redirigir('Location:?c=formulario&a=guardar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
+            FuncionesComunes::redirigir('Location:?c=formulario&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
         }
     }
 
-    public function guardar($errorMessage = null)
+    public function mostrar()
     {
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
