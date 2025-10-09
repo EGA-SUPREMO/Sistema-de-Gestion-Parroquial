@@ -63,9 +63,6 @@ class GeneradorPdf
             }
             $comando = 'export HOME="' . $lo_profile . '" && libreoffice --headless --convert-to pdf "' . $ruta_docx . '" --outdir "' . $salida . '"';
         }
-
-        // Comando con la variable de entorno definida
-        $comando = 'export HOME="' . $lo_profile . '" && libreoffice --headless --convert-to pdf "' . $ruta_docx . '" --outdir "' . dirname($ruta_docx) . '"';
         exec($comando . " 2>&1", $output, $return_var);
 
         if ($return_var !== 0) {
