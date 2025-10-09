@@ -38,10 +38,8 @@
             </div>
         </div>
     </main>
-    <div class="row justify-content-center">
-</div>
-<script src="public/js/bootstrap.bundle.min.js"></script>
-<script src="public/js/jquery-1.12.4.min.js"></script>
-<script src="public/js/mostrarError.js"></script>
+    <script src="public/js/bootstrap.bundle.min.js"></script>
+    <script src="public/js/jquery-1.12.4.min.js"></script>
+    <script src="public/js/mostrarError.js"></script>
 </body>
 </html>

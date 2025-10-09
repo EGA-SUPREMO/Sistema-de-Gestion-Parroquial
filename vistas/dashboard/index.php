@@ -25,7 +25,7 @@
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=agenda&a=index" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=panel&a=intenciones&t=intenciones" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Gestionar Agenda</h5>
                                 </div>
