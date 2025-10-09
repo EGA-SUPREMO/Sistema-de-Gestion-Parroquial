@@ -49,7 +49,7 @@ class PanelControlador
 
         $datos_tabla = json_encode($datos_tabla);
         require_once 'vistas/panel.php';
-        require_once "controlador/panel.php";        
+        require_once "controlador/panel.php";
     }
 
     public function eliminar()

@@ -46,7 +46,7 @@ if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres) |
     if (!$feligres_objeto) {
         $feligres_objeto = $gestorFeligres->obtenerPorPartidaDeNacimiento($partida_de_nacimiento_feligres);
     }
-    
+
     $datos_padre_raw = [];
     if ($padre_objeto) {
         $datos_padre_raw = $padre_objeto->toArrayParaBD() ?? [];
