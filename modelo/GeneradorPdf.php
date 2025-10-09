@@ -20,7 +20,9 @@ class GeneradorPdf
             error_log("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
             throw new InvalidArgumentException("Error: La plantilla no existe en la ruta: " . $ruta_plantilla_completa);
         }
-        $nombre_archivo_salida = uniqid('documento_', true) . '.docx';
+        $nombre_base = pathinfo($nombre_plantilla, PATHINFO_FILENAME);
+        $nombre_archivo_salida = $nombre_base . '_generado.docx';
+
         $ruta_salida_completa = self::$ruta_documentos . $nombre_archivo_salida;
 
         $plantilla = new TemplateProcessor($ruta_plantilla_completa);
