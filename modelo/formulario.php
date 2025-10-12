@@ -22,51 +22,79 @@ require_once 'ServicioConstanciaDeBautizo.php';
 $datos_json = $_POST['json'] ?? '{}';
 $datos = json_decode($datos_json, true);
 
-// 2. Extraer la cédula del padre
-// El JS envía: { "cedula": "12345678" }
-$cedula_padre = $datos['padre-cedula'] ?? null;
-$cedula_madre = $datos['madre-cedula'] ?? null;
-$cedula_feligres = $datos['feligres-cedula'] ?? null;
-$partida_de_nacimiento_feligres = $datos['feligres-partida_de_nacimiento'] ?? null;
+$persona = '';
+$cedulas = [];
+$partidas_de_nacimiento = [];
+$respuesta = [];
 
-$respuesta = [
-    'padre' => null,
-    'madre' => null,
-    'feligres' => null,
-];
 
-if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres) || !empty($partida_de_nacimiento_feligres)) {
-    // 3. Crear una instancia del gestor
-    $gestorFeligres = new GestorFeligres($pdo);
-
-    // 4. Buscar el feligrés (padre) por la cédula
-    $padre_objeto = $gestorFeligres->obtenerPorCedula($cedula_padre);
-    $madre_objeto = $gestorFeligres->obtenerPorCedula($cedula_madre);
-    $feligres_objeto = $gestorFeligres->obtenerPorCedula($cedula_feligres);
-    if (!$feligres_objeto) {
-        $feligres_objeto = $gestorFeligres->obtenerPorPartidaDeNacimiento($partida_de_nacimiento_feligres);
+foreach ($datos as $key => $value) {
+    
+    // Si la clave termina en "-cedula"
+    if (str_ends_with($key, 'cedula')) {
+        // Extraemos el rol (ej: 'padre' de 'padre-cedula')
+        $persona = str_replace('cedula', '', $key);
+        
+        // Si hay un valor, almacenamos la cédula y fijamos el persona activo
+        if (!empty($value)) {
+            $cedulas[$persona] = $value;
+            $persona = $persona; // Asignamos el persona de la persona que se está buscando
+        }
+    } elseif (str_ends_with($key, 'partida_de_nacimiento')) {
+        // Extraemos el persona (ej: 'feligres' de 'feligres-partida_nacimiento')
+        $persona = str_replace('partida_de_nacimiento', '', $key);
+        
+        // Si hay un valor, almacenamos la partida
+        if (!empty($value)) {
+            $cedulas[$persona] = 0;
+            $partidas_de_nacimiento[$persona] = $value;
+            $persona = $persona; // Asignamos el persona de la persona que se está buscando
+        }
     }
-
-    $datos_padre_raw = [];
-    if ($padre_objeto) {
-        $datos_padre_raw = $padre_objeto->toArrayParaBD() ?? [];
-    }
-    $datos_madre_raw = [];
-    if ($madre_objeto) {
-        $datos_madre_raw = $madre_objeto->toArrayParaBD() ?? [];
-    }
-    $datos_feligres_raw = [];
-    if ($feligres_objeto) {
-        $datos_feligres_raw = $feligres_objeto->toArrayParaBD() ?? [];
-    }
-    // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
-    // Solo incluimos las claves que queremos que el autocompletado use.
-    $respuesta['padre-'] = $datos_padre_raw;
-    $respuesta['madre-'] = $datos_madre_raw;
-    $respuesta['feligres-'] = $datos_feligres_raw;
-
-    // TODO usar parentesco para devolver hijos tambien
 }
+
+
+if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
+    // 2. Crear una instancia del gestor (solo si es necesario)
+    $gestorFeligres = new GestorFeligres($pdo);
+    
+error_log(print_r($partidas_de_nacimiento, true));
+    // 3. Iterar sobre el array (aunque solo tendrá un elemento)
+    // Esto nos da el rol ('padre', 'madre', etc.) y la cédula dinámicamente.
+    foreach ($cedulas as $rol => $cedula) {
+        
+        $persona_objeto = null;
+
+        // 4. Buscar a la persona por su cédula
+        if (!empty($cedula)) {
+            $persona_objeto = $gestorFeligres->obtenerPorCedula($cedula);
+        }
+
+        // 5. Caso especial: si es el feligrés y no se encontró por cédula,
+        // intentar buscar por partida de nacimiento.
+        if (!$persona_objeto) {
+            $partida_de_nacimiento = $partidas_de_nacimiento[$persona] ?? null;
+            if ($partida_de_nacimiento) {
+                $persona_objeto = $gestorFeligres->obtenerPorPartidaDeNacimiento($partida_de_nacimiento);
+            }
+        }
+
+        // 6. Preparar los datos de respuesta
+        $datos_persona_raw = [];
+        if ($persona_objeto) {
+            // Si se encontró el objeto, lo convertimos a un array
+            $datos_persona_raw = $persona_objeto->toArrayParaBD() ?? [];
+        }
+
+        // 7. Añadir los datos al array de respuesta con la clave dinámica (ej: 'padre-')
+        $respuesta[$rol] = $datos_persona_raw;
+
+        // 8. Rompemos el bucle. Como sabemos que solo viene una persona,
+        // no tiene sentido seguir iterando.
+        break; 
+    }
+}
+
 
 // 6. Devolver la respuesta como JSON
 header('Content-Type: application/json');

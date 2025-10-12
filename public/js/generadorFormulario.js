@@ -1,5 +1,25 @@
 function completarCampos(datos) {
-    const prefijos = ['padre-', 'madre-', 'feligres-'];
+    const prefijos = [];
+
+    // 2. Iterar sobre las claves del objeto 'datos'
+    // Object.keys(datos) devolverá ['padre-', 'madre-', 'feligres-']
+    Object.keys(datos).forEach(clave => {
+        // 3. Verificar si el objeto de datos para ese prefijo no está vacío.
+        // Usamos JSON.stringify para verificar si tiene propiedades que se mapearon.
+        // Esto asegura que solo se procesen los datos si el servidor devolvió información.
+        const objetoDatos = datos[clave];
+
+        prefijos.push(clave);
+        // OTRA FORMA: Verificar si el objeto NO es nulo/undefined Y tiene al menos una clave
+        /*if (objetoDatos && Object.keys(objetoDatos).length > 0) {
+            // La clave ya tiene el guion (ej: 'padre-'), la añadimos directamente
+            prefijos.push(clave);
+        }*/
+    });
+
+    // Ahora, 'prefijos' solo contiene los prefijos que tienen datos reales
+    // En este ejemplo: ['padre-']
+    console.log('Prefijos a usar:', prefijos);
 
     prefijos.forEach(prefijo => {
         const objetoDatos = datos[prefijo]; // Obtener los datos para 'padre', 'madre', o 'feligres'
@@ -23,7 +43,7 @@ function completarCampos(datos) {
                 }
             }
         } else {
-            // console.log(`No se encontraron datos para ${prefijo}.`);
+            console.log(`No se encontraron datos para ${prefijo}.`);
         }
     });
 }
@@ -33,8 +53,9 @@ function pedirDatos(datos) {
         // 1. Aquí, 'resultado' YA es un objeto JavaScript (si la conversión fue exitosa)
         console.log("Respuesta del servidor (Objeto JS):", resultado); 
         // 2. Procesar y autocompletar los campos
-        completarCampos(resultado);
-
+        if (resultado) {
+            completarCampos(resultado);
+        }
     }, 'json')
     .fail(function(xhr, status, error) {
         console.log("Error en la respuesta del servidor (Objeto JS):", xhr);
