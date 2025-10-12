@@ -240,6 +240,7 @@ const creadoresDeCampos = {
  */
 function generarFormulario(definicionFormulario, tituloFormulario) {
     const $contenedor = $(definicionFormulario.contenedor).empty();
+    let $primerElemento;
 
     // 1. Crear la estructura base del formulario
     const $cardHeader = $(`
@@ -262,6 +263,17 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
         if (propiedadCampo.type === 'fila') {
             const $fila = creadoresDeCampos.crearFila(propiedadCampo);
             $form.append($fila);
+
+            if (!$primerElemento) {
+                // Busca el primer input, select o textarea dentro de la fila
+                const $primerInputEnFila = $fila.find('input:not([type="hidden"]), select, textarea').first();
+                
+                // Si encuentra un elemento enfocable, lo asigna como $primerElemento
+                if ($primerInputEnFila.length > 0) {
+                    $primerElemento = $primerInputEnFila;
+            }
+        }
+
             return; // Continuar con el siguiente campo
         }
 
@@ -288,11 +300,12 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
             default:
                 $elemento = creadoresDeCampos.crearInput(propiedadCampo);
         }
-        
+        if (!$primerElemento && propiedadCampo.type !== 'subtitulo') {
+            $primerElemento = $elemento;
+        }
         $formGroup.append($elemento);
         $form.append($formGroup);
     });
-
     // 3. Crear botones de acción
     const $actionButtons = $(`
         <hr/>
@@ -306,4 +319,5 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
     // 4. Ensamblar todo y añadirlo al DOM
     $cardBody.append($form);
     $contenedor.append($cardHeader, $cardBody);
+    return $primerElemento;
 }

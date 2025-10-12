@@ -42,7 +42,6 @@ class formularioControlador
         }
 
         $datos = [
-            'primerElemento' => "#nombre_usuario",
             'id' => $id,
             'titulo' => $titulo,
         ];

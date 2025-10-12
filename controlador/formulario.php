@@ -207,7 +207,7 @@
             campos: formularioCampos,
         };
         
-        generarFormulario(definicionFormulario, datosPHP.titulo);
-        $(datosPHP.primerElemento).focus();
+        const $primerElemento = generarFormulario(definicionFormulario, datosPHP.titulo);
+        $primerElemento.focus();
     });
 </script>
