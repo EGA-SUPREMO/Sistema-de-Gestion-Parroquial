@@ -99,13 +99,10 @@ function autocompletarCampo($elemento) {
 
 function autocompletarFeligresBautizado($elemento) {
     autocompletarCampo($elemento);
-    const $elementoCedulaPadre = $("[name='padre-cedula']");
-    const $elementoCedulaMadre = $("[name='madre-cedula']");
     
-
     let datos = {};
     datos['bautizado-cedula'] = $elemento.val();
-    datos['bautizado-partida_de_nacimiento'] = $elemento.val();
+    datos['bautizado-partida_de_nacimiento'] = $("[name='feligres-partida_de_nacimiento']").val();
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
