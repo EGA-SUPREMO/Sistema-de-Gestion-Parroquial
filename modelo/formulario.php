@@ -58,7 +58,6 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
     // 2. Crear una instancia del gestor (solo si es necesario)
     $gestorFeligres = new GestorFeligres($pdo);
     
-error_log(print_r($partidas_de_nacimiento, true));
     // 3. Iterar sobre el array (aunque solo tendrá un elemento)
     // Esto nos da el rol ('padre', 'madre', etc.) y la cédula dinámicamente.
     foreach ($cedulas as $rol => $cedula) {

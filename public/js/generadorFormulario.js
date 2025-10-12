@@ -69,22 +69,33 @@ function autocompletarCampo($elemento) {
         return;
     }
 
-    // 2. Obtener el nombre completo del campo (e.g., 'padre-cedula', 'madre-partida_de_nacimiento')
+    // 2. Obtener el nombre completo del campo (e.g., 'padre-cedula', 'cedula')
     const nombreCompleto = $elemento.attr('name');    
-    // 3. Dividir el nombre completo para obtener el prefijo y la clave
+    // 3. Dividir el nombre completo
     const partes = nombreCompleto.split('-'); 
-    // El prefijo es la primera parte (e.g., 'padre')
-    const prefijo = partes[0] + '-';   
-    // La clave es el resto de las partes unidas, en caso de claves con guiones (e.g., 'partida-de-nacimiento')
-    const claveIdentificador = partes[1]; 
+
+    let prefijo = '';
+    let claveIdentificador = nombreCompleto; // Inicializamos con el nombre completo por defecto
+    
+    // Si hay más de una parte (hay guiones, e.g., 'padre-cedula')
+    if (partes.length > 1) { 
+        // El prefijo es la primera parte más el guion
+        prefijo = partes[0] + '-';   
+        // La clave es el resto de las partes unidas (join('-') para manejar claves con múltiples guiones)
+        claveIdentificador = partes.slice(1).join('-'); 
+    } 
+    // Si partes.length es 1 (e.g., 'cedula'), se mantiene el valor inicial: prefijo = '', claveIdentificador = 'cedula'
+
 
     let datos = {};
-    const claveDinamica = `${prefijo}${claveIdentificador}`;
+    // La clave dinámica se construye uniendo el prefijo (que puede ser '') con la clave
+    const claveDinamica = `${prefijo}${claveIdentificador}`; 
     datos[claveDinamica] = valorIdentificador;
 
     
     pedirDatos(JSON.stringify(datos));
 }
+
 
 function autocompletarFeligresBautizado($elemento) {
     autocompletarCampo($elemento);
