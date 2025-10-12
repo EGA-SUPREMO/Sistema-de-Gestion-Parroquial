@@ -182,9 +182,8 @@
             ];
         break;
         }
-        if (datosPHP.id) {
-            formularioCampos.push({ type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id});
-        }
+        formularioCampos.push({ type: 'hidden', name: 'id', validarMetodo: '', value: datosPHP.id});
+        
         return formularioCampos;
     }
 
