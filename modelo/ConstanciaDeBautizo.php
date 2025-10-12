@@ -156,7 +156,7 @@ class ConstanciaDeBautizo extends ModeloBase
     }
     public function setProposito($proposito)
     {
-        $this->proposito = Validador::validarString($proposito, "proposito", 10, 5);
+        $this->proposito = Validador::validarString($proposito, "proposito", 20, 5);
     }
 
     public function setMinistroId($ministro_id)

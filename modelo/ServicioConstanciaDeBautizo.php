@@ -36,8 +36,8 @@ class ServicioConstanciaDeBautizo
     {
         $this->pdo->beginTransaction();
         try {
-            $datosConstancia = $datosFormulario;
-
+            $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
+            
             $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
             $datosDelPadre = self::mapearParaEntidad($datosFormulario, 'padre');
             $datosDeLaMadre = self::mapearParaEntidad($datosFormulario, 'madre');
@@ -50,6 +50,7 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
             $datosConstancia['padre_id'] = $feligresMadreId;
             $datosConstancia['madre_id'] = $feligresPadreId;
+            
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
@@ -99,7 +100,23 @@ class ServicioConstanciaDeBautizo
 
         return $id;
     }
+    public static function limpiarClavesParaDatosConstancia($datosConstancia)
+    {
+        $datosLimpios = [];
+        $prefijo = 'constancia-';
+        $longitudPrefijo = strlen($prefijo);
 
+        foreach ($datosConstancia as $clave => $valor) {
+            if (strpos($clave, $prefijo) === 0) {
+                $nuevaClave = substr($clave, $longitudPrefijo);
+                $datosLimpios[$nuevaClave] = $valor;
+            } else {
+                $datosLimpios[$clave] = $valor;
+            }
+        }
+
+        return $datosLimpios;
+    }
     public static function mapearParaEntidad($datosFormulario, $prefijo)
     {
         return [
@@ -142,7 +159,7 @@ class ServicioConstanciaDeBautizo
         if (!$this->gestorFeligres->obtenerPorId($objeto->getMadreId())) {
             throw new InvalidArgumentException("Error: La madre {$objeto->getMadreId()} no existe.");
         }
-
+        
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
             throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroId()} no existe.");
         }
