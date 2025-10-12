@@ -105,14 +105,9 @@ function autocompletarFeligresBautizado($elemento) {
 
     let datos = {};
     datos['bautizado-cedula'] = $elemento.val();
+    datos['bautizado-partida_de_nacimiento'] = $elemento.val();
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
     pedirDatos(JSON.stringify(datos), completarCampos);
-
-    $elementoCedulaPadre.val(0);
-    $elementoCedulaMadre.val();
-
-    autocompletarCampo($elementoCedulaPadre);
-    autocompletarCampo($elementoCedulaMadre);
 }
 
 /**
