@@ -88,9 +88,13 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
 
         // 7. Añadir los datos al array de respuesta con la clave dinámica (ej: 'padre-')
         $respuesta[$rol] = $datos_persona_raw;
-        if ($rol==='bautizado' && $persona_objeto) {
-            $constancia = $gestorFeligres->obtenerConstanciaIdPorFeligresBautizadoId($persona_objeto->getId());
-            $respuesta['constancia'] = $datos_persona_raw;
+        if ($rol==='bautizado-' && $persona_objeto) {
+            $gestorConstancia = EntidadFactory::crearGestor($pdo, $nombreTabla);
+            $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_objeto->getId());
+            if ($constancia) {
+                $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];
+            }
+            $respuesta['constancia-'] = $datos_constancia_raw;
         }
 
         // 8. Rompemos el bucle. Como sabemos que solo viene una persona,

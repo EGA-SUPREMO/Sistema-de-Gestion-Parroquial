@@ -150,23 +150,23 @@
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
-                { type: 'date', name: 'fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
-                { type: 'text', name: 'padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarString', value: 'datosPHP.padrino_nombre' },
-                { type: 'text', name: 'madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarString', value: 'datosPHP.madrina_nombre' },
-                { type: 'textarea', name: 'observaciones', label: 'Observaciones', required: false, validarMetodo: 'validarString', value: 'datosPHP.observaciones' },
+                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
+                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarString', value: 'datosPHP.padrino_nombre' },
+                { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarString', value: 'datosPHP.madrina_nombre' },
+                { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, validarMetodo: 'validarString', value: 'datosPHP.observaciones' },
                 { type: 'fila', 
                     campos: [
-                        { type: 'select', name: 'ministro_id', label: 'Ministro', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions},
-                        { type: 'select', name: 'ministro_certifica_id', label: 'Ministro que Certifica', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions },
+                        { type: 'select', name: 'constancia-ministro_id', label: 'Ministro', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions},
+                        { type: 'select', name: 'constancia-ministro_certifica_id', label: 'Ministro que Certifica', required: true, validarMetodo: 'validarEntero', options: sacerdoteOptions },
                     ]
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'number', name: 'numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEntero', value: 4 },
-                        { type: 'number', name: 'numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEntero', value: 4 },
-                        { type: 'number', name: 'numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEntero', value: 4 }
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEntero', value: 4 },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEntero', value: 4 },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEntero', value: 4 }
                     ] 
                 },
 

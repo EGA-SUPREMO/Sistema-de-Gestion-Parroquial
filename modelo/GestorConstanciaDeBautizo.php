@@ -21,6 +21,12 @@ class GestorConstanciaDeBautizo extends GestorBase
         $resultado = $this->hacerConsulta($sql, [$id], 'single');
         return $resultado ? $resultado->getId() : 0;
     }
+    public function obtenerConstanciaPorFeligresBautizadoId($id)
+    {
+        $sql = "SELECT * FROM {$this->tabla} WHERE `feligres_bautizado_id` = ?";
+        $resultado = $this->hacerConsulta($sql, [$id], 'single');
+        return $resultado;
+    }
     public function obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal)
     {
         $sql = "SELECT * FROM {$this->tabla} WHERE `numero_libro` = ? AND `numero_pagina` = ? AND `numero_marginal` = ?";

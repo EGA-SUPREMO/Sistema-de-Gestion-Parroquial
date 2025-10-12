@@ -132,27 +132,23 @@ class ServicioConstanciaDeBautizo
     protected function validarDependencias($objeto)
     {
         if (!$this->gestorFeligres->obtenerPorId($objeto->getFeligresBautizadoId())) {
-            throw new InvalidArgumentException("Error: El feligrés ${$objeto->getFeligresBautizadoId()} bautizado no existe.");
+            throw new InvalidArgumentException("Error: El feligrés {$objeto->getFeligresBautizadoId()} bautizado no existe.");
         }
 
         if (!$this->gestorFeligres->obtenerPorId($objeto->getPadreId())) {
-            throw new InvalidArgumentException("Error: El padre ${$objeto->getPadreId()} no existe.");
+            throw new InvalidArgumentException("Error: El padre {$objeto->getPadreId()} no existe.");
         }
 
         if (!$this->gestorFeligres->obtenerPorId($objeto->getMadreId())) {
-            throw new InvalidArgumentException("Error: La madre ${$objeto->getMadreId()} no existe.");
+            throw new InvalidArgumentException("Error: La madre {$objeto->getMadreId()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
-            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroId()} no existe.");
+            throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroId()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId())) {
-            throw new InvalidArgumentException("Error: El ministro ${$objeto->getMinistroCertificaId()} que certifica no existe.");
+            throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaId()} que certifica no existe.");
         }
-    }
-    public function getClavePrimaria()
-    {
-        return "id";
     }
 }

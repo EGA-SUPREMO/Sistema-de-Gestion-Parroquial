@@ -48,13 +48,13 @@ function completarCampos(datos) {
     });
 }
 
-function pedirDatos(datos) {
+function pedirDatos(datos, callback) {
     $.post("modelo/formulario.php", { json: datos }, function(resultado) {
         // 1. Aquí, 'resultado' YA es un objeto JavaScript (si la conversión fue exitosa)
         console.log("Respuesta del servidor (Objeto JS):", resultado); 
         // 2. Procesar y autocompletar los campos
         if (resultado) {
-            completarCampos(resultado);
+            callback(resultado);
         }
     }, 'json')
     .fail(function(xhr, status, error) {
@@ -93,8 +93,7 @@ function autocompletarCampo($elemento) {
     datos[claveDinamica] = valorIdentificador;
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
 
-    
-    pedirDatos(JSON.stringify(datos));
+    pedirDatos(JSON.stringify(datos), completarCampos);
 }
 
 
@@ -104,6 +103,10 @@ function autocompletarFeligresBautizado($elemento) {
     const $elementoCedulaMadre = $("[name='madre-cedula']");
     
 
+    let datos = {};
+    datos['bautizado-cedula'] = $elemento.val();
+    datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
+    pedirDatos(JSON.stringify(datos), completarCampos);
 
     $elementoCedulaPadre.val(0);
     $elementoCedulaMadre.val();
