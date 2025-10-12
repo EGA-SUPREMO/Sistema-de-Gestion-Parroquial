@@ -42,7 +42,12 @@
             case 'feligres':
                 formularioCampos = [
                     { type: 'subtitulo', name: 'subtitulo-personal', value: 'Información Personal'},
-                    { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarEntero', value: datosPHP.cedula, pattern: '\\d{4,10}', maxlength: '10'},
+                    { type: 'fila', 
+                        campos: [
+                            { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarEntero', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.cedula, pattern: '\\d{4,10}', maxlength: '10'},
+                            { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarString', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.partida_de_nacimiento },
+                        ] 
+                    },
                     { type: 'fila', 
                         campos: [
                             { type: 'text', name: 'primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarString', value: datosPHP.primer_nombre },
@@ -57,7 +62,6 @@
                     },
                     { type: 'subtitulo', name: 'subtitulo-datos-nacimiento', value: 'Datos de Nacimiento'},
                     { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: false, validarMetodo: 'validarFecha', value: datosPHP.fecha_nacimiento },
-                    { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarString', value: datosPHP.partida_de_nacimiento },
                     { type: 'subtitulo', name: 'subtitulo-lugar-nacimiento', value: 'Lugar de Nacimiento'},
                     { type: 'fila', 
                         campos: [

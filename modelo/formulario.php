@@ -61,9 +61,9 @@ if (!empty($cedula_padre) || !empty($cedula_madre) || !empty($cedula_feligres) |
     }
     // La función de JS espera claves como 'primer_nombre', 'segundo_nombre', etc.
     // Solo incluimos las claves que queremos que el autocompletado use.
-    $respuesta['padre'] = $datos_padre_raw;
-    $respuesta['madre'] = $datos_madre_raw;
-    $respuesta['feligres'] = $datos_feligres_raw;
+    $respuesta['padre-'] = $datos_padre_raw;
+    $respuesta['madre-'] = $datos_madre_raw;
+    $respuesta['feligres-'] = $datos_feligres_raw;
 
     // TODO usar parentesco para devolver hijos tambien
 }

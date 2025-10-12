@@ -1,5 +1,5 @@
 function completarCampos(datos) {
-    const prefijos = ['padre', 'madre', 'feligres'];
+    const prefijos = ['padre-', 'madre-', 'feligres-'];
 
     prefijos.forEach(prefijo => {
         const objetoDatos = datos[prefijo]; // Obtener los datos para 'padre', 'madre', o 'feligres'
@@ -10,7 +10,7 @@ function completarCampos(datos) {
                 if (objetoDatos.hasOwnProperty(key)) {
                     const valor = objetoDatos[key];
                     // Construir el nombre completo del campo en el formulario (e.g., 'padre-primer_nombre')
-                    const nombreCampo = `${prefijo}-${key}`;
+                    const nombreCampo = `${prefijo}${key}`;
                     
                     // Buscar el input y asignarle el valor si existe
                     const $input = $(`[name="${nombreCampo}"]`);
@@ -53,15 +53,14 @@ function autocompletarCampo($elemento) {
     // 3. Dividir el nombre completo para obtener el prefijo y la clave
     const partes = nombreCompleto.split('-'); 
     // El prefijo es la primera parte (e.g., 'padre')
-    const prefijo = partes[0];   
+    const prefijo = partes[0] + '-';   
     // La clave es el resto de las partes unidas, en caso de claves con guiones (e.g., 'partida-de-nacimiento')
     const claveIdentificador = partes[1]; 
 
     let datos = {};
-    const claveDinamica = `${prefijo}-${claveIdentificador}`;
+    const claveDinamica = `${prefijo}${claveIdentificador}`;
     datos[claveDinamica] = valorIdentificador;
 
-    // console.log(`Buscando con: ${claveDinamica} = ${valorIdentificador}`);
     
     pedirDatos(JSON.stringify(datos));
 }
