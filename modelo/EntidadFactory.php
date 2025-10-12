@@ -7,7 +7,7 @@ class EntidadFactory
     public static function crearGestor($pdo, $nombreTabla)
     {
         $nombreClase = 'Gestor' . FuncionesComunes::formatearSnakeCaseAPascalCase($nombreTabla);
-        $directorio = 'modelo/' . $nombreClase . '.php';
+        $directorio = ROOT_PATH . 'modelo/' . $nombreClase . '.php';
 
         if (file_exists($directorio)) {
             require_once $directorio;
@@ -20,7 +20,7 @@ class EntidadFactory
     public static function crearServicio($pdo, $nombreTabla)
     {
         $nombreClase = 'Servicio' . FuncionesComunes::formatearSnakeCaseAPascalCase($nombreTabla);
-        $directorio = 'modelo/' . $nombreClase . '.php';
+        $directorio = ROOT_PATH . 'modelo/' . $nombreClase . '.php';
 
         if (file_exists($directorio)) {
             require_once $directorio;
@@ -34,7 +34,7 @@ class EntidadFactory
     public static function crearObjeto($nombreTabla)
     {
         $nombreClaseObjeto = FuncionesComunes::formatearSnakeCaseAPascalCase($nombreTabla);
-        $directorio = 'modelo/' . $nombreClaseObjeto . '.php';
+        $directorio = ROOT_PATH . 'modelo/' . $nombreClaseObjeto . '.php';
 
         if (file_exists($directorio)) {
             require_once $directorio;

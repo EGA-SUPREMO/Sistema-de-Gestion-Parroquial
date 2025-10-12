@@ -1,26 +1,18 @@
 <?php
 
 require_once 'GestorBase.php';
-require_once 'GestorFeligres.php';
-require_once 'GestorSacerdote.php';
-require_once 'GestorPeticion.php';
 
 require_once 'GeneradorPdf.php';
 require_once 'ConstanciaDeBautizo.php';
 
 class GestorConstanciaDeBautizo extends GestorBase
 {
-    private $gestorFeligres;
-    private $gestorSacerdote;
 
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
         $this ->tabla = "constancia_de_bautizo";
         $this ->clase_nombre = "ConstanciaDeBautizo";
-
-        $this->gestorFeligres = new GestorFeligres($pdo);
-        $this->gestorSacerdote = new GestorSacerdote($pdo);
     }
 
     public function obtenerConstanciaIdPorFeligresBautizadoId($id)

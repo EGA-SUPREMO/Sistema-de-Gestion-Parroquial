@@ -91,6 +91,7 @@ function autocompletarCampo($elemento) {
     // La clave dinámica se construye uniendo el prefijo (que puede ser '') con la clave
     const claveDinamica = `${prefijo}${claveIdentificador}`; 
     datos[claveDinamica] = valorIdentificador;
+    datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
 
     
     pedirDatos(JSON.stringify(datos));
@@ -99,6 +100,16 @@ function autocompletarCampo($elemento) {
 
 function autocompletarFeligresBautizado($elemento) {
     autocompletarCampo($elemento);
+    const $elementoCedulaPadre = $("[name='padre-cedula']");
+    const $elementoCedulaMadre = $("[name='madre-cedula']");
+    
+
+
+    $elementoCedulaPadre.val(0);
+    $elementoCedulaMadre.val();
+
+    autocompletarCampo($elementoCedulaPadre);
+    autocompletarCampo($elementoCedulaMadre);
 }
 
 /**

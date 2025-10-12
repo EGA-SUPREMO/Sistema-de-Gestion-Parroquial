@@ -13,8 +13,8 @@ $pdo = BaseDatos::obtenerConexion(
     $_ENV['DB_PASS']
 );
 
-require_once 'Feligres.php';
-require_once 'GestorFeligres.php';
+require_once 'EntidadFactory.php';
+
 //require_once 'ServicioConstanciaDeBautizo.php';
 
 // 1. Decodificar los datos JSON recibidos de JavaScript
@@ -25,10 +25,12 @@ $persona = '';
 $cedulas = [];
 $partidas_de_nacimiento = [];
 $respuesta = [];
+$nombreTabla = $datos['nombre_tabla'];
+
+EntidadFactory::crearGestor($pdo, $nombreTabla);
 
 
 foreach ($datos as $key => $value) {
-    
     // Si la clave termina en "-cedula"
     if (str_ends_with($key, 'cedula')) {
         // Extraemos el rol (ej: 'padre' de 'padre-cedula')
@@ -55,7 +57,7 @@ foreach ($datos as $key => $value) {
 
 if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
     // 2. Crear una instancia del gestor (solo si es necesario)
-    $gestorFeligres = new GestorFeligres($pdo);
+    $gestorFeligres = EntidadFactory::crearGestor($pdo, 'Feligres');
     
     // 3. Iterar sobre el array (aunque solo tendrá un elemento)
     // Esto nos da el rol ('padre', 'madre', etc.) y la cédula dinámicamente.
@@ -86,6 +88,10 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
 
         // 7. Añadir los datos al array de respuesta con la clave dinámica (ej: 'padre-')
         $respuesta[$rol] = $datos_persona_raw;
+        if ($rol==='bautizado' && $persona_objeto) {
+            $constancia = $gestorFeligres->obtenerConstanciaIdPorFeligresBautizadoId($persona_objeto->getId());
+            $respuesta['constancia'] = $datos_persona_raw;
+        }
 
         // 8. Rompemos el bucle. Como sabemos que solo viene una persona,
         // no tiene sentido seguir iterando.
