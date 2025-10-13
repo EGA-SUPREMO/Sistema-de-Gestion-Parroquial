@@ -7,7 +7,6 @@ require_once 'ConstanciaDeBautizo.php';
 
 class GestorConstanciaDeBautizo extends GestorBase
 {
-
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);

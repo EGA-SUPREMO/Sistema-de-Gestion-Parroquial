@@ -35,7 +35,7 @@ foreach ($datos as $key => $value) {
     if (str_ends_with($key, 'cedula')) {
         // Extraemos el rol (ej: 'padre' de 'padre-cedula')
         $persona = str_replace('cedula', '', $key);
-        
+
         // Si hay un valor, almacenamos la cédula y fijamos el persona activo
         if (!empty($value)) {
             $cedulas[$persona] = $value;
@@ -44,7 +44,7 @@ foreach ($datos as $key => $value) {
     } elseif (str_ends_with($key, 'partida_de_nacimiento')) {
         // Extraemos el persona (ej: 'feligres' de 'feligres-partida_nacimiento')
         $persona = str_replace('partida_de_nacimiento', '', $key);
-        
+
         // Si hay un valor, almacenamos la partida
         if (!empty($value)) {
             $cedulas[$persona] = 0;
@@ -58,11 +58,11 @@ foreach ($datos as $key => $value) {
 if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
     // 2. Crear una instancia del gestor (solo si es necesario)
     $gestorFeligres = EntidadFactory::crearGestor($pdo, 'Feligres');
-    
+
     // 3. Iterar sobre el array (aunque solo tendrá un elemento)
     // Esto nos da el rol ('padre', 'madre', etc.) y la cédula dinámicamente.
     foreach ($cedulas as $rol => $cedula) {
-        
+
         $persona_objeto = null;
 
         // 4. Buscar a la persona por su cédula
@@ -88,7 +88,7 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
 
         // 7. Añadir los datos al array de respuesta con la clave dinámica (ej: 'padre-')
         $respuesta[$rol] = $datos_persona_raw;
-        if ($rol==='bautizado-' && $persona_objeto) {
+        if ($rol === 'bautizado-' && $persona_objeto) {
             $gestorConstancia = EntidadFactory::crearGestor($pdo, $nombreTabla);
             $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_objeto->getId());
             if ($constancia) {
@@ -101,7 +101,7 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
 
         // 8. Rompemos el bucle. Como sabemos que solo viene una persona,
         // no tiene sentido seguir iterando.
-        break; 
+        break;
     }
 }
 

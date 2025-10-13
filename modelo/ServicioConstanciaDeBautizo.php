@@ -37,7 +37,7 @@ class ServicioConstanciaDeBautizo
         $this->pdo->beginTransaction();
         try {
             $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
-            
+
             $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
             $datosDelPadre = self::mapearParaEntidad($datosFormulario, 'padre');
             $datosDeLaMadre = self::mapearParaEntidad($datosFormulario, 'madre');
@@ -50,7 +50,7 @@ class ServicioConstanciaDeBautizo
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
             $datosConstancia['padre_id'] = $feligresPadreId;
             $datosConstancia['madre_id'] = $feligresMadreId;
-            
+
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
