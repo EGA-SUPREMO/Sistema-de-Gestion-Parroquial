@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./public/css/boostrap-icons.min.css">
     <link rel="stylesheet" href="./public/css/menu.css">
     <link rel="stylesheet" href="./public/css/all.min.css">
+    <link rel="stylesheet" href="./public/css/sweetalert2.min.css">
 
     <link rel="stylesheet" href="./public/css/styles.css">
     <link rel="stylesheet" href="./public/css/lift.css">

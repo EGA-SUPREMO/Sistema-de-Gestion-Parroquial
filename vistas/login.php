@@ -11,7 +11,7 @@
                 <div id="error-message-container" style="display:none;"></div>
 
                 <section class="login-card">
-                    <form method="post" action="?c=login&a=login">
+                    <form method="post" action="?c=login&a=procesarDatos">
                         
                         <div class="mb-4">
                             <label for="usuario" class="form-label">Usuario</label>
@@ -41,5 +41,6 @@
     <script src="public/js/bootstrap.bundle.min.js"></script>
     <script src="public/js/jquery-1.12.4.min.js"></script>
     <script src="public/js/mostrarError.js"></script>
+    <script src="public/js/sweetalert2.all.min.js"></script>
 </body>
 </html>

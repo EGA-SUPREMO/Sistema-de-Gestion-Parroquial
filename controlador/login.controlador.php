@@ -18,7 +18,7 @@ class loginControlador
         require_once 'vistas/login.php';
     }
 
-    public function login()
+    public function procesarDatos()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $nombre_usuario = $_POST['nombre_usuario'];
