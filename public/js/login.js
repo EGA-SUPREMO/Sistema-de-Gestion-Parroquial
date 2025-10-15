@@ -1,5 +1,6 @@
 $(document).ready(function() {
     const MAX_USUARIO_LENGTH = 30;
+    const MIN_USUARIO_LENGTH = 2;
     const $loginForm = $('form[action*="procesarDatos"]');
     
     const $usuarioInput = $('#usuario');
@@ -7,16 +8,21 @@ $(document).ready(function() {
     $usuarioInput.focus();
 
     function showErrorAlert(message, $fieldToFocus) {
+
         Swal.fire({
             title: '¡Error de Validación!',
             text: message,
             icon: 'error',
-            confirmButtonText: 'Entendido'
-        }).then(() => {
-            if ($fieldToFocus) {
-                $fieldToFocus.focus();
-                $fieldToFocus.select(); 
+            confirmButtonText: 'Entendido',
+            didOpen: () => {
+                const confirmButton = Swal.getConfirmButton();
+                if (confirmButton) {
+                    confirmButton.focus();
+                }
             }
+        }).then(() => {
+            $usuarioInput.focus();
+            $usuarioInput.select();
         });
     }
 
@@ -33,10 +39,13 @@ $(document).ready(function() {
             $(this).addClass('is-invalid');
             $(this).next('.invalid-feedback').remove(); // Quita el mensaje anterior si existe
             $(this).after('<div class="invalid-feedback">El usuario no puede exceder los ' + MAX_USUARIO_LENGTH + ' caracteres.</div>');
-        } else if (value.length > 0) {
-            // Marca como válido si no excede el límite y tiene contenido
+        } else if (value.length > MIN_USUARIO_LENGTH) {
             $(this).addClass('is-valid');
             $(this).next('.invalid-feedback').remove();
+        } else {
+            $(this).addClass('is-invalid');
+            $(this).next('.invalid-feedback').remove();
+            $(this).after('<div class="invalid-feedback">El nombre de usuario no debe ser mayor a ' + MIN_USUARIO_LENGTH + ' caracteres.</div>');
         }
     });
 
@@ -50,23 +59,24 @@ $(document).ready(function() {
         if (usuario.trim() === '') {
             errorMessage = 'El campo "Usuario" es obligatorio.';
             isValid = false;
-            $fieldToFocus = $usuarioInput;
         }
         else if (usuario.length > MAX_USUARIO_LENGTH) {
             errorMessage = 'El nombre de usuario es demasiado largo (máximo ' + MAX_USUARIO_LENGTH + ' caracteres).';
-            $fieldToFocus = $usuarioInput;
+            isValid = false;
+        }
+        else if (usuario.length <= MIN_USUARIO_LENGTH) {
+            errorMessage = 'El nombre de usuario es demasiado corto (mínimo ' + MIN_USUARIO_LENGTH + ' caracteres).';
             isValid = false;
         }
 
         if (contrasena.trim() === '') {
             errorMessage = 'El campo "Contraseña" es obligatorio.';
-            $fieldToFocus = $contrasenaInput;
             isValid = false;
         }
 
         if (!isValid) {
             e.preventDefault();
-            showErrorAlert(errorMessage, $fieldToFocus);
+            showErrorAlert(errorMessage);
         }
         
     });

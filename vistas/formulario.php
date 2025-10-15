@@ -8,7 +8,7 @@
 <script src="public/js/jquery-1.12.4.min.js"></script>
 <script src="public/js/generadorFormulario.js"></script>
 <script src="public/js/bootstrap.bundle.min.js"></script>
-<script src="public/js/mostrarError.js"></script>
 <script src="public/js/sweetalert2.all.min.js"></script>
+<script src="public/js/mostrarError.js"></script>
 </body>
 </html>
