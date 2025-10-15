@@ -11,18 +11,12 @@ $(document).ready(function() {
     if (errorMessage) {
         const decodedMessage = decodeURIComponent(errorMessage.replace(/\+/g, ' '));
         
-        $container.html(`
-            <div style="
-                background-color: #f8d7da; 
-                color: #721c24; 
-                border: 1px solid #f5c6cb; 
-                padding: 15px; 
-                margin-bottom: 20px; 
-                border-radius: 4px;"
-            >
-                <strong>¡Atención!</strong> ${decodedMessage}
-            </div>
-        `).show();
+        Swal.fire({
+            title: '¡Atención!',
+            text: decodedMessage,
+            icon: 'error', 
+            confirmButtonText: 'Aceptar',
+        });
         if (history.replaceState) {
             const url = new URL(window.location);
             url.searchParams.delete('error');

@@ -217,7 +217,7 @@ class ConstanciaDeBautizo extends ModeloBase
     public function toArrayParaConstanciaPDF()
     {
         if (empty($this->feligres_bautizado)) {
-            throw new InvalidArgumentException("Error: 'feligres_bautizado' está vacío");
+            throw new InvalidArgumentException("Error: 'el feligres bautizado' está vacío");
         }
         if (empty($this->padre)) {
             throw new InvalidArgumentException("Error: 'padre' está vacío");
@@ -229,7 +229,7 @@ class ConstanciaDeBautizo extends ModeloBase
             throw new InvalidArgumentException("Error: 'ministro' está vacío");
         }
         if (empty($this->ministro_certifica_expedicion)) {
-            throw new InvalidArgumentException("Error: 'ministro_certifica_expedicion' está vacío");
+            throw new InvalidArgumentException("Error: 'el ministro que certifica' está vacío");
         }
 
         $formateador = new IntlDateFormatter('es', IntlDateFormatter::NONE, IntlDateFormatter::NONE, 'America/Caracas', IntlDateFormatter::GREGORIAN, 'MMMM');
@@ -255,7 +255,7 @@ class ConstanciaDeBautizo extends ModeloBase
         $datos_constancia['mes_bautizo'] = ucwords($formateador->format($fecha_bautizo));
         $datos_constancia['ano_bautizo'] = $fecha_bautizo->format('Y');
 
-        $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'oooLugar de nacimiento');
+        $datos_constancia['lugar_nacimiento'] = Validador::estaVacio($this->feligres_bautizado->lugarDeNacimiento(), 'Lugar de nacimiento');
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
         $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del padrino');
         $datos_constancia['madrina_nombre'] = Validador::estaVacio($datos_bd['madrina_nombre'], 'Nombre del madrina');
