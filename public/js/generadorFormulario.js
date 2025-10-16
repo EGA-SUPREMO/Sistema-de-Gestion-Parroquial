@@ -9,6 +9,11 @@ function validarNombrePadrino($element) {
     const isValid = validarString(value, 2, 100);
     manejarValidacionUI(isValid, $element, 'El campo debe tener entre 2 y 100 caracteres.');
 }
+function validarPartidaDeNacimiento($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 4, 30);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 30 caracteres.');
+}
 
 function validarLugar($element) {
     const value = $element.val();

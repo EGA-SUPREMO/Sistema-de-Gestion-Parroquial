@@ -89,7 +89,7 @@
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarEntero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,10}', maxlength: '10', value: 223344 },
-                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarString', autocompletarMetodo: 'autocompletarFeligresBautizado', value: 'ASDDE' },
+                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: 'ASDDE' },
                     ]
                 },
                 { type: 'fila', 
