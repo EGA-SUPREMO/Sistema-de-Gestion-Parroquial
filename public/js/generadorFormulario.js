@@ -1,3 +1,13 @@
+function validarNombre($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 3, 50);
+    manejarValidacionUI(isValid, $element, 'El ' + ' debe tener entre 3 y 50 caracteres.');
+}
+
+
+
+
+
 function completarCampos(datos) {
     const prefijos = [];
 
@@ -144,12 +154,16 @@ function asignarAtributosComunes($element, properties) {
             window[properties.autocompletarMetodo].call(null, $element);
         });
     }
+    if (properties.validarMetodo) {
+        $element.on('keyup', function() {
+            window[properties.validarMetodo].call(null, $element);
+        });
+    }
 
     return $element;
 }
 
 // Objeto que contiene funciones para crear cada tipo de campo.
-// Esto reemplaza el bloque largo de if/else if.
 const creadoresDeCampos = {
     crearInput: function(prop) {
         const $input = $('<input>').attr({
@@ -208,6 +222,7 @@ const creadoresDeCampos = {
         prop.campos.forEach(campoInterno => {
             const $col = $('<div class="col-md mb-3">');
             const $formGroup = $('<div>');
+            const $feedback = $('<div class="invalid-feedback"></div>');
             
             if (campoInterno.label) {
                 const $label = $('<label>').attr('for', campoInterno.name).addClass('form-label').text(campoInterno.label);
@@ -232,6 +247,7 @@ const creadoresDeCampos = {
             }
 
             $formGroup.append($campo);
+            $formGroup.append($feedback);
             $col.append($formGroup);
             $row.append($col);
         });
@@ -279,11 +295,11 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
                     $primerElemento = $primerInputEnFila;
             }
         }
-
             return; // Continuar con el siguiente campo
         }
 
         const $formGroup = $('<div class="mb-3">');
+        const $feedback = $('<div class="invalid-feedback"></div>');
         
         // Crear la etiqueta si existe
         if (propiedadCampo.label) {
@@ -310,6 +326,7 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
             $primerElemento = $elemento;
         }
         $formGroup.append($elemento);
+        $formGroup.append($feedback);
         $form.append($formGroup);
     });
     // 3. Crear botones de acción

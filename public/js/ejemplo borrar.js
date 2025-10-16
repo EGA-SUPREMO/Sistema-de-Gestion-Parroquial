@@ -18,7 +18,7 @@ $(document).ready(function() {
     $('#username').on('keyup', function() {
         const $this = $(this);
         const value = $this.val();
-        const isValid = validateString(value, 3, 15);
+        const isValid = validarString(value, 3, 15);
         handleValidationUI(isValid, $this, 'El usuario debe tener entre 3 y 15 caracteres.');
     });
 

@@ -1,3 +1,16 @@
+function manejarValidacionUI(esValido, $input, mensaje) {
+    $input.removeClass('is-valid is-invalid');
+    const $feedback = $input.next('.invalid-feedback');
+
+    if (esValido) {
+        $input.addClass('is-valid');
+        $feedback.text('');
+    } else {
+        $input.addClass('is-invalid');
+        $feedback.text(mensaje);
+    }
+}
+
 /**
  * Verifica si un valor es un número entero dentro de un rango específico.
  *

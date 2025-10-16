@@ -101,8 +101,8 @@
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarString', value: 'datosPHP.primer_nombre' },
-                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarString', value: 'datosPHP.segundo_nombre' },
+                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.primer_nombre' },
+                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.segundo_nombre' },
                     ] 
                 },
                 { type: 'fila', 
