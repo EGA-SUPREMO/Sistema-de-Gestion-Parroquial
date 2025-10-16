@@ -1,10 +1,33 @@
 function validarNombre($element) {
     const value = $element.val();
-    const isValid = validarString(value, 3, 50);
-    manejarValidacionUI(isValid, $element, 'El ' + ' debe tener entre 3 y 50 caracteres.');
+    const isValid = validarString(value, 2, 50);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 2 y 50 caracteres.');
 }
 
+function validarNombrePadrino($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 2, 100);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 2 y 100 caracteres.');
+}
 
+function validarLugar($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 4, 50);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+}
+
+// TODO por hacer
+function validarLibro($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 4, 50);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+}
+
+function validarCedula($element) {
+    const value = $element.val();
+    const isValid = validarString(value, 4, 50);
+    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+}
 
 
 
