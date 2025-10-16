@@ -189,10 +189,10 @@ function completarCampos(datos) {
                     
                     // Buscar el input y asignarle el valor si existe
                     const $input = $(`[name="${nombreCampo}"]`);
-
                     if ($input.length) {
                         // Usar .val() para inputs, textareas y selects
                         $input.val(valor); 
+                        $input.trigger('keyup');
                         console.log(`Autocompletado: ${nombreCampo} = ${valor}`);
                     }
                 }
