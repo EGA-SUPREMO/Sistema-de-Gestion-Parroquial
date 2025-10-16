@@ -1,37 +1,53 @@
-function validarNombre($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 2, 50);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 2 y 50 caracteres.');
+function validarNombre($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarString(valor, 2, 50);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 2 y 50 caracteres.');
 }
 
-function validarNombrePadrino($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 2, 100);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 2 y 100 caracteres.');
+function validarNombrePadrino($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarString(valor, 2, 100);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 2 y 100 caracteres.');
 }
-function validarPartidaDeNacimiento($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 4, 30);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 30 caracteres.');
-}
-
-function validarLugar($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 4, 50);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+function validarPartidaDeNacimiento($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarString(valor, 4, 30);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 4 y 30 caracteres.');
 }
 
-// TODO por hacer
-function validarLibro($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 4, 50);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+function validarLugar($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarString(valor, 4, 50);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 4 y 50 caracteres.');
 }
 
-function validarCedula($element) {
-    const value = $element.val();
-    const isValid = validarString(value, 4, 50);
-    manejarValidacionUI(isValid, $element, 'El campo debe tener entre 4 y 50 caracteres.');
+function validarEnteroLibro($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarEntero(valor, 1, 1000);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe ser entre 1 y 1 000.');
+}
+
+function validarCedula($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarEntero(valor, 1000, 100000000);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe ser entre 1 000 y 100 000 000.');
+}
+function validarFechaNacimiento($elemento) {
+    const valor = $elemento.val();
+    const fechaActual = new Date().toISOString().slice(0, 10);
+    const esValido = validarFecha(valor, "1900-01-01", fechaActual);
+    manejarValidacionUI(esValido, $elemento, 'El fecha debe ser entre 1900-01-01 y ' + fechaActual + '.');
+}
+function validarFechaBautizo($elemento) {
+    const valor = $elemento.val();
+    const fechaActual = new Date().toISOString().slice(0, 10);
+    const esValido = validarFecha(valor, "1900-01-01", fechaActual);
+    manejarValidacionUI(esValido, $elemento, 'El fecha debe ser entre 1900-01-01 y ' + fechaActual + '.');
+}
+function validarFechaExpedicion($elemento) {
+    const valor = $elemento.val();
+    const esValido = validarFecha(valor, "1900-01-01");
+    manejarValidacionUI(esValido, $elemento, 'El fecha debe ser apartir de 1900-01-01.');
 }
 
 
@@ -184,6 +200,9 @@ function asignarAtributosComunes($element, properties) {
     }
     if (properties.validarMetodo) {
         $element.on('keyup', function() {
+            window[properties.validarMetodo].call(null, $element);
+        });
+        $element.on('focusout', function() {
             window[properties.validarMetodo].call(null, $element);
         });
     }

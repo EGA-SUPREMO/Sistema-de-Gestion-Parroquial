@@ -88,7 +88,7 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarEntero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,10}', maxlength: '10', value: 223344 },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,10}', maxlength: '10', value: 223344 },
                         { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: 'ASDDE' },
                     ]
                 },
@@ -111,7 +111,7 @@
                         { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.segundo_apellido' },
                     ] 
                 },
-                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
+                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: new Date().toISOString().slice(0, 10) },
                 { type: 'subtitulo', name: 'subtitulo-lugar-nacimiento', value: 'Lugar de Nacimiento del Bautizado'},
                     { type: 'fila', 
                         campos: [
@@ -150,7 +150,7 @@
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
-                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
+                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaBautizo', value: new Date().toISOString().slice(0, 10) },
                 { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: 'datosPHP.padrino_nombre' },
                 { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: 'datosPHP.madrina_nombre' },
                 { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: 'datosPHP.observaciones' },
@@ -171,8 +171,8 @@
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
-                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
-                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, validarMetodo: 'validarEntero', options: sacerdoteVivosOptions },
+                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: new Date().toISOString().slice(0, 10)},
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, options: sacerdoteVivosOptions },
                 { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, value: 'Personal', options: [
                       { value: 'Personal', text: 'Personal' },
                       { value: 'Comunión', text: 'Comunión' },

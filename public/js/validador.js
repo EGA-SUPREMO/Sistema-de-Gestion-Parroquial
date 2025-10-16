@@ -20,8 +20,9 @@ function manejarValidacionUI(esValido, $input, mensaje) {
  * @returns {boolean} True si es un entero válido dentro del rango, de lo contrario false.
  */
 function validarEntero(valor, min, max) {
+    if (valor === null || valor === undefined) return false;
+    if (valor.trim() === '') return false; // No validar si está vacío
     const num = Number(valor);
-    if (valor === null || valor.trim() === '') return false; // No validar si está vacío
     if (!Number.isInteger(num)) return false; // Debe ser un entero
     if (num < min || num > max) return false; // Debe estar en el rango
     return true;
@@ -61,16 +62,37 @@ function noEstaVacio(value) {
  * @param {string} maxDateString La fecha máxima permitida (formato 'YYYY-MM-DD').
  * @returns {boolean} True si la fecha es válida y está en el rango, de lo contrario false.
  */
-function validarFecha(fechaString, minFechaString, maxFechaString) {
-    const fecha = new Date(fechaString + 'T00:00:00'); // Añadir T00:00:00 para evitar problemas de zona horaria
+function validarFecha(fechaString, minFechaString, maxFechaString = null) {
+    // 1. Crear las fechas base con ajuste de zona horaria (T00:00:00)
+    const fecha = new Date(fechaString + 'T00:00:00');
     const minfecha = new Date(minFechaString + 'T00:00:00');
-    const maxfecha = new Date(maxFechaString + 'T00:00:00');
 
-    // Comprueba si las fechas son válidas (e.g., no '2025-02-30')
-    if (isNaN(fecha.getTime()) || isNaN(minfecha.getTime()) || isNaN(maxfecha.getTime())) {
+    // 2. Comprobar si las fechas base son válidas
+    if (isNaN(fecha.getTime()) || isNaN(minfecha.getTime())) {
         return false;
     }
 
-    if (fecha < minfecha || fecha > maxfecha) return false;
+    // 3. Comprobar la fecha mínima (esto es obligatorio)
+    if (fecha < minfecha) {
+        return false;
+    }
+
+    // 4. Comprobar la fecha máxima (solo si maxFechaString NO es null/undefined/vacío)
+    if (maxFechaString) { // Esto es true si se pasó un valor (una string de fecha)
+        const maxfecha = new Date(maxFechaString + 'T00:00:00');
+        
+        // Comprobar si la fecha máxima proporcionada es válida
+        if (isNaN(maxfecha.getTime())) {
+            // Podrías decidir qué hacer aquí: si es inválida, se valida como falsa.
+            return false;
+        }
+
+        // Comprobar si la fecha es mayor que la máxima
+        if (fecha > maxfecha) {
+            return false;
+        }
+    }
+
+    // Si pasó todas las comprobaciones
     return true;
-} 
+}
