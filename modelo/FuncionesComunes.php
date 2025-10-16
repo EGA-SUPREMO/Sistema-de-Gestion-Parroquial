@@ -39,7 +39,7 @@ class FuncionesComunes
         }
         $valorRecortado = htmlspecialchars(trim($valor));
         $valorRecortado = preg_replace('/\s+/', ' ', $valorRecortado);
-        $valorRecortado = rtrim($valorRecortado, '.,;');
+        $valorRecortado = rtrim($valorRecortado, '.,;:');
 
         return $valorRecortado;
     }

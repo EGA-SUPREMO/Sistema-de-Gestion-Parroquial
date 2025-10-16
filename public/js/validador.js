@@ -38,7 +38,10 @@ function validarEntero(valor, min, max) {
  */
 function validarString(valor, minLength, maxLength) {
     if (typeof valor !== 'string') return false;
-    const len = valor.trim().length;
+
+    const cleanValor = valor.replace(/^[.,;:\s]+|[.,;:\s]+$/g, '');
+    const len = cleanValor.length;
+    
     if (len < minLength || len > maxLength) return false;
     return true;
 }
