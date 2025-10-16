@@ -108,6 +108,24 @@ function validarFechaExpedicion($elemento) {
 }
 
 
+function soloNumero(e) {
+    // Obtiene la tecla presionada. En jQuery, 'e.key' a menudo es más limpio,
+    // pero e.which o e.keyCode son universales para 'keypress'.
+    const charCode = (e.which) ? e.which : e.keyCode;
+    
+    // Si la tecla presionada NO es un dígito (0-9)
+    // El rango 48 a 57 es el código ASCII para los números 0 a 9.
+    // Además, el 8 (Backspace), 9 (Tab), y el 0 (que a veces devuelve keypress para teclas no visibles)
+    // deben ser permitidos.
+
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        // Prevenir la acción por defecto (escribir el carácter)
+        e.preventDefault();
+        return false;
+    }
+    
+    // Si es un número o una tecla de control, se permite (retorna true por defecto)
+}
 
 function completarCampos(datos) {
     const prefijos = [];
@@ -260,6 +278,11 @@ function asignarAtributosComunes($element, properties) {
             window[properties.validarMetodo].call(null, $element);
         });
     }
+    if (properties.keypress) {
+        $element.on('keypress', function(e) {
+            window[properties.keypress].call(null, e, $element);
+        });
+    }
 
     return $element;
 }
@@ -296,7 +319,6 @@ const creadoresDeCampos = {
             $select.append($option);
         });
         
-
         return asignarAtributosComunes($select, prop);
     },
 
