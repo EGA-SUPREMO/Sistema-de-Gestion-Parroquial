@@ -4,11 +4,11 @@
         switch (tipo) {
             case 'administrador':
                 formularioCampos = [
-                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario',  required: true, validarMetodo: '', value: datosPHP.nombre_usuario },
-                    { type: 'password', name: 'password', label: 'Contraseña',  required: true, validarMetodo: ''},
+                    { type: 'text', name: 'nombre_usuario', label: 'Nombre de Usuario',  required: true, validarMetodo: 'validarNombreUsuario', value: datosPHP.nombre_usuario },
+                    { type: 'password', name: 'password', label: 'Contraseña',  required: true,  validarMetodo: 'validarContrasena' },
                 ];
                 if (datosPHP.id) {
-                    formularioCampos[1] = { type: 'password', name: 'password', label: 'Contraseña', required: false, placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.', validarMetodo: ''};
+                    formularioCampos[1] = { type: 'password', name: 'password', label: 'Contraseña', required: false, validarMetodo: 'validarContrasena', placeholder: 'Deja este campo vacío si no deseas cambiar la contraseña.'};
                 }
                 break;
 
@@ -16,9 +16,9 @@
             break;
             case 'sacerdote':
                 formularioCampos = [
-                    { type: 'text', name: 'nombre', label: 'Nombre del Sacerdote',  required: true, validarMetodo: '', value: datosPHP.nombre },
+                    { type: 'text', name: 'nombre', label: 'Nombre del Sacerdote',  required: true, validarMetodo: 'validarNombre', value: datosPHP.nombre },
                     { type: 'hidden', name: 'vivo',  value: '0' },
-                    { type: 'checkbox', name: 'vivo', label: '¿Está vivo?', validarMetodo: '',  checked: datosPHP.vivo === 1 },
+                    { type: 'checkbox', name: 'vivo', label: '¿Está vivo?',  checked: datosPHP.vivo === 1 },
                 ];
             break;
             case 'intencion':
@@ -44,31 +44,31 @@
                     { type: 'subtitulo', name: 'subtitulo-personal', value: 'Información Personal'},
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarEntero', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.cedula, pattern: '\\d{4,10}', maxlength: '10'},
-                            { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarString', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.partida_de_nacimiento },
+                            { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.cedula, pattern: '\\d{4,10}', maxlength: '10'},
+                            { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.partida_de_nacimiento },
                         ] 
                     },
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarString', value: datosPHP.primer_nombre },
-                            { type: 'text', name: 'segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarString', value: datosPHP.segundo_nombre },
+                            { type: 'text', name: 'primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.primer_nombre },
+                            { type: 'text', name: 'segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.segundo_nombre },
                         ] 
                     },
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarString', value: datosPHP.primer_apellido },
-                            { type: 'text', name: 'segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarString', value: datosPHP.segundo_apellido },
+                            { type: 'text', name: 'primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.primer_apellido },
+                            { type: 'text', name: 'segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.segundo_apellido },
                         ] 
                     },
                     { type: 'subtitulo', name: 'subtitulo-datos-nacimiento', value: 'Datos de Nacimiento'},
-                    { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: false, validarMetodo: 'validarFecha', value: datosPHP.fecha_nacimiento },
+                    { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Nacimiento', required: false, validarMetodo: 'validarFechaNacimiento', value: datosPHP.fecha_nacimiento },
                     { type: 'subtitulo', name: 'subtitulo-lugar-nacimiento', value: 'Lugar de Nacimiento'},
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'pais', label: 'País', required: false, validarMetodo: 'validarString', value: datosPHP.pais },
-                            { type: 'text', name: 'estado', label: 'Estado', required: false, validarMetodo: 'validarString', value: datosPHP.estado },
-                            { type: 'text', name: 'localidad', label: 'Ciudad', required: false, validarMetodo: 'validarString', value: datosPHP.localidad },
-                            { type: 'text', name: 'municipio', label: 'Municipio', required: false, validarMetodo: 'validarString', value: datosPHP.municipio },
+                            { type: 'text', name: 'pais', label: 'País', required: false, validarMetodo: 'validarLugar', value: datosPHP.pais },
+                            { type: 'text', name: 'estado', label: 'Estado', required: false, validarMetodo: 'validarLugar', value: datosPHP.estado },
+                            { type: 'text', name: 'localidad', label: 'Ciudad', required: false, validarMetodo: 'validarLugar', value: datosPHP.localidad },
+                            { type: 'text', name: 'municipio', label: 'Municipio', required: false, validarMetodo: 'validarLugar', value: datosPHP.municipio },
                         ] 
                     },
                 ];

@@ -31,7 +31,7 @@ class Sacerdote extends ModeloBase
 
     public function setNombre($nombre)
     {
-        $this->nombre = Validador::validarString($nombre, "nombre del sacerdote", 100, 3);
+        $this->nombre = Validador::validarString($nombre, "nombre del sacerdote", 50, 3);
         if ($this->nombre !== null) {
             $this->nombre = ucwords($this->nombre);
         }

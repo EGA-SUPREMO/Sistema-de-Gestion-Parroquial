@@ -11,6 +11,32 @@ function validarNombre($elemento) {
     const esValido = validarString(valor, 2, 50);
     manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 2 y 50 caracteres.');
 }
+function validarNombreUsuario($elemento) {
+    const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
+    
+    const esValido = validarString(valor, 3, 30);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 3 y 30 caracteres.');
+}
+function validarContrasena($elemento) {
+    const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
+    
+    const esValido = validarString(valor, 6, 32);
+    manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 6 y 32 caracteres.');
+}
 
 function validarNombrePadrino($elemento) {
     const valor = $elemento.val();
