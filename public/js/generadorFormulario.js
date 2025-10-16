@@ -1,22 +1,51 @@
 function validarNombre($elemento) {
     const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
+    
     const esValido = validarString(valor, 2, 50);
     manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 2 y 50 caracteres.');
 }
 
 function validarNombrePadrino($elemento) {
     const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarString(valor, 2, 100);
     manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 2 y 100 caracteres.');
 }
 function validarPartidaDeNacimiento($elemento) {
     const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarString(valor, 4, 30);
     manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 4 y 30 caracteres.');
 }
 
 function validarLugar($elemento) {
     const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarString(valor, 4, 50);
     manejarValidacionUI(esValido, $elemento, 'El campo debe tener entre 4 y 50 caracteres.');
 }
@@ -29,24 +58,52 @@ function validarEnteroLibro($elemento) {
 
 function validarCedula($elemento) {
     const valor = $elemento.val();
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarEntero(valor, 1000, 100000000);
     manejarValidacionUI(esValido, $elemento, 'El campo debe ser entre 1 000 y 100 000 000.');
 }
 function validarFechaNacimiento($elemento) {
     const valor = $elemento.val();
     const fechaActual = new Date().toISOString().slice(0, 10);
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarFecha(valor, "1900-01-01", fechaActual);
     manejarValidacionUI(esValido, $elemento, 'El fecha debe ser entre 1900-01-01 y ' + fechaActual + '.');
 }
 function validarFechaBautizo($elemento) {
     const valor = $elemento.val();
     const fechaActual = new Date().toISOString().slice(0, 10);
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     const esValido = validarFecha(valor, "1900-01-01", fechaActual);
     manejarValidacionUI(esValido, $elemento, 'El fecha debe ser entre 1900-01-01 y ' + fechaActual + '.');
 }
 function validarFechaExpedicion($elemento) {
     const valor = $elemento.val();
     const esValido = validarFecha(valor, "1900-01-01");
+    const esRequerido = $elemento.prop('required');
+    if (!esRequerido) {
+        if (valor.trim() === '') {
+            manejarValidacionUI(true, $elemento, ''); 
+            return;
+        }
+    }
     manejarValidacionUI(esValido, $elemento, 'El fecha debe ser apartir de 1900-01-01.');
 }
 
@@ -199,10 +256,7 @@ function asignarAtributosComunes($element, properties) {
         });
     }
     if (properties.validarMetodo) {
-        $element.on('keyup', function() {
-            window[properties.validarMetodo].call(null, $element);
-        });
-        $element.on('focusout', function() {
+        $element.on('keyup input focusout focusin', function() {
             window[properties.validarMetodo].call(null, $element);
         });
     }
