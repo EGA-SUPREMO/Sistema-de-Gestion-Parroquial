@@ -275,6 +275,10 @@ function asignarAtributosComunes($element, properties) {
                 nuevoPrefijo = 'Editar ';
             }
 
+            const url = new URL(window.location.href);
+            url.searchParams.set('id', valorHidden);
+            window.history.replaceState(null, '', url.toString());
+
             $tituloFormulario.text(nuevoPrefijo + textoBase);
         });
     }
