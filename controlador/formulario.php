@@ -90,8 +90,14 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,10}', maxlength: '9', value: 223344 },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,10}', maxlength: '10', value: 223344 },
                         { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: 'ASDDE' },
+                    ]
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Padre 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 112233 },
+                        { type: 'text', name: 'madre-cedula', label: 'Cédula de la Padre 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 334455 },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
@@ -117,8 +123,7 @@
                         ] 
                     },
 
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 1'},
-                { type: 'text', name: 'padre-cedula', label: 'Cédula del Progenitor 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '9', value: 112233 },
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Padre 1'},
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.padre_primer_nombre' },
@@ -132,8 +137,7 @@
                     ] 
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos deL Progenitor 2'},
-                { type: 'text', name: 'madre-cedula', label: 'Cédula de la Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '9', value: 334455 },
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos deL Padre 2'},
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.madre_primer_nombre' },
