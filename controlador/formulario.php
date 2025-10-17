@@ -17,8 +17,10 @@
             case 'sacerdote':
                 formularioCampos = [
                     { type: 'text', name: 'nombre', label: 'Nombre del Sacerdote',  required: true, validarMetodo: 'validarNombre', value: datosPHP.nombre },
-                    { type: 'hidden', name: 'vivo',  value: '0' },
-                    { type: 'checkbox', name: 'vivo', label: '¿Está vivo?',  checked: datosPHP.vivo === 1 },
+                    { type: 'select', name: 'vivo', label: '¿Está vivo?', value: datosPHP.vivo, options: [
+                        { value: 1, text: 'Si'},
+                        { value: 0, text: 'No'},
+                    ] },
                 ];
             break;
             case 'intencion':
