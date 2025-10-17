@@ -68,7 +68,7 @@ class ServicioConstanciaDeBautizo
 
                         
             */
-            $parentescoPadre = new Parentesco();// TODO esto no permite ediciones!!
+            $parentescoPadre = new Parentesco();
             $parentescoPadre->setIdPadre($feligresPadreId);
             $parentescoPadre->setIdHijo($feligresId);
 
@@ -77,9 +77,13 @@ class ServicioConstanciaDeBautizo
             $parentescoMadre->setIdHijo($feligresId);
 
             $this->gestorParentesco->verificarParadojaDeParentesco($parentescoPadre, [$parentescoMadre]);
-            $this->gestorParentesco->guardar($parentescoPadre);
+            if (!$this->gestorParentesco->existeParentescoDirecto($parentescoPadre)) {
+                $this->gestorParentesco->guardar($parentescoPadre);
+            }
             $this->gestorParentesco->verificarParadojaDeParentesco($parentescoMadre, [$parentescoPadre]);
-            $this->gestorParentesco->guardar($parentescoMadre);
+            if (!$this->gestorParentesco->existeParentescoDirecto($parentescoMadre)) {
+                $this->gestorParentesco->guardar($parentescoMadre);
+            }
 
             $rutaPDF = $this->generarPDF($constancia);
             if (!$rutaPDF) {

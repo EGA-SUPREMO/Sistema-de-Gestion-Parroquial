@@ -64,4 +64,10 @@ class GestorParentesco extends GestorBase
         }
     }
 
+    public function existeParentescoDirecto($idPadre, $idHijo)
+    {
+        $sql = "SELECT COUNT(*) FROM parentescos WHERE id_padre = ? AND id_hijo = ?;";
+        $cantidad = $this->hacerConsulta($sql, [$idPadre, $idHijo], 'column');
+        return $cantidad>0;
+    }
 }
