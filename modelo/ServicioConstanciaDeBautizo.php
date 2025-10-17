@@ -3,10 +3,12 @@
 require_once 'Feligres.php';
 //require_once 'Peticion.php';
 require_once 'Sacerdote.php';
+require_once 'Parentesco.php';
 require_once 'ConstanciaDeBautizo.php';
 
 require_once 'GestorConstanciaDeBautizo.php';
 require_once 'GestorPeticion.php';
+require_once 'GestorParentesco.php';
 require_once 'GestorSacerdote.php';
 require_once 'GestorFeligres.php';
 
@@ -27,6 +29,7 @@ class ServicioConstanciaDeBautizo
         //$this->gestorPeticion = new GestorPeticion($pdo);
         $this->gestorConstanciaDeBautizo = new GestorConstanciaDeBautizo($pdo);
         $this->gestorFeligres = new GestorFeligres($pdo);
+        $this->gestorParentesco = new gestorParentesco($pdo);
         $this->gestorSacerdote = new gestorSacerdote($pdo);
 
         self::$plantilla_nombre = "fe de bautizo.docx";
@@ -63,8 +66,21 @@ class ServicioConstanciaDeBautizo
 
                         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
-                        // TODO LO MISMO PARA LOS PARENTESCOS
+                        
             */
+            $parentescoPadre = new Parentesco();// TODO esto no permite ediciones!!
+            $parentescoPadre->setIdPadre($feligresPadreId);
+            $parentescoPadre->setIdHijo($feligresId);
+
+            $parentescoMadre = new Parentesco();
+            $parentescoMadre->setIdPadre($feligresMadreId);
+            $parentescoMadre->setIdHijo($feligresId);
+
+            $this->gestorParentesco->verificarParadojaDeParentesco($parentescoPadre, [$parentescoMadre]);
+            $this->gestorParentesco->guardar($parentescoPadre);
+            $this->gestorParentesco->verificarParadojaDeParentesco($parentescoMadre, [$parentescoPadre]);
+            $this->gestorParentesco->guardar($parentescoMadre);
+
             $rutaPDF = $this->generarPDF($constancia);
             if (!$rutaPDF) {
                 throw Exception("Error generando la constancia");
