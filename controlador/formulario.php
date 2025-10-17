@@ -96,8 +96,8 @@
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Padre del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 112233 },
-                        { type: 'text', name: 'madre-cedula', label: 'Cédula de la Madre del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 334455 },
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Padre 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 112233 },
+                        { type: 'text', name: 'madre-cedula', label: 'Cédula de la Padre 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,10}', maxlength: '10', value: 334455 },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
@@ -123,7 +123,7 @@
                         ] 
                     },
 
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Padre'},
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Padre 1'},
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.padre_primer_nombre' },
@@ -137,7 +137,7 @@
                     ] 
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos de la Madre'},
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos deL Padre 2'},
                 { type: 'fila', 
                     campos: [
                         { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.madre_primer_nombre' },
