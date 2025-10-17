@@ -93,6 +93,7 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
             $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_objeto->getId());
             if ($constancia) {
                 $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];
+                $respuesta[''] = ['id' => $datos_constancia_raw['id']];
                 $respuesta['padre-'] = $gestorFeligres->obtenerPorId($constancia->getPadreId())->toArrayParaBD();
                 $respuesta['madre-'] = $gestorFeligres->obtenerPorId($constancia->getMadreId())->toArrayParaBD();
             }
