@@ -107,6 +107,9 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
 }
 
 
+if (!isset($respuesta['']['id'])) {
+    $respuesta['']['id'] = 0;
+}
 // 6. Devolver la respuesta como JSON
 header('Content-Type: application/json');
 echo json_encode($respuesta);

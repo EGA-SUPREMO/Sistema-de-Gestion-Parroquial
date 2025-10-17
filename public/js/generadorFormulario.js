@@ -161,6 +161,7 @@ function completarCampos(datos) {
                         // Usar .val() para inputs, textareas y selects
                         $input.val(valor); 
                         $input.trigger('keyup');
+                        $input.trigger('change');
                         console.log(`Autocompletado: ${nombreCampo} = ${valor}`);
                     }
                 }
@@ -259,6 +260,23 @@ function asignarAtributosComunes($element, properties) {
     // Para selects, selecciona el valor correcto
     if (properties.type === 'select' && properties.value) {
         $element.val(properties.value);
+    }
+    if (properties.type === 'hidden') {
+        $element.on('change', function() {
+            const $tituloFormulario = $('#titulo-formulario');
+            const valorHidden = $(this).val(); 
+            const textoBase = $tituloFormulario.text().replace(/^(Registrar|Editar)\s+/, ''); 
+            
+            console.log(textoBase);
+            let nuevoPrefijo = '';
+            if (valorHidden === '0' || valorHidden === 0) {
+                nuevoPrefijo = 'Registrar ';
+            } else {
+                nuevoPrefijo = 'Editar ';
+            }
+
+            $tituloFormulario.text(nuevoPrefijo + textoBase);
+        });
     }
 
     if (properties.autocompletarMetodo) {
@@ -385,7 +403,7 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
     const $cardHeader = $(`
         <div class="card-header bg-success text-white">
             <header class="bg-success text-white text-center py-3">
-                <h1 class="mb-0">${tituloFormulario}</h1>
+                <h1 class="mb-0" id='titulo-formulario'>${tituloFormulario}</h1>
             </header>
         </div>`);
 
