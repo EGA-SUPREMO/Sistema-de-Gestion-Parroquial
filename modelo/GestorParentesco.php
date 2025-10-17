@@ -8,7 +8,7 @@ class GestorParentesco extends GestorBase
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
-        $this ->tabla = "Parentescos";
+        $this ->tabla = "parentescos";
         $this ->clase_nombre = "Parentesco";
     }
 
@@ -47,7 +47,7 @@ class GestorParentesco extends GestorBase
 
     public function verificarParadojaDeParentesco($parentescoAValidar, $listaNuevosParentescos)
     {
-        $idPadrePropuesto = $parentescoAValidar->getPadreId();
+        $idPadrePropuesto = $parentescoAValidar->getIdPadre();
         $idHijoPropuesto = $parentescoAValidar->getIdHijo();
 
         if ($this->esAncestroDirecto($idPadrePropuesto, $idHijoPropuesto)) {
@@ -55,7 +55,7 @@ class GestorParentesco extends GestorBase
         }
 
         foreach ($listaNuevosParentescos as $otroParentesco) {
-            $esInverso = ($otroParentesco->getPadreId() === $idHijoPropuesto) && 
+            $esInverso = ($otroParentesco->getIdPadre() === $idHijoPropuesto) && 
                          ($otroParentesco->getIdHijo() === $idPadrePropuesto);
 
             if ($esInverso) {
@@ -64,10 +64,10 @@ class GestorParentesco extends GestorBase
         }
     }
 
-    public function existeParentescoDirecto($idPadre, $idHijo)
+    public function existeParentescoDirecto($parentesco)
     {
-        $sql = "SELECT COUNT(*) FROM parentescos WHERE id_padre = ? AND id_hijo = ?;";
-        $cantidad = $this->hacerConsulta($sql, [$idPadre, $idHijo], 'column');
+        $sql = "SELECT COUNT(*) FROM {$this->tabla} WHERE id_padre = ? AND id_hijo = ?;";
+        $cantidad = $this->hacerConsulta($sql, [$parentesco->getIdPadre(), $parentesco->getIdHijo()], 'column');
         return $cantidad>0;
     }
 }
