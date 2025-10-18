@@ -38,7 +38,7 @@ class GestorParentesco extends GestorBase
             WHERE 
                 id_padre = ? AND id_hijo = ?;
         ";
-        
+
         $cantidad = $this->hacerConsulta($sql, [$idHijo, $idPadre], 'column'); // NO CAMBIAR DE ORDEN
         if ($cantidad) {
             throw new Exception("Error: La relación entre padre e hijo crea una dependencia circular.");
@@ -55,7 +55,7 @@ class GestorParentesco extends GestorBase
         }
 
         foreach ($listaNuevosParentescos as $otroParentesco) {
-            $esInverso = ($otroParentesco->getIdPadre() === $idHijoPropuesto) && 
+            $esInverso = ($otroParentesco->getIdPadre() === $idHijoPropuesto) &&
                          ($otroParentesco->getIdHijo() === $idPadrePropuesto);
 
             if ($esInverso) {
@@ -68,6 +68,6 @@ class GestorParentesco extends GestorBase
     {
         $sql = "SELECT COUNT(*) FROM {$this->tabla} WHERE id_padre = ? AND id_hijo = ?;";
         $cantidad = $this->hacerConsulta($sql, [$parentesco->getIdPadre(), $parentesco->getIdHijo()], 'column');
-        return $cantidad>0;
+        return $cantidad > 0;
     }
 }

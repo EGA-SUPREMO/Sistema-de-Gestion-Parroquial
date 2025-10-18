@@ -66,7 +66,7 @@ class ServicioConstanciaDeBautizo
 
                         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
 
-                        
+
             */
             $parentescoPadre = new Parentesco();
             $parentescoPadre->setIdPadre($feligresPadreId);
