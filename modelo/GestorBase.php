@@ -2,21 +2,21 @@
 
 abstract class GestorBase
 {
-    protected $db;
+    private $pdo;
     protected $tabla;
     protected $clavePrimaria;
     protected $clase_nombre;
 
     public function __construct(PDO $pdo)
     {
-        $this->db = $pdo;
+        $this->pdo = $pdo;
         $this ->clavePrimaria = 'id';
     }
 
     protected function hacerConsulta($consulta, $parametros, $modo_fetch = 'all')
     {
         try {
-            $stmt = $this->db->prepare($consulta);
+            $stmt = $this->pdo->prepare($consulta);
             $stmt->execute($parametros);
             switch ($modo_fetch) {
                 case 'all':
@@ -28,7 +28,7 @@ abstract class GestorBase
                 case 'assoc':
                     return $stmt->fetch(PDO::FETCH_ASSOC);
                 case 'insert':
-                    return (int)$this->db->lastInsertId();
+                    return (int)$this->pdo->lastInsertId();
                 case 'update':
                 default:
                     return $stmt->rowCount();
