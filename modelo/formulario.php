@@ -96,8 +96,8 @@ if (!empty($cedulas) || !empty($partidas_de_nacimiento)) {
                 $respuesta[''] = ['id' => $datos_constancia_raw['id']];
                 $respuesta['padre-'] = $gestorFeligres->obtenerPorId($constancia->getPadreId())->toArrayParaBD();
                 $respuesta['madre-'] = $gestorFeligres->obtenerPorId($constancia->getMadreId())->toArrayParaBD();
+                $respuesta['constancia-'] = $datos_constancia_raw;
             }
-            $respuesta['constancia-'] = $datos_constancia_raw;
         }
 
         // 8. Rompemos el bucle. Como sabemos que solo viene una persona,
