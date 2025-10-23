@@ -1,8 +1,7 @@
 function validarCampo($elemento, funcionDeValidacion, mensajeDeError) {
     const valor = $elemento.val();
     const esRequerido = $elemento.prop('required');
-    console.log(valor.trim());
-    console.log(esRequerido);
+
     if (!esRequerido && valor.trim() === '') {
         manejarValidacionUI(true, $elemento, '');
         return;
@@ -103,13 +102,19 @@ function validarEnteroLibro($elemento) {
 }
 
 function validarLista($elemento) {
+    const esRequerido = $elemento.prop('required');
+
     validarCampo(
         $elemento,
-        (valor) => valor !== null && valor !== '' && valor !== '0',
+        (valor) => {
+            if (!esRequerido && (valor === '0' || valor === '' || valor === null)) {
+                return true;
+            }
+            return valor !== null && valor !== '' && valor !== '0';
+        },
         'Debe seleccionar una opción de la lista.'
     );
 }
-
 
 function soloNumero(e) {
     // Obtiene la tecla presionada. En jQuery, 'e.key' a menudo es más limpio,
