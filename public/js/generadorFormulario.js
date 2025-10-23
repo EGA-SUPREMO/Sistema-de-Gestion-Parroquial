@@ -101,6 +101,14 @@ function validarEnteroLibro($elemento) {
     manejarValidacionUI(esValido, $elemento, 'El campo debe ser entre 1 y 1 000.');
 }
 
+function validarLista($elemento) {
+    validarCampo(
+        $elemento,
+        (valor) => valor !== null && valor !== '' && valor !== '0',
+        'Debe seleccionar una opción de la lista.'
+    );
+}
+
 
 function soloNumero(e) {
     // Obtiene la tecla presionada. En jQuery, 'e.key' a menudo es más limpio,
@@ -334,7 +342,9 @@ const creadoresDeCampos = {
             }
             $select.append($option);
         });
-        
+        $select.on('change', function() {
+            validarLista($(this));
+        });
         return asignarAtributosComunes($select, prop);
     },
 
@@ -477,6 +487,24 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
         </div>`);
     
     $form.append($actionButtons);
+
+    $form.on('submit', function(event) {
+        event.preventDefault(); 
+    
+        $form.find('select:required').each(function() {
+            validarLista($(this));
+        });
+
+        const $elementosInvalidos = $form.find('.is-invalid');
+
+        if ($elementosInvalidos.length > 0) {
+            $elementosInvalidos.first().focus();
+            return;
+        }
+        
+        this.submit(); 
+        
+    });
 
     // 4. Ensamblar todo y añadirlo al DOM
     $cardBody.append($form);
