@@ -1,7 +1,8 @@
 function validarCampo($elemento, funcionDeValidacion, mensajeDeError) {
     const valor = $elemento.val();
     const esRequerido = $elemento.prop('required');
-
+    console.log(valor.trim());
+    console.log(esRequerido);
     if (!esRequerido && valor.trim() === '') {
         manejarValidacionUI(true, $elemento, '');
         return;

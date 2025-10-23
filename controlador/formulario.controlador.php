@@ -19,9 +19,16 @@ class formularioControlador
     {
         try {
             $this->guardarDatos();
+            if (isset($_SESSION['input_viejo'])) {
+                unset($_SESSION['input_viejo']);
+            }
             FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
         } catch (Exception $e) {
             error_log($e->getMessage());
+            
+            $_SESSION['input_viejo'] = $_POST;
+            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+
             $mensajeCodificado = urlencode($e->getMessage());
             FuncionesComunes::redirigir('Location:?c=formulario&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
         }
@@ -34,10 +41,15 @@ class formularioControlador
         $datos_modelo = [];
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-        if ($id > 0) {
-            $modelo = $this->gestor->obtenerPorId($id);
+        
+        if (isset($_SESSION['input_viejo'])) {
+            $datos_modelo = $_SESSION['input_viejo'];
+            
+            unset($_SESSION['input_viejo']);
+        } 
+        else if ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-
+            $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
         }
 
