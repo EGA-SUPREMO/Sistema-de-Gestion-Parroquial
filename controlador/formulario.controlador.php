@@ -30,7 +30,7 @@ class formularioControlador
             $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
             $mensajeCodificado = urlencode($e->getMessage());
-            FuncionesComunes::redirigir('Location:?c=formulario&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
+            FuncionesComunes::redirigir('Location:?c=formulario&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$id);
         }
     }
 
@@ -46,8 +46,7 @@ class formularioControlador
             $datos_modelo = $_SESSION['input_viejo'];
             
             unset($_SESSION['input_viejo']);
-        } 
-        else if ($id > 0) {
+        } else if ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();

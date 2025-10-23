@@ -27,12 +27,17 @@ class constanciaControlador // extends formularioControlador
         $datos_sacerdotes = [];
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-        if ($id > 0) {
-            $modelo = $this->gestor->obtenerPorId($id);
-            $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
 
+        if (isset($_SESSION['input_viejo'])) {
+            $datos_modelo = $_SESSION['input_viejo'];
+            
+            unset($_SESSION['input_viejo']);
+        } else if ($id > 0) {
+            $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
+            $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
-        }
+        } 
+
         $sacerdotes = [];
         $sacerdotes['sacerdotes'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
         $sacerdotes['sacerdotes_vivos'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];
@@ -60,11 +65,19 @@ class constanciaControlador // extends formularioControlador
     {
         try {
             $rutaPdf = $this->guardarDatos();
+
+            if (isset($_SESSION['input_viejo'])) {
+                unset($_SESSION['input_viejo']);
+            }
             FuncionesComunes::redirigir('Location: ' . $rutaPdf);
         } catch (Exception $e) {
             error_log($e->getMessage());
+
+            $_SESSION['input_viejo'] = $_POST;
+            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+
             $mensajeCodificado = urlencode($e->getMessage());
-            FuncionesComunes::redirigir('Location:?c=constancia&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$_REQUEST[$this->gestor->getClavePrimaria()]);
+            FuncionesComunes::redirigir('Location:?c=constancia&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$id);
         }
     }
 
