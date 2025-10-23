@@ -24,15 +24,15 @@ class Parentesco extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "id de feligrés", null, 1);
+        $this->id = Validador::validarEntero($id, "id de feligrés", null, 0);
     }
     public function setIdPadre($id_padre)
     {
-        $this->id_padre = Validador::validarEntero($id_padre, "id padre de feligrés", null, 1);
+        $this->id_padre = Validador::validarEntero($id_padre, "id padre de feligrés", null, 0);
     }
     public function setIdHijo($id_hijo)
     {
-        $this->id_hijo = Validador::validarEntero($id_hijo, "id hijo de feligrés", null, 1);
+        $this->id_hijo = Validador::validarEntero($id_hijo, "id hijo de feligrés", null, 0);
     }
 
 }

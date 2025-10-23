@@ -26,7 +26,7 @@ class Sacerdote extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "id del sacerdote", null, 1);
+        $this->id = Validador::validarEntero($id, "id del sacerdote", null, 0);
     }
 
     public function setNombre($nombre)

@@ -100,7 +100,7 @@ class ConstanciaDeBautizo extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "ID de la constancia", null, 1);
+        $this->id = Validador::validarEntero($id, "ID de la constancia", null, 0);
     }
 
     public function setFechaBautizo($fecha_bautizo)
@@ -115,7 +115,7 @@ class ConstanciaDeBautizo extends ModeloBase
 
     public function setFeligresBautizadoId($feligres_bautizado_id)
     {
-        $this->feligres_bautizado_id = Validador::validarEntero($feligres_bautizado_id, "ID del feligrés bautizado", null, 1);
+        $this->feligres_bautizado_id = Validador::validarEntero($feligres_bautizado_id, "ID del feligrés bautizado", null, 0);
     }
 
     public function setFeligresBautizado($feligres_bautizado)
@@ -125,7 +125,7 @@ class ConstanciaDeBautizo extends ModeloBase
 
     public function setPadreId($padre_id)
     {
-        $this->padre_id = Validador::validarEntero($padre_id, "ID del padre", null, 1);
+        $this->padre_id = Validador::validarEntero($padre_id, "ID del padre", null, 0);
     }
 
     public function setPadre($padre)
@@ -134,7 +134,7 @@ class ConstanciaDeBautizo extends ModeloBase
     }
     public function setMadreId($madre_id)
     {
-        $this->madre_id = Validador::validarEntero($madre_id, "ID de la madre", null, 1);
+        $this->madre_id = Validador::validarEntero($madre_id, "ID de la madre", null, 0);
     }
     public function setMadre($madre)
     {
@@ -161,7 +161,7 @@ class ConstanciaDeBautizo extends ModeloBase
 
     public function setMinistroId($ministro_id)
     {
-        $this->ministro_id = Validador::validarEntero($ministro_id, "ID del ministro", null, 1);
+        $this->ministro_id = Validador::validarEntero($ministro_id, "ID del ministro", null, 0);
     }
 
     public function setMinistro($ministro)
@@ -170,7 +170,7 @@ class ConstanciaDeBautizo extends ModeloBase
     }
     public function setMinistroCertificaId($ministro_certifica_id)
     {
-        $this->ministro_certifica_id = Validador::validarEntero($ministro_certifica_id, "ID del ministro que certifica", null, 1);
+        $this->ministro_certifica_id = Validador::validarEntero($ministro_certifica_id, "ID del ministro que certifica", null, 0);
     }
 
     public function setMinistroCertifica($ministro_certifica)
@@ -179,7 +179,7 @@ class ConstanciaDeBautizo extends ModeloBase
     }
     public function setMinistroCertificaExpedicionId($ministro_certifica_expedicion_id)
     {
-        $this->ministro_certifica_expedicion_id = Validador::validarEntero($ministro_certifica_expedicion_id, "ID del ministro que certifica", null, 1);
+        $this->ministro_certifica_expedicion_id = Validador::validarEntero($ministro_certifica_expedicion_id, "ID del ministro que certifica", null, 0);
     }
 
     public function setMinistroCertificaExpedicion($ministro_certifica_expedicion)
@@ -189,17 +189,17 @@ class ConstanciaDeBautizo extends ModeloBase
 
     public function setNumeroLibro($numero_libro)
     {
-        $this->numero_libro = Validador::validarEntero($numero_libro, "número de libro", 1000, 1);
+        $this->numero_libro = Validador::validarEntero($numero_libro, "número de libro", 1000, 0);
     }
 
     public function setNumeroPagina($numero_pagina)
     {
-        $this->numero_pagina = Validador::validarEntero($numero_pagina, "número de página", 1000, 1);
+        $this->numero_pagina = Validador::validarEntero($numero_pagina, "número de página", 1000, 0);
     }
 
     public function setNumeroMarginal($numero_marginal)
     {
-        $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", 1000, 1);
+        $this->numero_marginal = Validador::validarEntero($numero_marginal, "número marginal", 1000, 0);
     }
 
     public function toArrayParaBD($excluirId = false)

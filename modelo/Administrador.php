@@ -25,7 +25,7 @@ class Administrador extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "id de administrador", null, 1);
+        $this->id = Validador::validarEntero($id, "id de administrador", null, 0);
     }
 
     public function setNombreUsuario($nombre_usuario)

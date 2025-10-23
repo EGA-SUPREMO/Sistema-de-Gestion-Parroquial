@@ -78,7 +78,7 @@ class Feligres extends ModeloBase
 
     public function setId($id)
     {
-        $this->id = Validador::validarEntero($id, "id de feligrés", null, 1);
+        $this->id = Validador::validarEntero($id, "id de feligrés", null, 0);
     }
 
     public function setPrimerNombre($primer_nombre)
@@ -160,7 +160,7 @@ class Feligres extends ModeloBase
 
     public function setCedula($cedula)
     {
-        $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 1000);
+        $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 999);
     }
     public function setPartidaDeNacimiento($partida_de_nacimiento)
     {

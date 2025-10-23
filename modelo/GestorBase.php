@@ -92,7 +92,6 @@ abstract class GestorBase
             return $this->actualizar($id, $objeto);
         }
         return $this->insertar($objeto);
-
     }
 
     public function getClavePrimaria()

@@ -27,8 +27,9 @@ class Validador
             return null;
         }
 
-        if (!filter_var($valor, FILTER_VALIDATE_INT)) {
-            throw new InvalidArgumentException("El campo '$nombreCampo' debe ser un número entero.");
+        $validado = filter_var($valor, FILTER_VALIDATE_INT);
+        if ($validado === false) {
+            throw new InvalidArgumentException("El campo '$nombreCampo' debe ser un número entero: " . $valor);
         }
 
         $valor = (int) $valor;
