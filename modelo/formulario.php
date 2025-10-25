@@ -1,21 +1,28 @@
 <?php
-
 require_once 'cargarEnv.php';
 require_once 'BaseDatos.php';
-// Cargar las variables de entorno
-cargarVariablesDeEntorno(__DIR__ . '/../');
-define('ROOT_PATH', dirname(__DIR__) . '/');
-
-$pdo = BaseDatos::obtenerConexion(
-    $_ENV['DB_HOST'],
-    $_ENV['DB_NAME'],
-    $_ENV['DB_USER'],
-    $_ENV['DB_PASS']
-);
-
 require_once 'EntidadFactory.php';
 
-//require_once 'ServicioConstanciaDeBautizo.php';
+class Formulario
+{
+    private $pdo;
+    private $gestorFeligres;
+    
+    function __construct()
+    {
+        cargarVariablesDeEntorno(__DIR__ . '/../');
+        define('ROOT_PATH', dirname(__DIR__) . '/');
+
+        $pdo = BaseDatos::obtenerConexion(
+            $_ENV['DB_HOST'],
+            $_ENV['DB_NAME'],
+            $_ENV['DB_USER'],
+            $_ENV['DB_PASS']
+        );
+    }
+
+
+}
 
 // 1. Decodificar los datos JSON recibidos de JavaScript
 $datos_json = $_POST['json'] ?? '{}';
