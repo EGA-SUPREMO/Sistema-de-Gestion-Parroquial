@@ -30,13 +30,13 @@ class constanciaControlador // extends formularioControlador
 
         if (isset($_SESSION['input_viejo'])) {
             $datos_modelo = $_SESSION['input_viejo'];
-            
+
             unset($_SESSION['input_viejo']);
-        } else if ($id > 0) {
+        } elseif ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
-        } 
+        }
 
         $sacerdotes = [];
         $sacerdotes['sacerdotes'][] = ['id' => 0, 'nombre' => 'Escoge un sacerdote', 'vivo' => 0];

@@ -25,7 +25,7 @@ class formularioControlador
             FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
         } catch (Exception $e) {
             error_log($e->getMessage());
-            
+
             $_SESSION['input_viejo'] = $_POST;
             $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
@@ -41,12 +41,12 @@ class formularioControlador
         $datos_modelo = [];
         $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-        
+
         if (isset($_SESSION['input_viejo'])) {
             $datos_modelo = $_SESSION['input_viejo'];
-            
+
             unset($_SESSION['input_viejo']);
-        } else if ($id > 0) {
+        } elseif ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
