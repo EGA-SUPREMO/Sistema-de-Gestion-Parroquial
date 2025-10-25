@@ -8,8 +8,8 @@ class Formulario
 {
     private $pdo;
     private $gestorFeligres;
-    
-    function __construct()
+
+    public function __construct()
     {
         cargarVariablesDeEntorno(__DIR__ . '/../');
         define('ROOT_PATH', dirname(__DIR__) . '/');
@@ -57,10 +57,10 @@ class Formulario
             }
 
             $respuesta[$rol] = $datos_persona_raw;
-            
+
             if ($rol === 'bautizado-' && $persona_objeto) {
                 $datosConstancia = $this->obtenerDatosConstanciaRelacionados(
-                    $persona_objeto, 
+                    $persona_objeto,
                     $nombreTabla
                 );
                 $respuesta = array_merge($respuesta, $datosConstancia);
@@ -90,7 +90,7 @@ class Formulario
                     'valor' => $valor
                 ];
             }
-            
+
             if (str_ends_with($key, 'partida_de_nacimiento')) {
                 return [
                     'rol' => str_replace('partida_de_nacimiento', '', $key),
@@ -99,42 +99,8 @@ class Formulario
                 ];
             }
         }
-        
+
         return null; // No se encontró ningún identificador
-    }
-
-    /**
-     * Encapsula la lógica de búsqueda (puntos 4 y 5 del original).
-     *
-     * @param string|int $cedula La cédula del rol actual.
-     * @param string $rol El rol del bucle actual (ej: 'padre-').
-     * @param array $partidas_de_nacimiento
-     * @param string $persona_activa_parseo El *último* rol detectado en el parseo.
-     * @return object|null El $persona_objeto encontrado.
-     */
-    private function buscarPersona($cedula, $rol, $partidas_de_nacimiento, $persona_activa_parseo)
-    {
-        $persona_objeto = null;
-
-        // 4. Buscar a la persona por su cédula
-        if (!empty($cedula)) {
-            $persona_objeto = $this->gestorFeligres->obtenerPorCedula($cedula);
-        }
-
-        // 5. Caso especial: si no se encontró por cédula, buscar por partida.
-        if (!$persona_objeto) {
-            
-            // NOTA: Se mantiene la lógica original que usa $persona_activa_parseo 
-            // (el último rol del primer bucle) en lugar de $rol (el rol del
-            // bucle actual) para buscar la partida.
-            $partida_de_nacimiento = $partidas_de_nacimiento[$persona_activa_parseo] ?? null;
-            
-            if ($partida_de_nacimiento) {
-                $persona_objeto = $this->gestorFeligres->obtenerPorPartidaDeNacimiento($partida_de_nacimiento);
-            }
-        }
-
-        return $persona_objeto;
     }
 
     /**
@@ -153,7 +119,7 @@ class Formulario
 
         if ($constancia) {
             $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];
-            
+
             $datosExtras[''] = ['id' => $datos_constancia_raw['id']];
             $datosExtras['padre-'] = $this->gestorFeligres->obtenerPorId($constancia->getPadreId())->toArrayParaBD();
             $datosExtras['madre-'] = $this->gestorFeligres->obtenerPorId($constancia->getMadreId())->toArrayParaBD();
