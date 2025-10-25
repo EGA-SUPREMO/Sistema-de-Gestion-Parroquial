@@ -59,10 +59,7 @@ class Formulario
             $respuesta[$rol] = $datos_persona_raw;
 
             if ($rol === 'bautizado-' && $persona_objeto) {
-                $datosConstancia = $this->obtenerDatosConstanciaRelacionados(
-                    $persona_objeto,
-                    $nombreTabla
-                );
+                $datosConstancia = $this->obtenerDatosConstanciaRelacionados($persona_objeto, $nombreTabla);
                 $respuesta = array_merge($respuesta, $datosConstancia);
             }
 
