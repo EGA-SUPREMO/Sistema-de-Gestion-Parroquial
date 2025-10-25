@@ -239,7 +239,7 @@ function autocompletarFeligresBautizado($elemento) {
     autocompletarCampo($elemento);
     
     let datos = {};
-    datos['bautizado-cedula'] = $elemento.val();
+    datos['bautizado-cedula'] = $("[name='feligres-cedula']").val();
     datos['bautizado-partida_de_nacimiento'] = $("[name='feligres-partida_de_nacimiento']").val();
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
     pedirDatos(JSON.stringify(datos), completarCampos);
