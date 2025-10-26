@@ -172,11 +172,9 @@ function completarCampos(datos) {
                     // Buscar el input y asignarle el valor si existe
                     const $input = $(`[name="${nombreCampo}"]`);
                     if ($input.length) {
-                        // Usar .val() para inputs, textareas y selects
                         $input.val(valor); 
                         $input.trigger('keyup');
                         $input.trigger('change');
-                        console.log(`Autocompletado: ${nombreCampo} = ${valor}`);
                     }
                 }
             }
@@ -234,16 +232,20 @@ function autocompletarCampo($elemento) {
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
 
-
 function autocompletarFeligresBautizado($elemento) {
     autocompletarCampo($elemento);
-    
+
+    let valor = $elemento.val();
+    let nombreCampoOriginal = $elemento.attr('name');
+    let nuevaClave = nombreCampoOriginal.replace('feligres-', 'bautizado-');
+
     let datos = {};
-    datos['bautizado-cedula'] = $("[name='feligres-cedula']").val();
-    datos['bautizado-partida_de_nacimiento'] = $("[name='feligres-partida_de_nacimiento']").val();
+    datos[nuevaClave] = valor; 
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
+
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
+
 
 /**
  * Asigna atributos comunes (required, value, pattern, etc.) a un elemento del formulario.
