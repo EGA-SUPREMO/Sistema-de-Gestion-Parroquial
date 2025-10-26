@@ -233,8 +233,6 @@ function autocompletarCampo($elemento) {
 }
 
 function autocompletarFeligresBautizado($elemento) {
-    autocompletarCampo($elemento);
-
     let valor = $elemento.val();
     let nombreCampoOriginal = $elemento.attr('name');
     let nuevaClave = nombreCampoOriginal.replace('feligres-', 'bautizado-');
