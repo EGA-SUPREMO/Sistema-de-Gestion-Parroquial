@@ -64,7 +64,9 @@ class Formulario
                 foreach ($hijos as $llave => $valor) {
                     $datosConstancia = $this->obtenerDatosConstanciaRelacionados($valor->getId(), $nombreTabla);
                     $respuesta['hijos'][$llave] = $datosConstancia;
-                    $respuesta['hijos'][$llave]['feligres-'] = $valor->toArrayParaBD();
+                    $datosFeligres = $valor->toArrayParaBD();
+                    $datosFeligres['nombre_completo'] = $valor->nombreCompleto();
+                    $respuesta['hijos'][$llave]['feligres-'] = $datosFeligres;
                 }
             }
 
