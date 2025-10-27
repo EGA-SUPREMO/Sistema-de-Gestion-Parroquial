@@ -233,12 +233,9 @@ function autocompletarCampo($elemento) {
 }
 
 function autocompletarFeligresBautizado($elemento) {
-    let valor = $elemento.val();
-    let nombreCampoOriginal = $elemento.attr('name');
-    let nuevaClave = nombreCampoOriginal.replace('feligres-', 'bautizado-');
 
     let datos = {};
-    datos[nuevaClave] = valor; 
+    datos[$elemento.attr('name')] = $elemento.val(); 
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
 
     pedirDatos(JSON.stringify(datos), completarCampos);
