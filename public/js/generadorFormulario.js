@@ -135,7 +135,13 @@ function soloNumero(e) {
     // Si es un número o una tecla de control, se permite (retorna true por defecto)
 }
 
+let yaSeDecidioNoAutocompletar = false;
+
 function manejarHijos(hijos) {
+    if (yaSeDecidioNoAutocompletar) {
+        return;
+    }
+
     if (hijos && hijos.length > 0) {
         
         // 2. Crear las opciones de radio para SweetAlert2
@@ -174,7 +180,8 @@ function manejarHijos(hijos) {
                 
                 if (selectedKey === NO_USAR_KEY) {
                     // El usuario seleccionó "No usar ninguno"
-                    Swal.fire("Procediendo sin autocompletar ningun dato", "", "info");
+                    yaSeDecidioNoAutocompletar = true;
+                    Swal.fire("Se procederá sin datos precargados. Los avisos de autocompletado se reactivarán para el próximo registro.", "", "info");
                 } else {
                     // El usuario seleccionó un hijo
                     const selectedIndex = parseInt(selectedKey);
@@ -565,6 +572,7 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
             return;
         }
         
+        yaSeDecidioNoAutocompletar = false;
         this.submit(); 
         
     });
