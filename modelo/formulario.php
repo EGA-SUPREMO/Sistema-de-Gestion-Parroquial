@@ -58,8 +58,18 @@ class Formulario
 
             $respuesta[$rol] = $datos_persona_raw;
 
+            if (($rol === 'padre-' || $rol === 'madre-') && $persona_objeto) {
+                $hijos = $this->gestorFeligres->obtenerHijosPorCedulaPadre($persona_objeto->getCedula());
+
+                foreach ($hijos as $llave => $valor) {
+                    $datosConstancia = $this->obtenerDatosConstanciaRelacionados($valor->getId(), $nombreTabla);
+                    $respuesta['hijos'][$llave] = $datosConstancia;
+                    $respuesta['hijos'][$llave]['feligres-'] = $valor->toArrayParaBD();
+                }
+            }
+
             if ($rol === 'feligres-' && $persona_objeto) {
-                $datosConstancia = $this->obtenerDatosConstanciaRelacionados($persona_objeto, $nombreTabla);
+                $datosConstancia = $this->obtenerDatosConstanciaRelacionados($persona_objeto->getId(), $nombreTabla);
                 $respuesta = array_merge($respuesta, $datosConstancia);
             }
 
@@ -108,11 +118,11 @@ class Formulario
      * @param string $nombreTabla El nombre de la tabla de la constancia.
      * @return array Datos adicionales para la respuesta.
      */
-    private function obtenerDatosConstanciaRelacionados($persona_objeto, $nombreTabla)
+    private function obtenerDatosConstanciaRelacionados($persona_id, $nombreTabla)
     {
         $datosExtras = [];
         $gestorConstancia = EntidadFactory::crearGestor($this->pdo, $nombreTabla);
-        $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_objeto->getId());// TODO usar una funcion generica que funcione para cada constancia de ser posible
+        $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_id);// TODO usar una funcion generica que funcione para cada constancia de ser posible
 
         if ($constancia) {
             $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];

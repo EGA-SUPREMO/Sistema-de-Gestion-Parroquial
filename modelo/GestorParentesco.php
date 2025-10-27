@@ -1,7 +1,7 @@
 <?php
 
-require_once 'modelo/GestorBase.php';
-require_once "modelo/Parentesco.php";
+require_once 'GestorBase.php';
+require_once "Parentesco.php";
 
 class GestorParentesco extends GestorBase
 {
@@ -10,22 +10,6 @@ class GestorParentesco extends GestorBase
         parent::__construct($pdo);
         $this ->tabla = "parentescos";
         $this ->clase_nombre = "Parentesco";
-    }
-
-    public function obtenerHijosPorCedula($cedula)
-    {
-        $sql = "
-            SELECT 
-                H.* FROM 
-                feligreses AS P 
-            JOIN 
-                {$this->tabla} AS R ON P.id = R.id_padre 
-            JOIN 
-                feligreses AS H ON R.id_hijo = H.id 
-            WHERE 
-                P.cedula = ?;
-        ";
-        return $this->hacerConsulta($sql, [$cedula], 'all');
     }
 
     public function esAncestroDirecto($idPadre, $idHijo)

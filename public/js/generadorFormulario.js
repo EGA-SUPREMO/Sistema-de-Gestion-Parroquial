@@ -135,8 +135,74 @@ function soloNumero(e) {
     // Si es un número o una tecla de control, se permite (retorna true por defecto)
 }
 
+function manejarHijos(hijos) {
+if (hijos && hijos.length > 0) {
+        
+        // 2. Crear las opciones de radio para SweetAlert2
+        const inputOptions = {};
+        
+        // Agregar las opciones de los hijos al objeto
+        hijos.forEach((hijo, index) => {
+            // Asumiendo que 'hijo' es un objeto y tiene una propiedad 'nombre' o similar
+            // Usamos el 'index' como valor (clave) y el nombre como texto visible.
+            // Ajusta 'hijo.nombre' si la estructura de tu objeto 'hijo' es diferente.
+            inputOptions[index.toString()] = `Usar datos de: ${hijo.nombre || 'Hijo ' + (index + 1)}`;
+        });
+        
+        // Agregar la opción de "No usar ninguno"
+        const NO_USAR_KEY = "none";
+        inputOptions[NO_USAR_KEY] = "No usar ninguno";
+
+        // 3. Mostrar la alerta de selección con opciones de radio
+        Swal.fire({
+            title: "¿Quiere usar los datos de cuál hijo?",
+            input: 'radio',
+            inputOptions: inputOptions,
+            showCancelButton: true,
+            confirmButtonText: "Seleccionar",
+            cancelButtonText: "Cancelar",
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Debe seleccionar una opción o cancelar';
+                }
+            }
+        }).then((result) => {
+            // 4. Manejar el resultado de la selección
+            if (result.isConfirmed) {
+                const selectedKey = result.value;
+                
+                if (selectedKey === NO_USAR_KEY) {
+                    // El usuario seleccionó "No usar ninguno"
+                    Swal.fire("Procediendo sin datos de hijos", "", "info");
+                    
+                    // Aquí puedes llamar al método/función para el caso "No usar ninguno"
+                    // ejemplo: metodo_para_no_usar_datos();
+                    
+                } else {
+                    // El usuario seleccionó un hijo
+                    const selectedIndex = parseInt(selectedKey);
+                    const hijoSeleccionado = hijos[selectedIndex];
+                    
+                    Swal.fire(`Usando datos de: ${hijoSeleccionado.nombre || 'Hijo ' + (selectedIndex + 1)}`, "", "success");
+                    
+                    // Aquí puedes llamar al método/función para el caso de haber seleccionado un hijo
+                    // ejemplo: metodo_para_usar_datos_de_hijo(hijoSeleccionado);
+                }
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // El usuario presionó "Cancelar"
+                Swal.fire("Selección cancelada", "", "error");
+            }
+        });
+
+    }
+}
+
+
+
 function completarCampos(datos) {
     const prefijos = [];
+
+    manejarHijos(datos.hijos);
 
     // 2. Iterar sobre las claves del objeto 'datos'
     // Object.keys(datos) devolverá ['padre-', 'madre-', 'feligres-']
