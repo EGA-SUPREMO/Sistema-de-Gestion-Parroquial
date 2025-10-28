@@ -9,7 +9,7 @@ class Validador
         $fechaFin = null;
 
         if ($fechaInicioStr === null || $fechaFinStr === null) {
-            return; 
+            return;
         }
         try {
             $fechaInicio = new DateTime($fechaInicioStr);
@@ -87,7 +87,7 @@ class Validador
             } catch (Exception $e) {
                 throw new InvalidArgumentException("El valor de fecha mínima: {$fechaMinima} no es una fecha YYYY-MM-DD válida.");
             }
-            
+
             if ($fecha < $fechaMinima) {
                 throw new InvalidArgumentException("El campo '{$nombreCampo}' ({$fecha}) debe ser igual o posterior a {$fechaMinima}.");
             }
@@ -104,7 +104,7 @@ class Validador
                 throw new InvalidArgumentException("El campo '{$nombreCampo}' ({$fecha}) debe ser igual o anterior a {$fechaMaxima}.");
             }
         }
-        
+
         return $fecha;
     }
 
