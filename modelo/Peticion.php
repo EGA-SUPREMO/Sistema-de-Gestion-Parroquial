@@ -1,0 +1,87 @@
+<?php
+
+require_once 'Validador.php';
+require_once 'ModeloBase.php';
+
+class Peticion extends ModeloBase
+{
+    private $id;
+    private $por_quien_id;
+    private $realizado_por_id;
+    private $tipo_de_intencion_id;
+    private $servicio_id;
+    private $creado_en;
+    private $actualizado_en;
+    private $fecha_inicio;
+    private $fecha_fin;
+    private $constancia_de_bautizo_id;
+    private $constancia_de_confirmacion_id;
+    private $constancia_de_comunion_id;
+    private $constancia_de_matrimonio_id;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getPorQuienId()
+    {
+        return $this->por_quien_id;
+    }
+
+    public function getRealizadoPorId()
+    {
+        return $this->realizado_por_id;
+    }
+
+    public function getTipoDeIntencionId()
+    {
+        return $this->tipo_de_intencion_id;
+    }
+
+    public function getServicioId()
+    {
+        return $this->servicio_id;
+    }
+
+    public function getCreadoEn()
+    {
+        return $this->creado_en;
+    }
+
+    public function getActualizadoEn()
+    {
+        return $this->actualizado_en;
+    }
+
+    public function getFechaInicio()
+    {
+        return $this->fecha_inicio;
+    }
+
+    public function getFechaFin()
+    {
+        return $this->fecha_fin;
+    }
+
+    public function getConstanciaDeBautizoId()
+    {
+        return $this->constancia_de_bautizo_id;
+    }
+
+    public function getConstanciaDeConfirmacionId()
+    {
+        return $this->constancia_de_confirmacion_id;
+    }
+
+    public function getConstanciaDeComunionId()
+    {
+        return $this->constancia_de_comunion_id;
+    }
+
+    public function getConstanciaDeMatrimonioId()
+    {
+        return $this->constancia_de_matrimonio_id;
+    }
+
+}
