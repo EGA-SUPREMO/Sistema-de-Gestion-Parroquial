@@ -5,20 +5,23 @@ class Validador
 {
     public static function validarRangoFechas($fechaInicioStr, $fechaFinStr)
     {
+        $fechaInicio = null;
+        $fechaFin = null;
+
+        if ($fechaInicioStr === null || $fechaFinStr === null) {
+            return; 
+        }
         try {
             $fechaInicio = new DateTime($fechaInicioStr);
             $fechaFin = new DateTime($fechaFinStr);
-
-            if ($fechaInicio > $fechaFin) {
-                return false;
-            }
         } catch (Exception $e) {
-            throw new InvalidArgumentException("Error de formato de fecha en validacionRangoFechas: ");
             error_log("Error de formato de fecha en validacionRangoFechas: " . $e->getMessage());
-            return false;
+            throw new InvalidArgumentException("Validador: Error en el formato de fecha en validarRangoFechas. Asegúrese de que ambas fechas sean válidas y no nulas si se comparan.");
         }
-        return true;
 
+        if ($fechaInicio > $fechaFin) {
+            throw new InvalidArgumentException("Validador: La fecha de inicio ({$fechaInicioStr}) no puede ser posterior a la fecha de fin ({$fechaFinStr}).");
+        }
     }
 
     public static function validarEntero($valor, $nombreCampo, $valorMaximo = 2147483647, $valorMinimo = null)
@@ -78,9 +81,30 @@ class Validador
         }
 
         if ($fechaMinima !== null) {
-        }// TODO
-        if ($fechaMaxima !== null) {// TODO
+            try {
+                $minDate = new DateTime($fechaMinima);
+                $fechaMinima = $minDate->format('Y-m-d');
+            } catch (Exception $e) {
+                throw new InvalidArgumentException("El valor de fecha mínima: {$fechaMinima} no es una fecha YYYY-MM-DD válida.");
+            }
+            
+            if ($fecha < $fechaMinima) {
+                throw new InvalidArgumentException("El campo '{$nombreCampo}' ({$fecha}) debe ser igual o posterior a {$fechaMinima}.");
+            }
         }
+
+        if ($fechaMaxima !== null) {
+            try {
+                $maxDate = new DateTime($fechaMaxima);
+                $fechaMaxima = $maxDate->format('Y-m-d');
+            } catch (Exception $e) {
+                throw new InvalidArgumentException("El valor de fecha maxima: {$fechaMinima} no es una fecha YYYY-MM-DD válida.");
+            }
+            if ($fecha > $fechaMaxima) {
+                throw new InvalidArgumentException("El campo '{$nombreCampo}' ({$fecha}) debe ser igual o anterior a {$fechaMaxima}.");
+            }
+        }
+        
         return $fecha;
     }
 
