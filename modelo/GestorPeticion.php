@@ -11,4 +11,11 @@ class GestorPeticion extends GestorBase
         $this ->clase_nombre = "Peticion";
         $this ->tabla = "peticiones";
     }
+
+    public function obtenerPorConstanciaDeBautizoId($constanciaDeBautizoId)
+    {
+        $sql = "SELECT * FROM {$this->tabla} WHERE `constancia_de_bautizo_id` = ?";
+        return $this->hacerConsulta($sql, [$constanciaDeBautizoId], 'single');
+    }
+
 }

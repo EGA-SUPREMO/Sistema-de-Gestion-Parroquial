@@ -147,4 +147,19 @@ class Peticion extends ModeloBase
         $this->constancia_de_matrimonio_id = Validador::validarEntero($id, 'Constancia de Matrimonio ID', valorMinimo: 0);
     }
 
+    public function toArrayParaBD($excluirId = false)
+    {
+        $datos = parent::toArrayParaBD($excluirId);
+        unset($datos['creado_en']);
+        unset($datos['actualizado_en']);
+        return $datos;
+    }
+    public function toArrayParaMostrar($criterio = null)
+    {
+        $datos = parent::toArrayParaMostrar($criterio);
+        $datos['creado_en'] = $this->getCreadoEn();
+        $datos['actualizado_en'] = $this->getActualizadoEn();
+        return $datos;
+    }
+
 }

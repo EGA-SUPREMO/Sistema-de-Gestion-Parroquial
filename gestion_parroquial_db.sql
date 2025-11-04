@@ -457,6 +457,12 @@ ADD FOREIGN KEY (`constancia_de_comunion_id`) REFERENCES `constancia_de_comunion
 ADD FOREIGN KEY (`constancia_de_matrimonio_id`) REFERENCES `constancia_de_matrimonio` (`id`);
 
 ALTER TABLE `peticiones`
+ADD UNIQUE KEY (`constancia_de_bautizo_id`),
+ADD UNIQUE KEY (`constancia_de_confirmacion_id`),
+ADD UNIQUE KEY (`constancia_de_comunion_id`),
+ADD UNIQUE KEY (`constancia_de_matrimonio_id`);
+
+ALTER TABLE `peticiones`
   ADD CONSTRAINT `chk_servicio_constancias` CHECK (
     (`servicio_id` = 2 AND `constancia_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
     (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR

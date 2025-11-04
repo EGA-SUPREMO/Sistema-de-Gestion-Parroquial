@@ -11,12 +11,14 @@ require_once 'GestorPeticion.php';
 require_once 'GestorParentesco.php';
 require_once 'GestorSacerdote.php';
 require_once 'GestorFeligres.php';
+require_once 'GestorAdministrador.php';
 
 
 class ServicioConstanciaDeBautizo
 {
     private $pdo;
     private $gestorPeticion;
+    private $gestorAdministrador;
     private $gestorFeligres;
     private $gestorSacerdote;
     private $gestorConstanciaDeBautizo;
@@ -26,7 +28,8 @@ class ServicioConstanciaDeBautizo
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
-        //$this->gestorPeticion = new GestorPeticion($pdo);
+        $this->gestorPeticion = new GestorPeticion($pdo);
+        $this->gestorAdministrador = new GestorAdministrador($pdo);
         $this->gestorConstanciaDeBautizo = new GestorConstanciaDeBautizo($pdo);
         $this->gestorFeligres = new GestorFeligres($pdo);
         $this->gestorParentesco = new gestorParentesco($pdo);
@@ -61,13 +64,9 @@ class ServicioConstanciaDeBautizo
             $this->gestorConstanciaDeBautizo->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
 
             $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres);
-            /*
-                        $peticion->setConstanciaDeBautizoId($constanciaId);
 
-                        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
+            $this->guardarPeticion($constancia, $idConstanciaGuardada);
 
-
-            */
             $parentescoPadre = new Parentesco();
             $parentescoPadre->setIdPadre($feligresPadreId);
             $parentescoPadre->setIdHijo($feligresId);
@@ -98,6 +97,23 @@ class ServicioConstanciaDeBautizo
             throw new Exception($e->getMessage());
         }
         return false;
+    }
+
+    private function guardarPeticion($constancia, $idConstanciaGuardada)
+    {
+        $peticionEncontrada = $this->gestorPeticion->obtenerPorConstanciaDeBautizoId($constancia->getId());
+        if ($peticionEncontrada) {
+            return;
+        }
+
+        $peticion = new Peticion();
+        $adminActual = $this->gestorAdministrador->obtenerPorNombreUsuario($_SESSION['nombre_usuario']);
+        $peticion->setRealizadoPorId($adminActual->getId());
+        $peticion->setServicioId(2);
+        $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
+        $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
+        $peticion->setConstanciaDeBautizoId($idConstanciaGuardada);
+        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
     }
 
     private function upsertFeligresId($datosFeligres)

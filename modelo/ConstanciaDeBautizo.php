@@ -98,6 +98,12 @@ class ConstanciaDeBautizo extends ModeloBase
         return $this->numero_marginal;
     }
 
+    public function obtenerFechaExpedicion()
+    {
+        return $this->fecha_expedicion;
+    }
+
+
     public function setId($id)
     {
         $this->id = Validador::validarEntero($id, "ID de la constancia", null, 0);
