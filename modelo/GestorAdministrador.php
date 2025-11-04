@@ -13,7 +13,8 @@ class GestorAdministrador extends GestorBase
         $this ->clase_nombre = "Administrador";
     }
 
-    public function obtenerPorNombreUsuario($nombre_usuario) {
+    public function obtenerPorNombreUsuario($nombre_usuario)
+    {
         $sql = "SELECT * FROM {$this->tabla} WHERE `nombre_usuario` = ?";
         return $this->hacerConsulta($sql, [$nombre_usuario], 'single');
     }
