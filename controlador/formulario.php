@@ -86,6 +86,7 @@
                 text: sacerdote.nombre,
                 disabled: sacerdote.id === 0
             }));
+
             formularioCampos = [
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
@@ -173,9 +174,9 @@
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
-                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: new Date().toISOString().slice(0, 10)},
-                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, options: sacerdoteVivosOptions },
-                { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, value: 'Personal', options: [
+                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
+                { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, value: datosPHP.proposito ?? 'Personal', options: [
                       { value: 'Personal', text: 'Personal' },
                       { value: 'Comunión', text: 'Comunión' },
                       { value: 'Confirmación', text: 'Confirmación' },
@@ -192,7 +193,6 @@
 
     $(document).ready(function() {
         const datosPHP = <?php echo $datos_formulario['formulario']; ?>;
-
         const urlParams = new URLSearchParams(window.location.search);
         const tipo = urlParams.get('t');
         const controlador = urlParams.get('c');

@@ -63,6 +63,7 @@ class constanciaControlador // extends formularioControlador
             'id' => $id,
             'titulo' => $titulo,
         ];
+
         $datos = array_merge($datos_modelo, $datos);
         $datos = array_merge($sacerdotes, $datos);
         $datos_formulario['formulario'] = json_encode($datos);
@@ -83,8 +84,10 @@ class constanciaControlador // extends formularioControlador
         } catch (Exception $e) {
             error_log($e->getMessage());
 
-            $_SESSION['input_viejo'] = $_POST;
-            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
+            $_SESSION['input_viejo'] = self::reestructurarArrayPost($_POST);
+            $_SESSION['input_viejo'] = array_merge($_SESSION['input_viejo'], $_SESSION['input_viejo']['constancia']);
+
+            $id = (int)($_POST['id'] ?? 0);
 
             $mensajeCodificado = urlencode($e->getMessage());
             FuncionesComunes::redirigir('Location:?c=constancia&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$id);
@@ -105,4 +108,25 @@ class constanciaControlador // extends formularioControlador
         $rutaPdf = $this->servicio->guardarConstancia($datosFormulario);
         return $rutaPdf;
     }
+
+    private static function reestructurarArrayPost($datos)
+    {
+        $datos_reestructurados = [];
+
+        foreach ($datos as $clave => $valor) {
+            $partes = explode('-', $clave, 2); 
+
+            if (count($partes) === 2) {
+                $prefijo = $partes[0];
+                $nombre_de_var = $partes[1];
+
+                $datos_reestructurados[$prefijo][$nombre_de_var] = $valor;
+                continue;
+            }
+            $datos_reestructurados[$clave] = $valor;
+        }
+
+        return $datos_reestructurados;
+    }
+
 }
