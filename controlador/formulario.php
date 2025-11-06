@@ -90,85 +90,85 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,9}', maxlength: '9', value: 223344 },
-                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: 'ASDDE' },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
                     ]
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Progenitor 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: 112233 },
-                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: 334455 },
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Progenitor 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
+                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.madre?.cedula ?? '' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.primer_nombre' },
-                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.segundo_nombre' },
+                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_nombre ?? '' },
+                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_nombre ?? '' },
                     ] 
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.primer_apellido' },
-                        { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.segundo_apellido' },
+                        { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_apellido ?? '' },
+                        { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_apellido ?? '' },
                     ] 
                 },
-                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: new Date().toISOString().slice(0, 10) },
+                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: datosPHP.feligres?.fecha_nacimiento ?? '' },
                 { type: 'subtitulo', name: 'subtitulo-lugar-nacimiento', value: 'Lugar de Nacimiento del Bautizado'},
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'feligres-pais', label: 'País', required: true, validarMetodo: 'validarLugar', value: 'datosPHP.pais' },
-                            { type: 'text', name: 'feligres-estado', label: 'Estado', required: true, validarMetodo: 'validarLugar', value: 'datosPHP.estado' },
-                            { type: 'text', name: 'feligres-municipio', label: 'Municipio', required: true, validarMetodo: 'validarLugar', value: 'datosPHP.municipio' },
+                            { type: 'text', name: 'feligres-pais', label: 'País', required: true, validarMetodo: 'validarLugar', value: datosPHP.feligres?.pais ?? '' },
+                            { type: 'text', name: 'feligres-estado', label: 'Estado', required: true, validarMetodo: 'validarLugar', value: datosPHP.feligres?.estado ?? '' },
+                            { type: 'text', name: 'feligres-municipio', label: 'Municipio', required: true, validarMetodo: 'validarLugar', value: datosPHP.feligres?.municipio ?? '' },
                         ] 
                     },
 
                 { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 1'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.padre_primer_nombre' },
-                        { type: 'text', name: 'padre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.padre_segundo_nombre' },
+                        { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_nombre ?? '' },
+                        { type: 'text', name: 'padre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_nombre ?? '' },
                     ] 
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.padre_primer_apellido' },
-                        { type: 'text', name: 'padre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.padre_segundo_apellido' },
+                        { type: 'text', name: 'padre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_apellido ?? '' },
+                        { type: 'text', name: 'padre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_apellido ?? '' },
                     ] 
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 2'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.madre_primer_nombre' },
-                        { type: 'text', name: 'madre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.madre_segundo_nombre' },
+                        { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_nombre ?? '' },
+                        { type: 'text', name: 'madre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_nombre ?? '' },
                     ] 
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'madre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: 'datosPHP.madre_primer_apellido' },
-                        { type: 'text', name: 'madre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: 'datosPHP.madre_segundo_apellido' },
+                        { type: 'text', name: 'madre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_apellido ?? '' },
+                        { type: 'text', name: 'madre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_apellido ?? '' },
                     ] 
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
-                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaBautizo', value: new Date().toISOString().slice(0, 10) },
-                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: 'datosPHP.padrino_nombre' },
-                { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: 'datosPHP.madrina_nombre' },
-                { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: 'datosPHP.observaciones' },
+                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaBautizo', value: datosPHP.fecha_bautizo },
+                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
+                { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.madrina_nombre },
+                { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: datosPHP.observaciones },
                 { type: 'fila', 
                     campos: [
-                        { type: 'select', name: 'constancia-ministro_id', label: 'Ministro', required: true, options: sacerdoteOptions},
-                        { type: 'select', name: 'constancia-ministro_certifica_id', label: 'Ministro que Certifica', required: true, options: sacerdoteOptions },
+                        { type: 'select', name: 'constancia-ministro_id', label: 'Ministro', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions},
+                        { type: 'select', name: 'constancia-ministro_certifica_id', label: 'Ministro que Certifica', required: true, value: datosPHP.ministro_certifica_id, options: sacerdoteOptions },
                     ]
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: 4 },
-                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: 4 },
-                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: 4 }
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
                     ] 
                 },
 

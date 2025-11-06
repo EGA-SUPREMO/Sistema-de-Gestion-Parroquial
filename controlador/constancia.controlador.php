@@ -8,6 +8,7 @@ class constanciaControlador // extends formularioControlador
     private $servicio;
     private $gestor;
     private $gestorSacerdote;
+    private $gestorFeligres;
     private $nombreTabla;
 
     public function __construct(PDO $pdo)
@@ -17,6 +18,7 @@ class constanciaControlador // extends formularioControlador
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
         $this->gestorSacerdote = EntidadFactory::crearGestor($pdo, 'sacerdote');
+        $this->gestorFeligres = EntidadFactory::crearGestor($pdo, 'feligres');
     }
 
     public function mostrar()
@@ -24,8 +26,10 @@ class constanciaControlador // extends formularioControlador
         $id = (int)($_REQUEST['id'] ?? 0);
 
         $datos_modelo = [];
+        $datos_modelo['feligres'] = null;
+        $datos_modelo['padre'] = null;
+        $datos_modelo['madre'] = null;
         $datos_sacerdotes = [];
-        $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
 
         if (isset($_SESSION['input_viejo'])) {
@@ -36,6 +40,12 @@ class constanciaControlador // extends formularioControlador
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
+            $feligresBautizado = $this->gestorFeligres->obtenerPorId($modelo->getFeligresBautizadoId());
+            $padre = $this->gestorFeligres->obtenerPorId($modelo->getPadreId());
+            $madre = $this->gestorFeligres->obtenerPorId($modelo->getMadreId());
+            $datos_modelo['feligres'] = $feligresBautizado->toArrayParaBD();
+            $datos_modelo['padre'] = $padre->toArrayParaBD();
+            $datos_modelo['madre'] = $madre->toArrayParaBD();
         }
 
         $sacerdotes = [];
