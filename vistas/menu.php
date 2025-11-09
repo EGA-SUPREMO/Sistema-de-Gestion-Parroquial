@@ -6,7 +6,7 @@
     </div>
     <ul class="menu-list">
       <li><a href="?c=dashboard&a=index">Inicio</a></li>
-      <li><a href="?c=formulario&a=mostrar&t=intencion">Intenciones</a></li>
+      <li><a href="?c=intenciones&a=mostrar&t=intencion">Intenciones</a></li>
       <li><a href="?c=dashboard&a=constancias">Constancias</a></li>
       <li><a href="?c=panel&a=intenciones&t=intenciones">Agenda</a></li>
       <li><a href="?c=dashboard&a=administracion">Administración</a></li>

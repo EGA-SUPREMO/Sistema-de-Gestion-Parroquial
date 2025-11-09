@@ -72,7 +72,10 @@ abstract class GestorBase
         $columnas = implode(", ", array_keys($datos));
         $placeholders = implode(", ", array_fill(0, count($datos), '?'));
         $sql = "INSERT INTO {$this->tabla} ({$columnas}) VALUES ({$placeholders})";
-        return $this->hacerConsulta($sql, array_values($datos), 'insert');
+        $id = $this->hacerConsulta($sql, array_values($datos), 'insert');
+        $objeto->setId($id);
+
+        return $id;
     }
 
     protected function actualizar($id, $objeto)

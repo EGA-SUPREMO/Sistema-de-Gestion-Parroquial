@@ -1,39 +1,17 @@
 <?php
 
+require_once 'controlador/formulario.controlador.php';
 require_once 'modelo/EntidadFactory.php';
 require_once 'modelo/FuncionesComunes.php';
 
-class formularioControlador
+class intencionesControlador extends formularioControlador
 {
-    protected $gestor;
-    protected $nombreTabla;
-    protected $nombreControlador;
+    private $servicio;
 
     public function __construct(PDO $pdo)
     {
-        FuncionesComunes::requerirLogin();
-        $this->nombreTabla = $_REQUEST['t'];
-        $this->nombreControlador = $_REQUEST['c'];
-        $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
-    }
-
-    public function procesarFormulario()
-    {
-        try {
-            $this->guardarDatos();
-            if (isset($_SESSION['input_viejo'])) {
-                unset($_SESSION['input_viejo']);
-            }
-            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-
-            $_SESSION['input_viejo'] = $_POST;
-            $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
-
-            $mensajeCodificado = urlencode($e->getMessage());
-            FuncionesComunes::redirigir('Location:?c='.$this->nombreControlador.'&a=mostrar&t='.$this->nombreTabla.'&error='.$mensajeCodificado.'&id='.$id);
-        }
+        parent::__construct($pdo);
+        $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
     }
 
     public function mostrar()
@@ -70,6 +48,7 @@ class formularioControlador
         $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
         $arrayBD = $objeto->toArrayParaBD(true);
         $camposEsperados = array_keys($arrayBD);
+        $camposEsperados[] = 'objeto_de_peticion_nombre';
 
         $datos = [];
         foreach ($camposEsperados as $campo) {
@@ -79,10 +58,11 @@ class formularioControlador
         }
         $objeto = EntidadFactory::crearObjeto($this->nombreTabla);
         $objeto->hydrate($datos);
+        $objeto->setObjetoDePeticionNombre($datos['objeto_de_peticion_nombre']);
 
         $id = (int)($_POST[$this->gestor->getClavePrimaria()] ?? 0);
 
-        $this->gestor->guardar($objeto, $id);
+        $this->servicio->guardar($objeto, $id);
     }
 
 }

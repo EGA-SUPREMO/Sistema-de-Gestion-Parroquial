@@ -1,7 +1,8 @@
 <?php
 
+require_once 'ServicioBase.php';
 require_once 'Feligres.php';
-//require_once 'Peticion.php';
+require_once 'Peticion.php';
 require_once 'Sacerdote.php';
 require_once 'Parentesco.php';
 require_once 'ConstanciaDeBautizo.php';
@@ -14,9 +15,8 @@ require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
 
-class ServicioConstanciaDeBautizo
+class ServicioConstanciaDeBautizo extends ServicioBase
 {
-    private $pdo;
     private $gestorPeticion;
     private $gestorAdministrador;
     private $gestorFeligres;
@@ -27,7 +27,7 @@ class ServicioConstanciaDeBautizo
 
     public function __construct(PDO $pdo)
     {
-        $this->pdo = $pdo;
+        parent::__construct($pdo);
         $this->gestorPeticion = new GestorPeticion($pdo);
         $this->gestorAdministrador = new GestorAdministrador($pdo);
         $this->gestorConstanciaDeBautizo = new GestorConstanciaDeBautizo($pdo);
