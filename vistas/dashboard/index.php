@@ -11,7 +11,7 @@
                     <h2 class="card-title text-center text-primary fw-bold mb-4">Opciones del Panel</h2>
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <a href="?c=formulario&a=guardar&t=intencion" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=formulario&a=mostrar&t=intencion" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Registrar intencion</h5>
                                 </div>
