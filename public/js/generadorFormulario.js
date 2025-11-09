@@ -436,6 +436,41 @@ const creadoresDeCampos = {
         }).html(prop.value);
     },
 
+    crearAutocomplete: function(prop) {
+        // 1. Crear el elemento <input> base (es el mismo que crearInput, pero con type='text' implícito).
+        const $input = $('<input>').attr({
+            type: 'text',
+            name: prop.name,
+            id: prop.name,
+            class: 'form-control'
+        });
+
+        if (typeof $.fn.autocomplete === 'function' && Array.isArray(prop.sugerencias)) {
+            $input.autocomplete({
+                source: prop.sugerencias,
+                select: function(event, ui) {
+                    // 1. Asigna el valor seleccionado al campo de entrada.
+                    //    (Aunque jQuery UI lo hace por defecto, es buena práctica)
+                    $(this).val(ui.item.value);
+                    
+                    // 2. FORZAR el evento que activa tu validación
+                    //    Si tu validación se activa con keyup (lo más común):
+                    $(this).trigger('keyup');
+                    
+                    //    Si tu validación se activa con change:
+                    // $(this).trigger('change'); 
+                    
+                    // 3. Prevenir la acción por defecto para evitar que el valor se establezca dos veces.
+                    event.preventDefault(); 
+                }
+            });
+        } else {
+            console.warn("jQuery UI Autocomplete no está disponible o las sugerencias no son un array.", prop);
+        }
+
+        return asignarAtributosComunes($input, prop);
+    },
+
     crearFila: function(prop) {
         const $row = $('<div class="row">');
         prop.campos.forEach(campoInterno => {
@@ -460,6 +495,9 @@ const creadoresDeCampos = {
                     break;
                 case 'subtitulo':
                     $campo = this.crearSubtitulo(campoInterno);
+                    break;
+                case 'autocomplete':
+                    $campo = this.crearAutocomplete(campoInterno);
                     break;
                 default:
                     $campo = this.crearInput(campoInterno);
@@ -537,6 +575,9 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
                 break;
             case 'subtitulo':
                 $elemento = creadoresDeCampos.crearSubtitulo(propiedadCampo);
+                break;
+            case 'autocomplete':
+                $elemento = creadoresDeCampos.crearAutocomplete(propiedadCampo);
                 break;
             default:
                 $elemento = creadoresDeCampos.crearInput(propiedadCampo);

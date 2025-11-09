@@ -7,11 +7,13 @@ require_once 'modelo/FuncionesComunes.php';
 class intencionesControlador extends formularioControlador
 {
     private $servicio;
+    private $gestorObjetoDePeticion;
 
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
+        $this->gestorObjetoDePeticion = EntidadFactory::crearGestor($pdo, 'objeto_de_peticion');
     }
 
     public function mostrar()
@@ -31,11 +33,16 @@ class intencionesControlador extends formularioControlador
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
         }
+        $datos_objetos_de_peticion = [];
+        foreach ($this->gestorObjetoDePeticion->obtenerTodos() as $objeto_de_peticion) {
+            $datos_objetos_de_peticion['objeto_de_peticion'][] = $objeto_de_peticion->getNombre();
+        }
 
         $datos = [
             'id' => $id,
             'titulo' => $titulo,
         ];
+        $datos = array_merge($datos_objetos_de_peticion, $datos);
         $datos = array_merge($datos_modelo, $datos);
         $datos_formulario['formulario'] = json_encode($datos);
 

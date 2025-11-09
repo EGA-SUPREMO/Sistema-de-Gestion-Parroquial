@@ -25,7 +25,7 @@
             break;
             case 'intencion':
                 formularioCampos = [
-                    { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: 'validarNombre', value: datosPHP.objeto_de_peticion_id },
+                    { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: 'validarNombre', sugerencias: datosPHP.objeto_de_peticion, value: datosPHP.objeto_de_peticion_id },
                     { type: 'select', name: 'tipo_de_intencion_id', label: 'Selecciona el tipo de intención',  required: true, value: datosPHP.tipo_de_intencion_id, options: [
                       { value: '0', text: 'Selecciona un tipo de intención', disabled: true },
                       { value: '1', text: 'Acción de Gracias' },

@@ -14,8 +14,9 @@ class EntidadFactory
             if (class_exists($nombreClase)) {
                 return new $nombreClase($pdo);
             }
+            throw new Exception("Clase del gestor para la tabla '{$nombreTabla}' no encontrado.");
         }
-        throw new Exception("Gestor para la tabla '{$nombreTabla}' no encontrado.");
+        throw new Exception("Archivo del gestor para la tabla '{$nombreTabla}' no encontrado.");
     }
     public static function crearServicio($pdo, $nombreTabla)
     {
