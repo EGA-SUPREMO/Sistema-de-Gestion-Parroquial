@@ -6,7 +6,7 @@ require_once 'ModeloBase.php';
 class Peticion extends ModeloBase
 {
     private $id;
-    private $por_quien_id;
+    private $objeto_de_peticion_id;
     private $realizado_por_id;
     private $tipo_de_intencion_id;
     private $servicio_id;
@@ -24,9 +24,9 @@ class Peticion extends ModeloBase
         return $this->id;
     }
 
-    public function getPorQuienId()
+    public function getObjetoDePeticionId()
     {
-        return $this->por_quien_id;
+        return $this->objeto_de_peticion_id;
     }
 
     public function getRealizadoPorId()
@@ -89,9 +89,9 @@ class Peticion extends ModeloBase
         $this->id = Validador::validarEntero($id, 'id de petición', valorMinimo: 0);
     }
 
-    public function setPorQuienId($por_quien_id)
+    public function setObjetoDePeticionId($objeto_de_peticion_id)
     {
-        $this->por_quien_id = Validador::validarEntero($por_quien_id, 'Por quien feligres ID', valorMinimo: 0);
+        $this->objeto_de_peticion_id = Validador::validarEntero($objeto_de_peticion_id, 'Objeto de Peticion ID', valorMinimo: 0);
     }
 
     public function setRealizadoPorId($realizado_por_id)

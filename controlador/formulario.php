@@ -25,8 +25,8 @@
             break;
             case 'intencion':
                 formularioCampos = [
-                    { type: 'autocomplete', name: 'nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: '', value: datosPHP.nombre },
-                    { type: 'select', name: 'nombre', label: 'Selecciona el tipo de intención',  required: true, validarMetodo: '', value: datosPHP.nombre, options: [
+                    { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por quien es la intencion',  required: true, validarMetodo: 'validarNombre', value: datosPHP.objeto_de_peticion_id },
+                    { type: 'select', name: 'tipo_de_intencion_id', label: 'Selecciona el tipo de intención',  required: true, value: datosPHP.tipo_de_intencion_id, options: [
                       { value: '0', text: 'Selecciona un tipo de intención', disabled: true },
                       { value: '1', text: 'Acción de Gracias' },
                       { value: '2', text: 'Salud' },
@@ -35,8 +35,8 @@
                     ]},
                     { type: 'fila', 
                         campos: [
-                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
-                            { type: 'date', name: 'fecha_nacimiento', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
+                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10)},
+                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: new Date().toISOString().slice(0, 10) },
                         ]
                     },
                 ];

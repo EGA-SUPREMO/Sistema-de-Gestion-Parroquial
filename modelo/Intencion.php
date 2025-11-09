@@ -1,21 +1,26 @@
 <?php
 
-//require_once 'Validador.php';
+require_once 'Validador.php';
 require_once 'Peticion.php';
 
 class Intencion extends Peticion
 {
 
-/*    private $id;
-    private $tipo_de_intencion_id;
-    private $por_quien_id;
-    private $fecha_inicio;
-    private $fecha_fin;
-*/
+    private $objeto_de_peticion_nombre;
+
     public function __construct()
     {
-        parent::__construct();
+  //      parent::__construct();
         $this->setServicioId(1);
+    }
+
+    public function setObjetoDePeticionNombre($objeto_de_peticion_nombre)
+    {
+        $this->objeto_de_peticion_nombre = Validador::validarString($objeto_de_peticion_nombre, 'Nombre de Objeto de Peticion', 500, 200);
+    }
+    public function obtenerObjetoDePeticionNombre()
+    {
+        return $this->objeto_de_peticion_nombre;
     }
 
 }

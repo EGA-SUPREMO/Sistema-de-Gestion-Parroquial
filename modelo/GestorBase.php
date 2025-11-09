@@ -2,7 +2,7 @@
 
 abstract class GestorBase
 {
-    private $pdo;
+    protected $pdo;
     protected $tabla;
     protected $clavePrimaria;
     protected $clase_nombre;

@@ -134,7 +134,7 @@ INSERT INTO `parentescos` (`id_padre`, `id_hijo`) VALUES
 
 CREATE TABLE `peticiones` (
   `id` int(11) NOT NULL,
-  `por_quien_id` int(11) DEFAULT NULL,
+  `objeto_de_peticion_id` int(11) DEFAULT NULL,
   `realizado_por_id` int(11) NOT NULL,
   `tipo_de_intencion_id` int(11) DEFAULT NULL,
   `servicio_id` int(11) NOT NULL,
@@ -192,13 +192,13 @@ INSERT INTO `categoria_de_servicios` (`id`, `nombre`) VALUES
 (2, 'Documentos');
 
 
-CREATE TABLE `personas` (
+CREATE TABLE `objetos_de_peticion` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) UNIQUE NOT NULL,
+  `nombre` varchar(50) UNIQUE NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-INSERT INTO `personas` (`id`, `nombre`) VALUES
+INSERT INTO `objetos_de_peticion` (`id`, `nombre`) VALUES
 (1, 'San Pedro'),
 (2, 'Santa María'),
 (3, 'San José'),
@@ -375,7 +375,7 @@ ALTER TABLE `administrador`
 --
 ALTER TABLE `peticiones`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `por_quien_id` (`por_quien_id`),
+  ADD KEY `objeto_de_peticion_id` (`objeto_de_peticion_id`),
   ADD KEY `realizado_por_id` (`realizado_por_id`),
   ADD KEY `tipo_de_intencion_id` (`tipo_de_intencion_id`),
   ADD KEY `servicio_id` (`servicio_id`);
@@ -431,15 +431,15 @@ ADD CONSTRAINT `chk_cedula_partida_nacimiento` CHECK (
 -- Filtros para la tabla `peticiones`
 --
 ALTER TABLE `peticiones`
-  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`por_quien_id`) REFERENCES `personas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `peticiones_ibfk_2` FOREIGN KEY (`objeto_de_peticion_id`) REFERENCES `objetos_de_peticion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_3` FOREIGN KEY (`servicio_id`) REFERENCES `servicios` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_4` FOREIGN KEY (`tipo_de_intencion_id`) REFERENCES `tipo_de_intencion` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `peticiones_ibfk_5` FOREIGN KEY (`realizado_por_id`) REFERENCES `administrador` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT chk_fechas_peticion CHECK (fecha_inicio <= fecha_fin),
   ADD CONSTRAINT `chk_intencion_y_participantes` CHECK (
-      (`tipo_de_intencion_id` IS NOT NULL AND `por_quien_id` IS NOT NULL)
+      (`tipo_de_intencion_id` IS NOT NULL AND `objeto_de_peticion_id` IS NOT NULL)
       OR
-      (`tipo_de_intencion_id` IS NULL AND `por_quien_id` IS NULL)
+      (`tipo_de_intencion_id` IS NULL AND `objeto_de_peticion_id` IS NULL)
   ),
   ADD CONSTRAINT `chk_tipo_de_intencion_servicio` CHECK (
     (`servicio_id` != 1 AND `tipo_de_intencion_id` IS NULL) OR
@@ -478,7 +478,7 @@ ALTER TABLE `servicios`
 -- Volcado de datos para la tabla `peticiones`
 --
 
-INSERT INTO `peticiones` (`id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`) VALUES
+INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`) VALUES
 (1, 2, 1, 1, 1, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
 (2, 1, 1, 2, 1, '2024-08-01 18:00:00', '2024-08-01 19:00:00'),
 (3, 5, 1, 3, 1, '2024-09-05 09:30:00', '2024-09-05 10:30:00'),
@@ -492,7 +492,7 @@ INSERT INTO `peticiones` (`id`, `por_quien_id`, `realizado_por_id`, `tipo_de_int
 
 -- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
 -- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (1).
-INSERT INTO `peticiones` (`id`, `por_quien_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
+INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
 (11, NULL, 1, NULL, 2, '2024-08-01 18:00:00', '2024-08-01 19:00:00', 1, NULL, NULL, NULL),
 (12, NULL, 1, NULL, 3, '2024-09-05 09:30:00', '2024-09-05 10:30:00', NULL, NULL, 2, NULL),
 (13, NULL, 1, NULL, 4, '2024-10-10 12:00:00', '2024-10-10 13:00:00', NULL, 3, NULL, NULL),
