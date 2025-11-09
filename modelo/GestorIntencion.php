@@ -20,10 +20,10 @@ class GestorIntencion extends GestorPeticion
     {
         $this->pdo->beginTransaction();
         try {
-            $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->obtenerObjetoDePeticionNombre());
+            $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->getObjetoDePeticionNombre());
             if(!$objetoDePeticion) {
                 $objetoDePeticion = new ObjetoDePeticion();
-                $objetoDePeticion ->setNombre($intencion->obtenerObjetoDePeticionNombre());
+                $objetoDePeticion ->setNombre($intencion->getObjetoDePeticionNombre());
                 $this->gestorObjetoDePeticion->guardar($objetoDePeticion);
             }
             $intencion->setObjetoDePeticionId($objetoDePeticion->getId());

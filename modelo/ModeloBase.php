@@ -11,7 +11,7 @@ abstract class ModeloBase
                 continue;
             }
             $setter = 'set' . FuncionesComunes::formatearSnakeCaseAPascalCase($llave);
-
+            error_log($setter);
             if (method_exists($this, $setter)) {
                 $this->$setter($valor);
             }

@@ -18,7 +18,7 @@ class Intencion extends Peticion
     {
         $this->objeto_de_peticion_nombre = Validador::validarString($objeto_de_peticion_nombre, 'Nombre de Objeto de Peticion', 500, 200);
     }
-    public function obtenerObjetoDePeticionNombre()
+    public function getObjetoDePeticionNombre()
     {
         return $this->objeto_de_peticion_nombre;
     }
