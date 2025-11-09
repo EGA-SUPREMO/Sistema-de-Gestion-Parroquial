@@ -107,3 +107,17 @@ subtitulo-intenciones {
 .btn-accion:hover {
     color: #333;
 }
+
+.ui-autocomplete {
+    /* Altura máxima para la lista de sugerencias (ajusta a tu gusto) */
+    max-height: 300px; 
+    
+    /* Permite el scroll vertical si la lista excede el max-height */
+    overflow-y: auto; 
+    
+    /* Opcional: Oculta el scroll horizontal si aparece */
+    overflow-x: hidden;
+    
+    /* Asegura que la lista quede encima de otros elementos (importante para modales o menús) */
+    z-index: 1000; 
+}
