@@ -158,6 +158,24 @@ INSERT INTO tipo_de_intencion (nombre, descripcion) VALUES
 ('Difunto', 'Intención dedicada al eterno descanso del alma de una persona fallecida.')
 ;
 
+CREATE TABLE `misas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `fecha_hora` DATETIME NOT NULL,
+  `permite_intenciones` BOOLEAN NOT NULL DEFAULT 1,
+  `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `peticion_misa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `peticion_id` int(11) NOT NULL,
+  `misa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`peticion_id`) REFERENCES `peticiones`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`misa_id`) REFERENCES `misas`(`id`) ON DELETE CASCADE,
+  UNIQUE KEY `idx_peticion_misa_unica` (`peticion_id`, `misa_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Estructura de tabla para la tabla `servicios`
 --
