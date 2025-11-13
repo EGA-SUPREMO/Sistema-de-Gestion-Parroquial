@@ -166,16 +166,6 @@ CREATE TABLE `misas` (
   PRIMARY KEY (`id`)
 );
 
-CREATE TABLE `peticion_misa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `peticion_id` int(11) NOT NULL,
-  `misa_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`peticion_id`) REFERENCES `peticiones`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`misa_id`) REFERENCES `misas`(`id`) ON DELETE CASCADE,
-  UNIQUE KEY `idx_peticion_misa_unica` (`peticion_id`, `misa_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 --
 -- Estructura de tabla para la tabla `servicios`
 --
@@ -495,6 +485,16 @@ ALTER TABLE `servicios`
 --
 -- Volcado de datos para la tabla `peticiones`
 --
+
+CREATE TABLE `peticion_misa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `peticion_id` int(11) NOT NULL,
+  `misa_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`peticion_id`) REFERENCES `peticiones`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`misa_id`) REFERENCES `misas`(`id`) ON DELETE CASCADE,
+  UNIQUE KEY `idx_peticion_misa_unica` (`peticion_id`, `misa_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`) VALUES
 (1, 2, 1, 1, 1, '2024-07-15 10:00:00', '2024-07-15 11:00:00'),
