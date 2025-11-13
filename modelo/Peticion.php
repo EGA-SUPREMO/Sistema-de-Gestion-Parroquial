@@ -5,19 +5,19 @@ require_once 'ModeloBase.php';
 
 class Peticion extends ModeloBase
 {
-    private $id;
-    private $objeto_de_peticion_id;
-    private $realizado_por_id;
-    private $tipo_de_intencion_id;
-    private $servicio_id;
-    private $creado_en;
-    private $actualizado_en;
-    private $fecha_inicio;
-    private $fecha_fin;
-    private $constancia_de_bautizo_id;
-    private $constancia_de_confirmacion_id;
-    private $constancia_de_comunion_id;
-    private $constancia_de_matrimonio_id;
+    protected $id;
+    protected $objeto_de_peticion_id;
+    protected $realizado_por_id;
+    protected $tipo_de_intencion_id;
+    protected $servicio_id;
+    protected $creado_en;
+    protected $actualizado_en;
+    protected $fecha_inicio;
+    protected $fecha_fin;
+    protected $constancia_de_bautizo_id;
+    protected $constancia_de_confirmacion_id;
+    protected $constancia_de_comunion_id;
+    protected $constancia_de_matrimonio_id;
 
     public function getId()
     {

@@ -1,6 +1,7 @@
 <script>
     const hoy = new Date().toISOString().slice(0, 10);
     function getFormularioCampos(tipo, datosPHP) {
+        //console.log(datosPHP);
         let formularioCampos;
         switch (tipo) {
             case 'administrador':
@@ -25,7 +26,6 @@
                 ];
             break;
             case 'intencion':
-                console.log(datosPHP);
                 formularioCampos = [
                     { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por que es la intencion',  required: true, validarMetodo: 'validarNombre', sugerencias: datosPHP.objeto_de_peticion, value: datosPHP.objeto_de_peticion_nombre },
                     { type: 'select', name: 'tipo_de_intencion_id', label: 'Selecciona el tipo de intención',  required: true, value: datosPHP.tipo_de_intencion_id, options: [
@@ -37,8 +37,8 @@
                     ]},
                     { type: 'fila', 
                         campos: [
-                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_inicio || hoy},
-                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_fin || hoy },
+                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
+                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
                         ]
                     },
                 ];

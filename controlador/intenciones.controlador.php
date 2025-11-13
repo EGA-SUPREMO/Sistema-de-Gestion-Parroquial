@@ -21,7 +21,6 @@ class intencionesControlador extends formularioControlador
         $id = (int)($_REQUEST[$this->gestor->getClavePrimaria()] ?? 0);
 
         $datos_modelo = [];
-        $nombre_usuario = '';
         $titulo = "Registrar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
 
         if (isset($_SESSION['input_viejo'])) {
@@ -32,7 +31,7 @@ class intencionesControlador extends formularioControlador
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
-            error_log(print_r($datos_modelo, true));
+            $datos_modelo['objeto_de_peticion_nombre'] = $this->gestorObjetoDePeticion->obtenerPorId($modelo->getObjetoDePeticionId())->getNombre();
         }
         $datos_objetos_de_peticion = [];
         foreach ($this->gestorObjetoDePeticion->obtenerTodos() as $objeto_de_peticion) {
