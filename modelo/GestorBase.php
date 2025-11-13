@@ -22,6 +22,8 @@ abstract class GestorBase
                 case 'all':
                     return $stmt->fetchAll(PDO::FETCH_CLASS, $this->clase_nombre);
                 case 'single':
+                    //$resultado = $stmt->fetchObject($this->clase_nombre);
+                    //error_log(print_r($resultado, true));
                     return $stmt->fetchObject($this->clase_nombre);
                 case 'column':
                     return $stmt->fetchColumn();

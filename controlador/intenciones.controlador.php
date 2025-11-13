@@ -32,6 +32,7 @@ class intencionesControlador extends formularioControlador
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
             $datos_modelo = $modelo->toArrayParaBD();
+            error_log(print_r($datos_modelo, true));
         }
         $datos_objetos_de_peticion = [];
         foreach ($this->gestorObjetoDePeticion->obtenerTodos() as $objeto_de_peticion) {
