@@ -1,0 +1,46 @@
+<?php
+
+require_once 'Validador.php';
+require_once 'ModeloBase.php';
+
+class Misa extends ModeloBase
+{
+    private $id;
+    private $fecha_hora;
+    private $permite_intenciones;
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getFechaHora()
+    {
+        return $this->fecha_hora;
+    }
+
+    public function getPermiteIntenciones()
+    {
+        return $this->permite_intenciones;
+    }
+
+    public function setId($id)
+    {
+        $this->id = Validador::validarEntero($id, "id de la misa", null, 0);
+    }
+
+    public function setFechaHora($fecha_hora)
+    {
+        $fecha_actual_ayer = (new DateTime())->modify('-1 day')->format('Y-m-d');
+        $this->fecha_hora = Validador::validarFecha($fecha_hora, "fecha y hora de la misa", $fecha_actual_ayer);
+    }
+
+    public function setPermiteIntenciones($permite_intenciones)
+    {
+        if ($permite_intenciones === "on") {
+            $this->permite_intenciones = true;
+            return;
+        }
+        $this->permite_intenciones = Validador::validarBooleano($permite_intenciones, "permite intenciones esta misa");
+    }
+}
