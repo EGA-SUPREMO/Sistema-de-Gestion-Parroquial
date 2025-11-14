@@ -51,14 +51,32 @@ abstract class GestorBase
 
     public function obtenerTodos()
     {
-        $sql = "SELECT * FROM {$this->tabla}";
-        return $this->hacerConsulta($sql, [], 'all');
+        return $this->obtenerPor([], 'all');
     }
 
     public function obtenerPorId($id)
     {
-        $sql = "SELECT * FROM {$this->tabla} WHERE {$this->clavePrimaria} = ?";
-        return $this->hacerConsulta($sql, [$id], 'single');
+        return $this->obtenerPor([$this->clavePrimaria => $id], 'single');
+    }
+
+    public function obtenerPor(array $condiciones, string $modo)
+    {
+        $sql = "SELECT * FROM {$this->tabla}";
+        $valores = [];
+
+        if (!empty($condiciones)) {
+            $clausulas = [];
+            
+            foreach ($condiciones as $columna => $valor) {
+                $clausulas[] = "$columna = ?";
+            }
+            
+            $sql .= " WHERE " . implode(' AND ', $clausulas);
+            
+            $valores = array_values($condiciones);
+        }
+
+        return $this->hacerConsulta($sql, $valores, $modo);
     }
 
     public function eliminar($id)
