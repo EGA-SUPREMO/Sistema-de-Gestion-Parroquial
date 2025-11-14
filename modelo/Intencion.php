@@ -5,12 +5,11 @@ require_once 'Peticion.php';
 
 class Intencion extends Peticion
 {
-
     private $objeto_de_peticion_nombre;
 
     public function __construct()
     {
-  //      parent::__construct();
+        //      parent::__construct();
         $this->setServicioId(1);
     }
 

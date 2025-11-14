@@ -66,13 +66,13 @@ abstract class GestorBase
 
         if (!empty($condiciones)) {
             $clausulas = [];
-            
+
             foreach ($condiciones as $columna => $valor) {
                 $clausulas[] = "$columna = ?";
             }
-            
+
             $sql .= " WHERE " . implode(' AND ', $clausulas);
-            
+
             $valores = array_values($condiciones);
         }
 

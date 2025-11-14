@@ -114,7 +114,7 @@ class constanciaControlador // extends formularioControlador
         $datos_reestructurados = [];
 
         foreach ($datos as $clave => $valor) {
-            $partes = explode('-', $clave, 2); 
+            $partes = explode('-', $clave, 2);
 
             if (count($partes) === 2) {
                 $prefijo = $partes[0];

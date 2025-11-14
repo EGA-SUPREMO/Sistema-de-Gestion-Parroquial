@@ -26,7 +26,7 @@ class ServicioIntencion extends ServicioBase
         $this->pdo->beginTransaction();
         try {
             $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->obtenerObjetoDePeticionNombre());
-            if(!$objetoDePeticion) {
+            if (!$objetoDePeticion) {
                 $objetoDePeticion = new ObjetoDePeticion();
                 $objetoDePeticion ->setNombre($intencion->obtenerObjetoDePeticionNombre());
                 $this->gestorObjetoDePeticion->guardar($objetoDePeticion);
@@ -35,10 +35,10 @@ class ServicioIntencion extends ServicioBase
             $resultado = $this->gestorIntencion->guardar($intencion, $id);
 
             $this->pdo->commit();
-            return $resultado;    
+            return $resultado;
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            error_log("Error en la transacción de registro o edicion de intencion: " . $e->getMessage());    
+            error_log("Error en la transacción de registro o edicion de intencion: " . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }
