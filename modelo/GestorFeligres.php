@@ -39,4 +39,25 @@ class GestorFeligres extends GestorBase
         $sql = "SELECT * FROM {$this->tabla} WHERE `partida_de_nacimiento` = ?";
         return $this->hacerConsulta($sql, [$partida_de_nacimiento], 'single');
     }
+
+    public function upsertFeligresPorArray($datosFeligres)
+    {
+        $feligres = $this->obtenerPorCedula($datosFeligres['cedula']);
+        $id = 0;
+        if ($feligres) {
+            $feligres->hydrate($datosFeligres);
+            $id = $feligres->getId();
+            $this->guardar($feligres, $id);
+        } else {
+            $feligres = new Feligres();
+            $feligres->hydrate($datosFeligres);
+            $id = $this->guardar($feligres);
+        }
+
+        if (!$id) {
+            throw new Exception("Error al persistir el feligrés con cédula: " . $datosFeligres['cedula']);
+        }
+
+        return $id;
+    }
 }

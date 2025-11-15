@@ -15,15 +15,24 @@ require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
 
-class ServicioConstanciaDeBautizo extends ServicioConstanciaBase
+class ServicioConstanciaBase extends ServicioBase
 {
+    protected $gestorPeticion;
+    protected $gestorAdministrador;
+    protected $gestorFeligres;
+    protected $gestorSacerdote;
+    protected $gestorConstancia;
+
+    protected static $plantilla_nombre;
 
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
-
-        $this->gestorConstancia = new GestorConstanciaDeBautizo($pdo);
-        self::$plantilla_nombre = "fe de bautizo.docx";
+        $this->gestorPeticion = new GestorPeticion($pdo);
+        $this->gestorAdministrador = new GestorAdministrador($pdo);
+        $this->gestorFeligres = new GestorFeligres($pdo);
+        $this->gestorParentesco = new gestorParentesco($pdo);
+        $this->gestorSacerdote = new gestorSacerdote($pdo);
     }
 
     public function guardarConstancia($datosFormulario)
@@ -72,12 +81,6 @@ class ServicioConstanciaDeBautizo extends ServicioConstanciaBase
                 $this->gestorParentesco->guardar($parentescoMadre);
             }
 
-            $constancia->setFeligresBautizado($this->gestorFeligres->obtenerPorId($constancia->getFeligresBautizadoId()));
-            $constancia->setPadre($this->gestorFeligres->obtenerPorId($constancia->getPadreId()));
-            $constancia->setMadre($this->gestorFeligres->obtenerPorId($constancia->getMadreId()));
-            $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));
-            $constancia->setMinistroCertificaExpedicion($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaExpedicionId()));
-
             $rutaPDF = $this->generarPDF($constancia);
             if (!$rutaPDF) {
                 throw Exception("Error generando la constancia");
@@ -93,26 +96,62 @@ class ServicioConstanciaDeBautizo extends ServicioConstanciaBase
         return false;
     }
 
-    protected function validarDependencias($objeto)
+    protected function guardarPeticion($constancia, $servicioId)// TODO falta terminar
     {
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getFeligresBautizadoId())) {
-            throw new InvalidArgumentException("Error: El feligrés {$objeto->getFeligresBautizadoId()} bautizado no existe.");
+        $peticionEncontrada = $this->gestorPeticion->obtenerPorConstanciaDeBautizoId($constancia->getId());
+        if ($peticionEncontrada) {
+            return;
         }
 
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getPadreId())) {
-            throw new InvalidArgumentException("Error: El padre {$objeto->getPadreId()} no existe.");
-        }
-
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getMadreId())) {
-            throw new InvalidArgumentException("Error: La madre {$objeto->getMadreId()} no existe.");
-        }
-
-        if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
-            throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroId()} no existe.");
-        }
-
-        if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId())) {
-            throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaId()} que certifica no existe.");
-        }
+        $peticion = new Peticion();
+        $adminActual = $this->gestorAdministrador->obtenerPorNombreUsuario($_SESSION['nombre_usuario']);
+        $peticion->setRealizadoPorId($adminActual->getId());
+        $peticion->setServicioId(2);
+        $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
+        $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
+        $peticion->setConstanciaDeBautizoId($constancia->getId());
+        $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
     }
+
+
+    public static function limpiarClavesParaDatosConstancia($datosConstancia)
+    {
+        $datosLimpios = [];
+        $prefijo = 'constancia-';
+        $longitudPrefijo = strlen($prefijo);
+
+        foreach ($datosConstancia as $clave => $valor) {
+            if (strpos($clave, $prefijo) === 0) {
+                $nuevaClave = substr($clave, $longitudPrefijo);
+                $datosLimpios[$nuevaClave] = $valor;
+            } else {
+                $datosLimpios[$clave] = $valor;
+            }
+        }
+
+        return $datosLimpios;
+    }
+    public static function mapearParaEntidad($datosFormulario, $prefijo)
+    {
+        return [
+            'cedula'            => $datosFormulario[$prefijo . '-cedula']            ?? '',
+            'partida_de_nacimiento' => $datosFormulario[$prefijo . '-partida_de_nacimiento']    ?? '',
+            'primer_nombre'     => $datosFormulario[$prefijo . '-primer_nombre'],
+            'segundo_nombre'    => $datosFormulario[$prefijo . '-segundo_nombre']    ?? '',
+            'primer_apellido'   => $datosFormulario[$prefijo . '-primer_apellido'],
+            'segundo_apellido'  => $datosFormulario[$prefijo . '-segundo_apellido']  ?? '',
+            'fecha_nacimiento'  => $datosFormulario[$prefijo . '-fecha_nacimiento']  ?? '',
+            'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? null,
+            'estado'            => $datosFormulario[$prefijo . '-estado']            ?? null,
+            'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
+        ];
+    }
+
+    protected function generarPDF($constancia)
+    {
+        return GeneradorPdf::guardarPDF(self::$plantilla_nombre, $constancia->toArrayParaConstanciaPDF());
+    }
+
+
+    protected abstract function validarDependencias($objeto);
 }
