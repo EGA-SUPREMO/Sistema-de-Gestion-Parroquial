@@ -22,14 +22,8 @@ class GestorPeticion extends GestorBase
         return $this->hacerConsulta($sql, [$constanciaDeBautizoId], 'single');
     }
 
-    public function obtenerPorIdDeConstancia($servicioId, $constanciaId)
+    public function obtenerPorIdDeConstancia($constanciaColumna, $constanciaId)
     {
-        $columna = $this->obtenerNombreColumnaConstancia($servicioId);//aca como se hace de forma generica?
-
-        if ($columna === null) {
-            return null;
-        }
-
         return $this->obtenerPor([$constanciaColumna => $constanciaId], 'single');
     }
 

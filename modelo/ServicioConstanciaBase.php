@@ -98,7 +98,8 @@ class ServicioConstanciaBase extends ServicioBase
 
     protected function guardarPeticion($constancia, $servicioId)// TODO falta terminar
     {
-        $peticionEncontrada = $this->gestorPeticion->obtenerPorConstanciaDeBautizoId($constancia->getId());
+
+        $peticionEncontrada = $this->gestorPeticion->obtenerPorIdDeConstancia($constanciaColumna, $constancia->getId());
         if ($peticionEncontrada) {
             return;
         }
@@ -106,7 +107,7 @@ class ServicioConstanciaBase extends ServicioBase
         $peticion = new Peticion();
         $adminActual = $this->gestorAdministrador->obtenerPorNombreUsuario($_SESSION['nombre_usuario']);
         $peticion->setRealizadoPorId($adminActual->getId());
-        $peticion->setServicioId(2);
+        $peticion->setServicioId($servicioId);
         $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
         $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
         $peticion->setConstanciaDeBautizoId($constancia->getId());

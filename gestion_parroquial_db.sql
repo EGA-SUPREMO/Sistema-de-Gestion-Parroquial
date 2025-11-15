@@ -238,7 +238,7 @@ INSERT INTO `sacerdotes` (`id`, `nombre`, `vivo`) VALUES
 (10, 'Ricardo Castillo', TRUE),
 (11, 'Máximo Tovar', TRUE);
 
-CREATE TABLE `constancia_de_bautizo` (
+CREATE TABLE `constancia_de_fe_de_bautizo` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_bautizo` DATE NOT NULL,
   `feligres_bautizado_id` INT(11) UNIQUE NOT NULL,
@@ -260,19 +260,19 @@ CREATE TABLE `constancia_de_bautizo` (
   FOREIGN KEY (`ministro_certifica_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-ALTER TABLE constancia_de_bautizo
+ALTER TABLE constancia_de_fe_de_bautizo
 ADD CONSTRAINT chk_numeros_registro_positivos
 CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
 
-ALTER TABLE constancia_de_bautizo
+ALTER TABLE constancia_de_fe_de_bautizo
 ADD CONSTRAINT chk_roles_familiares_distintos
 CHECK (feligres_bautizado_id <> padre_id AND feligres_bautizado_id <> madre_id AND padre_id <> madre_id);
 
-ALTER TABLE constancia_de_bautizo
+ALTER TABLE constancia_de_fe_de_bautizo
 ADD CONSTRAINT uq_registro_sacramental
 UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
-INSERT INTO `constancia_de_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `ministro_id`, `ministro_certifica_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_fe_de_bautizo` (`id`, `fecha_bautizo`, `feligres_bautizado_id`, `padre_id`, `madre_id`, `padrino_nombre`, `madrina_nombre`, `observaciones`, `ministro_id`, `ministro_certifica_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2023-01-15', 1, 4, 5, "Jose", "Josefina", 'Bautizado en la parroquia principal.', 1, 1, 1, 10, 5),
 (2, '2022-05-20', 2, 8, 9, "padrino", "madriana", NULL, 2, 8, 2, 15, 8),
 (3, '2024-03-10', 3, 4, 10, "Mariano", "Mariana", NULL, 3, 5, 3, 20, 12);
@@ -455,28 +455,28 @@ ALTER TABLE `peticiones`
   );
 
 ALTER TABLE `peticiones`
-ADD COLUMN `constancia_de_bautizo_id` INT NULL,
+ADD COLUMN `constancia_de_fe_de_bautizo_id` INT NULL,
 ADD COLUMN `constancia_de_confirmacion_id` INT NULL,
 ADD COLUMN `constancia_de_comunion_id` INT NULL,
 ADD COLUMN `constancia_de_matrimonio_id` INT NULL,
-ADD FOREIGN KEY (`constancia_de_bautizo_id`) REFERENCES `constancia_de_bautizo` (`id`),
+ADD FOREIGN KEY (`constancia_de_fe_de_bautizo_id`) REFERENCES `constancia_de_fe_de_bautizo` (`id`),
 ADD FOREIGN KEY (`constancia_de_confirmacion_id`) REFERENCES `constancia_de_confirmacion` (`id`),
 ADD FOREIGN KEY (`constancia_de_comunion_id`) REFERENCES `constancia_de_comunion` (`id`),
 ADD FOREIGN KEY (`constancia_de_matrimonio_id`) REFERENCES `constancia_de_matrimonio` (`id`);
 
 ALTER TABLE `peticiones`
-ADD UNIQUE KEY (`constancia_de_bautizo_id`),
+ADD UNIQUE KEY (`constancia_de_fe_de_bautizo_id`),
 ADD UNIQUE KEY (`constancia_de_confirmacion_id`),
 ADD UNIQUE KEY (`constancia_de_comunion_id`),
 ADD UNIQUE KEY (`constancia_de_matrimonio_id`);
 
 ALTER TABLE `peticiones`
   ADD CONSTRAINT `chk_servicio_constancias` CHECK (
-    (`servicio_id` = 2 AND `constancia_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 4 AND `constancia_de_confirmacion_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
-    (`servicio_id` = 5 AND `constancia_de_matrimonio_id` IS NOT NULL AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL) OR
-    (`servicio_id` NOT IN (2, 3, 4, 5) AND `constancia_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL)
+    (`servicio_id` = 2 AND `constancia_de_fe_de_bautizo_id` IS NOT NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 3 AND `constancia_de_comunion_id` IS NOT NULL AND `constancia_de_fe_de_bautizo_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 4 AND `constancia_de_confirmacion_id` IS NOT NULL AND `constancia_de_fe_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL) OR
+    (`servicio_id` = 5 AND `constancia_de_matrimonio_id` IS NOT NULL AND `constancia_de_fe_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL) OR
+    (`servicio_id` NOT IN (2, 3, 4, 5) AND `constancia_de_fe_de_bautizo_id` IS NULL AND `constancia_de_comunion_id` IS NULL AND `constancia_de_confirmacion_id` IS NULL AND `constancia_de_matrimonio_id` IS NULL)
 );
 
 ALTER TABLE `servicios`
@@ -510,7 +510,7 @@ INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `ti
 
 -- Inserts para peticiones sin tipo_de_intencion (servicio_id != 1)
 -- Se asume que existen IDs válidos en feligreses (ej. 1-20) y administrador (1).
-INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`, `constancia_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
+INSERT INTO `peticiones` (`id`, `objeto_de_peticion_id`, `realizado_por_id`, `tipo_de_intencion_id`, `servicio_id`, `fecha_inicio`, `fecha_fin`, `constancia_de_fe_de_bautizo_id`, `constancia_de_confirmacion_id`, `constancia_de_comunion_id`, `constancia_de_matrimonio_id`) VALUES
 (11, NULL, 1, NULL, 2, '2024-08-01 18:00:00', '2024-08-01 19:00:00', 1, NULL, NULL, NULL),
 (12, NULL, 1, NULL, 3, '2024-09-05 09:30:00', '2024-09-05 10:30:00', NULL, NULL, 2, NULL),
 (13, NULL, 1, NULL, 4, '2024-10-10 12:00:00', '2024-10-10 13:00:00', NULL, 3, NULL, NULL),

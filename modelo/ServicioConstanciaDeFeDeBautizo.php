@@ -5,9 +5,9 @@ require_once 'Feligres.php';
 require_once 'Peticion.php';
 require_once 'Sacerdote.php';
 require_once 'Parentesco.php';
-require_once 'ConstanciaDeBautizo.php';
+require_once 'ConstanciaDeFeDeBautizo.php';
 
-require_once 'GestorConstanciaDeBautizo.php';
+require_once 'GestorConstanciaDeFeDeBautizo.php';
 require_once 'GestorPeticion.php';
 require_once 'GestorParentesco.php';
 require_once 'GestorSacerdote.php';
@@ -15,7 +15,7 @@ require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
 
-class ServicioConstanciaDeBautizo extends ServicioConstanciaBase
+class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
 {
 
     public function __construct(PDO $pdo)
