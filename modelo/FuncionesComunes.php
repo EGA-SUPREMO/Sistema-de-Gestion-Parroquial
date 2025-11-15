@@ -10,6 +10,20 @@ class FuncionesComunes
         return $titulo_formateado;
     }
 
+    public static function formatearTituloASnakeCase($cadena)
+    {
+        $snakeCaseConEspacios = preg_replace('/\s+/', '_', $cadena);
+
+        $snakeCaseFinal = strtolower($snakeCaseConEspacios);
+
+        // esto es opcional
+        $snakeCaseLimpio = preg_replace('/[^a-z0-9_]+/', '', $snakeCaseFinal);
+        $snakeCaseFinal = preg_replace('/__+/', '_', $snakeCaseLimpio);
+        $snakeCaseFinal = trim($snakeCaseFinal, '_');
+
+        return $snakeCaseFinal;
+    }
+
     public static function requerirLogin()
     {
         if (empty($_SESSION['nombre_usuario'])) {

@@ -4,13 +4,16 @@ require_once 'ServicioBase.php';
 require_once 'Feligres.php';
 require_once 'Peticion.php';
 require_once 'Sacerdote.php';
+require_once 'Servicio.php';
 require_once 'Parentesco.php';
 require_once 'ConstanciaDeBautizo.php';
 
+require_once 'FuncionesComunes.php';
 require_once 'GestorConstanciaDeBautizo.php';
 require_once 'GestorPeticion.php';
 require_once 'GestorParentesco.php';
 require_once 'GestorSacerdote.php';
+require_once 'gestorServicio.php';
 require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
@@ -22,6 +25,7 @@ class ServicioConstanciaBase extends ServicioBase
     protected $gestorFeligres;
     protected $gestorSacerdote;
     protected $gestorConstancia;
+    protected $gestorServicio;
 
     protected static $plantilla_nombre;
 
@@ -33,6 +37,7 @@ class ServicioConstanciaBase extends ServicioBase
         $this->gestorFeligres = new GestorFeligres($pdo);
         $this->gestorParentesco = new gestorParentesco($pdo);
         $this->gestorSacerdote = new gestorSacerdote($pdo);
+        $this->gestorServicio = new gestorServicio($pdo);
     }
 
     public function guardarConstancia($datosFormulario)
@@ -98,6 +103,11 @@ class ServicioConstanciaBase extends ServicioBase
 
     protected function guardarPeticion($constancia, $servicioId)
     {
+        $servicio = $this->gestorServicio->obtenerPorId($servicioId);
+        if (!$servicio) {
+            throw new Exception("Servicio con ID {$servicioId} no encontrado.");
+        }
+        $columnaConstancia = "constancia_de_" . FuncionesComunes::formatearTituloASnakeCase($servicio->getNombre()) . "_id";
 
         $peticionEncontrada = $this->gestorPeticion->obtenerPorIdDeConstancia($constanciaColumna, $constancia->getId());
         if ($peticionEncontrada) {
@@ -110,7 +120,15 @@ class ServicioConstanciaBase extends ServicioBase
         $peticion->setServicioId($servicioId);
         $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
         $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
-        $peticion->setConstanciaDeBautizoId($constancia->getId());
+        
+        $nombreMetodoSetter = "set" . $this->formatearSnakeCaseAPascalCase($columnaConstancia);
+        
+        if (method_exists($peticion, $nombreMetodoSetter)) {
+            $peticion->{$nombreMetodoSetter}($constancia->getId());
+        } else {
+            throw new Exception("El método setter '{$nombreMetodoSetter}' no existe en la clase Peticion.");
+        }
+
         $peticionGuardadaId = $this->gestorPeticion->guardar($peticion);
     }
 
