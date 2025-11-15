@@ -1,6 +1,6 @@
 <?php
 
-require_once 'ServicioBase.php';
+require_once 'ServicioConstanciaBase.php';
 require_once 'Feligres.php';
 require_once 'Peticion.php';
 require_once 'Sacerdote.php';
@@ -22,7 +22,7 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
     {
         parent::__construct($pdo);
 
-        $this->gestorConstancia = new GestorConstanciaDeBautizo($pdo);
+        $this->gestorConstancia = new GestorConstanciaDeFeDeBautizo($pdo);
         self::$plantilla_nombre = "fe de bautizo.docx";
     }
 

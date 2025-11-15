@@ -14,7 +14,7 @@ class Peticion extends ModeloBase
     protected $actualizado_en;
     protected $fecha_inicio;
     protected $fecha_fin;
-    protected $constancia_de_bautizo_id;
+    protected $constancia_de_fe_de_bautizo_id;
     protected $constancia_de_confirmacion_id;
     protected $constancia_de_comunion_id;
     protected $constancia_de_matrimonio_id;
@@ -64,9 +64,9 @@ class Peticion extends ModeloBase
         return $this->fecha_fin;
     }
 
-    public function getConstanciaDeBautizoId()
+    public function getConstanciaDeFeDeBautizoId()
     {
-        return $this->constancia_de_bautizo_id;
+        return $this->constancia_de_fe_de_bautizo_id;
     }
 
     public function getConstanciaDeConfirmacionId()
@@ -127,9 +127,9 @@ class Peticion extends ModeloBase
         }
     }
 
-    public function setConstanciaDeBautizoId($id)
+    public function setConstanciaDeFeDeBautizoId($id)
     {
-        $this->constancia_de_bautizo_id = Validador::validarEntero($id, 'Constancia de Bautizo ID', valorMinimo: 0);
+        $this->constancia_de_fe_de_bautizo_id = Validador::validarEntero($id, 'Constancia de Bautizo ID', valorMinimo: 0);
     }
 
     public function setConstanciaDeConfirmacionId($id)

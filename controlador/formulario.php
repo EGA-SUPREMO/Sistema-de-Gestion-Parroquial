@@ -77,7 +77,7 @@
                     },
                 ];
             break;
-        case 'constancia_de_bautizo':
+        case 'constancia_de_fe_de_bautizo':
             const sacerdoteOptions = datosPHP.sacerdotes.map(sacerdote => ({
                 value: sacerdote.id,
                 text: sacerdote.nombre,

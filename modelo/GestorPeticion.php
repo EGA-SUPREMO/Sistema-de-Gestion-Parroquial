@@ -18,7 +18,7 @@ class GestorPeticion extends GestorBase
 
     public function obtenerPorConstanciaDeBautizoId($constanciaDeBautizoId)
     {
-        $sql = "SELECT * FROM {$this->tabla} WHERE `constancia_de_bautizo_id` = ?";
+        $sql = "SELECT * FROM {$this->tabla} WHERE `constancia_de_fe_de_bautizo_id` = ?";
         return $this->hacerConsulta($sql, [$constanciaDeBautizoId], 'single');
     }
 
