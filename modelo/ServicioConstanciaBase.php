@@ -18,7 +18,7 @@ require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
 
-class ServicioConstanciaBase extends ServicioBase
+abstract class ServicioConstanciaBase extends ServicioBase
 {
     protected $gestorPeticion;
     protected $gestorAdministrador;
@@ -40,67 +40,8 @@ class ServicioConstanciaBase extends ServicioBase
         $this->gestorServicio = new gestorServicio($pdo);
     }
 
-    public function guardarConstancia($datosFormulario)
-    {
-        $this->pdo->beginTransaction();
-        try {
-            $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
-
-            $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
-            $datosDelPadre = self::mapearParaEntidad($datosFormulario, 'padre');
-            $datosDeLaMadre = self::mapearParaEntidad($datosFormulario, 'madre');
-
-            $feligresId = $this->gestorFeligres->upsertFeligresPorArray($datosDelFeligres);
-            $feligresPadreId = $this->gestorFeligres->upsertFeligresPorArray($datosDelPadre);
-            $feligresMadreId = $this->gestorFeligres->upsertFeligresPorArray($datosDeLaMadre);
-
-            $constancia = new ConstanciaDeBautizo();
-            $datosConstancia['feligres_bautizado_id'] = $feligresId;
-            $datosConstancia['padre_id'] = $feligresPadreId;
-            $datosConstancia['madre_id'] = $feligresMadreId;
-
-            $constancia -> hydrate($datosConstancia);
-            $this->validarDependencias($constancia);
-
-            $idConstanciaEncontradaPorFeligres = $this->gestorConstanciaDeBautizo->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
-            $this->gestorConstanciaDeBautizo->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
-
-            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres);
-
-            $this->guardarPeticion($constancia, $idConstanciaGuardada);
-
-            $parentescoPadre = new Parentesco();
-            $parentescoPadre->setIdPadre($feligresPadreId);
-            $parentescoPadre->setIdHijo($feligresId);
-
-            $parentescoMadre = new Parentesco();
-            $parentescoMadre->setIdPadre($feligresMadreId);
-            $parentescoMadre->setIdHijo($feligresId);
-
-            $this->gestorParentesco->verificarParadojaDeParentesco($parentescoPadre, [$parentescoMadre]);
-            if (!$this->gestorParentesco->existeParentescoDirecto($parentescoPadre)) {
-                $this->gestorParentesco->guardar($parentescoPadre);
-            }
-            $this->gestorParentesco->verificarParadojaDeParentesco($parentescoMadre, [$parentescoPadre]);
-            if (!$this->gestorParentesco->existeParentescoDirecto($parentescoMadre)) {
-                $this->gestorParentesco->guardar($parentescoMadre);
-            }
-
-            $rutaPDF = $this->generarPDF($constancia);
-            if (!$rutaPDF) {
-                throw Exception("Error generando la constancia");
-            }
-            $this->pdo->commit();
-
-            return $rutaPDF;
-        } catch (Exception $e) {
-            $this->pdo->rollBack();
-            error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
-            throw new Exception($e->getMessage());
-        }
-        return false;
-    }
-
+    public abstract function guardarConstancia($datosFormulario);
+    
     protected function guardarPeticion($constancia, $servicioId)
     {
         $servicio = $this->gestorServicio->obtenerPorId($servicioId);

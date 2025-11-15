@@ -23,8 +23,8 @@ class ServicioIntencion extends ServicioBase
 
     public function guardar($intencion, $id = 0)
     {
-        $this->pdo->beginTransaction();
-        try {
+        return $this->ejecutarEnTransaccion(function() use ($intencion, $id) {
+
             $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->obtenerObjetoDePeticionNombre());
             if (!$objetoDePeticion) {
                 $objetoDePeticion = new ObjetoDePeticion();
@@ -34,12 +34,7 @@ class ServicioIntencion extends ServicioBase
             $intencion->setObjetoDePeticionId($objetoDePeticion->getId());
             $resultado = $this->gestorIntencion->guardar($intencion, $id);
 
-            $this->pdo->commit();
             return $resultado;
-        } catch (Exception $e) {
-            $this->pdo->rollBack();
-            error_log("Error en la transacción de registro o edicion de intencion: " . $e->getMessage());
-            throw new Exception($e->getMessage());
-        }
+        }, "de registro o edicion de intencion");
     }
 }
