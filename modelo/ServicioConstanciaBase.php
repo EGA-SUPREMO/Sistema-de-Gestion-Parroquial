@@ -96,7 +96,7 @@ class ServicioConstanciaBase extends ServicioBase
         return false;
     }
 
-    protected function guardarPeticion($constancia, $servicioId)// TODO falta terminar
+    protected function guardarPeticion($constancia, $servicioId)
     {
 
         $peticionEncontrada = $this->gestorPeticion->obtenerPorIdDeConstancia($constanciaColumna, $constancia->getId());

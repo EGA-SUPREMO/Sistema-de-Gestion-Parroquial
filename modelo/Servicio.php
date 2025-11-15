@@ -2,9 +2,10 @@
 
 require_once 'modelo/Validador.php';
 
-class CategoriaDeServicios
+class Servicio
 {
     private $id;
+    private $id_categoria;
     private $nombre;
     private $descripcion;
 
@@ -13,9 +14,18 @@ class CategoriaDeServicios
         return $this->id;
     }
 
+    public function getIdCategoria()
+    {
+        return $this->id_categoria;
+    }
+
     public function setId($id)
     {
         $this->id = Validador::validarEntero($id, "id", null, 0);
+    }
+    public function setIdCategoria($id)
+    {
+        $this->id_categoria = Validador::validarEntero($id_categoria, "id de categoria", null, 0);
     }
 
     public function getNombre()
