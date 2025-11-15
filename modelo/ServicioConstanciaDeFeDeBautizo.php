@@ -17,11 +17,11 @@ require_once 'GestorAdministrador.php';
 
 class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
 {
-
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
 
+        $this->servicioIdParaEstaConstancia = 2;
         $this->gestorConstancia = new GestorConstanciaDeFeDeBautizo($pdo);
         self::$plantilla_nombre = "fe de bautizo.docx";
     }
@@ -40,7 +40,7 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
             $feligresPadreId = $this->gestorFeligres->upsertFeligresPorArray($datosDelPadre);
             $feligresMadreId = $this->gestorFeligres->upsertFeligresPorArray($datosDeLaMadre);
 
-            $constancia = new ConstanciaDeBautizo();
+            $constancia = new ConstanciaDeFeDeBautizo();
             $datosConstancia['feligres_bautizado_id'] = $feligresId;
             $datosConstancia['padre_id'] = $feligresPadreId;
             $datosConstancia['madre_id'] = $feligresMadreId;
@@ -48,12 +48,12 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
-            $idConstanciaEncontradaPorFeligres = $this->gestorConstanciaDeBautizo->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
-            $this->gestorConstanciaDeBautizo->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
+            $idConstanciaEncontradaPorFeligres = $this->gestorConstancia->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
+            $this->gestorConstancia->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
 
-            $idConstanciaGuardada = $this->gestorConstanciaDeBautizo->guardar($constancia, $idConstanciaEncontradaPorFeligres);
+            $idConstanciaGuardada = $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorFeligres);
 
-            $this->guardarPeticion($constancia, $idConstanciaGuardada);
+            $this->guardarPeticion($constancia, $this->servicioIdParaEstaConstancia);
 
             $parentescoPadre = new Parentesco();
             $parentescoPadre->setIdPadre($feligresPadreId);

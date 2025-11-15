@@ -25,6 +25,7 @@ abstract class ServicioConstanciaBase extends ServicioBase
     protected $gestorConstancia;
     protected $gestorServicio;
 
+    protected $servicioIdParaEstaConstancia;
     protected static $plantilla_nombre;
 
     public function __construct(PDO $pdo)
@@ -48,7 +49,7 @@ abstract class ServicioConstanciaBase extends ServicioBase
         }
         $columnaConstancia = "constancia_de_" . FuncionesComunes::formatearTituloASnakeCase($servicio->getNombre()) . "_id";
 
-        $peticionEncontrada = $this->gestorPeticion->obtenerPorIdDeConstancia($constanciaColumna, $constancia->getId());
+        $peticionEncontrada = $this->gestorPeticion->obtenerPorIdDeConstancia($columnaConstancia, $constancia->getId());
         if ($peticionEncontrada) {
             return;
         }
@@ -60,7 +61,7 @@ abstract class ServicioConstanciaBase extends ServicioBase
         $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
         $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
         
-        $nombreMetodoSetter = "set" . $this->formatearSnakeCaseAPascalCase($columnaConstancia);
+        $nombreMetodoSetter = "set" . FuncionesComunes::formatearSnakeCaseAPascalCase($columnaConstancia);
         
         if (method_exists($peticion, $nombreMetodoSetter)) {
             $peticion->{$nombreMetodoSetter}($constancia->getId());
