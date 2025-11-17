@@ -116,7 +116,7 @@
                             { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_apellido ?? '' },
                         ] 
                     },
-                    { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha de la Comunión', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_comunion },
+                    { type: 'date', name: 'constancia-fecha_comunion', label: 'Fecha de la Comunión', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_comunion },
                     { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                     { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
                     { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },

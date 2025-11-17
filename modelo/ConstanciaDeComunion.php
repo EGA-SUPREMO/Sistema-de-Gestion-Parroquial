@@ -96,7 +96,7 @@ class ConstanciaDeComunion extends ModeloBase
         $datos_constancia = [];
 
         $datos_constancia['feligres_nombre_completo'] = strtoupper(Validador::estaVacio($this->feligres->nombreCompleto(), 'Nombre del feligres'));
-        $datos_constancia['feligres_cedula'] = $this->feligres->cedula();
+        $datos_constancia['feligres_cedula'] = $this->feligres->getCedula();
 
         $fecha_comunion = new DateTime(Validador::estaVacio($datos_bd['fecha_comunion'], 'Fecha de Comunion'));
         $datos_constancia['dia'] = $fecha_comunion->format('d');

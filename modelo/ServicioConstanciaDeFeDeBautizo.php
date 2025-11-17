@@ -107,5 +107,8 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaId())) {
             throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaId()} que certifica no existe.");
         }
+        if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroCertificaExpedicionId())) {
+            throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaExpedicionId()} que certifica expedicion no existe.");
+        }
     }
 }
