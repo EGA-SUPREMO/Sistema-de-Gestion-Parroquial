@@ -214,11 +214,6 @@ class ConstanciaDeFeDeBautizo extends ModeloBase
         unset($datos['ministro_certifica_expedicion_id']);
         return $datos;
     }
-    public function toArrayParaMostrar($criterio = null)
-    {
-        $datos = parent::toArrayParaMostrar();
-        return $datos;
-    }
 
     public function toArrayParaConstanciaPDF()
     {
