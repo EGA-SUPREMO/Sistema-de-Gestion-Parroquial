@@ -39,8 +39,8 @@ abstract class ServicioConstanciaBase extends ServicioBase
         $this->gestorServicio = new gestorServicio($pdo);
     }
 
-    public abstract function guardarConstancia($datosFormulario);
-    
+    abstract public function guardarConstancia($datosFormulario);
+
     protected function guardarPeticion($constancia, $servicioId)
     {
         $servicio = $this->gestorServicio->obtenerPorId($servicioId);
@@ -60,9 +60,9 @@ abstract class ServicioConstanciaBase extends ServicioBase
         $peticion->setServicioId($servicioId);
         $peticion->setFechaInicio($constancia->obtenerFechaExpedicion());
         $peticion->setFechaFin($constancia->obtenerFechaExpedicion());
-        
+
         $nombreMetodoSetter = "set" . FuncionesComunes::formatearSnakeCaseAPascalCase($columnaConstancia);
-        
+
         if (method_exists($peticion, $nombreMetodoSetter)) {
             $peticion->{$nombreMetodoSetter}($constancia->getId());
         } else {
@@ -112,5 +112,5 @@ abstract class ServicioConstanciaBase extends ServicioBase
     }
 
 
-    protected abstract function validarDependencias($objeto);
+    abstract protected function validarDependencias($objeto);
 }

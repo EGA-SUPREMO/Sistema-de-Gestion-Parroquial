@@ -23,7 +23,7 @@ class ServicioIntencion extends ServicioBase
 
     public function guardar($intencion, $id = 0)
     {
-        return $this->ejecutarEnTransaccion(function() use ($intencion, $id) {
+        return $this->ejecutarEnTransaccion(function () use ($intencion, $id) {
 
             $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->obtenerObjetoDePeticionNombre());
             if (!$objetoDePeticion) {
