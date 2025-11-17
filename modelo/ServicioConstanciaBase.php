@@ -14,7 +14,7 @@ require_once 'GestorSacerdote.php';
 require_once 'GestorServicio.php';
 require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
-
+require_once 'GeneradorPdf.php';
 
 abstract class ServicioConstanciaBase extends ServicioBase
 {

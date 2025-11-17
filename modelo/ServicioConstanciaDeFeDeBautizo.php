@@ -14,7 +14,6 @@ require_once 'GestorSacerdote.php';
 require_once 'GestorFeligres.php';
 require_once 'GestorAdministrador.php';
 
-
 class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
 {
     public function __construct(PDO $pdo)
@@ -28,8 +27,7 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
 
     public function guardarConstancia($datosFormulario)
     {
-        $this->pdo->beginTransaction();
-        try {
+        return $this->ejecutarEnTransaccion(function () use ($datosFormulario) {
             $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
 
             $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
@@ -83,15 +81,9 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
             if (!$rutaPDF) {
                 throw Exception("Error generando la constancia");
             }
-            $this->pdo->commit();
 
             return $rutaPDF;
-        } catch (Exception $e) {
-            $this->pdo->rollBack();
-            error_log("Error en la transacción de registro o generacion de constancia: " . $e->getMessage());
-            throw new Exception($e->getMessage());
-        }
-        return false;
+        }, "de registro o generacion de constancia");
     }
 
     protected function validarDependencias($objeto)

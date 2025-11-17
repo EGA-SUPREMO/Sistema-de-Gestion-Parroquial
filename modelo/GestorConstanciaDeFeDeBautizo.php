@@ -2,7 +2,6 @@
 
 require_once 'GestorBase.php';
 
-require_once 'GeneradorPdf.php';
 require_once 'ConstanciaDeFeDeBautizo.php';
 
 class GestorConstanciaDeFeDeBautizo extends GestorBase
