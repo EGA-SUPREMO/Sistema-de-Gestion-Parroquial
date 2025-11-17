@@ -42,8 +42,11 @@ class GestorFeligres extends GestorBase
 
     public function upsertFeligresPorArray($datosFeligres)
     {
-        $feligres = $this->obtenerPorCedula($datosFeligres['cedula']);
         $id = 0;
+        $feligres = $this->obtenerPorCedula($datosFeligres['cedula']);
+        if (!$feligres) {
+            $feligres = $this->obtenerPorPartidaDeNacimiento($datosFeligres['partida_de_nacimiento']);
+        }
         if ($feligres) {
             $feligres->hydrate($datosFeligres);
             $id = $feligres->getId();
