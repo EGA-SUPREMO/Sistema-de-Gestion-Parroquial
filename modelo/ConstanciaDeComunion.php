@@ -96,7 +96,13 @@ class ConstanciaDeComunion extends ModeloBase
         $datos_constancia = [];
 
         $datos_constancia['feligres_nombre_completo'] = strtoupper(Validador::estaVacio($this->feligres->nombreCompleto(), 'Nombre del feligres'));
-        $datos_constancia['feligres_cedula'] = $this->feligres->getCedula();
+        if ($this->feligres->getCedula()) {
+            $datos_constancia['feligres_cedula_texto'] = ", titular de la Cédula de Identidad N.º " . Validador::estaVacio($this->feligres->getCedula(), 'Cedula del feligres');
+        } elseif ($this->feligres->getPartidaDeNacimiento()) {
+            $datos_constancia['feligres_cedula_texto'] = "";
+        } else {
+            throw new InvalidArgumentException("Error: 'partida de nacimiento' y 'cedula' estan vacíos");
+        }
 
         $fecha_comunion = new DateTime(Validador::estaVacio($datos_bd['fecha_comunion'], 'Fecha de Comunion'));
         $datos_constancia['dia'] = $fecha_comunion->format('d');

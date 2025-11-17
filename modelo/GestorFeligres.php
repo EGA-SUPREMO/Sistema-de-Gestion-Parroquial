@@ -12,6 +12,15 @@ class GestorFeligres extends GestorBase
         $this ->clase_nombre = "Feligres";
     }
 
+    public function guardar($objeto, $id = 0)
+    {
+        if (!$objeto->getCedula() && !$objeto->getPartidaDeNacimiento()) {
+            throw new InvalidArgumentException("Error: Debe ingresar la 'Cédula' o la 'Partida de Nacimiento' para continuar. Ambos campos están vacíos.");
+        }
+
+        return parent::guardar($objeto, $id);
+    }
+
     public function obtenerHijosPorCedulaPadre($cedula)
     {
         $sql = "

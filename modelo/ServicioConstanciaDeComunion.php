@@ -30,7 +30,7 @@ class ServicioConstanciaDeComunion extends ServicioConstanciaBase
     {
         return $this->ejecutarEnTransaccion(function () use ($datosFormulario) {
             $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
-            error_log(print_r($datosFormulario, true));
+
             $datosDelFeligres = self::mapearParaEntidad($datosFormulario, 'feligres');
 
             $feligresId = $this->gestorFeligres->upsertFeligresPorArray($datosDelFeligres);
