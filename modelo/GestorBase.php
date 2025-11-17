@@ -36,7 +36,7 @@ abstract class GestorBase
                     return $stmt->rowCount();
             }
         } catch (PDOException $e) {
-            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . " Consulta: " . $consulta);
+            error_log("Error ejecutando consulta para tabla {$this->tabla}: " . $e->getMessage() . " Consulta: " . $consulta . " Parametros: " . print_r($parametros, true));
             throw new Exception("Error ejecutando consulta para tabla: {$this->tabla}");
             return null;
         }

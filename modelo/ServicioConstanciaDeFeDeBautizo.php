@@ -50,8 +50,9 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
 
             $idConstanciaEncontradaPorFeligres = $this->gestorConstancia->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
             $this->gestorConstancia->verificarConsistenciaIds($feligresId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
+            $constancia->setId($idConstanciaEncontradaPorFeligres);
 
-            $idConstanciaGuardada = $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorFeligres);
+            $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorFeligres);
 
             $this->guardarPeticion($constancia, $this->servicioIdParaEstaConstancia);
 
