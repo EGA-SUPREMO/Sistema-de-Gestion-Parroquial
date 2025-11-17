@@ -77,7 +77,7 @@ function validarFechaNacimiento($elemento) {
     );
 }
 
-function validarFechaBautizo($elemento) {
+function validarFechaConstanciaSuceso($elemento) {
     const fechaActual = new Date().toISOString().slice(0, 10);
     const mensaje = `La fecha debe ser entre 1900-01-01 y ${fechaActual}.`;
     validarCampo(
@@ -299,7 +299,7 @@ function autocompletarCampo($elemento) {
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
 
-function autocompletarFeligresBautizado($elemento) {
+function autocompletarSujetoSacramento($elemento) {
 
     let datos = {};
     datos[$elemento.attr('name')] = $elemento.val(); 

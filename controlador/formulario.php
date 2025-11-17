@@ -3,6 +3,22 @@
     function getFormularioCampos(tipo, datosPHP) {
         //console.log(datosPHP);
         let formularioCampos;
+        let sacerdoteOptions;
+        let sacerdoteVivosOptions;
+
+        if (datosPHP.sacerdotes) {
+            sacerdoteOptions = datosPHP.sacerdotes.map(sacerdote => ({
+                value: sacerdote.id,
+                text: sacerdote.nombre,
+                disabled: sacerdote.id === 0
+            }));
+            sacerdoteVivosOptions = datosPHP.sacerdotes_vivos.map(sacerdote => ({
+                value: sacerdote.id,
+                text: sacerdote.nombre,
+                disabled: sacerdote.id === 0
+            }));
+        }
+
         switch (tipo) {
             case 'administrador':
                 formularioCampos = [
@@ -77,24 +93,42 @@
                     },
                 ];
             break;
+            case 'constancia_de_comunion':
+                formularioCampos = [
+                    { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
+                    { type: 'fila', 
+                        campos: [
+                            { type: 'text', name: 'feligres-cedula', label: 'Cédula del Feligres', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                            { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Feligres', validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
+                            { type: 'text', name: 'padre-cedula', label: 'Cédula de un progenitor', required: false, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
+                        ]
+                    },
+                    { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Feligre'},
+                    { type: 'fila', 
+                        campos: [
+                            { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_nombre ?? '' },
+                            { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_nombre ?? '' },
+                        ] 
+                    },
+                    { type: 'fila', 
+                        campos: [
+                            { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_apellido ?? '' },
+                            { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_apellido ?? '' },
+                        ] 
+                    },
+                    { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha de la Comunión', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_comunion },
+                    { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
+                    { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
+                    { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
+                ];
+                break;
         case 'constancia_de_fe_de_bautizo':
-            const sacerdoteOptions = datosPHP.sacerdotes.map(sacerdote => ({
-                value: sacerdote.id,
-                text: sacerdote.nombre,
-                disabled: sacerdote.id === 0
-            }));
-            const sacerdoteVivosOptions = datosPHP.sacerdotes_vivos.map(sacerdote => ({
-                value: sacerdote.id,
-                text: sacerdote.nombre,
-                disabled: sacerdote.id === 0
-            }));
-
             formularioCampos = [
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarFeligresBautizado', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
-                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarFeligresBautizado', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                        { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
                     ]
                 },
                 { type: 'fila', 
@@ -155,7 +189,7 @@
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
-                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaBautizo', value: datosPHP.fecha_bautizo },
+                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_bautizo },
                 { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
                 { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.madrina_nombre },
                 { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: datosPHP.observaciones },
@@ -185,7 +219,7 @@
                       { value: 'Matrimonio', text: 'Matrimonio' },
                     ] },
             ];
-        break;
+            break;
         }
         formularioCampos.push({ type: 'hidden', name: 'id', value: datosPHP.id});
         
