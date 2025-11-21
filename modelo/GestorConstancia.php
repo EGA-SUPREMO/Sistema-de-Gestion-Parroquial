@@ -24,14 +24,14 @@ abstract class GestorConstancia extends GestorBase
         $resultado = $this->obtenerPor(['numero_libro' => $numero_libro, 'numero_pagina' => $numero_pagina, 'numero_marginal' => $numero_marginal], 'single');
         return $resultado ? $resultado->getId() : 0;
     }
-    
-    public function verificarConsistenciaIds($sujetosSacramento, $numero_libro, $numero_pagina, $numero_marginal)
+
+    public function verificarConsistenciaIds($sujetosSacramentoIds, $numero_libro, $numero_pagina, $numero_marginal)
     {
-        $idConstanciaEncontradaPorSujetoSacramento = $this->obtenerConstanciaIdPorSujetoSacramentoId($sujetosSacramento);
+        $idConstanciaEncontradaPorSujetoSacramento = $this->obtenerConstanciaIdPorSujetoSacramentoId($sujetosSacramentoIds);
         $idConstanciaEncontradaPorLibro = $this->obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal);
 
         if ($idConstanciaEncontradaPorSujetoSacramento !== $idConstanciaEncontradaPorLibro) {
-            throw new Exception("Error: el feligrés y el registro de libro apuntan a constancias distintas (IDs: $idConstanciaEncontradaPorFeligres vs $idConstanciaEncontradaPorLibro).");
+            throw new Exception("Error: el sujeto de sacramento y el registro de libro apuntan a constancias distintas (IDs: $idConstanciaEncontradaPorSujetoSacramento vs $idConstanciaEncontradaPorLibro).");
         }
     }
 

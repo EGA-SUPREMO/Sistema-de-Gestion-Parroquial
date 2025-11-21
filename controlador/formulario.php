@@ -220,6 +220,76 @@
                     ] },
             ];
             break;
+            case 'constancia_de_matrimonio':
+            formularioCampos = [
+                { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente1?.cedula ?? '' },
+                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente2?.cedula ?? '' },
+                    ]
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 1'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_nombre ?? '' },
+                        { type: 'text', name: 'padre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_apellido ?? '' },
+                        { type: 'text', name: 'padre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 2'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_nombre ?? '' },
+                        { type: 'text', name: 'madre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'madre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_apellido ?? '' },
+                        { type: 'text', name: 'madre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
+                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_bautizo },
+                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
+                { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.madrina_nombre },
+                { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: datosPHP.observaciones },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'select', name: 'constancia-ministro_id', label: 'Ministro', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions},
+                        { type: 'select', name: 'constancia-ministro_certifica_id', label: 'Ministro que Certifica', required: true, value: datosPHP.ministro_certifica_id, options: sacerdoteOptions },
+                    ]
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
+                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
+                { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, value: datosPHP.proposito ?? 'Personal', options: [
+                      { value: 'Personal', text: 'Personal' },
+                      { value: 'Comunión', text: 'Comunión' },
+                      { value: 'Confirmación', text: 'Confirmación' },
+                      { value: 'Matrimonio', text: 'Matrimonio' },
+                    ] },
+            ];
+            break;
         }
         formularioCampos.push({ type: 'hidden', name: 'id', value: datosPHP.id});
         

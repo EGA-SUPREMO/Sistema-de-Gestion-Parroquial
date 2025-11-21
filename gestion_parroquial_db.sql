@@ -191,7 +191,7 @@ CREATE TABLE `categoria_de_servicios` (
 INSERT INTO `servicios` (`id`, `nombre`, `id_categoria`, `descripcion`) VALUES
 (1, 'Intención de Misa Comunitaria', 1, 'Celebración eucarísticacon una intención específica solicitada por un fiel (por un difunto, por la salud, etc.).'),
 (2, 'Fe de Bautizo', 2, 'Constancia de fe de bautizo.'),
-(3, 'Comunion', 2, 'Constancia de matrimonio.'),
+(3, 'Comunion', 2, 'Constancia de la primera comunión.'),
 (4, 'Confirmacion', 2, 'Constancia de confirmación.'),
 (5, 'Matrimonio', 2, 'Constancia de matrimonio.');
 

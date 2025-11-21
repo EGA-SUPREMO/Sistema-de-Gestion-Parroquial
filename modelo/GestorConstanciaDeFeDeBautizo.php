@@ -1,10 +1,10 @@
 <?php
 
-require_once 'GestorBase.php';
+require_once 'GestorConstancia.php';
 
 require_once 'ConstanciaDeFeDeBautizo.php';
 
-class GestorConstanciaDeFeDeBautizo extends GestorBase
+class GestorConstanciaDeFeDeBautizo extends GestorConstancia
 {
     public function __construct(PDO $pdo)
     {
@@ -12,33 +12,4 @@ class GestorConstanciaDeFeDeBautizo extends GestorBase
         $this ->tabla = "constancia_de_fe_de_bautizo";
         $this ->clase_nombre = "ConstanciaDeFeDeBautizo";
     }
-
-    public function obtenerConstanciaIdPorFeligresBautizadoId($id)
-    {
-        $sql = "SELECT * FROM {$this->tabla} WHERE `feligres_bautizado_id` = ?";
-        $resultado = $this->hacerConsulta($sql, [$id], 'single');
-        return $resultado ? $resultado->getId() : 0;
-    }
-    public function obtenerConstanciaPorFeligresBautizadoId($id)
-    {
-        $sql = "SELECT * FROM {$this->tabla} WHERE `feligres_bautizado_id` = ?";
-        $resultado = $this->hacerConsulta($sql, [$id], 'single');
-        return $resultado;
-    }
-    public function obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal)
-    {
-        $sql = "SELECT * FROM {$this->tabla} WHERE `numero_libro` = ? AND `numero_pagina` = ? AND `numero_marginal` = ?";
-        $resultado = $this->hacerConsulta($sql, [$numero_libro, $numero_pagina, $numero_marginal], 'single');
-        return $resultado ? $resultado->getId() : 0;
-    }
-    public function verificarConsistenciaIds($feligresId, $numero_libro, $numero_pagina, $numero_marginal)
-    {
-        $idConstanciaEncontradaPorFeligres = $this->obtenerConstanciaIdPorFeligresBautizadoId($feligresId);
-        $idConstanciaEncontradaPorLibro = $this->obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal);
-
-        if ($idConstanciaEncontradaPorFeligres !== $idConstanciaEncontradaPorLibro) {
-            throw new Exception("Error: el feligrés y el registro de libro apuntan a constancias distintas (IDs: $idConstanciaEncontradaPorFeligres vs $idConstanciaEncontradaPorLibro).");
-        }
-    }
-
 }
