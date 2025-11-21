@@ -12,10 +12,8 @@ class ConstanciaDeMatrimonio extends ModeloBase
     private $contrayente_1;
     private $contrayente_2_id;
     private $contrayente_2;
-    private $testigo_1_id;
-    private $testigo_1;
-    private $testigo_2_id;
-    private $testigo_2;
+    private $testigo_1_nombre;
+    private $testigo_2_nombre;
     private $ministro_id;
     private $ministro;
     private $ministro_certifica_expedicion_id;
@@ -43,14 +41,14 @@ class ConstanciaDeMatrimonio extends ModeloBase
     {
         return $this->contrayente_2_id;
     }
-    public function getTestigo1Id()
+    public function getTestigo1Nombre()
     {
-        return $this->testigo_1_id;
+        return $this->testigo_1_nombre;
     }
 
-    public function getTestigo2Id()
+    public function getTestigo2Nombre()
     {
-        return $this->testigo_2_id;
+        return $this->testigo_2_nombre;
     }
 
     public function getMinistroId()
@@ -117,24 +115,15 @@ class ConstanciaDeMatrimonio extends ModeloBase
         $this->contrayente_2 = $contrayente_2;
     }
 
-    public function setTestigo1Id($testigo_1_id)
+    public function setTestigo1Nombre($testigo_1_nombre)
     {
-        $this->testigo_1_id = Validador::validarEntero($testigo_1_id, "ID del testigo 1", null, 0);
+        $this->testigo_1_nombre = Validador::validarString($testigo_1_nombre,  "nombre de la testigo 1", 100, 3);
     }
 
-    public function setTestigo1($testigo_1)
+    public function setTestigo2Nombre($testigo_2_nombre)
     {
-        $this->testigo_1 = $testigo_1;
+        $this->testigo_2_nombre = Validador::validarString($testigo_2_nombre,  "nombre de la testigo 2", 100, 3);
     }
-    public function setTestigo2Id($testigo_2_id)
-    {
-        $this->testigo_2_id = Validador::validarEntero($testigo_2_id, "ID del testigo 2", null, 0);
-    }
-    public function setTestigo2($testigo_2)
-    {
-        $this->testigo_2 = $testigo_2;
-    }
-
     public function setMinistroId($ministro_id)
     {
         $this->ministro_id = Validador::validarEntero($ministro_id, "ID del ministro", null, 0);
@@ -185,12 +174,6 @@ class ConstanciaDeMatrimonio extends ModeloBase
         if (empty($this->contrayente_2)) {
             throw new InvalidArgumentException("Error: 'contrayente_2' está vacío");
         }
-        if (empty($this->testigo_1)) {
-            throw new InvalidArgumentException("Error: 'testigo_1' está vacío");
-        }
-        if (empty($this->testigo_2)) {
-            throw new InvalidArgumentException("Error: 'testigo_2' está vacío");
-        }
         if (empty($this->ministro)) {
             throw new InvalidArgumentException("Error: 'ministro' está vacío");
         }
@@ -209,6 +192,9 @@ class ConstanciaDeMatrimonio extends ModeloBase
 
         $datos_constancia['contrayente_1'] = Validador::estaVacio($this->contrayente_1->nombreCompleto(), 'Nombre del contrayente_1');
         $datos_constancia['contrayente_2'] = Validador::estaVacio($this->contrayente_2->nombreCompleto(), 'Nombre del contrayente_2');
+
+        $datos_constancia['testigo_1_nombre'] = Validador::estaVacio($datos_bd['testigo_1_nombre'], 'Nombre del testigo 1');
+        $datos_constancia['testigo_2_nombre'] = Validador::estaVacio($datos_bd['testigo_2_nombre'], 'Nombre del testigo 2');
 
         $fecha_matrimonio = new DateTime(Validador::estaVacio($datos_bd['fecha_matrimonio'], 'Fecha de matrimonio'));
         $datos_constancia['dia_matrimonio'] = $fecha_matrimonio->format('d');

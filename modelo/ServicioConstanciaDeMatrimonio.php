@@ -32,19 +32,13 @@ class ServicioConstanciaDeMatrimonio extends ServicioConstanciaBase
 
             $datosDeContrayente1 = self::mapearParaEntidad($datosFormulario, 'contrayente_1');
             $datosDeContrayente2 = self::mapearParaEntidad($datosFormulario, 'contrayente_2');
-            $datosDeTestigo1 = self::mapearParaEntidad($datosFormulario, 'testigo_1');
-            $datosDeTestigo2 = self::mapearParaEntidad($datosFormulario, 'testigo_2');
 
             $contrayente1Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeContrayente1);
             $contrayente2Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeContrayente2);
-            $testigo1Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeTestigo1);
-            $testigo2Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeTestigo2);
 
             $constancia = new ConstanciaDeMatrimonio();
             $datosConstancia['contrayente_1_id'] = $contrayente1Id;
             $datosConstancia['contrayente_2_id'] = $contrayente2Id;
-            $datosConstancia['testigo_1_id'] = $testigo1Id;
-            $datosConstancia['testigo_2_id'] = $testigo2Id;
 
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
@@ -58,8 +52,6 @@ class ServicioConstanciaDeMatrimonio extends ServicioConstanciaBase
 
             $constancia->setContrayente1($this->gestorFeligres->obtenerPorId($constancia->getContrayente1Id()));
             $constancia->setContrayente2($this->gestorFeligres->obtenerPorId($constancia->getContrayente2Id()));
-            $constancia->setTestigo1($this->gestorFeligres->obtenerPorId($constancia->getTestigo1Id()));
-            $constancia->setTestigo2($this->gestorFeligres->obtenerPorId($constancia->getTestigo2Id()));
             $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));
             $constancia->setMinistroCertificaExpedicion($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaExpedicionId()));
 
@@ -81,14 +73,6 @@ class ServicioConstanciaDeMatrimonio extends ServicioConstanciaBase
 
         if (!$this->gestorFeligres->obtenerPorId($objeto->getContrayente2Id())) {
             throw new InvalidArgumentException("Error: La contrayente 2 {$objeto->getContrayente2Id()} no existe.");
-        }
-
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getTestigo1Id())) {
-            throw new InvalidArgumentException("Error: El testigo 1 {$objeto->getTestigo1Id()} no existe.");
-        }
-
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getTestigo2Id())) {
-            throw new InvalidArgumentException("Error: La testigo 2 {$objeto->getTestigo2Id()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
