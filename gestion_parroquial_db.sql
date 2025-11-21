@@ -333,7 +333,7 @@ CREATE TABLE `constancia_de_matrimonio` (
   `fecha_matrimonio` DATE NOT NULL,
   `testigo_1_id` INT(11) NOT NULL,
   `testigo_2_id` INT(11) NOT NULL,
-  `sacerdote_id` INT(11) NOT NULL,
+  `ministro_id` INT(11) NOT NULL,
   `numero_libro` VARCHAR(20) NOT NULL,
   `numero_pagina` VARCHAR(20) NOT NULL,
   `numero_marginal` VARCHAR(20) NOT NULL,
@@ -342,7 +342,7 @@ CREATE TABLE `constancia_de_matrimonio` (
   FOREIGN KEY (`contrayente_2_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`testigo_1_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`testigo_2_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`sacerdote_id`) REFERENCES `sacerdotes`(`id`)
+  FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ALTER TABLE constancia_de_matrimonio
@@ -362,7 +362,7 @@ ALTER TABLE constancia_de_matrimonio
 ADD CONSTRAINT uq_registro_sacramental
 UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
-INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `sacerdote_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, 1, 2, '2023-11-20', 3, 4, 1, '1', '15', '5'),
 (2, 5, 8, '2024-02-10', 9, 10, 5, '2', '20', '8'),
 (3, 11, 3, '2024-06-05', 1, 2, 3, '3', '25', '12');
