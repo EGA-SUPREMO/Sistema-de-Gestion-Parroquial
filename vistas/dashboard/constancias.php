@@ -31,9 +31,9 @@
                             </a>
                         </div>
                         <div class="col-sm-6">
-                            <a href="?c=reporte&a=acta_matrimonio" class="card text-decoration-none text-dark h-100 lift-effect">
+                            <a href="?c=constancia&a=mostrar&t=constancia_de_matrimonio" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
-                                    <h5 class="card-title mb-0">Acta de matrimonio</h5>
+                                    <h5 class="card-title mb-0">Matrimonio</h5>
                                 </div>
                             </a>
                         </div>

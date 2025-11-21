@@ -244,6 +244,7 @@
                         { type: 'text', name: 'contrayente_1-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_1?.segundo_apellido ?? '' },
                     ] 
                 },
+                { type: 'text', name: 'contrayente_1-localidad', label: 'Natural de (Ciudad):', required: true, validarMetodo: 'validarLugar', value: datosPHP.contrayente_1?.localidad ?? '' },
 
                 { type: 'subtitulo', name: 'subtitulo-contrayente_2-datos', value: 'Datos del Contrayente 2'},
                 { type: 'fila', 
@@ -258,35 +259,11 @@
                         { type: 'text', name: 'contrayente_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.segundo_apellido ?? '' },
                     ] 
                 },
+                { type: 'text', name: 'contrayente_1-localidad', label: 'Natural de (Ciudad):', required: true, validarMetodo: 'validarLugar', value: datosPHP.contrayente_1?.localidad ?? '' },
 
                 { type: 'subtitulo', name: 'subtitulo-matrimonio-datos', value: 'Datos del Matrimonio'},
-                { type: 'subtitulo', name: 'subtitulo-testigo_1-datos', value: 'Datos del Testigo 1'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'testigo_1-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.primer_nombre ?? '' },
-                        { type: 'text', name: 'testigo_1-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.segundo_nombre ?? '' },
-                    ] 
-                },
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'testigo_1-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.primer_apellido ?? '' },
-                        { type: 'text', name: 'testigo_1-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.segundo_apellido ?? '' },
-                    ] 
-                },
-
-                { type: 'subtitulo', name: 'subtitulo-testigo_2-datos', value: 'Datos del Testigo 2'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'testigo_2-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.primer_nombre ?? '' },
-                        { type: 'text', name: 'testigo_2-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.segundo_nombre ?? '' },
-                    ] 
-                },
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'testigo_2-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.primer_apellido ?? '' },
-                        { type: 'text', name: 'testigo_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.segundo_apellido ?? '' },
-                    ] 
-                },
+                { type: 'text', name: 'constancia-testigo_1_nombre', label: 'Nombre Completo del Testigo 1', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.testigo_1_nombre },
+                { type: 'text', name: 'constancia-testigo_2_nombre', label: 'Nombre Completo del Testigo 2', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.testigo_2_nombre },
 
                 { type: 'date', name: 'constancia-fecha_matrimonio', label: 'Fecha del Matrimonio', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_matrimonio },
                 { type: 'select', name: 'constancia-ministro_id', label: 'Ministro que presenció', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions },
@@ -303,12 +280,6 @@
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
                 { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
-                { type: 'select', name: 'proposito', label: 'Propósito de la Certificación', required: true, value: datosPHP.proposito ?? 'Personal', options: [
-                      { value: 'Personal', text: 'Personal' },
-                      { value: 'Comunión', text: 'Comunión' },
-                      { value: 'Confirmación', text: 'Confirmación' },
-                      { value: 'Matrimonio', text: 'Matrimonio' },
-                    ] },
             ];
             break;
         }
