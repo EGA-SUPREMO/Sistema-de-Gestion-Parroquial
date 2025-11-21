@@ -296,7 +296,7 @@ CREATE TABLE `constancia_de_confirmacion` (
   `feligres_confirmado_id` INT(11) UNIQUE NOT NULL,
   `padre_id` INT(11) NOT NULL,
   `madre_id` INT(11) NOT NULL,
-  `padrino_id` INT(11) NOT NULL,
+  `padrino_nombre` INT(11) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
   `numero_libro` VARCHAR(20) NOT NULL,
   `numero_pagina` VARCHAR(20) NOT NULL,
@@ -305,7 +305,6 @@ CREATE TABLE `constancia_de_confirmacion` (
   FOREIGN KEY (`feligres_confirmado_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`padrino_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -331,8 +330,8 @@ CREATE TABLE `constancia_de_matrimonio` (
   `contrayente_1_id` INT(11) NOT NULL,
   `contrayente_2_id` INT(11) NOT NULL,
   `fecha_matrimonio` DATE NOT NULL,
-  `testigo_1_id` INT(11) NOT NULL,
-  `testigo_2_id` INT(11) NOT NULL,
+  `testigo_1_nombre` varchar(100) NOT NULL,
+  `testigo_2_nombre` varchar(100) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
   `numero_libro` VARCHAR(20) NOT NULL,
   `numero_pagina` VARCHAR(20) NOT NULL,
@@ -340,8 +339,6 @@ CREATE TABLE `constancia_de_matrimonio` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`contrayente_1_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`contrayente_2_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`testigo_1_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`testigo_2_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

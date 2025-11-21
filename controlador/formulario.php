@@ -116,6 +116,7 @@
                             { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_apellido ?? '' },
                         ] 
                     },
+                    { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: datosPHP.feligres?.fecha_nacimiento ?? '' },
                     { type: 'date', name: 'constancia-fecha_comunion', label: 'Fecha de la Comunión', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_comunion },
                     { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                     { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
@@ -225,50 +226,70 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente1?.cedula ?? '' },
-                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente2?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente1?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente2?.cedula ?? '' },
                     ]
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 1'},
+                { type: 'subtitulo', name: 'subtitulo-contrayente_1-datos', value: 'Datos del Contrayente 1'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_nombre ?? '' },
-                        { type: 'text', name: 'padre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_nombre ?? '' },
+                        { type: 'text', name: 'contrayente_1-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.contrayente_1?.primer_nombre ?? '' },
+                        { type: 'text', name: 'contrayente_1-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_1?.segundo_nombre ?? '' },
                     ] 
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre?.primer_apellido ?? '' },
-                        { type: 'text', name: 'padre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre?.segundo_apellido ?? '' },
-                    ] 
-                },
-
-                { type: 'subtitulo', name: 'subtitulo-padre-datos', value: 'Datos del Progenitor 2'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'madre-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_nombre ?? '' },
-                        { type: 'text', name: 'madre-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_nombre ?? '' },
-                    ] 
-                },
-                { type: 'fila', 
-                    campos: [
-                        { type: 'text', name: 'madre-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.madre?.primer_apellido ?? '' },
-                        { type: 'text', name: 'madre-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.madre?.segundo_apellido ?? '' },
+                        { type: 'text', name: 'contrayente_1-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.contrayente_1?.primer_apellido ?? '' },
+                        { type: 'text', name: 'contrayente_1-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_1?.segundo_apellido ?? '' },
                     ] 
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-bautizo-datos', value: 'Datos del Bautismo'},
-                { type: 'date', name: 'constancia-fecha_bautizo', label: 'Fecha del Bautizo', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_bautizo },
-                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
-                { type: 'text', name: 'constancia-madrina_nombre', label: 'Nombre Completo de la Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.madrina_nombre },
-                { type: 'textarea', name: 'constancia-observaciones', label: 'Observaciones', required: false, value: datosPHP.observaciones },
+                { type: 'subtitulo', name: 'subtitulo-contrayente_2-datos', value: 'Datos del Contrayente 2'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'select', name: 'constancia-ministro_id', label: 'Ministro', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions},
-                        { type: 'select', name: 'constancia-ministro_certifica_id', label: 'Ministro que Certifica', required: true, value: datosPHP.ministro_certifica_id, options: sacerdoteOptions },
-                    ]
+                        { type: 'text', name: 'contrayente_2-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.primer_nombre ?? '' },
+                        { type: 'text', name: 'contrayente_2-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.segundo_nombre ?? '' },
+                    ] 
                 },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'contrayente_2-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.primer_apellido ?? '' },
+                        { type: 'text', name: 'contrayente_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-matrimonio-datos', value: 'Datos del Matrimonio'},
+                { type: 'subtitulo', name: 'subtitulo-testigo_1-datos', value: 'Datos del Testigo 1'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'testigo_1-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.primer_nombre ?? '' },
+                        { type: 'text', name: 'testigo_1-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'testigo_1-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.primer_apellido ?? '' },
+                        { type: 'text', name: 'testigo_1-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_1?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-testigo_2-datos', value: 'Datos del Testigo 2'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'testigo_2-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.primer_nombre ?? '' },
+                        { type: 'text', name: 'testigo_2-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'testigo_2-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.primer_apellido ?? '' },
+                        { type: 'text', name: 'testigo_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.testigo_2?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'date', name: 'constancia-fecha_matrimonio', label: 'Fecha del Matrimonio', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_matrimonio },
+                { type: 'select', name: 'constancia-ministro_id', label: 'Ministro que presenció', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions },
 
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
                 { type: 'fila', 
