@@ -173,7 +173,12 @@ class ConstanciaDeConfirmacion extends ModeloBase
             throw new InvalidArgumentException("Error: 'el ministro que certifica' está vacío");
         }
 
-        $formateador = new IntlDateFormatter('es', IntlDateFormatter::NONE, IntlDateFormatter::NONE, 'America/Caracas', IntlDateFormatter::GREGORIAN, 'MMMM');
+        $formateador = new IntlDateFormatter(
+            'es_VE', 
+            IntlDateFormatter::LONG,
+            IntlDateFormatter::NONE,
+            'America/Caracas'
+        );
 
         $datos_bd = $this->toArrayParaBD();
         $datos_constancia = [];
@@ -191,12 +196,12 @@ class ConstanciaDeConfirmacion extends ModeloBase
         $datos_constancia['padrino_nombre'] = Validador::estaVacio($datos_bd['padrino_nombre'], 'Nombre del testigo 1');
 
         $fecha_confirmacion = new DateTime(Validador::estaVacio($datos_bd['fecha_confirmacion'], 'Fecha de confirmacion'));
-        $datos_constancia['fecha_confirmacion'] = ucwords($formateador->format($fecha_confirmacion)); // TODO cual formato uso? nombres de dia mes ano?
+        $datos_constancia['fecha_confirmacion'] = ucwords($formateador->format($fecha_confirmacion));
 
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
 
         $fecha_expedicion = new DateTime(Validador::estaVacio($this->fecha_expedicion, 'Fecha de expedicion'));
-        $datos_constancia['fecha_confirmacion'] = ucwords($formateador->format($fecha_expedicion)); // TODO cual formato uso? nombres de dia mes ano?
+        $datos_constancia['fecha_expedicion'] = ucwords($formateador->format($fecha_expedicion));
         $datos_constancia['ministro_certifica'] = Validador::estaVacio($this->ministro_certifica_expedicion->getNombre(), 'Ministro que certifica');
 
         return $datos_constancia;
