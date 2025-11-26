@@ -294,8 +294,8 @@ CREATE TABLE `constancia_de_confirmacion` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `fecha_confirmacion` DATE NOT NULL,
   `feligres_confirmado_id` INT(11) UNIQUE NOT NULL,
-  `padre_id` INT(11) NOT NULL,
-  `madre_id` INT(11) NOT NULL,
+  `padre_1_id` INT(11) NOT NULL,
+  `padre_2_id` INT(11) NOT NULL,
   `padrino_nombre` INT(11) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
   `numero_libro` VARCHAR(20) NOT NULL,
@@ -314,13 +314,13 @@ CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
 
 ALTER TABLE constancia_de_confirmacion
 ADD CONSTRAINT chk_roles_familiares_distintos_confirmacion
-CHECK (feligres_confirmado_id <> padre_id AND feligres_confirmado_id <> madre_id AND padre_id <> madre_id);
+CHECK (feligres_confirmado_id <> padre_1_id AND feligres_confirmado_id <> padre_2_id AND padre_1_id <> padre_2_id);
 
 ALTER TABLE constancia_de_confirmacion
 ADD CONSTRAINT uq_registro_sacramental
 UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
-INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_id`, `madre_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_1_id`, `padre_2_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
 (1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
 (2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
 (3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
