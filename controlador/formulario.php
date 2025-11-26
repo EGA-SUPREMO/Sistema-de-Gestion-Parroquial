@@ -282,6 +282,84 @@
                 { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
             ];
             break;
+            case 'constancia_de_confirmacion':
+            formularioCampos = [
+                { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Confirmado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', required: true, pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres_confirmado?.cedula ?? '' },
+                        { type: 'text', name: 'padre_1-cedula', label: 'Cédula del Progenitor 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre_1?.cedula ?? '' },
+                        { type: 'text', name: 'padre_2-cedula', label: 'Cédula del Progenitor 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre_2?.cedula ?? '' },
+                    ]
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Confirmado'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.primer_nombre ?? '' },
+                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.primer_apellido ?? '' },
+                        { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.segundo_apellido ?? '' },
+                    ] 
+                },
+                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: datosPHP.feligres_confirmado?.fecha_nacimiento ?? '' },
+                
+                { type: 'subtitulo', name: 'subtitulo-padre1-datos', value: 'Datos del Progenitor 1'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre_1-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre_1?.primer_nombre ?? '' },
+                        { type: 'text', name: 'padre_1-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre_1?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre_1-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre_1?.primer_apellido ?? '' },
+                        { type: 'text', name: 'padre_1-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre_1?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-padre2-datos', value: 'Datos del Progenitor 2'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre_2-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre_2?.primer_nombre ?? '' },
+                        { type: 'text', name: 'padre_2-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre_2?.segundo_nombre ?? '' },
+                    ] 
+                },
+                { type: 'fila', 
+                    campos: [
+                        { type: 'text', name: 'padre_2-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.padre_2?.primer_apellido ?? '' },
+                        { type: 'text', name: 'padre_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.padre_2?.segundo_apellido ?? '' },
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-confirmacion-datos', value: 'Datos de la Confirmación'},
+                { type: 'fila', 
+                    campos: [
+                { type: 'date', name: 'constancia-fecha_confirmacion', label: 'Fecha de la Confirmación', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_confirmacion },
+                { type: 'select', name: 'constancia-ministro_id', label: 'Ministro (Obispo/Sacerdote)', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions },
+                    ] 
+                },
+                                
+                { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino/Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
+
+                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
+                    ] 
+                },
+
+                { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
+                { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
+                { type: 'select', name: 'ministro_certifica_expedicion_id', label: 'Ministro que certifica la Expedición', required: true, value: datosPHP.ministro_certifica_expedicion_id, options: sacerdoteVivosOptions },
+            ];
+            break;
         }
         formularioCampos.push({ type: 'hidden', name: 'id', value: datosPHP.id});
         

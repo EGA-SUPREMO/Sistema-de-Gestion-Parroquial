@@ -202,4 +202,11 @@ class Feligres extends ModeloBase
 
         return implode(' ', $partes);
     }
+    public function edad()
+    {
+        $fechaNacimiento = new DateTime($this->fecha_nacimiento);
+        $fechaActual = new DateTime();
+        $diferencia = $fechaNacimiento->diff($fechaActual);
+        return $diferencia->y;
+    }
 }
