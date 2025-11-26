@@ -126,7 +126,10 @@ class ConstanciaDeConfirmacion extends ModeloBase
 
     public function setPadrinoNombre($padrino_nombre)
     {
-        $this->padrino_nombre = Validador::validarString($padrino_nombre,  "nombre de la testigo 1", 100, 3);
+        $this->padrino_nombre = Validador::validarString($padrino_nombre,  "nombre del padrino", 100, 3);
+        if ($this->padrino_nombre !== null) {
+            $this->padrino_nombre = ucwords($this->padrino_nombre);
+        }
     }
 
     public function setMinistroId($ministro_id)
@@ -200,8 +203,8 @@ class ConstanciaDeConfirmacion extends ModeloBase
         $datos_constancia['numero_pagina'] = Validador::estaVacio($datos_bd['numero_pagina'], 'Número de página');
         $datos_constancia['numero_marginal'] = Validador::estaVacio($datos_bd['numero_marginal'], 'Número marginal');
 
-        $datos_constancia['feligres_confirmado'] = Validador::estaVacio($this->padre_1->nombreCompleto(), 'Nombre del Feligres Confirmado');
-        $datos_constancia['feligres_edad'] = Validador::estaVacio($this->padre_1->edad(), 'Edad del Feligres Confirmado');
+        $datos_constancia['feligres_confirmado'] = Validador::estaVacio($this->feligres_confirmado->nombreCompleto(), 'Nombre del Feligres Confirmado');
+        $datos_constancia['edad_feligres'] = Validador::estaVacio($this->feligres_confirmado->edad(), 'Edad del Feligres Confirmado');
 
         $datos_constancia['padre_1'] = Validador::estaVacio($this->padre_1->nombreCompleto(), 'Nombre del padre_1');
         $datos_constancia['padre_2'] = Validador::estaVacio($this->padre_2->nombreCompleto(), 'Nombre del padre_2');
