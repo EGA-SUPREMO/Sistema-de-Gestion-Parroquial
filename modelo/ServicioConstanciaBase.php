@@ -101,6 +101,7 @@ abstract class ServicioConstanciaBase extends ServicioBase
             'segundo_apellido'  => $datosFormulario[$prefijo . '-segundo_apellido']  ?? '',
             'fecha_nacimiento'  => $datosFormulario[$prefijo . '-fecha_nacimiento']  ?? '',
             'municipio'         => $datosFormulario[$prefijo . '-municipio']         ?? null,
+            'localidad'         => $datosFormulario[$prefijo . '-localidad']         ?? null,
             'estado'            => $datosFormulario[$prefijo . '-estado']            ?? null,
             'pais'              => $datosFormulario[$prefijo . '-pais']              ?? null,
         ];

@@ -226,8 +226,8 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente1?.cedula ?? '' },
-                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente2?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_1?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_2?.cedula ?? '' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
@@ -267,7 +267,7 @@
                         { type: 'text', name: 'contrayente_2-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.contrayente_2?.segundo_apellido ?? '' },
                     ] 
                 },
-                { type: 'text', name: 'contrayente_1-localidad', label: 'Natural de (Ciudad):', required: true, validarMetodo: 'validarLugar', value: datosPHP.contrayente_1?.localidad ?? '' },
+                { type: 'text', name: 'contrayente_2-localidad', label: 'Natural de (Ciudad):', required: true, validarMetodo: 'validarLugar', value: datosPHP.contrayente_2?.localidad ?? '' },
 
                 { type: 'subtitulo', name: 'subtitulo-matrimonio-datos', value: 'Datos del Matrimonio'},
                 { type: 'text', name: 'constancia-testigo_1_nombre', label: 'Nombre Completo del Testigo 1', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.testigo_1_nombre },

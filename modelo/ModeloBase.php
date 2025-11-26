@@ -30,7 +30,7 @@ abstract class ModeloBase
                 }
                 $patron = '/
                     (?<!^) # Inspección negativa: Revisa que no estamos al inicio de la cadena.
-                    [A-Z]  # El objetivo a encontrar
+                    [A-Z1-9]  # El objetivo a encontrar
                 /x';
                 $snakeCaseConMayusculas = preg_replace($patron, '_$0', $pascalCaseNombrePropiedad);
                 $snakeCaseNombre = strtolower($snakeCaseConMayusculas);

@@ -298,13 +298,13 @@ CREATE TABLE `constancia_de_confirmacion` (
   `padre_2_id` INT(11) NOT NULL,
   `padrino_nombre` INT(11) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
-  `numero_libro` VARCHAR(20) NOT NULL,
-  `numero_pagina` VARCHAR(20) NOT NULL,
-  `numero_marginal` VARCHAR(20) NOT NULL,
+  `numero_libro` INT(10) NOT NULL,
+  `numero_pagina` INT(10) NOT NULL,
+  `numero_marginal` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`feligres_confirmado_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`padre_id`) REFERENCES `feligreses`(`id`),
-  FOREIGN KEY (`madre_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padre_1_id`) REFERENCES `feligreses`(`id`),
+  FOREIGN KEY (`padre_2_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`ministro_id`) REFERENCES `sacerdotes`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -320,10 +320,10 @@ ALTER TABLE constancia_de_confirmacion
 ADD CONSTRAINT uq_registro_sacramental
 UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
-INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_1_id`, `padre_2_id`, `padrino_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
-(1, '2024-08-12', 1, 4, 5, 2, 3, '4', '25', '1'),
-(2, '2023-09-05', 2, 8, 9, 6, 7, '5', '30', '2'),
-(3, '2024-10-15', 3, 4, 10, 8, 9, '6', '35', '3');
+INSERT INTO `constancia_de_confirmacion` (`id`, `fecha_confirmacion`, `feligres_confirmado_id`, `padre_1_id`, `padre_2_id`, `padrino_nombre`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, '2024-08-12', 1, 4, 5, 'padrianado', 3, 4, 25, 1),
+(2, '2023-09-05', 2, 8, 9, 'padrianado', 7, 5, 30, 2),
+(3, '2024-10-15', 3, 4, 10, 'padrianado', 9, 6, 35, 3);
 
 CREATE TABLE `constancia_de_matrimonio` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -333,9 +333,9 @@ CREATE TABLE `constancia_de_matrimonio` (
   `testigo_1_nombre` varchar(100) NOT NULL,
   `testigo_2_nombre` varchar(100) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
-  `numero_libro` VARCHAR(20) NOT NULL,
-  `numero_pagina` VARCHAR(20) NOT NULL,
-  `numero_marginal` VARCHAR(20) NOT NULL,
+  `numero_libro` INT(10) NOT NULL,
+  `numero_pagina` INT(10) NOT NULL,
+  `numero_marginal` INT(10) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`contrayente_1_id`) REFERENCES `feligreses`(`id`),
   FOREIGN KEY (`contrayente_2_id`) REFERENCES `feligreses`(`id`),
@@ -349,20 +349,17 @@ CHECK (numero_libro > 0 AND numero_pagina > 0 AND numero_marginal > 0);
 ALTER TABLE constancia_de_matrimonio
 ADD CONSTRAINT chk_roles_matrimonio_distintos
 CHECK (
-    contrayente_1_id <> contrayente_2_id AND
-    testigo_1_id <> testigo_2_id AND
-    contrayente_1_id NOT IN (testigo_1_id, testigo_2_id) AND
-    contrayente_2_id NOT IN (testigo_1_id, testigo_2_id)
+    contrayente_1_id <> contrayente_2_id
 );
 
 ALTER TABLE constancia_de_matrimonio
 ADD CONSTRAINT uq_registro_sacramental
 UNIQUE (numero_libro, numero_pagina, numero_marginal);
 
-INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_id`, `testigo_2_id`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
-(1, 1, 2, '2023-11-20', 3, 4, 1, '1', '15', '5'),
-(2, 5, 8, '2024-02-10', 9, 10, 5, '2', '20', '8'),
-(3, 11, 3, '2024-06-05', 1, 2, 3, '3', '25', '12');
+INSERT INTO `constancia_de_matrimonio` (`id`, `contrayente_1_id`, `contrayente_2_id`, `fecha_matrimonio`, `testigo_1_nombre`, `testigo_2_nombre`, `ministro_id`, `numero_libro`, `numero_pagina`, `numero_marginal`) VALUES
+(1, 1, 2, '2023-11-20', 3, '4', 1, 1, 15, 5),
+(2, 5, 8, '2024-02-10', 9, '10', 5, 2, 20, 8),
+(3, 11, 3, '2024-06-05', 1, '2', 3, 3, 25, 12);
 
 --
 -- Índices para tablas volcadas

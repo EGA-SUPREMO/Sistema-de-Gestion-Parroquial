@@ -200,7 +200,8 @@ class ConstanciaDeMatrimonio extends ModeloBase
         $datos_constancia['dia_matrimonio'] = $fecha_matrimonio->format('d');
         $datos_constancia['mes_matrimonio'] = ucwords($formateador->format($fecha_matrimonio));
         $datos_constancia['ano_matrimonio'] = $fecha_matrimonio->format('Y');
-
+        error_log($this->contrayente_1->getLocalidad());
+        error_log($this->contrayente_2->getLocalidad());
         $datos_constancia['ciudad_contrayente_1'] = Validador::estaVacio($this->contrayente_1->getLocalidad(), 'Lugar de nacimiento (Ciudad)');
         $datos_constancia['ciudad_contrayente_2'] = Validador::estaVacio($this->contrayente_2->getLocalidad(), 'Lugar de nacimiento (Ciudad)');
         $datos_constancia['ministro'] = Validador::estaVacio($this->ministro->getNombre(), 'Ministro');
