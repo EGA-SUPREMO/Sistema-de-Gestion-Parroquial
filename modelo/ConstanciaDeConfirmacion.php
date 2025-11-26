@@ -38,6 +38,11 @@ class ConstanciaDeConfirmacion extends ModeloBase
         return $this->padre_1_id;
     }
 
+    public function getFeligresConfirmadoId()
+    {
+        return $this->feligres_confirmado_id;
+    }
+
     public function getPadre2Id()
     {
         return $this->padre_2_id;
@@ -93,11 +98,19 @@ class ConstanciaDeConfirmacion extends ModeloBase
         $this->fecha_expedicion = Validador::validarFecha($fecha_expedicion, "fecha de expedicion", "1900-01-01");
     }
 
+    public function setFeligresConfirmadoId($feligres_confirmado_id)
+    {
+        $this->feligres_confirmado_id = Validador::validarEntero($feligres_confirmado_id, "ID del feligres confirmado", null, 0);
+    }
+
+    public function setFeligresConfirmado($feligres_confirmado)
+    {
+        $this->feligres_confirmado = $feligres_confirmado;
+    }
     public function setPadre1Id($padre_1_id)
     {
         $this->padre_1_id = Validador::validarEntero($padre_1_id, "ID del padre 1", null, 0);
     }
-
     public function setPadre1($padre_1)
     {
         $this->padre_1 = $padre_1;

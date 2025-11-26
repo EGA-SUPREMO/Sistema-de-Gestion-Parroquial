@@ -30,28 +30,32 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
         return $this->ejecutarEnTransaccion(function () use ($datosFormulario) {
             $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
 
-            $datosDeContrayente1 = self::mapearParaEntidad($datosFormulario, 'contrayente_1');
-            $datosDeContrayente2 = self::mapearParaEntidad($datosFormulario, 'contrayente_2');
+            $datosDeConfirmado1 = self::mapearParaEntidad($datosFormulario, 'feligres-confirmado');
+            $datosDePadre1 = self::mapearParaEntidad($datosFormulario, 'padre_1');
+            $datosDePadre2 = self::mapearParaEntidad($datosFormulario, 'padre_2');
 
-            $contrayente1Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeContrayente1);
-            $contrayente2Id = $this->gestorFeligres->upsertFeligresPorArray($datosDeContrayente2);
+            $confirmadoId = $this->gestorFeligres->upsertFeligresPorArray($datosDeConfirmado);
+            $padre1Id = $this->gestorFeligres->upsertFeligresPorArray($datosDePadre1);
+            $padre2Id = $this->gestorFeligres->upsertFeligresPorArray($datosDePadre2);
 
             $constancia = new ConstanciaDeConfirmacion();
-            $datosConstancia['contrayente_1_id'] = $contrayente1Id;
-            $datosConstancia['contrayente_2_id'] = $contrayente2Id;
+            $datosConstancia['feligres_confirmado_id'] = $confirmadoId;
+            $datosConstancia['padre_1_id'] = $padre1Id;
+            $datosConstancia['padre_2_id'] = $padre2Id;
 
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
-            $idConstanciaEncontradaPorSujeto = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramentoId(['contrayente_1_id' => $contrayente1Id, 'contrayente_2_id' => $contrayente2Id]);
-            $this->gestorConstancia->verificarConsistenciaIds(['contrayente_1_id' => $contrayente1Id, 'contrayente_2_id' => $contrayente2Id], $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
+            $idConstanciaEncontradaPorSujeto = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramentoId(['feligres_confirmado_id' => $confirmadoId]);
+            $this->gestorConstancia->verificarConsistenciaIds(['feligres_confirmado_id' => $confirmadoId], $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
             $constancia->setId($idConstanciaEncontradaPorSujeto);
 
             $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorSujeto);
             $this->guardarPeticion($constancia, $this->servicioIdParaEstaConstancia);
 
-            $constancia->setContrayente1($this->gestorFeligres->obtenerPorId($constancia->getContrayente1Id()));
-            $constancia->setContrayente2($this->gestorFeligres->obtenerPorId($constancia->getContrayente2Id()));
+            $constancia->setFeligresConfirmado($this->gestorFeligres->obtenerPorId($constancia->getFeligresConfirmadoId()));
+            $constancia->setPadre1($this->gestorFeligres->obtenerPorId($constancia->getPadre1Id()));
+            $constancia->setPadre2($this->gestorFeligres->obtenerPorId($constancia->getPadre2Id()));
             $constancia->setMinistro($this->gestorSacerdote->obtenerPorId($constancia->getMinistroId()));
             $constancia->setMinistroCertificaExpedicion($this->gestorSacerdote->obtenerPorId($constancia->getMinistroCertificaExpedicionId()));
 
@@ -67,12 +71,16 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
     protected function validarDependencias($objeto)
     {
 
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getContrayente1Id())) {
-            throw new InvalidArgumentException("Error: El contrayente 1 {$objeto->getContrayente1Id()} no existe.");
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getFeligresConfirmadoId())) {
+            throw new InvalidArgumentException("Error: El feligres confirmado {$objeto->getFeligresConfirmadoId()} no existe.");
         }
 
-        if (!$this->gestorFeligres->obtenerPorId($objeto->getContrayente2Id())) {
-            throw new InvalidArgumentException("Error: La contrayente 2 {$objeto->getContrayente2Id()} no existe.");
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getPadre1Id())) {
+            throw new InvalidArgumentException("Error: El padre 1 {$objeto->getPadre1Id()} no existe.");
+        }
+
+        if (!$this->gestorFeligres->obtenerPorId($objeto->getPadre2Id())) {
+            throw new InvalidArgumentException("Error: La padre 2 {$objeto->getPadre2Id()} no existe.");
         }
 
         if (!$this->gestorSacerdote->obtenerPorId($objeto->getMinistroId())) {
