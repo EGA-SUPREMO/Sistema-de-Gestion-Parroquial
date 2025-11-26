@@ -296,7 +296,7 @@ CREATE TABLE `constancia_de_confirmacion` (
   `feligres_confirmado_id` INT(11) UNIQUE NOT NULL,
   `padre_1_id` INT(11) NOT NULL,
   `padre_2_id` INT(11) NOT NULL,
-  `padrino_nombre` INT(11) NOT NULL,
+  `padrino_nombre` varchar(100) NOT NULL,
   `ministro_id` INT(11) NOT NULL,
   `numero_libro` INT(10) NOT NULL,
   `numero_pagina` INT(10) NOT NULL,

@@ -287,7 +287,7 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Confirmado (Si posee)', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', required: false, pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres_confirmado?.cedula ?? '' },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Confirmado (Si posee)', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', required: false, pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
                         { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Confirmado (Opcional)', required: false, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
                     ]
                 },
@@ -309,17 +309,17 @@
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Confirmado'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.primer_nombre ?? '' },
-                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.segundo_nombre ?? '' },
+                        { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_nombre ?? '' },
+                        { type: 'text', name: 'feligres-segundo_nombre', label: 'Segundo Nombre', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_nombre ?? '' },
                     ] 
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.primer_apellido ?? '' },
-                        { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres_confirmado?.segundo_apellido ?? '' },
+                        { type: 'text', name: 'feligres-primer_apellido', label: 'Primer Apellido', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_apellido ?? '' },
+                        { type: 'text', name: 'feligres-segundo_apellido', label: 'Segundo Apellido', required: false, validarMetodo: 'validarNombre', value: datosPHP.feligres?.segundo_apellido ?? '' },
                     ] 
                 },
-                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: datosPHP.feligres_confirmado?.fecha_nacimiento ?? '' },
+                { type: 'date', name: 'feligres-fecha_nacimiento', label: 'Fecha de Nacimiento', required: true, validarMetodo: 'validarFechaNacimiento', value: datosPHP.feligres?.fecha_nacimiento ?? '' },
                 
                 { type: 'subtitulo', name: 'subtitulo-padre1-datos', value: 'Datos del Progenitor 1'},
                 { type: 'fila', 

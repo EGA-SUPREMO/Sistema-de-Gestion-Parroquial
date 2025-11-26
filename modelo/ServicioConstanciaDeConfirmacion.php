@@ -30,7 +30,7 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
         return $this->ejecutarEnTransaccion(function () use ($datosFormulario) {
             $datosConstancia = self::limpiarClavesParaDatosConstancia($datosFormulario);
 
-            $datosDeConfirmado1 = self::mapearParaEntidad($datosFormulario, 'feligres-confirmado');
+            $datosDeConfirmado = self::mapearParaEntidad($datosFormulario, 'feligres');
             $datosDePadre1 = self::mapearParaEntidad($datosFormulario, 'padre_1');
             $datosDePadre2 = self::mapearParaEntidad($datosFormulario, 'padre_2');
 
