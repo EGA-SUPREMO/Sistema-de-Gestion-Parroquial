@@ -46,8 +46,8 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
-            $idConstanciaEncontradaPorFeligres = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramento(['feligres_id' => $feligresId]);
-            $this->gestorConstancia->verificarConsistenciaIds(['feligres_id' => $feligresId], $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
+            $idConstanciaEncontradaPorFeligres = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramentoId(['feligres_bautizado_id' => $feligresId]);
+            $this->gestorConstancia->verificarConsistenciaIds(['feligres_bautizado_id' => $feligresId], $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
             $constancia->setId($idConstanciaEncontradaPorFeligres);
 
             $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorFeligres);
