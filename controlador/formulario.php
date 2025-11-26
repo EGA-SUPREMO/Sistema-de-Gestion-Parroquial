@@ -138,6 +138,14 @@
                         { type: 'text', name: 'madre-cedula', label: 'Cédula del Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.madre?.cedula ?? '' },
                     ]
                 },
+                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_marginal }
+                    ] 
+                },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Bautizado'},
                 { type: 'fila', 
                     campos: [
@@ -201,14 +209,6 @@
                     ]
                 },
 
-                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
-                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
-                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
-                    ] 
-                },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
@@ -229,6 +229,14 @@
                         { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente1?.cedula ?? '' },
                         { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente2?.cedula ?? '' },
                     ]
+                },
+                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_marginal }
+                    ] 
                 },
 
                 { type: 'subtitulo', name: 'subtitulo-contrayente_1-datos', value: 'Datos del Contrayente 1'},
@@ -268,14 +276,6 @@
                 { type: 'date', name: 'constancia-fecha_matrimonio', label: 'Fecha del Matrimonio', required: true, validarMetodo: 'validarFechaConstanciaSuceso', value: datosPHP.fecha_matrimonio },
                 { type: 'select', name: 'constancia-ministro_id', label: 'Ministro que presenció', required: true, value: datosPHP.ministro_id, options: sacerdoteOptions },
 
-                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
-                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
-                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
-                    ] 
-                },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
@@ -298,6 +298,14 @@
                     ]
                 },
 
+                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
+                { type: 'fila', 
+                    campos: [
+                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_libro },
+                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_pagina },
+                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', autocompletarMetodo: 'autocompletarConstanciaLibro', value: datosPHP.numero_marginal }
+                    ] 
+                },
                 { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Confirmado'},
                 { type: 'fila', 
                     campos: [
@@ -351,14 +359,6 @@
                                 
                 { type: 'text', name: 'constancia-padrino_nombre', label: 'Nombre Completo del Padrino/Madrina', required: true, validarMetodo: 'validarNombrePadrino', value: datosPHP.padrino_nombre },
 
-                { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
-                { type: 'fila', 
-                    campos: [
-                        { type: 'number', name: 'constancia-numero_libro', label: 'Libro N°', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_libro },
-                        { type: 'number', name: 'constancia-numero_pagina', label: 'N° Folio', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_pagina },
-                        { type: 'number', name: 'constancia-numero_marginal', label: 'N° Marginal', required: true, validarMetodo: 'validarEnteroLibro', value: datosPHP.numero_marginal }
-                    ] 
-                },
 
                 { type: 'subtitulo', name: 'subtitulo-expedicion-datos', value: 'Datos de la Expedición'},
                 { type: 'date', name: 'fecha_expedicion', label: 'Fecha de Expedición', required: true, validarMetodo: 'validarFechaExpedicion', value: datosPHP.fecha_expedicion ?? new Date().toISOString().slice(0, 10)},
