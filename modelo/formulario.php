@@ -1,8 +1,9 @@
 <?php
 
-require_once 'cargarEnv.php';
-require_once 'BaseDatos.php';
+require_once 'modelo/App.php';
 require_once 'EntidadFactory.php';
+
+App::iniciar();
 
 class Formulario
 {
@@ -11,15 +12,7 @@ class Formulario
 
     public function __construct()
     {
-        cargarVariablesDeEntorno(__DIR__ . '/../');
-        define('ROOT_PATH', dirname(__DIR__) . '/');
-
-        $this->pdo = BaseDatos::obtenerConexion(
-            $_ENV['DB_HOST'],
-            $_ENV['DB_NAME'],
-            $_ENV['DB_USER'],
-            $_ENV['DB_PASS']
-        );
+        $this->pdo = App::obtenerConexion();
     }
 
     /**
@@ -124,7 +117,7 @@ class Formulario
     {
         $datosExtras = [];
         $gestorConstancia = EntidadFactory::crearGestor($this->pdo, $nombreTabla);
-        $constancia = $gestorConstancia->obtenerConstanciaPorFeligresBautizadoId($persona_id);// TODO usar una funcion generica que funcione para cada constancia de ser posible
+        $constancia = $gestorConstancia->obtenerConstanciaPorSujetoSacramentoId($persona_id);// TODO usar una funcion generica que funcione para cada constancia de ser posible
 
         if ($constancia) {
             $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];
@@ -139,9 +132,10 @@ class Formulario
     }
 }
 
-$formulario = new Formulario();
-$respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
-
-header('Content-Type: application/json');
-echo json_encode($respuesta);
-exit;
+try {
+    $formulario = new Formulario();
+    $respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+}
