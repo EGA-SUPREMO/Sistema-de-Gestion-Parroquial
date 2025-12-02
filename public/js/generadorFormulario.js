@@ -158,7 +158,7 @@ function manejarBusquedaDirecta(respuesta) {
 }
 
 
-function manejarHijos(hijos) {
+function manejarHijos1(hijos) {
     if (!hijos || hijos.length === 0) return;
 
     const opciones = {};
@@ -179,13 +179,70 @@ function manejarHijos(hijos) {
     );
 }
 
+function manejarHijos(hijos, datosPadreOriginales) {
+    if (!hijos || Object.keys(hijos).length === 0) return;
+
+    const opciones = {};
+    Object.keys(hijos).forEach(key => {
+        const hijo = hijos[key];
+        const nombreCompleto = [
+            hijo['feligres-'].primer_nombre,
+            hijo['feligres-'].segundo_nombre,
+            hijo['feligres-'].primer_apellido,
+            hijo['feligres-'].segundo_apellido
+        ]
+        .filter(Boolean)
+        .join(' ');
+        opciones[key] = `${hijo['feligres-'].cedula} - ${nombreCompleto}`; 
+    });
+
+    solicitarSeleccionDeOpcion(
+        "Hijos encontrados", 
+        opciones, 
+        (keySeleccionada) => {
+            const hijoSeleccionado = hijos[keySeleccionada];
+            const datosFinales = {
+                ...datosPadreOriginales,
+                ...hijoSeleccionado
+            };
+
+            rellenarFormularioConDatos(datosFinales);
+            Swal.fire("¡Listo!", "Datos del hijo y constancia cargados.", "success");
+        },
+        () => {
+            const datosEntidadPrincipal = datosPadreOriginales['feligres-'] || datosPadreOriginales['padre-'] || datosPadreOriginales['madre-'] || datosPadreOriginales['padre_1-'] || datosPadreOriginales['padre_2-'] || datosPadreOriginales['contrayente_1-'] || datosPadreOriginales['contrayente_2-'] || datosPadreOriginales['constancia-'] || datosPadreOriginales[''];
+
+            const nombreCompleto = [
+                datosEntidadPrincipal.primer_nombre,
+                datosEntidadPrincipal.segundo_nombre,
+                datosEntidadPrincipal.primer_apellido,
+                datosEntidadPrincipal.segundo_apellido
+            ]
+            .filter(Boolean)
+            .join(' ');
+            
+            const identificador = datosEntidadPrincipal.cedula ? `C.I. ${datosEntidadPrincipal.cedula}` : `ID ${datosEntidadPrincipal.id}`;
+            
+            // 3. Llamar a la confirmación simple
+            solicitarConfirmacionSimple(
+                "Datos Encontrados",
+                `Se encontró información para ${nombreCompleto} (${identificador}), ¿Desea autocompletar el formulario con esta información?`,
+                () => {
+                    rellenarFormularioConDatos(datosPadreOriginales); 
+                    Swal.fire("Éxito", "Datos cargados al formulario.", "success");
+                }
+            );
+        }
+    );
+}
+
 /**
  * Muestra un modal con un select para elegir entre varias opciones.
  * @param {string} titulo - Título del modal.
  * @param {object} opcionesMap - Objeto { "id": "Texto a mostrar" }.
  * @param {function} onSeleccion - Callback que recibe la key seleccionada.
  */
-function solicitarSeleccionDeOpcion(titulo, opcionesMap, onSeleccion) {
+function solicitarSeleccionDeOpcion(titulo, opcionesMap, onSeleccion, onCancelar = null) {
     const NO_USAR_KEY = "none";
     const opcionesFinales = { ...opcionesMap };
     opcionesFinales[NO_USAR_KEY] = "No usar ninguno";
@@ -205,6 +262,7 @@ function solicitarSeleccionDeOpcion(titulo, opcionesMap, onSeleccion) {
         if (result.isConfirmed) {
             if (result.value === NO_USAR_KEY) {
                 Swal.fire("Operación omitida", "No se cargaron datos.", "info");
+                onCancelar(result.value);
             } else {
                 onSeleccion(result.value);
             }
@@ -225,7 +283,7 @@ function solicitarConfirmacionSimple(titulo, texto, onConfirmar) {
         icon: 'question',
         showCancelButton: true,
         confirmButtonText: "Sí, autocompletar",
-        cancelButtonText: "No, limpiar",
+        cancelButtonText: "No, ignorar",
     }).then((result) => {
         if (result.isConfirmed) {
             onConfirmar();
@@ -236,98 +294,82 @@ function solicitarConfirmacionSimple(titulo, texto, onConfirmar) {
 }
 
 
-
-
 function completarCampos(datos) {
-    const prefijos = [];
-
-    manejarHijos(datos.hijos);
-
-    Object.keys(datos).forEach(clave => {
-        const objetoDatos = datos[clave];
-
-        prefijos.push(clave);
-    });
-
-    console.log('Prefijos a usar:', prefijos);
-
-    prefijos.forEach(prefijo => {
-        const objetoDatos = datos[prefijo]; // Obtener los datos para 'padre', 'madre', o 'feligres'
-
-        if (objetoDatos && typeof objetoDatos === 'object') {
-            // Iterar sobre las propiedades del objeto (e.g., 'primer_nombre', 'cedula')
-            for (const key in objetoDatos) {
-                if (objetoDatos.hasOwnProperty(key)) {
-                    const valor = objetoDatos[key];
-                    // Construir el nombre completo del campo en el formulario (e.g., 'padre-primer_nombre')
-                    const nombreCampo = `${prefijo}${key}`;
-                    
-                    // Buscar el input y asignarle el valor si existe
-                    const $input = $(`[name="${nombreCampo}"]`);
-                    if ($input.length) {
-                        $input.val(valor); 
-                        $input.trigger('keyup');
-                        $input.trigger('change');
-                    }
-                }
+    if (datos.hijos && Object.keys(datos.hijos).length > 0) {
+        const datosOriginales = {};
+        for (const key in datos) {
+            if (key !== 'hijos') {
+                datosOriginales[key] = datos[key];
             }
-        } else {
-            console.log(`No se encontraron datos para ${prefijo}.`);
         }
-    });
-}
-
-
-function completarCampos(resultado) {
-    if (resultado.hijos && Object.keys(resultado.hijos).length > 0) {
-        manejarHijos(resultado.hijos);
+        manejarHijos(datos.hijos, datosOriginales);
         return;
     }
 
-    const datosPrincipales = resultado['feligres-'] || resultado['padre-'] || resultado['madre-'] || null; 
-
-    if (datosPrincipales && datosPrincipales.cedula) {
-        const nombreCompleto = datosPrincipales.nombre_completo || datosPrincipales.nombres + ' ' + datosPrincipales.apellidos;
-
+    // --- Si no hay hijos, procedemos a la Confirmación Simple ---
+    
+    const datosEntidadPrincipal = datos['feligres-'] || datos['padre-'] || datos['madre-'] || datos['padre_1-'] || datos['padre_2-'] || datos['contrayente_1-'] || datos['contrayente_2-'] || datos['constancia-'] || datos[''];
+    
+    if (datosEntidadPrincipal && (datosEntidadPrincipal.cedula || datosEntidadPrincipal.id)) {
+        
+        // Intentar construir el nombre completo para el mensaje
+        const nombreCompleto = [
+            datosEntidadPrincipal.primer_nombre,
+            datosEntidadPrincipal.segundo_nombre,
+            datosEntidadPrincipal.primer_apellido,
+            datosEntidadPrincipal.segundo_apellido
+        ]
+        .filter(Boolean)
+        .join(' ');
+        
+        const identificador = datosEntidadPrincipal.cedula ? `C.I. ${datosEntidadPrincipal.cedula}` : `ID ${datosEntidadPrincipal.id}`;
+        
+        // 3. Llamar a la confirmación simple
         solicitarConfirmacionSimple(
-            "Persona Encontrada",
-            `Se encontraron datos de ${nombreCompleto} (C.I. ${datosPrincipales.cedula}). ¿Desea autocompletar el formulario?`,
+            "Datos Encontrados",
+            `Se encontró información para ${nombreCompleto} (${identificador}). ¿Desea autocompletar el formulario con esta información?`,
             () => {
-                rellenarFormularioConDatos(resultado); 
+                rellenarFormularioConDatos(datos); 
                 Swal.fire("Éxito", "Datos cargados al formulario.", "success");
             }
         );
         return;
     }
 
-    Swal.fire("Sin resultados", "No se encontraron datos que coincidan con la búsqueda.", "info");
+    Swal.fire("Sin resultados", "No se encontraron datos para autocompletar.", "info");
 }
 
 /**
- * Función auxiliar genérica para iterar sobre la respuesta del backend
- * y rellenar los campos del formulario.
- * @param {object} datosRespuesta - La respuesta completa del backend (el objeto JS).
+ * Rellena los campos del formulario con los datos estructurados de la respuesta del servidor.
+ * @param {object} datosRespuesta - Objeto JS que contiene las claves 'padre-', 'madre-', 'constancia-', etc.
  */
 function rellenarFormularioConDatos(datosRespuesta) {
-    for (const prefijo in datosRespuesta) {
-        const datos = datosRespuesta[prefijo];
-        
-        if (typeof datos === 'object' && datos !== null && !Array.isArray(datos)) {
-            for (const clave in datos) {
-                const nombreCampo = `${prefijo}${clave}`;
-                const valor = datos[clave];
-                
-                const $elemento = $(`[name="${nombreCampo}"]`);
-                if ($elemento.length) {
-                    $elemento.val(valor);
+    const clavesAExcluir = ['hijos']; 
+
+    Object.keys(datosRespuesta).forEach(prefijo => {
+        if (clavesAExcluir.includes(prefijo)) {
+            return;
+        }
+
+        const objetoDatos = datosRespuesta[prefijo];
+
+        if (objetoDatos && typeof objetoDatos === 'object' && !Array.isArray(objetoDatos)) {
+            for (const key in objetoDatos) {
+                if (objetoDatos.hasOwnProperty(key)) {
+                    const valor = objetoDatos[key];
+                    const nombreCampo = `${prefijo}${key}`;
                     
-                    $elemento.trigger('change'); 
+                    const $input = $(`[name="${nombreCampo}"]`);
+                    if ($input.length) {
+                        $input.val(valor);
+
+                        $input.trigger('keyup').trigger('change'); 
+                    }
                 }
             }
         }
-    }
+    });
 }
-
 
 
 function pedirDatos(datos, callback) {
