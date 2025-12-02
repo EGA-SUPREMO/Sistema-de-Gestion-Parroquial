@@ -135,31 +135,18 @@ function soloNumero(e) {
     // Si es un número o una tecla de control, se permite (retorna true por defecto)
 }
 
-let yaSeDecidioNoAutocompletar = false;
-
 function manejarHijos(hijos) {
-    if (yaSeDecidioNoAutocompletar) {
-        return;
-    }
-
     if (hijos && hijos.length > 0) {
         
-        // 2. Crear las opciones de radio para SweetAlert2
         const inputOptions = {};
         
-        // Agregar las opciones de los hijos al objeto
         hijos.forEach((hijo, index) => {
-            // Asumiendo que 'hijo' es un objeto y tiene una propiedad 'nombre' o similar
-            // Usamos el 'index' como valor (clave) y el nombre como texto visible.
-            // Ajusta 'hijo.nombre' si la estructura de tu objeto 'hijo' es diferente.
             inputOptions[index.toString()] = `${hijo['feligres-'].cedula} - ${hijo['feligres-'].nombre_completo}`;
         });
         
-        // Agregar la opción de "No usar ninguno"
         const NO_USAR_KEY = "none";
         inputOptions[NO_USAR_KEY] = "No usar ninguno";
 
-        // 3. Mostrar la alerta de selección con opciones de radio
         Swal.fire({
             title: "Datos de hijos encontrados",
             text: "Seleccione un hijo para autocompletar los datos del formulario.",
@@ -174,16 +161,12 @@ function manejarHijos(hijos) {
                 }
             }
         }).then((result) => {
-            // 4. Manejar el resultado de la selección
             if (result.isConfirmed) {
                 const selectedKey = result.value;
                 
                 if (selectedKey === NO_USAR_KEY) {
-                    // El usuario seleccionó "No usar ninguno"
-                    yaSeDecidioNoAutocompletar = true;
-                    Swal.fire("Se procederá sin datos precargados. Los avisos de autocompletado se reactivarán para el próximo registro.", "", "info");
+                    Swal.fire("Se procederá sin datos precargados.", "", "info");
                 } else {
-                    // El usuario seleccionó un hijo
                     const selectedIndex = parseInt(selectedKey);
                     const hijoSeleccionado = hijos[selectedIndex];
                     completarCampos(hijoSeleccionado);
@@ -196,6 +179,62 @@ function manejarHijos(hijos) {
     }
 }
 
+
+/**
+ * Muestra un modal con un select para elegir entre varias opciones.
+ * @param {string} titulo - Título del modal.
+ * @param {object} opcionesMap - Objeto { "id": "Texto a mostrar" }.
+ * @param {function} onSeleccion - Callback que recibe la key seleccionada.
+ */
+function solicitarSeleccionDeOpcion(titulo, opcionesMap, onSeleccion) {
+    const NO_USAR_KEY = "none";
+    const opcionesFinales = { ...opcionesMap };
+    opcionesFinales[NO_USAR_KEY] = "No usar ninguno";
+
+    Swal.fire({
+        title: titulo,
+        text: "Seleccione un registro para autocompletar.",
+        input: 'select',
+        inputOptions: opcionesFinales,
+        showCancelButton: true,
+        confirmButtonText: "Seleccionar",
+        cancelButtonText: "Cerrar",
+        inputValidator: (value) => {
+            return !value && 'Debe seleccionar una opción';
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (result.value === NO_USAR_KEY) {
+                Swal.fire("Operación omitida", "No se cargaron datos.", "info");
+            } else {
+                onSeleccion(result.value);
+            }
+        }
+    });
+}
+
+/**
+ * Muestra una confirmación simple Sí/No para un solo registro.
+ * @param {string} titulo - Título (ej: "Persona encontrada").
+ * @param {string} texto - Detalles (ej: "Se encontró a Juan Perez. ¿Usar datos?").
+ * @param {function} onConfirmar - Callback si el usuario dice SÍ.
+ */
+function solicitarConfirmacionSimple(titulo, texto, onConfirmar) {
+    Swal.fire({
+        title: titulo,
+        text: texto,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: "Sí, autocompletar",
+        cancelButtonText: "No, limpiar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            onConfirmar();
+        } else {
+            Swal.fire("Operación cancelada", "No se cargaron datos.", "info");
+        }
+    });
+}
 
 
 
