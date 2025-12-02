@@ -46,8 +46,8 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
             $constancia -> hydrate($datosConstancia);
             $this->validarDependencias($constancia);
 
-            $idConstanciaEncontradaPorSujeto = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramentoId(['feligres_confirmado_id' => $confirmadoId]);
-            $this->gestorConstancia->verificarConsistenciaIds(['feligres_confirmado_id' => $confirmadoId], $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
+            $idConstanciaEncontradaPorSujeto = $this->gestorConstancia->obtenerConstanciaIdPorSujetoSacramentoId($confirmadoId);
+            $this->gestorConstancia->verificarConsistenciaIds($confirmadoId, $datosConstancia['numero_libro'], $datosConstancia['numero_pagina'], $datosConstancia['numero_marginal']);
             $constancia->setId($idConstanciaEncontradaPorSujeto);
 
             $this->gestorConstancia->guardar($constancia, $idConstanciaEncontradaPorSujeto);
