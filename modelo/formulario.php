@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modelo/App.php';
+require_once 'App.php';
 require_once 'EntidadFactory.php';
 
 App::iniciar();
@@ -51,7 +51,7 @@ class Formulario
 
             $respuesta[$rol] = $datos_persona_raw;
 
-            if (($rol === 'padre-' || $rol === 'madre-') && $persona_objeto) {
+            if (($rol === 'padre-' || $rol === 'madre-' || $rol === 'padre_1-' || $rol === 'padre_2-') && $persona_objeto) {
                 $hijos = $this->gestorFeligres->obtenerHijosPorCedulaPadre($persona_objeto->getCedula());
 
                 foreach ($hijos as $llave => $valor) {
@@ -105,37 +105,56 @@ class Formulario
         return null; // No se encontró ningún identificador
     }
 
-    /**
-     * Encapsula la lógica de búsqueda de la constancia y padres
-     * para el caso especial 'bautizado-'.
-     *
-     * @param object $persona_objeto El feligrés bautizado.
-     * @param string $nombreTabla El nombre de la tabla de la constancia.
-     * @return array Datos adicionales para la respuesta.
-     */
     private function obtenerDatosConstanciaRelacionados($persona_id, $nombreTabla)
     {
         $datosExtras = [];
         $gestorConstancia = EntidadFactory::crearGestor($this->pdo, $nombreTabla);
-        $constancia = $gestorConstancia->obtenerConstanciaPorSujetoSacramentoId($persona_id);// TODO usar una funcion generica que funcione para cada constancia de ser posible
+        $constancia = $gestorConstancia->obtenerConstanciaPorSujetoSacramentoId($persona_id);
 
         if ($constancia) {
             $datos_constancia_raw = $constancia->toArrayParaBD() ?? [];
 
             $datosExtras[''] = ['id' => $datos_constancia_raw['id']];
-            $datosExtras['padre-'] = $this->gestorFeligres->obtenerPorId($constancia->getPadreId())->toArrayParaBD();
-            $datosExtras['madre-'] = $this->gestorFeligres->obtenerPorId($constancia->getMadreId())->toArrayParaBD();
             $datosExtras['constancia-'] = $datos_constancia_raw;
+
+            $rolesPosibles = [
+                'padre'   => 'padre-',
+                'madre'   => 'madre-',
+                'padre_1' => 'padre_1-',
+                'padre_2' => 'padre_2-',
+                'contrayente_1' => 'contrayente_1-',
+                'contrayente_2' => 'contrayente_2-',
+            ];
+
+            foreach ($rolesPosibles as $columnaBase => $prefijoFront) {
+                $nombreMetodo = 'get' . FuncionesComunes::formatearSnakeCaseAPascalCase($columnaBase . '_id');
+
+                if (method_exists($constancia, $nombreMetodo)) {
+                    
+                    $idRelacionado = $constancia->$nombreMetodo();
+
+                    if ($idRelacionado) {
+                        $feligres = $this->gestorFeligres->obtenerPorId($idRelacionado);
+                        if ($feligres) {
+                            $datosExtras[$prefijoFront] = $feligres->toArrayParaBD();
+                        }
+                    }
+                }
+            }
         }
 
         return $datosExtras;
     }
-}
 
-try {
+}
+//try {
     $formulario = new Formulario();
     $respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['error' => $e->getMessage()]);
-}
+    header('Content-Type: application/json');
+    echo json_encode($respuesta);
+//} catch (Exception $e) {
+//    error_log($e->getMessage());
+//    http_response_code(500);
+//    echo json_encode(['error' => $e->getMessage()]);
+//}
+exit();
