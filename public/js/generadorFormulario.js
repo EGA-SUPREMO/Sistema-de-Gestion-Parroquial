@@ -135,50 +135,49 @@ function soloNumero(e) {
     // Si es un número o una tecla de control, se permite (retorna true por defecto)
 }
 
-function manejarHijos(hijos) {
-    if (hijos && hijos.length > 0) {
-        
-        const inputOptions = {};
-        
-        hijos.forEach((hijo, index) => {
-            inputOptions[index.toString()] = `${hijo['feligres-'].cedula} - ${hijo['feligres-'].nombre_completo}`;
-        });
-        
-        const NO_USAR_KEY = "none";
-        inputOptions[NO_USAR_KEY] = "No usar ninguno";
 
-        Swal.fire({
-            title: "Datos de hijos encontrados",
-            text: "Seleccione un hijo para autocompletar los datos del formulario.",
-            input: 'select',
-            inputOptions: inputOptions,
-            showCancelButton: true,
-            confirmButtonText: "Seleccionar",
-            cancelButtonText: "Cancelar",
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'Debe seleccionar una opción o cancelar';
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                const selectedKey = result.value;
-                
-                if (selectedKey === NO_USAR_KEY) {
-                    Swal.fire("Se procederá sin datos precargados.", "", "info");
-                } else {
-                    const selectedIndex = parseInt(selectedKey);
-                    const hijoSeleccionado = hijos[selectedIndex];
-                    completarCampos(hijoSeleccionado);
-                }
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                Swal.fire("Selección cancelada", "", "error");
-            }
-        });
 
+
+function manejarBusquedaDirecta(respuesta) {
+    const datosPersona = respuesta['feligres-'] || respuesta; // Ajusta según tu JSON
+    
+    if (datosPersona && datosPersona.nombre_completo) {
+        
+        solicitarConfirmacionSimple(
+            "Persona encontrada",
+            `Se encontró a: ${datosPersona.nombre_completo}. ¿Desea cargar sus datos?`,
+            () => {
+                completarCampos(respuesta); 
+                Swal.fire("Cargado", "Formulario autocompletado.", "success");
+            }
+        );
+        
+    } else {
+        Swal.fire("Sin resultados", "No se encontró ninguna persona.", "warning");
     }
 }
 
+
+function manejarHijos(hijos) {
+    if (!hijos || hijos.length === 0) return;
+
+    const opciones = {};
+    hijos.forEach((hijo, index) => {
+        opciones[index] = `${hijo['feligres-'].cedula} - ${hijo['feligres-'].nombre_completo}`;
+    });
+
+    solicitarSeleccionDeOpcion(
+        "Hijos encontrados", 
+        opciones, 
+        (keySeleccionada) => {
+            const indice = parseInt(keySeleccionada);
+            const hijoSeleccionado = hijos[indice];
+            completarCampos(hijoSeleccionado);
+            
+            Swal.fire("¡Listo!", "Datos del hijo cargados.", "success");
+        }
+    );
+}
 
 /**
  * Muestra un modal con un select para elegir entre varias opciones.
@@ -244,24 +243,12 @@ function completarCampos(datos) {
 
     manejarHijos(datos.hijos);
 
-    // 2. Iterar sobre las claves del objeto 'datos'
-    // Object.keys(datos) devolverá ['padre-', 'madre-', 'feligres-']
     Object.keys(datos).forEach(clave => {
-        // 3. Verificar si el objeto de datos para ese prefijo no está vacío.
-        // Usamos JSON.stringify para verificar si tiene propiedades que se mapearon.
-        // Esto asegura que solo se procesen los datos si el servidor devolvió información.
         const objetoDatos = datos[clave];
 
         prefijos.push(clave);
-        // OTRA FORMA: Verificar si el objeto NO es nulo/undefined Y tiene al menos una clave
-        /*if (objetoDatos && Object.keys(objetoDatos).length > 0) {
-            // La clave ya tiene el guion (ej: 'padre-'), la añadimos directamente
-            prefijos.push(clave);
-        }*/
     });
 
-    // Ahora, 'prefijos' solo contiene los prefijos que tienen datos reales
-    // En este ejemplo: ['padre-']
     console.log('Prefijos a usar:', prefijos);
 
     prefijos.forEach(prefijo => {
@@ -290,11 +277,62 @@ function completarCampos(datos) {
     });
 }
 
+
+function completarCampos(resultado) {
+    if (resultado.hijos && Object.keys(resultado.hijos).length > 0) {
+        manejarHijos(resultado.hijos);
+        return;
+    }
+
+    const datosPrincipales = resultado['feligres-'] || resultado['padre-'] || resultado['madre-'] || null; 
+
+    if (datosPrincipales && datosPrincipales.cedula) {
+        const nombreCompleto = datosPrincipales.nombre_completo || datosPrincipales.nombres + ' ' + datosPrincipales.apellidos;
+
+        solicitarConfirmacionSimple(
+            "Persona Encontrada",
+            `Se encontraron datos de ${nombreCompleto} (C.I. ${datosPrincipales.cedula}). ¿Desea autocompletar el formulario?`,
+            () => {
+                rellenarFormularioConDatos(resultado); 
+                Swal.fire("Éxito", "Datos cargados al formulario.", "success");
+            }
+        );
+        return;
+    }
+
+    Swal.fire("Sin resultados", "No se encontraron datos que coincidan con la búsqueda.", "info");
+}
+
+/**
+ * Función auxiliar genérica para iterar sobre la respuesta del backend
+ * y rellenar los campos del formulario.
+ * @param {object} datosRespuesta - La respuesta completa del backend (el objeto JS).
+ */
+function rellenarFormularioConDatos(datosRespuesta) {
+    for (const prefijo in datosRespuesta) {
+        const datos = datosRespuesta[prefijo];
+        
+        if (typeof datos === 'object' && datos !== null && !Array.isArray(datos)) {
+            for (const clave in datos) {
+                const nombreCampo = `${prefijo}${clave}`;
+                const valor = datos[clave];
+                
+                const $elemento = $(`[name="${nombreCampo}"]`);
+                if ($elemento.length) {
+                    $elemento.val(valor);
+                    
+                    $elemento.trigger('change'); 
+                }
+            }
+        }
+    }
+}
+
+
+
 function pedirDatos(datos, callback) {
     $.post("modelo/formulario.php", { json: datos }, function(resultado) {
-        // 1. Aquí, 'resultado' YA es un objeto JavaScript (si la conversión fue exitosa)
         console.log("Respuesta del servidor (Objeto JS):", resultado); 
-        // 2. Procesar y autocompletar los campos
         if (resultado) {
             callback(resultado);
         }
@@ -311,26 +349,18 @@ function autocompletarCampo($elemento) {
         return;
     }
 
-    // 2. Obtener el nombre completo del campo (e.g., 'padre-cedula', 'cedula')
     const nombreCompleto = $elemento.attr('name');    
-    // 3. Dividir el nombre completo
     const partes = nombreCompleto.split('-'); 
 
     let prefijo = '';
-    let claveIdentificador = nombreCompleto; // Inicializamos con el nombre completo por defecto
+    let claveIdentificador = nombreCompleto;
     
-    // Si hay más de una parte (hay guiones, e.g., 'padre-cedula')
     if (partes.length > 1) { 
-        // El prefijo es la primera parte más el guion
         prefijo = partes[0] + '-';   
-        // La clave es el resto de las partes unidas (join('-') para manejar claves con múltiples guiones)
         claveIdentificador = partes.slice(1).join('-'); 
     } 
-    // Si partes.length es 1 (e.g., 'cedula'), se mantiene el valor inicial: prefijo = '', claveIdentificador = 'cedula'
-
 
     let datos = {};
-    // La clave dinámica se construye uniendo el prefijo (que puede ser '') con la clave
     const claveDinamica = `${prefijo}${claveIdentificador}`; 
     datos[claveDinamica] = valorIdentificador;
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
@@ -339,7 +369,6 @@ function autocompletarCampo($elemento) {
 }
 
 function autocompletarSujetoSacramento($elemento) {
-
     let datos = {};
     datos[$elemento.attr('name')] = $elemento.val(); 
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
