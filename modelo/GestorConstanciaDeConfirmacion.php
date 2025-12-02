@@ -12,4 +12,8 @@ class GestorConstanciaDeConfirmacion extends GestorConstancia
         $this ->tabla = "constancia_de_confirmacion";
         $this ->clase_nombre = "ConstanciaDeConfirmacion";
     }
+    protected function mapearSujetosACriterios($sujetos)
+    {
+        return ['feligres_confirmado_id' => $sujetos];
+    }
 }

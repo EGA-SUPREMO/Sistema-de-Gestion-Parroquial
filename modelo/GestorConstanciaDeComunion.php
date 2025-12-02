@@ -1,16 +1,21 @@
 <?php
 
-require_once 'GestorBase.php';
+require_once 'GestorConstancia.php';
 
 require_once 'ConstanciaDeComunion.php';
 
-class GestorConstanciaDeComunion extends GestorBase
+class GestorConstanciaDeComunion extends GestorConstancia
 {
     public function __construct(PDO $pdo)
     {
         parent::__construct($pdo);
         $this ->tabla = "constancia_de_comunion";
         $this ->clase_nombre = "ConstanciaDeComunion";
+    }
+
+    protected function mapearSujetosACriterios($sujetos)
+    {
+        return ['feligres_id' => $sujetos];
     }
 
     public function obtenerConstanciaIdPorFeligresId($id)

@@ -12,4 +12,9 @@ class GestorConstanciaDeFeDeBautizo extends GestorConstancia
         $this ->tabla = "constancia_de_fe_de_bautizo";
         $this ->clase_nombre = "ConstanciaDeFeDeBautizo";
     }
+    
+    protected function mapearSujetosACriterios($sujetos)
+    {
+        return ['feligres_bautizado_id' => $sujetos];
+    }
 }

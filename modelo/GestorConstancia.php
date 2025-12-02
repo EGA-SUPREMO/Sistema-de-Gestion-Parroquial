@@ -9,16 +9,22 @@ abstract class GestorConstancia extends GestorBase
         parent::__construct($pdo);
     }
 
+    abstract protected function mapearSujetosACriterios($sujetos);
+
     public function obtenerConstanciaIdPorSujetoSacramentoId($sujetos)
     {
-        $resultado = $this->obtenerPor($sujetos, 'single');
+        $criterios = $this->mapearSujetosACriterios($sujetos);
+        $resultado = $this->obtenerPor($criterios, 'single');
 
         return $resultado ? $resultado->getId() : 0;
     }
+    
     public function obtenerConstanciaPorSujetoSacramentoId($sujetos)
     {
-        return $this->obtenerPor($sujetos, 'single');
+        $criterios = $this->mapearSujetosACriterios($sujetos);
+        return $this->obtenerPor($criterios, 'single');
     }
+    
     public function obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal)
     {
         $resultado = $this->obtenerPor(['numero_libro' => $numero_libro, 'numero_pagina' => $numero_pagina, 'numero_marginal' => $numero_marginal], 'single');
