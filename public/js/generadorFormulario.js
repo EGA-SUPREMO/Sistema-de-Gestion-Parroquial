@@ -406,6 +406,19 @@ function autocompletarMatrimonio($elemento) {
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
 
+function autocompletarConstanciaLibro($elemento) {
+    let datos = {
+        'constancia-numero_libro': $(`[name="constancia-numero_libro"]`).val(),
+        'constancia-numero_pagina': $(`[name="constancia-numero_pagina"]`).val(),
+        'constancia-numero_marginal': $(`[name="constancia-numero_marginal"]`).val(),
+        'nombre_tabla': new URLSearchParams(window.location.search).get('t')
+    };
+
+    if (+datos['constancia-numero_libro'] && +datos['constancia-numero_pagina'] && +datos['constancia-numero_marginal']) {
+        pedirDatos(JSON.stringify(datos), completarCampos);
+    }
+}
+
 
 
 
