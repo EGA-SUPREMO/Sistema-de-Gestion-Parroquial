@@ -226,8 +226,8 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_1?.cedula ?? '' },
-                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_2?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarMatrimonio', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_1?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarMatrimonio', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_2?.cedula ?? '' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},

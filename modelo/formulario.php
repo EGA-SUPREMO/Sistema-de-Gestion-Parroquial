@@ -36,8 +36,15 @@ class Formulario
         if ($identificador) {
             $this->gestorFeligres = EntidadFactory::crearGestor($this->pdo, 'Feligres');
             $persona_objeto = null;
-            $rol = $identificador['rol'];
+            $rol = null;
+            
+            if (is_array($identificador) && isset($identificador[0]['rol'])) {
+                return $this->respuestaParaElMatrimonio($identificador, $nombreTabla);
+            }
 
+            $rol = $identificador['rol'];
+            $persona_objeto = null;
+            
             if ($identificador['tipo'] === 'cedula') {
                 $persona_objeto = $this->gestorFeligres->obtenerPorCedula($identificador['valor']);
             } elseif ($identificador['tipo'] === 'partida_de_nacimiento') {
@@ -78,8 +85,59 @@ class Formulario
         return $respuesta;
     }
 
+    private function respuestaParaElMatrimonio($identificador, $nombreTabla)
+    {
+        $rol = $identificador[0]['rol'];
+        $personas_encontradas = [];
+
+        foreach ($identificador as $id) {
+            $persona_objeto = null;
+            
+            if ($id['tipo'] === 'cedula') {
+                $persona_objeto = $this->gestorFeligres->obtenerPorCedula($id['valor']);
+            } elseif ($id['tipo'] === 'partida_de_nacimiento') {
+                $persona_objeto = $this->gestorFeligres->obtenerPorPartidaDeNacimiento($id['valor']);
+            }
+
+            $personas_encontradas[$id['rol']] = $persona_objeto;
+        }
+
+        $persona_contrayente_1 = $personas_encontradas['contrayente_1'] ?? null;
+        $persona_contrayente_2 = $personas_encontradas['contrayente_2'] ?? null;
+        
+        $respuesta['contrayente_1'] = $persona_contrayente_1->toArrayParaBD() ?? [];
+        $respuesta['contrayente_2'] = $persona_contrayente_2->toArrayParaBD() ?? [];
+
+        $datosConstancia = $this->obtenerDatosConstanciaRelacionados([$persona_contrayente_1->getId(), $persona_contrayente_2->getId()], $nombreTabla);
+        $respuesta = array_merge($respuesta, $datosConstancia);
+
+        return $respuesta;
+    }
+
     private function obtenerIdentificadorDeBusqueda($datos)
     {
+        // Chapuza, pero no hay tiempo para estar arreglando el codigo, caso especial de matrimonio que necesita 2 identificadores en lugar de uno
+        $identificadores = [];
+        if (isset($datos['contrayente_1-cedula']) && !empty($datos['contrayente_1-cedula'])) {
+            $identificadores[] = [
+                'rol' => 'contrayente_1',
+                'tipo' => 'cedula',
+                'valor' => $datos['contrayente_1-cedula']
+            ];
+        }
+        
+        if (isset($datos['contrayente_2-cedula']) && !empty($datos['contrayente_2-cedula'])) {
+            $identificadores[] = [
+                'rol' => 'contrayente_2',
+                'tipo' => 'cedula',
+                'valor' => $datos['contrayente_2-cedula']
+            ];
+        }
+
+        if (count($identificadores) == 2) {
+             return $identificadores;
+        }
+
         foreach ($datos as $key => $valor) {
             if (empty($valor)) {
                 continue;
@@ -102,7 +160,7 @@ class Formulario
             }
         }
 
-        return null; // No se encontró ningún identificador
+        return null;
     }
 
     private function obtenerDatosConstanciaRelacionados($persona_id, $nombreTabla)

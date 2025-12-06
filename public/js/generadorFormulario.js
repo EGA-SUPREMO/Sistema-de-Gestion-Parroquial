@@ -158,27 +158,6 @@ function manejarBusquedaDirecta(respuesta) {
 }
 
 
-function manejarHijos1(hijos) {
-    if (!hijos || hijos.length === 0) return;
-
-    const opciones = {};
-    hijos.forEach((hijo, index) => {
-        opciones[index] = `${hijo['feligres-'].cedula} - ${hijo['feligres-'].nombre_completo}`;
-    });
-
-    solicitarSeleccionDeOpcion(
-        "Hijos encontrados", 
-        opciones, 
-        (keySeleccionada) => {
-            const indice = parseInt(keySeleccionada);
-            const hijoSeleccionado = hijos[indice];
-            completarCampos(hijoSeleccionado);
-            
-            Swal.fire("¡Listo!", "Datos del hijo cargados.", "success");
-        }
-    );
-}
-
 function manejarHijos(hijos, datosPadreOriginales) {
     if (!hijos || Object.keys(hijos).length === 0) return;
 
@@ -417,6 +396,22 @@ function autocompletarSujetoSacramento($elemento) {
 
     pedirDatos(JSON.stringify(datos), completarCampos);
 }
+
+function autocompletarMatrimonio($elemento) {
+    let datos = {};
+    datos['contrayente_1-cedula'] = $(`[name="contrayente_1-cedula"]`).val(); 
+    datos['contrayente_2-cedula'] = $(`[name="contrayente_2-cedula"]`).val(); 
+    datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
+
+    pedirDatos(JSON.stringify(datos), completarCampos);
+}
+
+
+
+
+
+
+
 
 
 /**

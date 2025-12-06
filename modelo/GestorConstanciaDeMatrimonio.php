@@ -14,13 +14,14 @@ class GestorConstanciaDeMatrimonio extends GestorConstancia
     }
     protected function mapearSujetosACriterios($sujetos)
     {
-        if (!is_array($sujetos) || !isset($sujetos['contrayente_1'], $sujetos['contrayente_2'])) {
+        error_log(print_r($sujetos, true));
+        if (!is_array($sujetos) || !isset($sujetos[0], $sujetos[1])) {
             throw new Exception("Error interno: Para validar matrimonio se requieren los IDs de contrayente_1 y contrayente_2.");
         }
 
         return [
-            'contrayente_1_id' => $sujetos['contrayente_1'],
-            'contrayente_2_id' => $sujetos['contrayente_2']
+            'contrayente_1_id' => $sujetos[0],
+            'contrayente_2_id' => $sujetos[1]
         ];
     }
 }
