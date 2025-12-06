@@ -126,7 +126,7 @@ class ConstanciaDeConfirmacion extends ModeloBase
 
     public function setPadrinoNombre($padrino_nombre)
     {
-        $this->padrino_nombre = Validador::validarString($padrino_nombre,  "nombre del padrino", 100, 3);
+        $this->padrino_nombre = Validador::validarString($padrino_nombre, "nombre del padrino", 100, 3);
         if ($this->padrino_nombre !== null) {
             $this->padrino_nombre = ucwords($this->padrino_nombre);
         }
@@ -190,7 +190,7 @@ class ConstanciaDeConfirmacion extends ModeloBase
         }
 
         $formateador = new IntlDateFormatter(
-            'es_VE', 
+            'es_VE',
             IntlDateFormatter::LONG,
             IntlDateFormatter::NONE,
             'America/Caracas'

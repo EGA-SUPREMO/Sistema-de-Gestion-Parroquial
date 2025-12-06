@@ -28,4 +28,4 @@ class App
         }
         return self::$pdo;
     }
-} 
+}

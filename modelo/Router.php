@@ -35,7 +35,7 @@ class Router
             }
 
             require_once "vistas/cabezera.php";
-            
+
             if (!($cNombre === 'login' && $accion === 'index')) {
                 require_once "vistas/menu.php";
             }
@@ -49,4 +49,4 @@ class Router
             FuncionesComunes::redirigir('Location: index.php?c=dashboard&a=index&error=' . $mensaje);
         }
     }
-} 
+}

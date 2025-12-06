@@ -18,13 +18,13 @@ abstract class GestorConstancia extends GestorBase
 
         return $resultado ? $resultado->getId() : 0;
     }
-    
+
     public function obtenerConstanciaPorSujetoSacramentoId($sujetos)
     {
         $criterios = $this->mapearSujetosACriterios($sujetos);
         return $this->obtenerPor($criterios, 'single');
     }
-    
+
     public function obtenerConstanciaIdPorRegistroLibro($numero_libro, $numero_pagina, $numero_marginal)
     {
         $resultado = $this->obtenerPor(['numero_libro' => $numero_libro, 'numero_pagina' => $numero_pagina, 'numero_marginal' => $numero_marginal], 'single');

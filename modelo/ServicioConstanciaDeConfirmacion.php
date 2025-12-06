@@ -95,7 +95,9 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
     protected function obtenerActoresRelacionados($modelo)
     {
         return [
-            'feligres_confirmado' => $this->buscarFeligres($modelo->getFeligresConfirmadoId()),
+            'feligres' => $this->buscarFeligres($modelo->getFeligresConfirmadoId()),
+            'padre_1' => $this->buscarFeligres($modelo->getPadre1Id()),
+            'padre_2' => $this->buscarFeligres($modelo->getPadre2Id()),
         ];
     }
 

@@ -117,7 +117,7 @@ class ConstanciaDeMatrimonio extends ModeloBase
 
     public function setTestigo1Nombre($testigo_1_nombre)
     {
-        $this->testigo_1_nombre = Validador::validarString($testigo_1_nombre,  "nombre del testigo 1", 100, 3);
+        $this->testigo_1_nombre = Validador::validarString($testigo_1_nombre, "nombre del testigo 1", 100, 3);
         if ($this->testigo_1_nombre !== null) {
             $this->testigo_1_nombre = ucwords($this->testigo_1_nombre);
         }
@@ -125,7 +125,7 @@ class ConstanciaDeMatrimonio extends ModeloBase
 
     public function setTestigo2Nombre($testigo_2_nombre)
     {
-        $this->testigo_2_nombre = Validador::validarString($testigo_2_nombre,  "nombre del testigo 2", 100, 3);
+        $this->testigo_2_nombre = Validador::validarString($testigo_2_nombre, "nombre del testigo 2", 100, 3);
         if ($this->testigo_2_nombre !== null) {
             $this->testigo_2_nombre = ucwords($this->testigo_2_nombre);
         }

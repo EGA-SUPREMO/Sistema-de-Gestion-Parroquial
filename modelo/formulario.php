@@ -130,7 +130,7 @@ class Formulario
                 $nombreMetodo = 'get' . FuncionesComunes::formatearSnakeCaseAPascalCase($columnaBase . '_id');
 
                 if (method_exists($constancia, $nombreMetodo)) {
-                    
+
                     $idRelacionado = $constancia->$nombreMetodo();
 
                     if ($idRelacionado) {
@@ -148,10 +148,10 @@ class Formulario
 
 }
 //try {
-    $formulario = new Formulario();
-    $respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
-    header('Content-Type: application/json');
-    echo json_encode($respuesta);
+$formulario = new Formulario();
+$respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
+header('Content-Type: application/json');
+echo json_encode($respuesta);
 //} catch (Exception $e) {
 //    error_log($e->getMessage());
 //    http_response_code(500);

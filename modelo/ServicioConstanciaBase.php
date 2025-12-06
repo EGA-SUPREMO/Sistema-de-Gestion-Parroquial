@@ -116,7 +116,7 @@ abstract class ServicioConstanciaBase extends ServicioBase
     abstract protected function validarDependencias($objeto);
 
     /**
-     * Este método abstracto obliga a las clases hijas a definir 
+     * Este método abstracto obliga a las clases hijas a definir
      * quiénes participan en el sacramento y con qué nombre clave (key)
      * se enviarán al Javascript.
      * * @param object $modelo La instancia del modelo (ej. Bautismo, Matrimonio)
@@ -149,7 +149,8 @@ abstract class ServicioConstanciaBase extends ServicioBase
         return $datos_modelo;
     }
 
-    protected function buscarFeligres($id) {
+    protected function buscarFeligres($id)
+    {
         return $id ? $this->gestorFeligres->obtenerPorId($id) : null;
     }
 
