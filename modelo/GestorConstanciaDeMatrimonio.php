@@ -14,7 +14,6 @@ class GestorConstanciaDeMatrimonio extends GestorConstancia
     }
     protected function mapearSujetosACriterios($sujetos)
     {
-        error_log(print_r($sujetos, true));
         if (!is_array($sujetos) || !isset($sujetos[0], $sujetos[1])) {
             throw new Exception("Error interno: Para validar matrimonio se requieren los IDs de contrayente_1 y contrayente_2.");
         }

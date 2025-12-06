@@ -364,11 +364,10 @@ function pedirDatos(datos, callback) {
 }
 
 function autocompletarCampo($elemento) {
-    const valorIdentificador = $elemento.val();
-
-    if (!valorIdentificador) {
+    if ($elemento.hasClass('is-invalid') || $elemento.val() === '') {
         return;
     }
+    const valorIdentificador = $elemento.val();
 
     const nombreCompleto = $elemento.attr('name');    
     const partes = nombreCompleto.split('-'); 
@@ -390,6 +389,9 @@ function autocompletarCampo($elemento) {
 }
 
 function autocompletarSujetoSacramento($elemento) {
+    if ($elemento.hasClass('is-invalid') || $elemento.val() === '') {
+        return;
+    }
     let datos = {};
     datos[$elemento.attr('name')] = $elemento.val(); 
     datos['nombre_tabla'] = new URLSearchParams(window.location.search).get('t');
@@ -398,6 +400,9 @@ function autocompletarSujetoSacramento($elemento) {
 }
 
 function autocompletarMatrimonio($elemento) {
+    if ($elemento.hasClass('is-invalid') || $elemento.val() === '') {
+        return;
+    }
     let datos = {};
     datos['contrayente_1-cedula'] = $(`[name="contrayente_1-cedula"]`).val(); 
     datos['contrayente_2-cedula'] = $(`[name="contrayente_2-cedula"]`).val(); 

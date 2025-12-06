@@ -37,7 +37,7 @@ class Formulario
             $this->gestorFeligres = EntidadFactory::crearGestor($this->pdo, 'Feligres');
             $persona_objeto = null;
             $rol = null;
-            
+
             if (is_array($identificador) && isset($identificador[0]['rol'])) {
                 return $this->respuestaParaElMatrimonio($identificador, $nombreTabla);
             }
@@ -163,7 +163,7 @@ class Formulario
         return null;
     }
 
-    private function obtenerDatosConstanciaRelacionados($persona_id, $nombreTabla)
+    private function obtenerDatosConstanciaRelacionados($persona_id, $nombreTabla) // TODO metodo duplicado de obtenerDatosCompletosParaEdicion($id) de servicio constancia, bueno, son bastante parecidos, este podria usarlo internamente
     {
         $datosExtras = [];
         $gestorConstancia = EntidadFactory::crearGestor($this->pdo, $nombreTabla);
