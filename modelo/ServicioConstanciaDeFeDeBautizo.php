@@ -111,4 +111,13 @@ class ServicioConstanciaDeFeDeBautizo extends ServicioConstanciaBase
             throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaExpedicionId()} que certifica expedicion no existe.");
         }
     }
+
+    protected function obtenerActoresRelacionados($modelo)
+    {
+        return [
+            'feligres' => $this->buscarFeligres($modelo->getFeligresBautizadoId()),
+            'padre'    => $this->buscarFeligres($modelo->getPadreId()),
+            'madre'    => $this->buscarFeligres($modelo->getMadreId()),
+        ];
+    }
 }

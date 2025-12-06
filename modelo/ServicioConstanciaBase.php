@@ -114,4 +114,43 @@ abstract class ServicioConstanciaBase extends ServicioBase
 
 
     abstract protected function validarDependencias($objeto);
+
+    /**
+     * Este método abstracto obliga a las clases hijas a definir 
+     * quiénes participan en el sacramento y con qué nombre clave (key)
+     * se enviarán al Javascript.
+     * * @param object $modelo La instancia del modelo (ej. Bautismo, Matrimonio)
+     * @return array Array de objetos Feligres o nulls.
+     */
+    abstract protected function obtenerActoresRelacionados($modelo);
+
+    /**
+     * Método público que el controlador llamará.
+     */
+    public function obtenerDatosCompletosParaEdicion($id)
+    {
+        $modelo = $this->gestorConstancia->obtenerPorId($id);
+        if (!$modelo) {
+            throw new Exception("Error: Datos de la constancia no encontrado");
+        }
+
+        $datos_modelo = $modelo->toArrayParaBD();
+        $actores = $this->obtenerActoresRelacionados($modelo);
+
+        foreach ($actores as $clave => $feligresModelo) {
+            if ($feligresModelo) {
+                $datos_modelo[$clave] = $feligresModelo->toArrayParaBD();
+                continue;
+            }
+
+            $datos_modelo[$clave] = null;
+        }
+
+        return $datos_modelo;
+    }
+
+    protected function buscarFeligres($id) {
+        return $id ? $this->gestorFeligres->obtenerPorId($id) : null;
+    }
+
 }

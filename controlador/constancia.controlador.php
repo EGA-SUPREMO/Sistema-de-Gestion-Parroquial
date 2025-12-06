@@ -38,14 +38,7 @@ class constanciaControlador // extends formularioControlador
             unset($_SESSION['input_viejo']);
         } elseif ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
-            $modelo = $this->gestor->obtenerPorId($id);
-            $datos_modelo = $modelo->toArrayParaBD();
-            $feligresBautizado = $this->gestorFeligres->obtenerPorId($modelo->getFeligresBautizadoId());
-            $padre = $this->gestorFeligres->obtenerPorId($modelo->getPadreId());
-            $madre = $this->gestorFeligres->obtenerPorId($modelo->getMadreId());
-            $datos_modelo['feligres'] = $feligresBautizado->toArrayParaBD();
-            $datos_modelo['padre'] = $padre->toArrayParaBD();
-            $datos_modelo['madre'] = $madre->toArrayParaBD();
+            $datos_modelo = $this->servicio->obtenerDatosCompletosParaEdicion($id);
         }
 
         $sacerdotes = [];

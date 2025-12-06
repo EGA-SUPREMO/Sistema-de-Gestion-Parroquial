@@ -91,4 +91,12 @@ class ServicioConstanciaDeConfirmacion extends ServicioConstanciaBase
             throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaExpedicionId()} que certifica expedicion no existe.");
         }
     }
+
+    protected function obtenerActoresRelacionados($modelo)
+    {
+        return [
+            'feligres_confirmado' => $this->buscarFeligres($modelo->getFeligresConfirmadoId()),
+        ];
+    }
+
 }

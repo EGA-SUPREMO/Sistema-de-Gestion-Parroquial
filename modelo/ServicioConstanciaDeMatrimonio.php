@@ -83,4 +83,13 @@ class ServicioConstanciaDeMatrimonio extends ServicioConstanciaBase
             throw new InvalidArgumentException("Error: El ministro {$objeto->getMinistroCertificaExpedicionId()} que certifica expedicion no existe.");
         }
     }
+
+    protected function obtenerActoresRelacionados($modelo)
+    {
+        return [
+            'contrayente_1' => $this->buscarFeligres($modelo->getContrayente1Id()),
+            'contrayente_2' => $this->buscarFeligres($modelo->getContrayente2Id()),
+        ];
+    }
+
 }
