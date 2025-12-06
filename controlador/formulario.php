@@ -391,6 +391,8 @@
         };
         
         const $primerElemento = generarFormulario(definicionFormulario, datosPHP.titulo);
-        $primerElemento.focus();
+        if (!urlParams.get('error')) {
+            $primerElemento.focus();
+        }
     });
 </script>
