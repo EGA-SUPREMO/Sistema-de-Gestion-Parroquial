@@ -1,7 +1,7 @@
 <?php
 
-require_once 'modelo/Validador.php';
-require_once 'modelo/ModeloBase.php';
+require_once 'Validador.php';
+require_once 'ModeloBase.php';
 
 class Administrador extends ModeloBase
 {

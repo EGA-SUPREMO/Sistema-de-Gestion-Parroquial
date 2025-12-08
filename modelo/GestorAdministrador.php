@@ -1,7 +1,7 @@
 <?php
 
-require_once 'modelo/GestorBase.php';
-require_once 'modelo/Administrador.php';
+require_once 'GestorBase.php';
+require_once 'Administrador.php';
 
 class GestorAdministrador extends GestorBase
 {

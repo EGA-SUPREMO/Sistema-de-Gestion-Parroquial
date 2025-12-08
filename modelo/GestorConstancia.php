@@ -30,6 +30,10 @@ abstract class GestorConstancia extends GestorBase
         $resultado = $this->obtenerPor(['numero_libro' => $numero_libro, 'numero_pagina' => $numero_pagina, 'numero_marginal' => $numero_marginal], 'single');
         return $resultado ? $resultado->getId() : 0;
     }
+    public function obtenerConstanciaPorRegistroLibro($registroLibro)
+    {
+        return $this->obtenerPor(['numero_libro' => $registroLibro[0], 'numero_pagina' => $registroLibro[1], 'numero_marginal' => $registroLibro[2]], 'single');
+    }
 
     public function verificarConsistenciaIds($sujetosSacramentoIds, $numero_libro, $numero_pagina, $numero_marginal)
     {

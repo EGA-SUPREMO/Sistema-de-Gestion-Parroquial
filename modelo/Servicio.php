@@ -1,6 +1,6 @@
 <?php
 
-require_once 'modelo/Validador.php';
+require_once 'Validador.php';
 
 class Servicio
 {
