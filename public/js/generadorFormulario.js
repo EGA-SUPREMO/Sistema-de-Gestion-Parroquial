@@ -287,7 +287,7 @@ function completarCampos(datos) {
 
     // --- Si no hay hijos, procedemos a la Confirmación Simple ---
     
-    if (datos[''].id == $('#id')[0].value) {
+    if (datos[''].id == $('#id')[0].value && $('#id')[0].value != 0) {
         return;
     }
 

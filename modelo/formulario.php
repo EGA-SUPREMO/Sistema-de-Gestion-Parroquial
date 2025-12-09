@@ -107,11 +107,8 @@ class Formulario
 
             $personas_encontradas[$id['rol']] = $persona_objeto;
         }
-
-        $persona_contrayente_1 = $personas_encontradas['contrayente_1'] ?? null;
-        $persona_contrayente_2 = $personas_encontradas['contrayente_2'] ?? null;
         
-        $datosConstancia = $this->obtenerDatosConstanciaRelacionados([$persona_contrayente_1->getId(), $persona_contrayente_2->getId()], $nombreTabla);
+        $datosConstancia = $this->obtenerDatosConstanciaRelacionados([$personas_encontradas['contrayente_1']->getId(), $personas_encontradas['contrayente_2']->getId()], $nombreTabla);
 
         return $datosConstancia;
     }
