@@ -287,6 +287,10 @@ function completarCampos(datos) {
 
     // --- Si no hay hijos, procedemos a la Confirmación Simple ---
     
+    if (datos[''].id == $('#id')[0].value) {
+        return;
+    }
+
     const datosEntidadPrincipal = datos['feligres-'] || datos['padre-'] || datos['madre-'] || datos['padre_1-'] || datos['padre_2-'] || datos['contrayente_1-'] || datos['contrayente_2-'] || datos['constancia-'] || datos[''];
     
     if (datosEntidadPrincipal && (datosEntidadPrincipal.cedula || datosEntidadPrincipal.id)) {
