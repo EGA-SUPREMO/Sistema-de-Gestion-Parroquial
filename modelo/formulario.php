@@ -46,7 +46,7 @@ class Formulario
 
             $rol = $identificador['rol'];
             $persona_objeto = null;
-            
+
             if ($identificador['tipo'] === 'cedula') {
                 $persona_objeto = $this->gestorFeligres->obtenerPorCedula($identificador['valor']);
             } elseif ($identificador['tipo'] === 'partida_de_nacimiento') {
@@ -98,7 +98,7 @@ class Formulario
 
         foreach ($identificador as $id) {
             $persona_objeto = null;
-            
+
             if ($id['tipo'] === 'cedula') {
                 $persona_objeto = $this->gestorFeligres->obtenerPorCedula($id['valor']);
             } elseif ($id['tipo'] === 'partida_de_nacimiento') {
@@ -107,7 +107,7 @@ class Formulario
 
             $personas_encontradas[$id['rol']] = $persona_objeto;
         }
-        
+
         $datosConstancia = $this->obtenerDatosConstanciaRelacionados([$personas_encontradas['contrayente_1']->getId(), $personas_encontradas['contrayente_2']->getId()], $nombreTabla);
 
         return $datosConstancia;
@@ -124,7 +124,7 @@ class Formulario
                 'valor' => $datos['contrayente_1-cedula']
             ];
         }
-        
+
         if (isset($datos['contrayente_2-cedula']) && !empty($datos['contrayente_2-cedula'])) {
             $identificadores[] = [
                 'rol' => 'contrayente_2',
@@ -134,7 +134,7 @@ class Formulario
         }
 
         if (count($identificadores) == 2) {
-             return $identificadores;
+            return $identificadores;
         }
         if (isset($datos['constancia-numero_libro']) && !empty($datos['constancia-numero_libro'])) {
             $identificadores[] = [
@@ -170,15 +170,15 @@ class Formulario
         return null;
     }
 
-    private function obtenerDatosConstanciaRelacionados($identificadorConstancia, $nombreTabla, $rol='sujeto_sacramento')
+    private function obtenerDatosConstanciaRelacionados($identificadorConstancia, $nombreTabla, $rol = 'sujeto_sacramento')
     {
         $datosExtras = [];
         $gestorConstancia = EntidadFactory::crearGestor($this->pdo, $nombreTabla);
         $servicioConstancia = EntidadFactory::crearServicio($this->pdo, $nombreTabla);
         $constancia = null;
-        if ($rol=="sujeto_sacramento") {
+        if ($rol == "sujeto_sacramento") {
             $constancia = $gestorConstancia->obtenerConstanciaPorSujetoSacramentoId($identificadorConstancia);
-        } elseif ($rol=="libro-registro") {
+        } elseif ($rol == "libro-registro") {
             $constancia = $gestorConstancia->obtenerConstanciaPorRegistroLibro($identificadorConstancia);
         }
 
