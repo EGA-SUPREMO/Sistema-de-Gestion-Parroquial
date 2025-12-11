@@ -185,7 +185,7 @@ function manejarRespuestaMisas(response) {
 
     const numDiasSeleccionados = obtenerNumDias(misasDisponibles);
     let htmlOpciones = '';
-
+    console.log(numDiasSeleccionados);
     // === Lógica de Agrupación (Paso JIT Inteligente) ===
 
     if (numDiasSeleccionados === 1) {
@@ -216,7 +216,7 @@ function manejarRespuestaMisas(response) {
         for (const hora in misasAgrupadas) {
             const count = misasAgrupadas[hora].length;
             const ids = misasAgrupadas[hora].map(m => m.id).join(','); // IDs para el valor
-
+            const idLimpio = limpiarParaID(hora);
             // Detectar la opción más frecuente (para preselección)
             if (count > maxFrecuencia) {
                 maxFrecuencia = count;
@@ -226,8 +226,8 @@ function manejarRespuestaMisas(response) {
             // Generar Checkbox para el Patrón
             htmlOpciones += `
                 <div class="form-check">
-                    <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${hora.replace(/\s/g, '_')}">
-                    <label class="form-check-label" for="patron_${hora.replace(/\s/g, '_')}">
+                    <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${idLimpio}">
+                    <label class="form-check-label" for="patron_${idLimpio}">
                         <strong>Misa de ${hora}</strong> (${count} misas encontradas en el rango)
                     </label>
                 </div>
@@ -243,20 +243,23 @@ function manejarRespuestaMisas(response) {
             <div class="form-check">
                 <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${todosLosIDs}" id="patron_todas" ${esMasFrecuente}>
                 <label class="form-check-label" for="patron_todas">
-                    Asignar a **TODAS** las misas disponibles (${misasDisponibles.length} misas)
+                    Asignar a <b>TODAS</b> las misas disponibles (${misasDisponibles.length} misas)
                 </label>
             </div>
             <hr>
         `;
+        $contenedor.html(htmlOpciones);
         
         // D. Aplicar preselección de la opción más frecuente (¡CERO FRICCIÓN!)
         if (opcionMasFrecuente) {
              // Marcamos el patrón más común
-            $contenedor.find(`#patron_${opcionMasFrecuente.replace(/\s/g, '_')}`).prop('checked', true);
+            const idLimpioFrecuente = limpiarParaID(opcionMasFrecuente);
+            console.log(`#patron_${idLimpioFrecuente}`);
+            $contenedor.find(`#patron_${idLimpioFrecuente}`).prop('checked', true);
         }
     }
 
-    $contenedor.html(htmlOpciones);
+    //$contenedor.html(htmlOpciones);
 
     // Adjuntar evento: solo se puede seleccionar una opción de asignación de patrón
     $contenedor.on('change', '.patron-misa', function() {
@@ -296,6 +299,10 @@ function obtenerNumDias(misas) {
     return fechasUnicas.size;
 }
 
+function limpiarParaID(str) {
+    // Reemplaza ":" y espacios por "_" y elimina puntos
+    return str.replace(/[:\s\.]/g, '_');
+}
 // ====================================================================
 // NOTA SOBRE EL PASO FINAL DE GUARDADO (Backend)
 // ====================================================================
@@ -730,9 +737,8 @@ const creadoresDeCampos = {
         return asignarAtributosComunes($select, prop);
     },
     crearCheckboxes: function(prop) {
-        const $contenedor = $('<div>').addClass('checkbox-group'); 
+        const $contenedor = $('<div>').addClass('checkbox-group').attr('name', prop.name).attr('id', prop.name);
         const selectedValues = Array.isArray(prop.value) ? prop.value : [];
-
         prop.options.forEach((option) => {
             const $formCheck = $('<div>').addClass('form-check');
             const inputId = `${prop.name}_${option.value}`; 
