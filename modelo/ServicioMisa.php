@@ -35,7 +35,7 @@ Importante: Esto debe hacerse en una transacción para evitar que dos secretaria
 Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecuta la consulta final (la que iba a hacer en el paso 3) y devuelve a la UI la lista completa de misas disponibles entre el 28/12 y el 05/01.
 
 */
-    public function guardar($queponer, $id = 0)
+    public function guardar($hastaFecha, $id = 0)
     {
         $this->pdo->beginTransaction();
         try {

@@ -95,6 +95,27 @@ function validarFechaExpedicion($elemento) {
     );
 }
 
+function validarFechaIntencion($elemento) {
+    let $fecha_inicio = $(`[name="fecha_inicio"]`);
+    let $fecha_fin = $(`[name="fecha_fin"]`);
+
+    const fechaActual = new Date().toISOString().slice(0, 10);
+    const fechaEnDosAnios = new Date(fechaActual);
+    fechaEnDosAnios.setFullYear(new Date().getFullYear() + 2);
+
+    const mensaje = `La fecha debe ser entre 1900-01-01 y ${fechaEnDosAnios.toISOString().slice(0,10)}.`;
+    validarCampo(
+        $elemento,
+        (valor) => validarFecha(valor, "1900-01-01", fechaEnDosAnios.toISOString().slice(0,10)),
+        mensaje
+    );
+    validarCampo(
+        $elemento,
+        (valor) => $fecha_inicio.val() <= $fecha_fin.val(),
+        `La fecha de inicio ${$fecha_inicio.val()} no puede ser mayor a la fecha final ${$fecha_fin.val()}`
+    );
+}
+
 function validarEnteroLibro($elemento) {
     const valor = $elemento.val();
     const esValido = validarEntero(valor, 1, 1000);
@@ -117,25 +138,28 @@ function validarLista($elemento) {
 }
 
 function soloNumero(e) {
-    // Obtiene la tecla presionada. En jQuery, 'e.key' a menudo es más limpio,
-    // pero e.which o e.keyCode son universales para 'keypress'.
     const charCode = (e.which) ? e.which : e.keyCode;
-    
-    // Si la tecla presionada NO es un dígito (0-9)
-    // El rango 48 a 57 es el código ASCII para los números 0 a 9.
-    // Además, el 8 (Backspace), 9 (Tab), y el 0 (que a veces devuelve keypress para teclas no visibles)
-    // deben ser permitidos.
 
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        // Prevenir la acción por defecto (escribir el carácter)
         e.preventDefault();
         return false;
     }
-    
-    // Si es un número o una tecla de control, se permite (retorna true por defecto)
 }
 
+function rellenarMisasSeleccion() {
+    let $fecha_inicio = $(`[name="fecha_inicio"]`);
+    let $fecha_fin = $(`[name="fecha_fin"]`);
+    let datos = {
+        'fecha_inicio': $fecha_inicio.val(),
+        'fecha_fin': $fecha_fin.val(),
+    };
+    
+    if ($fecha_inicio.hasClass('is-invalid') || $fecha_inicio.val() === '' || $fecha_fin.hasClass('is-invalid') || $fecha_fin.val() === '') {
+        return;
+    }
 
+    pedirDatos(datos, callback, "modelo/intenciones.php")
+}
 
 
 function manejarBusquedaDirecta(respuesta) {
@@ -355,8 +379,8 @@ function rellenarFormularioConDatos(datosRespuesta) {
 }
 
 
-function pedirDatos(datos, callback) {
-    $.post("modelo/formulario.php", { json: datos }, function(resultado) {
+function pedirDatos(datos, callback, rutaPHP = "modelo/formulario.php") {
+    $.post(rutaPHP, { json: datos }, function(resultado) {
         console.log("Respuesta del servidor (Objeto JS):", resultado); 
         if (resultado) {
             callback(resultado);

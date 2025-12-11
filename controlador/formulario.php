@@ -53,10 +53,11 @@
                     ]},
                     { type: 'fila', 
                         campos: [
-                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
-                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, validarMetodo: 'validarFecha', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
+                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, autocompletarMetodo: 'rellenarMisasSeleccion', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
+                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, autocompletarMetodo: 'rellenarMisasSeleccion', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
                         ]
                     },
+                    { type: 'select', name: 'misas_selecionadas', label: 'Por favor, seleccione las misas para ese rango de fechas',  required: true, options: [{ value: 1, text: 'Asignar a todas las misas'}]},
                 ];
                 break;
             case 'feligres':
