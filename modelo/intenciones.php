@@ -40,10 +40,31 @@ class GestionPeticionMisa
 
         // === PARTE B: CONSULTA FINAL ===
         
+        $formatoDiaSemana = new IntlDateFormatter(
+            'es_ES',
+            IntlDateFormatter::FULL,
+            IntlDateFormatter::NONE,
+            'America/Caracas' // Ajusta a tu zona horaria para precisión (o déjala nula si no importa la zona)
+        );
+        $formatoDiaSemana->setPattern('EEEE'); // Ejemplo: "jueves"
+
+        // El formato 'h:mm a' es para 12 horas con AM/PM (ej. 07:00 PM)
+        $formatoHora = new IntlDateFormatter(
+            'es_ES',
+            IntlDateFormatter::NONE,
+            IntlDateFormatter::SHORT
+        );
+        $formatoHora->setPattern('h:mm a'); // Ejemplo: "7:00 p. m." (Si prefieres "7:00 PM", usa 'A' mayúscula: 'h:mm A')
+
+
         $misas = $gestorMisa->obtenerMisasConIntencionesPorRangoFechas($fechaInicioReq, $fechaFinReq);
         $respuesta = [];
         foreach ($misas as $misa) {
-            $respuesta[] = $misa->toArrayParaBD();
+            $misa_arr = $misa->toArrayParaBD();
+            $timestamp = strtotime($misa_arr['fecha_hora']);
+            $misa_arr['hora_formato'] = $formatoHora->format($timestamp);
+            $misa_arr['dia_semana'] = ucfirst($formatoDiaSemana->format($timestamp));
+            $respuesta[] = $misa_arr;
         }
         // Paso B2: Formatear para que el JS lo entienda fácil (Opcional, pero recomendado)
         // Agregamos una versión legible de la fecha y hora por separado

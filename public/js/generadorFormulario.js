@@ -173,13 +173,13 @@ let misasDisponibles = [];
  */
 function manejarRespuestaMisas(response) {
     // 1. Verificar el estado y obtener la lista de misas
-    if (response.status !== 'success' || !response.misas || response.misas.length === 0) {
+    if (!response || response.length === 0) {
         $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado.</p>');
         misasDisponibles = [];
         return;
     }
 
-    misasDisponibles = response.misas;
+    misasDisponibles = response;
     const $contenedor = $('#misas_selecionadas');
     $contenedor.empty(); // Limpiar el contenedor anterior
 
@@ -729,6 +729,59 @@ const creadoresDeCampos = {
         });
         return asignarAtributosComunes($select, prop);
     },
+    crearCheckboxes: function(prop) {
+        const $contenedor = $('<div>').addClass('checkbox-group'); 
+        const selectedValues = Array.isArray(prop.value) ? prop.value : [];
+
+        prop.options.forEach((option) => {
+            const $formCheck = $('<div>').addClass('form-check');
+            const inputId = `${prop.name}_${option.value}`; 
+            
+            // 3. Crear el input (checkbox)
+            const $input = $('<input>').attr({
+                type: 'checkbox',
+                name: `${prop.name}[]`, // Nombre del array para que PHP reciba múltiples valores
+                value: option.value,
+                id: inputId,
+                class: 'form-check-input'
+            });
+
+            // 4. Determinar si debe estar marcado (checked)
+            // Comprobar si el valor de la opción está en el array de valores seleccionados
+            if (selectedValues.includes(option.value)) {
+                $input.prop('checked', true);
+            }
+            
+            // 5. Crear la etiqueta (label)
+            const $label = $('<label>').attr({
+                class: 'form-check-label',
+                for: inputId
+            }).text(option.text);
+
+            // Manejar el estado deshabilitado (disabled)
+            if (option.disabled) {
+                $input.prop('disabled', true);
+            }
+
+            // 6. Ensamblar: Input y Label dentro del Contenedor individual
+            $formCheck.append($input, $label);
+            
+            // 7. Agregar el elemento individual al contenedor principal
+            $contenedor.append($formCheck);
+        });
+
+        // 8. Agregar evento de validación al grupo de checkboxes (opcional)
+        // El evento 'change' se adjunta a todos los inputs dentro del contenedor
+        $contenedor.find('.form-check-input').on('change', function() {
+            // Aquí debe definir qué es 'validarLista' para checkboxes
+            // Puede que necesite validar todo el grupo $contenedor
+            // Ejemplo: validarGrupo($(this).closest('.checkbox-group'));
+        });
+        
+        // 9. Asignar atributos comunes y devolver
+        // Asumiendo que esta función existe en su alcance (como en su ejemplo crearSelect)
+        return asignarAtributosComunes($contenedor, prop);
+    },
 
     crearTextarea: function(prop) {
         const $textarea = $('<textarea>').attr({
@@ -801,6 +854,9 @@ const creadoresDeCampos = {
                     break;
                 case 'select':
                     $campo = this.crearSelect(campoInterno);
+                    break;
+                case 'checkboxes':
+                    $campo = this.crearCheckboxes(campoInterno);
                     break;
                 case 'textarea':
                     $campo = this.crearTextarea(campoInterno);
@@ -884,6 +940,9 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
                 break;
             case 'textarea':
                 $elemento = creadoresDeCampos.crearTextarea(propiedadCampo);
+                break;
+            case 'checkboxes':
+                $elemento = creadoresDeCampos.crearCheckboxes(propiedadCampo);
                 break;
             case 'subtitulo':
                 $elemento = creadoresDeCampos.crearSubtitulo(propiedadCampo);
