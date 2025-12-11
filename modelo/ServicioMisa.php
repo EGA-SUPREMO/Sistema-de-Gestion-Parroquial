@@ -3,7 +3,7 @@
 require_once 'GestorMisa.php';
 require_once 'ServicioBase.php';
 
-class ServicioIntencion extends ServicioBase
+class ServicioMisa extends ServicioBase
 {
     private $gestorMisa;
 
@@ -39,7 +39,6 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
     {
         $this->pdo->beginTransaction();
         try {
-            $this->generarMisasHasta($hastaFecha)
             
             $this->pdo->commit();
             return $resultado;    
@@ -50,12 +49,13 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
         }
     }
 
-    private function generarMisasHasta($hastaFecha)
+    public function generarMisasEnRango($inicioFecha, $hastaFecha)
     {
-        $inicio = new DateTime('now');
+        // TODO hacer comprobaciones de que fecha de inicio ya esta hecha, ej pido crear una misa el dia de hoy hasta tres dias despues, pero hay misas en la base de datos hasta mañana, solo se crea apartir de mañana
+        $inicio = $inicioFecha;
         $fecha_actual = clone $inicio;
         
-        $fin_de_ano = new DateTime($hastaFecha);
+        $fin_de_ano = $hastaFecha;
         $fin_de_ano->setTime(23, 59, 59);
 
         while ($fecha_actual <= $fin_de_ano) {
@@ -72,6 +72,7 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
             $fecha_actual->modify('+1 day');
             $fecha_actual->setTime(0, 0, 0);
         }
+
     }
 
     private function crearMisa(DateTime $fecha, string $hora_string, bool $permite_intenciones)
@@ -87,9 +88,9 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
             return;
         }
         $misa = new Misa();
-        $misa ->setFechaHora($fecha_hora_misa);
+        $misa ->setFechaHora($fecha_hora_misa->format('Y-m-d H:i:s'));
         $misa ->setPermiteIntenciones($permite_intenciones);
-
+        
         $this->gestorMisa->guardar($misa);
     }
 }

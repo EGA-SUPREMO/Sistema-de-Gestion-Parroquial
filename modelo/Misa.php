@@ -3,6 +3,7 @@
 require_once 'Validador.php';
 require_once 'ModeloBase.php';
 
+
 class Misa extends ModeloBase
 {
     private $id;
@@ -31,9 +32,9 @@ class Misa extends ModeloBase
 
     public function setFechaHora($fecha_hora)
     {
-        $fecha_actual_ayer = (new DateTime())->modify('-1 day')->format('Y-m-d');
-        $fecha_actual_uno_anno_despues = (new DateTime())->modify('+1 year')->format('Y-m-d');
-        $this->fecha_hora = Validador::validarFecha($fecha_hora, "fecha y hora de la misa", $fecha_actual_ayer, $fecha_actual_uno_anno_despues);
+        $fecha_actual_ayer = (new DateTime())->modify('-1 day')->format('Y-m-d H:i:s');
+        $fecha_actual_uno_anno_despues = (new DateTime())->modify('+1 year')->format('Y-m-d H:i:s');
+        $this->fecha_hora = Validador::validarFecha($fecha_hora, "fecha y hora de la misa", $fecha_actual_ayer, $fecha_actual_uno_anno_despues, 'Y-m-d H:i:s');
     }
 
     public function setPermiteIntenciones($permite_intenciones)

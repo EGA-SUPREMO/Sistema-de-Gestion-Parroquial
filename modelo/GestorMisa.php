@@ -12,4 +12,16 @@ class GestorMisa extends GestorBase
         $this ->clase_nombre = "Misa";
     }
 
+    public function obtenerUltimaMisaRegistrada()
+    {
+        $sql = "SELECT MAX(fecha_hora) as ultima_fecha FROM misas";
+
+        return $this->hacerConsulta($sql, [], 'assoc');
+    }
+
+    public function obtenerBORRAR($fecha)
+    {
+        return $this->obtenerPor($criterios, 'single');
+    }
+
 }

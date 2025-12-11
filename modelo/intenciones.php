@@ -7,7 +7,7 @@ class GestionPeticionMisa
 {
     private $pdo;
     
-    function __construct(argument)
+    function __construct()
     {
         $this->pdo = App::obtenerConexion();
     }
@@ -16,6 +16,57 @@ class GestionPeticionMisa
     {
         $datos_json = $postData['json'] ?? '{}';
         $datos = json_decode($datos_json, true);
+
+        if (isset($datos['metodo']) && $datos['metodo'] === 'consultarOCrearMisas') {
+            return $this->consultarOCrearMisas($datos);
+        }
+    }
+
+    private function consultarOCrearMisas($datos)
+    {
+        $gestorMisa = EntidadFactory::crearGestor($this->pdo, 'Misa');
+        $servicioMisa = EntidadFactory::crearServicio($this->pdo, 'Misa');
+        $fechaInicioReq = $datos['fecha_inicio']; // "2025-11-15"
+        $fechaFinReq = $datos['fecha_fin'];       // "2025-11-23"
+
+        $resultado = $gestorMisa->obtenerUltimaMisaRegistrada();        
+        $ultimaFechaRegistrada = $resultado['ultima_fecha'] ? new DateTime($resultado['ultima_fecha']) : new DateTime('yesterday');
+        $fechaFinRequerida = new DateTime($fechaFinReq . ' 23:59:59');
+
+        // Paso A2: Si la fecha que piden es mayor a lo que tengo, genero lo que falta
+        if ($fechaFinRequerida > $ultimaFechaRegistrada) {
+            $servicioMisa->generarMisasEnRango($ultimaFechaRegistrada, $fechaFinRequerida);
+        }
+        return;
+        // === PARTE B: CONSULTA FINAL ===
+
+        // Paso B1: Buscar las misas que coincidan y que permitar intenciones
+        $sql = "SELECT * 
+                FROM misas 
+                WHERE fecha_hora BETWEEN :inicio AND :fin 
+                AND permite_intenciones = 1 
+                ORDER BY fecha_hora ASC";
+        
+        $stmt = $this->pdo->prepare($sql);
+        // Añadimos las horas para cubrir todo el día
+        $stmt->execute([
+            ':inicio' => $fechaInicioReq . ' 00:00:00',
+            ':fin'    => $fechaFinReq . ' 23:59:59'
+        ]);
+        
+        $misas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Paso B2: Formatear para que el JS lo entienda fácil (Opcional, pero recomendado)
+        // Agregamos una versión legible de la fecha y hora por separado
+        foreach ($misas as &$misa) {
+            $dt = new DateTime($misa['fecha_hora']);
+            $misa['fecha_formato'] = $dt->format('d/m/Y'); // Para mostrar
+            $misa['hora_formato'] = $dt->format('h:i A');  // Para agrupar (07:00 PM)
+            $misa['dia_semana'] = $this->traducirDia($dt->format('l')); // Lunes, Martes...
+        }
+
+        // Devolver JSON
+        return $misas;
     }
 }
 

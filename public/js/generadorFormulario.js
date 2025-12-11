@@ -159,7 +159,10 @@ function consultarMisasPorRango() {
         return;
     }
 
-    pedirDatos(datos, manejarRespuestaMisas, "modelo/intenciones.php")
+    pedirDatos(JSON.stringify(datos), manejarRespuestaMisas, "modelo/intenciones.php")
+}
+
+function manejarRespuestaMisas() {
 }
 
 

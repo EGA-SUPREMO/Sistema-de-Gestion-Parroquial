@@ -28,8 +28,9 @@ class EntidadFactory
             if (class_exists($nombreClase)) {
                 return new $nombreClase($pdo);
             }
+            throw new Exception("Clase para la tabla '{$nombreTabla}' no encontrado.");
         }
-        throw new Exception("Servicio para la constancia '{$nombreTabla}' no encontrado.");
+        throw new Exception("Servicio para la tabla '{$nombreTabla}' no encontrado.");
     }
 
     public static function crearObjeto($nombreTabla)

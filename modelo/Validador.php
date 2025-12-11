@@ -63,7 +63,7 @@ class Validador
         return $valor;
     }
 
-    public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null)
+    public static function validarFecha($fecha, $nombreCampo, $fechaMinima = null, $fechaMaxima = null, $formato = 'Y-m-d')
     {
         if ($fecha === null || $fecha === '') {
             return null;
@@ -73,7 +73,6 @@ class Validador
             throw new InvalidArgumentException("Validador: El campo '{$nombreCampo}' no puede estar vacío.");
         }
 
-        $formato = 'Y-m-d';
         $d = DateTime::createFromFormat($formato, $fecha);
 
         if (!($d && $d->format($formato) === $fecha && checkdate($d->format('m'), $d->format('d'), $d->format('Y')))) {
