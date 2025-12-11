@@ -3,8 +3,6 @@
 require_once 'App.php';
 require_once 'EntidadFactory.php';
 
-App::iniciar();
-
 class Formulario
 {
     private $pdo;
@@ -205,6 +203,8 @@ class Formulario
 
 }
 //try {
+App::iniciar();
+
 $formulario = new Formulario();
 $respuesta = $formulario->manejarSolicitudDeBusqueda($_POST);
 header('Content-Type: application/json');

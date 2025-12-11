@@ -146,19 +146,20 @@ function soloNumero(e) {
     }
 }
 
-function rellenarMisasSeleccion() {
+function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
     let datos = {
         'fecha_inicio': $fecha_inicio.val(),
         'fecha_fin': $fecha_fin.val(),
+        'metodo': 'consultarOCrearMisas',
     };
     
     if ($fecha_inicio.hasClass('is-invalid') || $fecha_inicio.val() === '' || $fecha_fin.hasClass('is-invalid') || $fecha_fin.val() === '') {
         return;
     }
 
-    pedirDatos(datos, callback, "modelo/intenciones.php")
+    pedirDatos(datos, manejarRespuestaMisas, "modelo/intenciones.php")
 }
 
 
