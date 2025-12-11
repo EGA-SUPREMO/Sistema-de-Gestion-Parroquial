@@ -37,36 +37,25 @@ class GestionPeticionMisa
         if ($fechaFinRequerida > $ultimaFechaRegistrada) {
             $servicioMisa->generarMisasEnRango($ultimaFechaRegistrada, $fechaFinRequerida);
         }
-        return;
+
         // === PARTE B: CONSULTA FINAL ===
-
-        // Paso B1: Buscar las misas que coincidan y que permitar intenciones
-        $sql = "SELECT * 
-                FROM misas 
-                WHERE fecha_hora BETWEEN :inicio AND :fin 
-                AND permite_intenciones = 1 
-                ORDER BY fecha_hora ASC";
         
-        $stmt = $this->pdo->prepare($sql);
-        // Añadimos las horas para cubrir todo el día
-        $stmt->execute([
-            ':inicio' => $fechaInicioReq . ' 00:00:00',
-            ':fin'    => $fechaFinReq . ' 23:59:59'
-        ]);
-        
-        $misas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
+        $misas = $gestorMisa->obtenerMisasConIntencionesPorRangoFechas($fechaInicioReq, $fechaFinReq);
+        $respuesta = [];
+        foreach ($misas as $misa) {
+            $respuesta[] = $misa->toArrayParaBD();
+        }
         // Paso B2: Formatear para que el JS lo entienda fácil (Opcional, pero recomendado)
         // Agregamos una versión legible de la fecha y hora por separado
-        foreach ($misas as &$misa) {
+        /*foreach ($misas as &$misa) {
             $dt = new DateTime($misa['fecha_hora']);
             $misa['fecha_formato'] = $dt->format('d/m/Y'); // Para mostrar
             $misa['hora_formato'] = $dt->format('h:i A');  // Para agrupar (07:00 PM)
             $misa['dia_semana'] = $this->traducirDia($dt->format('l')); // Lunes, Martes...
-        }
+        }*/
+        //error_log(print_r($misas, true));
 
-        // Devolver JSON
-        return $misas;
+        return $respuesta;
     }
 }
 

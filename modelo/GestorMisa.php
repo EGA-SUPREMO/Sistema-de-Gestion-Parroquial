@@ -19,9 +19,19 @@ class GestorMisa extends GestorBase
         return $this->hacerConsulta($sql, [], 'assoc');
     }
 
-    public function obtenerBORRAR($fecha)
+    public function obtenerMisasConIntencionesPorRangoFechas($fecha_inicio, $fecha_fin)
     {
-        return $this->obtenerPor($criterios, 'single');
+        $sql = "SELECT * 
+                FROM " . $this ->tabla . " 
+                WHERE fecha_hora BETWEEN :inicio AND :fin 
+                AND permite_intenciones = 1 
+                ORDER BY fecha_hora ASC";
+
+        $valores = [
+            ':inicio' => $fecha_inicio . ' 00:00:00',
+            ':fin'    => $fecha_fin . ' 23:59:59'
+        ];
+        return $this->hacerConsulta($sql, $valores, 'all');
     }
 
 }

@@ -162,8 +162,165 @@ function consultarMisasPorRango() {
     pedirDatos(JSON.stringify(datos), manejarRespuestaMisas, "modelo/intenciones.php")
 }
 
-function manejarRespuestaMisas() {
+// Variable global o fuera de la función para almacenar todas las misas recibidas
+// Esto es útil para el paso final de "Guardar"
+let misasDisponibles = [];
+
+/**
+ * Maneja la respuesta AJAX del servidor, agrupa las misas y renderiza
+ * las opciones de asignación en el formulario.
+ * @param {object} response - El objeto JSON devuelto por el servidor.
+ */
+function manejarRespuestaMisas(response) {
+    // 1. Verificar el estado y obtener la lista de misas
+    if (response.status !== 'success' || !response.misas || response.misas.length === 0) {
+        $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado.</p>');
+        misasDisponibles = [];
+        return;
+    }
+
+    misasDisponibles = response.misas;
+    const $contenedor = $('#misas_selecionadas');
+    $contenedor.empty(); // Limpiar el contenedor anterior
+
+    const numDiasSeleccionados = obtenerNumDias(misasDisponibles);
+    let htmlOpciones = '';
+
+    // === Lógica de Agrupación (Paso JIT Inteligente) ===
+
+    if (numDiasSeleccionados === 1) {
+        // --- Caso 1: Un solo día (Mostramos cada misa individualmente) ---
+        htmlOpciones += '<h4>Misas del día:</h4>';
+        misasDisponibles.forEach(misa => {
+            // El valor del checkbox será el ID de la Misa
+            htmlOpciones += `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}">
+                    <label class="form-check-label" for="misa_${misa.id}">
+                        ${misa.dia_semana}, ${misa.hora_formato} (${misa.lugar || 'Principal'})
+                    </label>
+                </div>
+            `;
+        });
+    } else {
+        // --- Caso 2: Múltiples días (Agrupamos por patrón de hora) ---
+
+        // A. Agrupación: { "07:00 PM": [misa1, misa2, ...], "08:00 AM": [...] }
+        const misasAgrupadas = agruparPorPatron(misasDisponibles);
+        let opcionMasFrecuente = null;
+        let maxFrecuencia = -1;
+
+        // B. Generar HTML para los patrones
+        htmlOpciones += `<h4>Seleccione el Patrón de Asignación (${numDiasSeleccionados} días):</h4>`;
+        
+        for (const hora in misasAgrupadas) {
+            const count = misasAgrupadas[hora].length;
+            const ids = misasAgrupadas[hora].map(m => m.id).join(','); // IDs para el valor
+
+            // Detectar la opción más frecuente (para preselección)
+            if (count > maxFrecuencia) {
+                maxFrecuencia = count;
+                opcionMasFrecuente = hora;
+            }
+            
+            // Generar Checkbox para el Patrón
+            htmlOpciones += `
+                <div class="form-check">
+                    <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${hora.replace(/\s/g, '_')}">
+                    <label class="form-check-label" for="patron_${hora.replace(/\s/g, '_')}">
+                        <strong>Misa de ${hora}</strong> (${count} misas encontradas en el rango)
+                    </label>
+                </div>
+            `;
+        }
+
+        // C. Opción "Asignar a todas las misas disponibles" (Total)
+        const todosLosIDs = misasDisponibles.map(m => m.id).join(',');
+        const esMasFrecuente = (misasDisponibles.length > maxFrecuencia) ? '' : 'checked'; // Raramente será la más frecuente
+        
+        htmlOpciones += `
+            <hr>
+            <div class="form-check">
+                <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${todosLosIDs}" id="patron_todas" ${esMasFrecuente}>
+                <label class="form-check-label" for="patron_todas">
+                    Asignar a **TODAS** las misas disponibles (${misasDisponibles.length} misas)
+                </label>
+            </div>
+            <hr>
+        `;
+        
+        // D. Aplicar preselección de la opción más frecuente (¡CERO FRICCIÓN!)
+        if (opcionMasFrecuente) {
+             // Marcamos el patrón más común
+            $contenedor.find(`#patron_${opcionMasFrecuente.replace(/\s/g, '_')}`).prop('checked', true);
+        }
+    }
+
+    $contenedor.html(htmlOpciones);
+
+    // Adjuntar evento: solo se puede seleccionar una opción de asignación de patrón
+    $contenedor.on('change', '.patron-misa', function() {
+        if ($(this).is(':checked')) {
+            // Desmarcar todos los demás patrones
+            $contenedor.find('.patron-misa').not(this).prop('checked', false);
+        }
+    });
+
 }
+
+/**
+ * Función auxiliar para agrupar misas por su hora_formato.
+ * @param {Array} misas - Lista de objetos misa.
+ * @returns {object} Objeto con la hora como clave y un array de misas como valor.
+ */
+function agruparPorPatron(misas) {
+    return misas.reduce((acc, misa) => {
+        const hora = misa.hora_formato;
+        if (!acc[hora]) {
+            acc[hora] = [];
+        }
+        acc[hora].push(misa);
+        return acc;
+    }, {});
+}
+
+/**
+ * Función auxiliar para obtener el número de días únicos.
+ * Esto diferencia si es un día o varios.
+ * @param {Array} misas - Lista de objetos misa.
+ * @returns {number} Número de días únicos.
+ */
+function obtenerNumDias(misas) {
+    // Usamos un Set para obtener solo las fechas únicas (ej. '2025-11-15')
+    const fechasUnicas = new Set(misas.map(misa => misa.fecha_hora.split(' ')[0]));
+    return fechasUnicas.size;
+}
+
+// ====================================================================
+// NOTA SOBRE EL PASO FINAL DE GUARDADO (Backend)
+// ====================================================================
+
+// Al presionar [Guardar], el valor del checkbox marcado (el patrón) será una cadena 
+// de IDs separados por comas. Tu backend debe manejar esto:
+/*
+// En el backend (PHP):
+$misaIdsCadena = $_POST['misa_ids'][0]; // Obtener la cadena del único checkbox marcado
+$misaIdsArray = explode(',', $misaIdsCadena); // Convertir a array de IDs
+// Luego, iteras sobre $misaIdsArray para crear los registros en peticion_misa
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function manejarBusquedaDirecta(respuesta) {
