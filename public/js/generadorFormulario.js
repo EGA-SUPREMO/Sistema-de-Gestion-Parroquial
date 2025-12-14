@@ -99,21 +99,30 @@ function validarFechaIntencion($elemento) {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
 
-    const fechaActual = new Date().toISOString().slice(0, 10);
-    const fechaEnDosAnios = new Date(fechaActual);
-    fechaEnDosAnios.setFullYear(new Date().getFullYear() + 2);
+    const hoy = new Date();
+    const fechaMax = new Date();
+    fechaMax.setFullYear(hoy.getFullYear() + 1);
+    
+    const maxStr = fechaMax.toISOString().slice(0, 10);
+    const minStr = "1900-01-01";
 
-    const mensaje = `La fecha debe ser entre 1900-01-01 y ${fechaEnDosAnios.toISOString().slice(0,10)}.`;
-    validarCampo(
-        $elemento,
-        (valor) => validarFecha(valor, "1900-01-01", fechaEnDosAnios.toISOString().slice(0,10)),
-        mensaje
-    );
-    validarCampo(
-        $elemento,
-        (valor) => $fecha_inicio.val() <= $fecha_fin.val(),
-        `La fecha de inicio ${$fecha_inicio.val()} no puede ser mayor a la fecha final ${$fecha_fin.val()}`
-    );
+    validarCampo($elemento, (valor) => {
+        const esRangoValido = validarFecha(valor, minStr, maxStr);
+        if (!esRangoValido) {
+            $elemento.data('error-msg', `La fecha debe estar entre ${minStr} y ${maxStr}`);
+            return false;
+        }
+
+        const valInicio = $fecha_inicio.val();
+        const valFin = $fecha_fin.val();
+        
+        if (valInicio && valFin && valInicio > valFin) {
+            $elemento.data('error-msg', `La fecha de inicio no puede ser mayor a la final.`);
+            return false;
+        }
+
+        return true;
+    }, $elemento.data('error-msg')); 
 }
 
 function validarEnteroLibro($elemento) {
@@ -694,6 +703,11 @@ function asignarAtributosComunes($element, properties) {
     if (properties.keypress) {
         $element.on('keypress', function(e) {
             window[properties.keypress].call(null, e, $element);
+        });
+    }
+    if (properties.change) {
+        $element.on('change', function(e) {
+            window[properties.change].call(null, e, $element);
         });
     }
 

@@ -57,8 +57,8 @@
                     },
                     { type: 'fila', 
                         campos: [
-                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, autocompletarMetodo: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
-                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, autocompletarMetodo: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
+                            { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, change: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
+                            { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, change: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
                         ]
                     },
                     { type: 'checkboxes', name: 'misas_selecionadas',  required: true, options: [{ value: 0, text: ''}]},
