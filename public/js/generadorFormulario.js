@@ -211,7 +211,7 @@ function manejarRespuestaMisas(response) {
         let maxFrecuencia = -1;
 
         // B. Generar HTML para los patrones
-        htmlOpciones += `<h4>Seleccione el Patrón de Asignación (${numDiasSeleccionados} días):</h4>`;
+        htmlOpciones += `<h6>Misas disponibles para el periodo seleccionado (${numDiasSeleccionados} días):</h6>`;
         
         for (const hora in misasAgrupadas) {
             const count = misasAgrupadas[hora].length;
@@ -228,7 +228,7 @@ function manejarRespuestaMisas(response) {
                 <div class="form-check">
                     <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${idLimpio}">
                     <label class="form-check-label" for="patron_${idLimpio}">
-                        <strong>Misa de ${hora}</strong> (${count} misas encontradas en el rango)
+                        Misa de ${hora} (${count} misas encontradas en el rango)
                     </label>
                 </div>
             `;

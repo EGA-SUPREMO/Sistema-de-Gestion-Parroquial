@@ -43,21 +43,25 @@
             break;
             case 'intencion':
                 formularioCampos = [
-                    { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por que es la intencion',  required: true, validarMetodo: 'validarNombre', sugerencias: datosPHP.objeto_de_peticion, value: datosPHP.objeto_de_peticion_nombre },
-                    { type: 'select', name: 'tipo_de_intencion_id', label: 'Selecciona el tipo de intención',  required: true, value: datosPHP.tipo_de_intencion_id, options: [
-                      { value: '0', text: 'Selecciona un tipo de intención', disabled: true },
-                      { value: '1', text: 'Acción de Gracias' },
-                      { value: '2', text: 'Salud' },
-                      { value: '3', text: 'Aniversario' },
-                      { value: '4', text: 'Difunto' },
-                    ]},
+                    { type: 'fila', 
+                        campos: [
+                            { type: 'autocomplete', name: 'objeto_de_peticion_nombre', label: 'Por que es la intencion',  required: true, validarMetodo: 'validarNombre', sugerencias: datosPHP.objeto_de_peticion, value: datosPHP.objeto_de_peticion_nombre },
+                            { type: 'select', name: 'tipo_de_intencion_id', label: 'Selecciona el tipo de intención',  required: true, value: datosPHP.tipo_de_intencion_id, options: [
+                              { value: '0', text: 'Selecciona un tipo de intención', disabled: true },
+                              { value: '1', text: 'Acción de Gracias' },
+                              { value: '2', text: 'Salud' },
+                              { value: '3', text: 'Aniversario' },
+                              { value: '4', text: 'Difunto' },
+                            ]},
+                        ]
+                    },
                     { type: 'fila', 
                         campos: [
                             { type: 'date', name: 'fecha_inicio', label: 'Fecha de Inicio', required: true, autocompletarMetodo: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_inicio?.slice(0, 10) || hoy},
                             { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, autocompletarMetodo: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
                         ]
                     },
-                    { type: 'checkboxes', name: 'misas_selecionadas', label: 'Por favor, seleccione las misas para ese rango de fechas',  required: true, options: [{ value: 1, text: 'Asignar a todas las misas'}]},
+                    { type: 'checkboxes', name: 'misas_selecionadas',  required: true, options: [{ value: 0, text: ''}]},
                 ];
                 break;
             case 'feligres':
