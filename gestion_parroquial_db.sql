@@ -160,7 +160,7 @@ INSERT INTO tipo_de_intencion (nombre, descripcion) VALUES
 
 CREATE TABLE `misas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `fecha_hora` DATETIME NOT NULL,
+  `fecha_hora` DATETIME UNIQUE NOT NULL,
   `permite_intenciones` BOOLEAN NOT NULL DEFAULT 1,
   `creado_en` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
