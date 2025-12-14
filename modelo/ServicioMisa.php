@@ -52,25 +52,25 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
     public function generarMisasEnRango($inicioFecha, $hastaFecha)
     {
         // TODO hacer comprobaciones de que fecha de inicio ya esta hecha, ej pido crear una misa el dia de hoy hasta tres dias despues, pero hay misas en la base de datos hasta mañana, solo se crea apartir de mañana
-        $inicio = $inicioFecha;
-        $fecha_actual = clone $inicio;
-        
-        $fin_de_ano = $hastaFecha;
-        $fin_de_ano->setTime(23, 59, 59);
+        $punteroDia = clone $inicioFecha;
+        $punteroDia->setTime(0, 0, 0);
 
-        while ($fecha_actual <= $fin_de_ano) {
-            $dia_semana = (int) $fecha_actual->format('N');
+        $fin = clone $hastaFecha;
+        $fin->setTime(23, 59, 59);
+
+        while ($punteroDia <= $fin) {
+            $dia_semana = (int) $punteroDia->format('N');
 
             if ($dia_semana == 7) {
-                $this->crearMisa($fecha_actual, '08:30:00', true);
-                $this->crearMisa($fecha_actual, '10:30:00', false);
-                $this->crearMisa($fecha_actual, '16:30:00', true);
+                $this->crearMisa($punteroDia, '08:30:00', true);
+                $this->crearMisa($punteroDia, '10:30:00', false);
+                $this->crearMisa($punteroDia, '16:30:00', true);
             } else {
-                $this->crearMisa($fecha_actual, '17:00:00', true);
+                $this->crearMisa($punteroDia, '17:00:00', true);
             }
 
-            $fecha_actual->modify('+1 day');
-            $fecha_actual->setTime(0, 0, 0);
+            $punteroDia->modify('+1 day');
+            $punteroDia->setTime(0, 0, 0);
         }
 
     }

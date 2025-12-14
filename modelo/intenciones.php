@@ -30,12 +30,18 @@ class GestionPeticionMisa
         $fechaFinReq = $datos['fecha_fin'];       // "2025-11-23"
 
         $resultado = $gestorMisa->obtenerUltimaMisaRegistrada();        
-        $ultimaFechaRegistrada = $resultado['ultima_fecha'] ? new DateTime($resultado['ultima_fecha']) : new DateTime('yesterday');
+        $ultimaFechaRegistrada = $resultado['ultima_fecha'] 
+            ? new DateTime($resultado['ultima_fecha']) 
+            : new DateTime('yesterday');
         $fechaFinRequerida = new DateTime($fechaFinReq . ' 23:59:59');
 
+        $inicioGeneracion = clone $ultimaFechaRegistrada;
+        $inicioGeneracion->modify('+1 day'); 
+        $inicioGeneracion->setTime(0, 0, 0);
+
         // Paso A2: Si la fecha que piden es mayor a lo que tengo, genero lo que falta
-        if ($fechaFinRequerida > $ultimaFechaRegistrada) {
-            $servicioMisa->generarMisasEnRango($ultimaFechaRegistrada, $fechaFinRequerida);
+        if ($fechaFinRequerida > $inicioGeneracion) {
+            $servicioMisa->generarMisasEnRango($inicioGeneracion, $fechaFinRequerida);
         }
 
         // === PARTE B: CONSULTA FINAL ===
@@ -66,15 +72,6 @@ class GestionPeticionMisa
             $misa_arr['dia_semana'] = ucfirst($formatoDiaSemana->format($timestamp));
             $respuesta[] = $misa_arr;
         }
-        // Paso B2: Formatear para que el JS lo entienda fácil (Opcional, pero recomendado)
-        // Agregamos una versión legible de la fecha y hora por separado
-        /*foreach ($misas as &$misa) {
-            $dt = new DateTime($misa['fecha_hora']);
-            $misa['fecha_formato'] = $dt->format('d/m/Y'); // Para mostrar
-            $misa['hora_formato'] = $dt->format('h:i A');  // Para agrupar (07:00 PM)
-            $misa['dia_semana'] = $this->traducirDia($dt->format('l')); // Lunes, Martes...
-        }*/
-        //error_log(print_r($misas, true));
 
         return $respuesta;
     }
