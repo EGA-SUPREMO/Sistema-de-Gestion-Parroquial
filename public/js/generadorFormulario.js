@@ -158,6 +158,9 @@ function soloNumero(e) {
 function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
+    validarFechaIntencion($fecha_inicio);
+    validarFechaIntencion($fecha_fin);
+    
     let datos = {
         'fecha_inicio': $fecha_inicio.val(),
         'fecha_fin': $fecha_fin.val(),
