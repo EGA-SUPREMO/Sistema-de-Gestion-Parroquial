@@ -160,7 +160,7 @@ function consultarMisasPorRango() {
     let $fecha_fin = $(`[name="fecha_fin"]`);
     validarFechaIntencion($fecha_inicio);
     validarFechaIntencion($fecha_fin);
-    
+
     let datos = {
         'fecha_inicio': $fecha_inicio.val(),
         'fecha_fin': $fecha_fin.val(),
@@ -209,7 +209,7 @@ function manejarRespuestaMisas(response) {
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}">
                     <label class="form-check-label" for="misa_${misa.id}">
-                        ${misa.dia_semana}, ${misa.hora_formato} (${misa.lugar || 'Principal'})
+                        ${misa.dia_semana}, ${misa.hora_formato}
                     </label>
                 </div>
             `;
@@ -273,11 +273,17 @@ function manejarRespuestaMisas(response) {
 
     //$contenedor.html(htmlOpciones);
 
-    // Adjuntar evento: solo se puede seleccionar una opción de asignación de patrón
     $contenedor.on('change', '.patron-misa', function() {
         if ($(this).is(':checked')) {
-            // Desmarcar todos los demás patrones
-            $contenedor.find('.patron-misa').not(this).prop('checked', false);
+            if (this.id === 'patron_todas') {
+                if ($(this).is(':checked')) {
+                    $('.patron-misa').not(this).prop('checked', false);
+                }
+            } else {
+                if ($(this).is(':checked')) {
+                    $('#patron_todas').prop('checked', false);
+                }
+            }
         }
     });
 
