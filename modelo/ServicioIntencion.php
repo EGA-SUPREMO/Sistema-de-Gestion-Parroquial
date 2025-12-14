@@ -2,6 +2,7 @@
 
 require_once 'Intencion.php';
 require_once 'GestorPeticion.php';
+require_once 'GestorPeticionMisa.php';
 require_once 'GestorObjetoDePeticion.php';
 require_once 'GestorIntencion.php';
 require_once 'GestorMisa.php';
@@ -10,6 +11,7 @@ require_once 'ServicioBase.php';
 class ServicioIntencion extends ServicioBase
 {
     private $gestorObjetoDePeticion;
+    private $gestorPeticionMisa;
     private $gestorIntencion;
     private $gestorMisa;
 
@@ -19,6 +21,7 @@ class ServicioIntencion extends ServicioBase
         $this ->gestorObjetoDePeticion = new GestorObjetoDePeticion($pdo);
         $this ->gestorIntencion = new GestorIntencion($pdo);
         $this ->gestorMisa = new GestorMisa($pdo);
+        $this ->gestorPeticionMisa = new GestorPeticionMisa($pdo);
     }
 
     public function guardar($intencion, $id = 0)
@@ -32,8 +35,16 @@ class ServicioIntencion extends ServicioBase
                 $this->gestorObjetoDePeticion->guardar($objetoDePeticion);
             }
             $intencion->setObjetoDePeticionId($objetoDePeticion->getId());
+
             $resultado = $this->gestorIntencion->guardar($intencion, $id);
 
+            foreach ($intencion->obtenerMisaIds() as $misa_id) {
+                $peticionMisa = new PeticionMisa();
+                $peticionMisa->setPeticionId($intencion->getId());
+                $peticionMisa->setMisaId($misa_id);
+                $this ->gestorPeticionMisa->guardar($peticionMisa);
+            }
+            
             return $resultado;
         }, "de registro o edicion de intencion");
     }

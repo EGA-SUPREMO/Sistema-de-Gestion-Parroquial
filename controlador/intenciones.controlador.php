@@ -56,6 +56,7 @@ class intencionesControlador extends formularioControlador
         $arrayBD = $objeto->toArrayParaBD(true);
         $camposEsperados = array_keys($arrayBD);
         $camposEsperados[] = 'objeto_de_peticion_nombre';
+        $camposEsperados[] = 'misa_ids';
 
         $datos = [];
         foreach ($camposEsperados as $campo) {
