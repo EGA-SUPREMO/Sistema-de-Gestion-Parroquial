@@ -14,7 +14,7 @@ class GestorMisa extends GestorBase
 
     public function obtenerUltimaMisaRegistrada()
     {
-        $sql = "SELECT MAX(fecha_hora) as ultima_fecha FROM misas";
+        $sql = "SELECT MAX(fecha_hora) as ultima_fecha FROM " . $this ->tabla;
 
         return $this->hacerConsulta($sql, [], 'assoc');
     }

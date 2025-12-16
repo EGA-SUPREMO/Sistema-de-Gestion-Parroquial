@@ -12,4 +12,22 @@ class GestorPeticionMisa extends GestorBase
         $this ->tabla = "peticion_misa";
     }
 
+    public function existeObjetoEnMisa($misa_id, $objeto_de_peticion_id)
+    {
+        $sql = "SELECT COUNT(*) as total 
+                FROM " . $this ->tabla . " pm
+                JOIN peticiones p ON pm.peticion_id = p.id
+                WHERE pm.misa_id = :misa_id
+                AND p.objeto_de_peticion_id = :objeto_id";
+
+        $params = [
+            ':misa_id'   => $misa_id,
+            ':objeto_id' => $objeto_de_peticion_id
+        ];
+
+        $resultado = $this->hacerConsulta($sql, $params, 'assoc');
+        
+        return ($resultado['total'] > 0);
+    }
+
 }
