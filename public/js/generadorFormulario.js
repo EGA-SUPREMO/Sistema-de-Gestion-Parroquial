@@ -671,7 +671,11 @@ function asignarAtributosComunes($element, properties) {
     if (properties.required) {
         $element.prop('required', true);
     }
-    
+    if (properties.value) {
+        setTimeout(function() {
+            $element.trigger('change').trigger('keyup');
+        }, 150);
+    }
     // Para selects, selecciona el valor correcto
     if (properties.type === 'select' && properties.value) {
         $element.val(properties.value);
@@ -941,14 +945,12 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
             $form.append($fila);
 
             if (!$primerElemento) {
-                // Busca el primer input, select o textarea dentro de la fila
                 const $primerInputEnFila = $fila.find('input:not([type="hidden"]), select, textarea').first();
                 
-                // Si encuentra un elemento enfocable, lo asigna como $primerElemento
                 if ($primerInputEnFila.length > 0) {
                     $primerElemento = $primerInputEnFila;
+                }
             }
-        }
             return; // Continuar con el siguiente campo
         }
 
