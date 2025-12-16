@@ -217,18 +217,23 @@ function manejarRespuestaMisas(response) {
     } else {
         // --- Caso 2: Múltiples días (Agrupamos por patrón de hora) ---
 
-        // A. Agrupación: { "07:00 PM": [misa1, misa2, ...], "08:00 AM": [...] }
-        const misasAgrupadas = agruparPorPatron(misasDisponibles);
-        let opcionMasFrecuente = null;
-        let maxFrecuencia = -1;
-
         // B. Generar HTML para los patrones
         htmlOpciones += `<h6>Misas disponibles para el periodo seleccionado (${numDiasSeleccionados} días):</h6>`;
         
-        for (const hora in misasAgrupadas) {
-            const count = misasAgrupadas[hora].length;
-            const ids = misasAgrupadas[hora].map(m => m.id).join(','); // IDs para el valor
+        const misasOrdenadas = ordenarMisasPorHora(agruparPorPatron(misasDisponibles));
+        let maxFrecuencia = -1;
+        let opcionMasFrecuente = '';
+
+        // Itera sobre el ARRAY ordenado. La variable 'misa' es un par [hora, listaDeMisas]
+        misasOrdenadas.forEach(misa => {
+            // Desestructurar el par para obtener la hora y la lista de misas
+            const [hora, listaDeMisas] = misa;
+            
+            // Ahora usamos listaDeMisas en lugar de misasAgrupadas[hora]
+            const count = listaDeMisas.length; 
+            const ids = listaDeMisas.map(m => m.id).join(','); // IDs para el valor
             const idLimpio = limpiarParaID(hora);
+            
             // Detectar la opción más frecuente (para preselección)
             if (count > maxFrecuencia) {
                 maxFrecuencia = count;
@@ -244,7 +249,7 @@ function manejarRespuestaMisas(response) {
                     </label>
                 </div>
             `;
-        }
+        });
 
         // C. Opción "Asignar a todas las misas disponibles" (Total)
         const todosLosIDs = misasDisponibles.map(m => m.id).join(',');
@@ -304,6 +309,50 @@ function agruparPorPatron(misas) {
         return acc;
     }, {});
 }
+
+function convertirHoraAMinutos(horaStr) {
+    const horaLimpia = horaStr.toLowerCase()
+        .replace(/a\.?\s*m\.?/, 'am')
+        .replace(/p\.?\s*m\.?/, 'pm')
+        .trim();
+
+    const partes = horaLimpia.match(/^(\d{1,2}:\d{2})\s*(am|pm)$/);
+
+    if (!partes) {
+        console.error(`Error al parsear la hora: ${horaStr}`);
+        return 0;
+    }
+
+    const [_, horaMin, ampm] = partes;
+    let [horas, minutos] = horaMin.split(':').map(Number);
+
+    if (ampm === 'pm' && horas !== 12) {
+        horas += 12;
+    } else if (ampm === 'am' && horas === 12) {
+        horas = 0;
+    }
+
+    return (horas * 60) + minutos;
+}
+
+/**
+ * Toma un objeto de misas agrupadas por hora y devuelve un array ordenado.
+ * @param {Object} misasAgrupadas - Objeto: { "07:00 PM": [...], "08:00 AM": [...] }
+ * @returns {Array<[string, Array<Object>]>} - Array ordenado: [ ["08:00 AM", [...] ], ["07:00 PM", [...] ] ]
+ */
+function ordenarMisasPorHora(misasAgrupadas) {
+    const arrayDeMisas = Object.entries(misasAgrupadas);
+    arrayDeMisas.sort(([horaA], [horaB]) => {
+        const minutosA = convertirHoraAMinutos(horaA);
+        const minutosB = convertirHoraAMinutos(horaB);
+
+        return minutosA - minutosB;
+    });
+
+    return arrayDeMisas;
+}
+
+
 
 /**
  * Función auxiliar para obtener el número de días únicos.
