@@ -202,18 +202,20 @@ function manejarRespuestaMisas(response) {
 
     if (numDiasSeleccionados === 1) {
         // --- Caso 1: Un solo día (Mostramos cada misa individualmente) ---
-        htmlOpciones += '<h4>Misas del día:</h4>';
+        htmlOpciones += '<h6>Misas del día ' + misasDisponibles[0].dia_semana + ':</h6>';
         misasDisponibles.forEach(misa => {
             // El valor del checkbox será el ID de la Misa
             htmlOpciones += `
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}">
                     <label class="form-check-label" for="misa_${misa.id}">
-                        ${misa.dia_semana}, ${misa.hora_formato}
+                        Misa de ${misa.hora_formato}
                     </label>
                 </div>
             `;
         });
+        $contenedor.html(htmlOpciones);
+
     } else {
         // --- Caso 2: Múltiples días (Agrupamos por patrón de hora) ---
 
@@ -275,8 +277,6 @@ function manejarRespuestaMisas(response) {
             $contenedor.find(`#patron_${idLimpioFrecuente}`).prop('checked', true);
         }
     }
-
-    //$contenedor.html(htmlOpciones);
 
     $contenedor.on('change', '.patron-misa', function() {
         if ($(this).is(':checked')) {
