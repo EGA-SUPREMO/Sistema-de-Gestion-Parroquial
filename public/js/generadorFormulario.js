@@ -203,11 +203,14 @@ function manejarRespuestaMisas(response) {
     if (numDiasSeleccionados === 1) {
         // --- Caso 1: Un solo día (Mostramos cada misa individualmente) ---
         htmlOpciones += '<h6>Misas del día ' + misasDisponibles[0].dia_semana + ':</h6>';
+        const esUnaSolaMisa = misasDisponibles.length === 1;
+        
         misasDisponibles.forEach(misa => {
-            // El valor del checkbox será el ID de la Misa
+            const checkedAttribute = esUnaSolaMisa ? 'checked' : '';
+
             htmlOpciones += `
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}">
+                    <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}" ${checkedAttribute}>
                     <label class="form-check-label" for="misa_${misa.id}">
                         Misa de ${misa.hora_formato}
                     </label>

@@ -43,7 +43,7 @@ class ServicioIntencion extends ServicioBase
                 $peticionMisa->setPeticionId($intencion->getId());
                 $peticionMisa->setMisaId($misa_id);
                 if ($this->gestorPeticionMisa->existeObjetoEnMisa($misa_id, $objetoDePeticion->getId())) {
-                    throw new Exception("Este objeto de intención ya está agendado para esta misa.");
+                    throw new Exception("El porque de la intención ya está agendado para esta misa.");
                 }
                 $this ->gestorPeticionMisa->guardar($peticionMisa);
             }
