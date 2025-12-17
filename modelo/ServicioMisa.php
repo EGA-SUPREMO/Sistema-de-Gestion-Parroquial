@@ -13,38 +13,38 @@ class ServicioMisa extends ServicioBase
         $this ->gestorMisa = new GestorMisa($pdo);
     }
 
-/*
-Comparación: El API compara:
+    /*
+    Comparación: El API compara:
 
-Fecha pedida (hasta): 05/01/2026.
+    Fecha pedida (hasta): 05/01/2026.
 
-Fecha máxima en BD: 31/12/2025.
+    Fecha máxima en BD: 31/12/2025.
 
-Conclusión: ¡Faltan misas! Faltan las de los días 1, 2, 3, 4 y 5 de Enero.
+    Conclusión: ¡Faltan misas! Faltan las de los días 1, 2, 3, 4 y 5 de Enero.
 
-Generación (JIT): El API antes de continuar, llama a una función interna: GenerarMisasHasta('2026-01-05').
+    Generación (JIT): El API antes de continuar, llama a una función interna: GenerarMisasHasta('2026-01-05').
 
-Esta función usa tu plantilla de horario (L-S 7pm, DOM 8am, DOM 12pm, DOM 7pm).
+    Esta función usa tu plantilla de horario (L-S 7pm, DOM 8am, DOM 12pm, DOM 7pm).
 
-Calcula los días que faltan (01/01/2026 al 05/01/2026).
+    Calcula los días que faltan (01/01/2026 al 05/01/2026).
 
-Crea los registros en la tabla misas solo para esos 5 días (probablemente 1 misa el jueves, 1 el viernes, 1 el sábado, 3 el domingo, 1 el lunes).
+    Crea los registros en la tabla misas solo para esos 5 días (probablemente 1 misa el jueves, 1 el viernes, 1 el sábado, 3 el domingo, 1 el lunes).
 
-Importante: Esto debe hacerse en una transacción para evitar que dos secretarias lo hagan al mismo tiempo.
+    Importante: Esto debe hacerse en una transacción para evitar que dos secretarias lo hagan al mismo tiempo.
 
-Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecuta la consulta final (la que iba a hacer en el paso 3) y devuelve a la UI la lista completa de misas disponibles entre el 28/12 y el 05/01.
+    Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecuta la consulta final (la que iba a hacer en el paso 3) y devuelve a la UI la lista completa de misas disponibles entre el 28/12 y el 05/01.
 
-*/
+    */
     public function guardar($hastaFecha, $id = 0)
     {
         $this->pdo->beginTransaction();
         try {
-            
+
             $this->pdo->commit();
-            return $resultado;    
+            return $resultado;
         } catch (Exception $e) {
             $this->pdo->rollBack();
-            error_log("Error en la transacción de : " . $e->getMessage());    
+            error_log("Error en la transacción de : " . $e->getMessage());
             throw new Exception($e->getMessage());
         }
     }
@@ -90,7 +90,7 @@ Consulta Final: Una vez generadas las misas que faltaban, el API ahora sí ejecu
         $misa = new Misa();
         $misa ->setFechaHora($fecha_hora_misa->format('Y-m-d H:i:s'));
         $misa ->setPermiteIntenciones($permite_intenciones);
-        
+
         $this->gestorMisa->guardar($misa);
     }
 }

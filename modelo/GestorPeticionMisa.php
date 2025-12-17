@@ -26,7 +26,7 @@ class GestorPeticionMisa extends GestorBase
         ];
 
         $resultado = $this->hacerConsulta($sql, $params, 'assoc');
-        
+
         return ($resultado['total'] > 0);
     }
 

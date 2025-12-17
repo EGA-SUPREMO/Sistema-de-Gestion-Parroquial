@@ -47,7 +47,7 @@ class ServicioIntencion extends ServicioBase
                 }
                 $this ->gestorPeticionMisa->guardar($peticionMisa);
             }
-            
+
             return $resultado;
         }, "de registro o edicion de intencion");
     }

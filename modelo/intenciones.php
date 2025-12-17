@@ -6,8 +6,8 @@ require_once 'EntidadFactory.php';
 class GestionPeticionMisa
 {
     private $pdo;
-    
-    function __construct()
+
+    public function __construct()
     {
         $this->pdo = App::obtenerConexion();
     }
@@ -29,14 +29,14 @@ class GestionPeticionMisa
         $fechaInicioReq = $datos['fecha_inicio']; // "2025-11-15"
         $fechaFinReq = $datos['fecha_fin'];       // "2025-11-23"
 
-        $resultado = $gestorMisa->obtenerUltimaMisaRegistrada();        
-        $ultimaFechaRegistrada = $resultado['ultima_fecha'] 
-            ? new DateTime($resultado['ultima_fecha']) 
+        $resultado = $gestorMisa->obtenerUltimaMisaRegistrada();
+        $ultimaFechaRegistrada = $resultado['ultima_fecha']
+            ? new DateTime($resultado['ultima_fecha'])
             : new DateTime('yesterday');
         $fechaFinRequerida = new DateTime($fechaFinReq . ' 23:59:59');
 
         $inicioGeneracion = clone $ultimaFechaRegistrada;
-        $inicioGeneracion->modify('+1 day'); 
+        $inicioGeneracion->modify('+1 day');
         $inicioGeneracion->setTime(0, 0, 0);
 
         // Paso A2: Si la fecha que piden es mayor a lo que tengo, genero lo que falta
@@ -45,7 +45,7 @@ class GestionPeticionMisa
         }
 
         // === PARTE B: CONSULTA FINAL ===
-        
+
         $formatoDiaSemana = new IntlDateFormatter(
             'es_ES',
             IntlDateFormatter::FULL,
@@ -79,7 +79,7 @@ class GestionPeticionMisa
 
 
 App::iniciar();
- 
+
 $misa = new GestionPeticionMisa();
 $respuesta = $misa->manejarSolicitudDeBusqueda($_POST);
 header('Content-Type: application/json');
