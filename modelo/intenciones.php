@@ -24,25 +24,17 @@ class GestionPeticionMisa
 
     private function consultarOCrearMisas($datos)
     {
+
         $gestorMisa = EntidadFactory::crearGestor($this->pdo, 'Misa');
         $servicioMisa = EntidadFactory::crearServicio($this->pdo, 'Misa');
-        $fechaInicioReq = $datos['fecha_inicio']; // "2025-11-15"
-        $fechaFinReq = $datos['fecha_fin'];       // "2025-11-23"
 
-        $resultado = $gestorMisa->obtenerUltimaMisaRegistrada();
-        $ultimaFechaRegistrada = $resultado['ultima_fecha']
-            ? new DateTime($resultado['ultima_fecha'])
-            : new DateTime('yesterday');
-        $fechaFinRequerida = new DateTime($fechaFinReq . ' 23:59:59');
+        $fechaInicioReq = new DateTime($datos['fecha_inicio']);
+        $fechaFinReq = new DateTime($datos['fecha_fin']);
 
-        $inicioGeneracion = clone $ultimaFechaRegistrada;
-        $inicioGeneracion->modify('+1 day');
-        $inicioGeneracion->setTime(0, 0, 0);
+        $fechaInicioReq->setTime(0, 0, 0);
+        $fechaFinReq->setTime(23, 59, 59);
 
-        // Paso A2: Si la fecha que piden es mayor a lo que tengo, genero lo que falta
-        if ($fechaFinRequerida > $inicioGeneracion) {
-            $servicioMisa->generarMisasEnRango($inicioGeneracion, $fechaFinRequerida);
-        }
+        $servicioMisa->generarMisasEnRango($fechaInicioReq, $fechaFinReq);
 
         // === PARTE B: CONSULTA FINAL ===
 
@@ -62,8 +54,7 @@ class GestionPeticionMisa
         );
         $formatoHora->setPattern('h:mm a'); // Ejemplo: "7:00 p. m." (Si prefieres "7:00 PM", usa 'A' mayúscula: 'h:mm A')
 
-
-        $misas = $gestorMisa->obtenerMisasConIntencionesPorRangoFechas($fechaInicioReq, $fechaFinReq);
+        $misas = $gestorMisa->obtenerMisasConIntencionesPorRangoFechas($datos['fecha_inicio'], $datos['fecha_fin']);
         $respuesta = [];
         foreach ($misas as $misa) {
             $misa_arr = $misa->toArrayParaBD();

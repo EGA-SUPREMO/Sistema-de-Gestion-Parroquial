@@ -87,6 +87,11 @@ class ServicioMisa extends ServicioBase
             error_log("   -> Omitiendo: Misa del " . $fecha_hora_misa->format('Y-m-d H:i') . " ya pasó.\n");
             return;
         }
+
+        if ($this->gestorMisa->existeMisaEnFechaHora($fecha_hora_misa->format('Y-m-d H:i:s'))) {
+            return; 
+        }
+
         $misa = new Misa();
         $misa ->setFechaHora($fecha_hora_misa->format('Y-m-d H:i:s'));
         $misa ->setPermiteIntenciones($permite_intenciones);

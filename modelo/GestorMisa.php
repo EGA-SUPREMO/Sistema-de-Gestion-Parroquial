@@ -12,6 +12,11 @@ class GestorMisa extends GestorBase
         $this ->clase_nombre = "Misa";
     }
 
+    public function existeMisaEnFechaHora($fechaHoraString) {
+        $sql = "SELECT COUNT(*) FROM " . $this ->tabla . " WHERE fecha_hora = :fecha_hora";
+        
+        return $this->hacerConsulta($sql, [':fecha_hora' => $fechaHoraString], 'column') > 0;
+    }
     public function obtenerUltimaMisaRegistrada()
     {
         $sql = "SELECT MAX(fecha_hora) as ultima_fecha FROM " . $this ->tabla;
