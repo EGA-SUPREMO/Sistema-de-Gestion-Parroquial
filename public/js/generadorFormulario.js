@@ -210,7 +210,7 @@ function manejarRespuestaMisas(response) {
 
             htmlOpciones += `
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}" ${checkedAttribute}>
+                    <input class="form-check-input" type="checkbox" name="misa_ids[]" value="${misa.id}" id="misa_${misa.id}" ${checkedAttribute} >
                     <label class="form-check-label" for="misa_${misa.id}">
                         Misa de ${misa.hora_formato}
                     </label>
@@ -248,7 +248,7 @@ function manejarRespuestaMisas(response) {
             // Generar Checkbox para el Patrón
             htmlOpciones += `
                 <div class="form-check">
-                    <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${idLimpio}">
+                    <input class="form-check-input patron-misa" type="checkbox" name="misa_ids[]" value="${ids}" id="patron_${idLimpio}" >
                     <label class="form-check-label" for="patron_${idLimpio}">
                         Misa de ${hora} (${count} misas encontradas en el rango)
                     </label>
@@ -817,6 +817,13 @@ const creadoresDeCampos = {
     },
     crearCheckboxes: function(prop) {
         const $contenedor = $('<div>').addClass('checkbox-group').attr('name', prop.name).attr('id', prop.name);
+        if (prop.required) {
+            $contenedor.attr('required', 'required'); 
+            if (prop.error) {
+                $contenedor.attr('error', prop.error); 
+            }
+        }
+
         const selectedValues = Array.isArray(prop.value) ? prop.value : [];
         prop.options.forEach((option) => {
             const $formCheck = $('<div>').addClass('form-check');
@@ -1060,13 +1067,48 @@ function generarFormulario(definicionFormulario, tituloFormulario) {
             validarLista($(this));
         });
 
+        const gruposYaValidados = new Set(); 
+        let validacionFallida = false;
+
+        $form.find('.checkbox-group[required]').each(function() {
+            const $grupoContenedor = $(this);
+            const grupoId = $grupoContenedor.attr('id') || $grupoContenedor.attr('name');
+
+            if (!grupoId || gruposYaValidados.has(grupoId)) {
+                return;
+            }
+            const $checkboxesDelGrupo = $grupoContenedor.find('input[type="checkbox"]');
+            const algunoMarcado = $checkboxesDelGrupo.filter(':checked').length > 0;
+            if (!algunoMarcado) {
+                $grupoContenedor.addClass('is-invalid');
+                $checkboxesDelGrupo.eq(0).addClass('is-invalid-child');
+                validacionFallida = true;
+            } else {
+                $grupoContenedor.removeClass('is-invalid');
+                $checkboxesDelGrupo.removeClass('is-invalid-child'); 
+            }
+
+            gruposYaValidados.add(grupoId);
+        });
+
+        if (validacionFallida) {
+            const $contenedorConError = $form.find('.checkbox-group[required]').first(); 
+            const mensajeDeError = $contenedorConError.attr('error') || 
+                                   "Debe seleccionar al menos una opción en los campos requeridos.";
+            Swal.fire({
+                title: "Error de Validación",
+                text: mensajeDeError,
+                icon: "error",
+                confirmButtonText: "Aceptar"
+            });
+        }
+
         const $elementosInvalidos = $form.find('.is-invalid');
 
         if ($elementosInvalidos.length > 0) {
             $elementosInvalidos.first().focus();
             return;
         }
-        
         yaSeDecidioNoAutocompletar = false;
         this.submit(); 
         

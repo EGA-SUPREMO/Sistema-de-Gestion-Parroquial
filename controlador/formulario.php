@@ -61,7 +61,7 @@
                             { type: 'date', name: 'fecha_fin', label: 'Fecha de Fin', required: true, change: 'consultarMisasPorRango', validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy },
                         ]
                     },
-                    { type: 'checkboxes', name: 'misas_selecionadas',  required: true, options: [{ value: 0, text: ''}]},
+                    { type: 'checkboxes', name: 'misas_selecionadas',  required: true, error: "Debe seleccionar al menos una misa", options: [{ value: 0, text: ''}]},
                 ];
                 break;
             case 'feligres':
