@@ -158,16 +158,19 @@ function soloNumero(e) {
 function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
+    let $objeto_de_peticion_nombre = $(`[name="objeto_de_peticion_nombre"]`);
     validarFechaIntencion($fecha_inicio);
     validarFechaIntencion($fecha_fin);
+    validarNombre($objeto_de_peticion_nombre);
 
     let datos = {
         'fecha_inicio': $fecha_inicio.val(),
         'fecha_fin': $fecha_fin.val(),
+        'objeto_de_peticion_nombre': $objeto_de_peticion_nombre.val(),
         'metodo': 'consultarOCrearMisas',
     };
     
-    if ($fecha_inicio.hasClass('is-invalid') || $fecha_inicio.val() === '' || $fecha_fin.hasClass('is-invalid') || $fecha_fin.val() === '') {
+    if ($fecha_inicio.hasClass('is-invalid') || $fecha_inicio.val() === '' || $fecha_fin.hasClass('is-invalid') || $fecha_fin.val() === '' || $objeto_de_peticion_nombre.hasClass('is-invalid') || $objeto_de_peticion_nombre.val() === '') {
         return;
     }
 
@@ -186,7 +189,7 @@ let misasDisponibles = [];
 function manejarRespuestaMisas(response) {
     // 1. Verificar el estado y obtener la lista de misas
     if (!response || response.length === 0) {
-        $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado.</p>');
+        $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado. Verifique que todos los campos del formulario sean correctos</p>');
         misasDisponibles = [];
         return;
     }
@@ -197,7 +200,7 @@ function manejarRespuestaMisas(response) {
 
     const numDiasSeleccionados = obtenerNumDias(misasDisponibles);
     let htmlOpciones = '';
-    console.log(numDiasSeleccionados);
+
     // === Lógica de Agrupación (Paso JIT Inteligente) ===
 
     if (numDiasSeleccionados === 1) {
