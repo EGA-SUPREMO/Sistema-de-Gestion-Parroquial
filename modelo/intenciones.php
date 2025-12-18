@@ -54,7 +54,7 @@ class GestionPeticionMisa
         );
         $formatoHora->setPattern('h:mm a'); // Ejemplo: "7:00 p. m." (Si prefieres "7:00 PM", usa 'A' mayúscula: 'h:mm A')
 
-        $misas = $gestorMisa->obtenerMisasConIntencionesPorRangoFechas($datos['fecha_inicio'], $datos['fecha_fin']);
+        $misas = $gestorMisa->obtenerMisasSinIntencionRegistradaPorRangoFechas($datos['fecha_inicio'], $datos['fecha_fin'], 'AAAAA');
         $respuesta = [];
         foreach ($misas as $misa) {
             $misa_arr = $misa->toArrayParaBD();
