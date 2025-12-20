@@ -96,8 +96,15 @@ function validarFechaExpedicion($elemento) {
 }
 
 function validarFechaIntencion($elemento) {
+    if ($elemento[0] == undefined || $elemento.type === 'hidden') {
+        return
+    }
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
+
+    if ($fecha_fin.type === 'hidden') {
+        $fecha_fin = $fecha_inicio;
+    }
 
     const hoy = new Date();
     const fechaMax = new Date();
@@ -158,6 +165,9 @@ function soloNumero(e) {
 function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
+    if ($fecha_fin.type === 'hidden') {
+        $fecha_fin = $fecha_inicio;
+    }
     let $objeto_de_peticion_nombre = $(`[name="objeto_de_peticion_nombre"]`);
     validarFechaIntencion($fecha_inicio);
     validarFechaIntencion($fecha_fin);
@@ -735,7 +745,7 @@ function asignarAtributosComunes($element, properties) {
     if (properties.type === 'select' && properties.value) {
         $element.val(properties.value);
     }
-    if (properties.type === 'hidden') {
+    if (properties.type === 'hidden' && $element.prop('id') == 'id') {
         $element.on('change', function() {
             const $tituloFormulario = $('#titulo-formulario');
             const valorHidden = $(this).val(); 

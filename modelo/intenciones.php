@@ -24,7 +24,6 @@ class GestionPeticionMisa
 
     private function consultarOCrearMisas($datos)
     {
-
         $gestorMisa = EntidadFactory::crearGestor($this->pdo, 'Misa');
         $servicioMisa = EntidadFactory::crearServicio($this->pdo, 'Misa');
 

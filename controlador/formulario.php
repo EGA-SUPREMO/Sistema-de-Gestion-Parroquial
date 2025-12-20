@@ -63,6 +63,9 @@
                     },
                     { type: 'checkboxes', name: 'misas_selecionadas',  required: true, error: "Debe seleccionar al menos una misa", options: [{ value: 0, text: 'No se encontraron misas disponibles en el rango seleccionado. Verifique que todos los campos del formulario sean correctos', disabled: true}]},
                 ];
+                if (datosPHP) {
+                    formularioCampos[1].campos[1] = { type: 'hidden', name: 'fecha_fin', required: true, validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy }
+                }
                 break;
             case 'feligres':
                 formularioCampos = [
