@@ -30,4 +30,9 @@ class GestorPeticionMisa extends GestorBase
         return ($resultado['total'] > 0);
     }
 
+    public function eliminarPorPeticionId($peticion_id)
+    {
+        $sql = "DELETE FROM {$this->tabla} WHERE peticion_id = ?";
+        return $this->hacerConsulta($sql, [$peticion_id], 'execute');
+    }
 }

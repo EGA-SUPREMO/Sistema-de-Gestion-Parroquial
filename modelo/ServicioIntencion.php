@@ -27,6 +27,12 @@ class ServicioIntencion extends ServicioBase
     public function guardar($intencion, $id = 0)
     {
         return $this->ejecutarEnTransaccion(function () use ($intencion, $id) {
+            if ($id>0) {
+                // TODO NO BORRAR, INVESTIGAR PORQUE ESTA LINEA ES NECESARIA ANTES DE HACERLO
+                $intencion->setId($id); // TODO CUANDO SE BORRA ESTA LINEA, FALLA LA EDICION DE INTENCIONES
+                
+                $this->gestorPeticionMisa->eliminarPorPeticionId($intencion->getId());
+            }
 
             $objetoDePeticion = $this->gestorObjetoDePeticion->obtenerPorNombre($intencion->obtenerObjetoDePeticionNombre());
             if (!$objetoDePeticion) {
