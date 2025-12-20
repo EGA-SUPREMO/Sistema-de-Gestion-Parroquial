@@ -18,6 +18,13 @@
                             </a>
                         </div>
                         <div class="col-sm-6">
+                            <a href="?c=intenciones&a=mostrar&t=intencion&novenario=true" class="card text-decoration-none text-dark h-100 lift-effect">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Registrar Novenario</h5>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-sm-6">
                             <a href="?c=dashboard&a=constancias" class="card text-decoration-none text-dark h-100 lift-effect">
                                 <div class="card-body text-center">
                                     <h5 class="card-title mb-0">Generar Constancias</h5>
@@ -40,7 +47,7 @@
                         </div>
                         <div class="col-12 mt-4">
                             <a href="?c=login&a=cerrarSesion"  class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center"
-                              onclick="javascript:return confirm('¿Seguro de salir');">
+                              onclick="javascript:return confirm('¿Seguro de salir?');">
                                 Cerrar Sesión
                             </a>
                         </div>
