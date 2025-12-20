@@ -2,6 +2,7 @@
 
 require_once 'App.php';
 require_once 'EntidadFactory.php';
+require_once 'FuncionesComunes.php';
 
 class GestionPeticionMisa
 {
@@ -18,6 +19,10 @@ class GestionPeticionMisa
         $datos = json_decode($datos_json, true);
 
         if (isset($datos['metodo']) && $datos['metodo'] === 'consultarOCrearMisas') {
+            $datos['fecha_fin'] = FuncionesComunes::limpiarString($datos['fecha_fin']);
+            $datos['fecha_inicio'] = FuncionesComunes::limpiarString($datos['fecha_inicio']);
+            $datos['objeto_de_peticion_nombre'] = FuncionesComunes::limpiarString($datos['objeto_de_peticion_nombre']);
+            
             return $this->consultarOCrearMisas($datos);
         }
     }
