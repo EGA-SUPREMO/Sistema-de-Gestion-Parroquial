@@ -102,7 +102,8 @@ function validarFechaIntencion($elemento) {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
 
-    if ($fecha_fin.type === 'hidden') {
+    if ($fecha_fin.attr('type') == 'hidden') {
+        $fecha_fin.val($fecha_inicio.val());
         $fecha_fin = $fecha_inicio;
     }
 
@@ -165,7 +166,8 @@ function soloNumero(e) {
 function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
     let $fecha_fin = $(`[name="fecha_fin"]`);
-    if ($fecha_fin.type === 'hidden') {
+    if ($fecha_fin.attr('type') == 'hidden') {
+        $fecha_fin.val($fecha_inicio.val());
         $fecha_fin = $fecha_inicio;
     }
     let $objeto_de_peticion_nombre = $(`[name="objeto_de_peticion_nombre"]`);
