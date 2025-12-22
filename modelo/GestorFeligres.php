@@ -21,8 +21,28 @@ class GestorFeligres extends GestorBase
         return parent::guardar($objeto, $id);
     }
 
-    public function obtenerHijosPorCedulaPadre($cedula)
+    private function separarCedula($cedulaCompleta)
     {
+        $cedulaCompleta = strtoupper($cedulaCompleta);
+        
+        if (str_starts_with($cedulaCompleta, 'V') || str_starts_with($cedulaCompleta, 'E')) {
+            $nacionalidad = substr($cedulaCompleta, 0, 1);
+            $numero = substr($cedulaCompleta, 1);
+        } else {
+            $nacionalidad = 'V'; 
+            $numero = $cedulaCompleta;
+        }
+        $numeroLimpio = preg_replace('/[^0-9]/', '', $numero);
+
+        return [
+            'nacionalidad' => $nacionalidad, 
+            'numero' => $numeroLimpio
+        ];
+    }
+
+    public function obtenerHijosPorCedulaPadre($cedulaCompleta)
+    {
+        $datosCedula = $this->separarCedula($cedulaCompleta);
         $sql = "
             SELECT 
                 H.* FROM 
@@ -32,15 +52,17 @@ class GestorFeligres extends GestorBase
             JOIN 
                 {$this->tabla} AS H ON R.id_hijo = H.id 
             WHERE 
-                P.cedula = ?;
+                P.cedula = ? AND P.nacionalidad = ?;
         ";
-        return $this->hacerConsulta($sql, [$cedula], 'all');
+        return $this->hacerConsulta($sql, [$datosCedula['numero'], $datosCedula['nacionalidad']], 'all');
     }
 
-    public function obtenerPorCedula($cedula)
+    public function obtenerPorCedula($cedulaCompleta)
     {
-        $sql = "SELECT * FROM {$this->tabla} WHERE `cedula` = ?";
-        return $this->hacerConsulta($sql, [$cedula], 'single');
+        $datosCedula = $this->separarCedula($cedulaCompleta);
+
+        $sql = "SELECT * FROM {$this->tabla} WHERE `cedula` = ? AND `nacionalidad` = ?";
+        return $this->hacerConsulta($sql, [$datosCedula['numero'], $datosCedula['nacionalidad']], 'single');
     }
 
     public function obtenerPorPartidaDeNacimiento($partida_de_nacimiento)

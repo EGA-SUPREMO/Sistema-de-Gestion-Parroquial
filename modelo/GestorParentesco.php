@@ -13,7 +13,7 @@ class GestorParentesco extends GestorBase
     }
 
     public function esAncestroDirecto($idPadre, $idHijo)
-    {// TODO testear si esta funcion 'sirve'
+    {
         $sql = "
             SELECT 
                 COUNT(*) 
@@ -23,7 +23,7 @@ class GestorParentesco extends GestorBase
                 id_padre = ? AND id_hijo = ?;
         ";
 
-        $cantidad = $this->hacerConsulta($sql, [$idHijo, $idPadre], 'column'); // NO CAMBIAR DE ORDEN
+        $cantidad = $this->hacerConsulta($sql, [$idHijo, $idPadre], 'column');
         if ($cantidad) {
             throw new Exception("Error: La relación entre padre e hijo crea una dependencia circular.");
         }
