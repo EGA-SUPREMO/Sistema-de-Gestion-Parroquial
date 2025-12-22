@@ -80,7 +80,7 @@
                     { type: 'subtitulo', name: 'subtitulo-personal', value: 'Información Personal'},
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.cedula, pattern: '\\d{4,9}', maxlength: '9'},
+                            { type: 'text', name: 'cedula', label: 'Cédula', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.cedula, maxlength: '9'},
                             { type: 'text', name: 'partida_de_nacimiento', label: 'Partida de Nacimiento', required: false, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarCampo', value: datosPHP.partida_de_nacimiento },
                         ] 
                     },
@@ -114,9 +114,9 @@
                     { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                     { type: 'fila', 
                         campos: [
-                            { type: 'text', name: 'feligres-cedula', label: 'Cédula del Feligres', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                            { type: 'text', name: 'feligres-cedula', label: 'Cédula del Feligres', validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarSujetoSacramento', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
                             { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Feligres', validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
-                            { type: 'text', name: 'padre-cedula', label: 'Cédula de un progenitor', required: false, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
+                            { type: 'text', name: 'padre-cedula', label: 'Cédula de un progenitor', required: false, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
                         ]
                     },
                     { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Feligre'},
@@ -144,14 +144,14 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Bautizado', validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarSujetoSacramento', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
                         { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Bautizado', required: true, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
                     ]
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Progenitor 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
-                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.madre?.cedula ?? '' },
+                        { type: 'text', name: 'padre-cedula', label: 'Cédula del Progenitor 1 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
+                        { type: 'text', name: 'madre-cedula', label: 'Cédula del Progenitor 2 del Bautizado', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.madre?.cedula ?? '' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
@@ -242,8 +242,8 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarMatrimonio', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_1?.cedula ?? '' },
-                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarMatrimonio', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.contrayente_2?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_1-cedula', label: 'Cédula del Contrayente 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarMatrimonio', maxlength: '9', value: datosPHP.contrayente_1?.cedula ?? '' },
+                        { type: 'text', name: 'contrayente_2-cedula', label: 'Cédula del Contrayente 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarMatrimonio', maxlength: '9', value: datosPHP.contrayente_2?.cedula ?? '' },
                     ]
                 },
                 { type: 'subtitulo', name: 'subtitulo-registro-datos', value: 'Datos del Registro'},
@@ -303,14 +303,14 @@
                 { type: 'subtitulo', name: 'subtitulo-cedulas', value: 'Identificación Principal'},
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Confirmado (Si posee)', validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarSujetoSacramento', required: false, pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
+                        { type: 'text', name: 'feligres-cedula', label: 'Cédula del Confirmado (Si posee)', validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarSujetoSacramento', required: false, maxlength: '9', value: datosPHP.feligres?.cedula ?? '' },
                         { type: 'text', name: 'feligres-partida_de_nacimiento', label: 'Partida de Nacimiento del Confirmado (Opcional)', required: false, validarMetodo: 'validarPartidaDeNacimiento', autocompletarMetodo: 'autocompletarSujetoSacramento', value: datosPHP.feligres?.partida_de_nacimiento ?? '' },
                     ]
                 },
                 { type: 'fila', 
                     campos: [
-                        { type: 'text', name: 'padre_1-cedula', label: 'Cédula del Progenitor 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre_1?.cedula ?? '' },
-                        { type: 'text', name: 'padre_2-cedula', label: 'Cédula del Progenitor 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumero', autocompletarMetodo: 'autocompletarCampo', pattern: '\\d{4,9}', maxlength: '9', value: datosPHP.padre_2?.cedula ?? '' },
+                        { type: 'text', name: 'padre_1-cedula', label: 'Cédula del Progenitor 1', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.padre_1?.cedula ?? '' },
+                        { type: 'text', name: 'padre_2-cedula', label: 'Cédula del Progenitor 2', required: true, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.padre_2?.cedula ?? '' },
                     ]
                 },
 

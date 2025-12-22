@@ -64,10 +64,16 @@ CREATE TABLE `feligreses` (
   `municipio` VARCHAR(50) DEFAULT NULL,
   `estado` VARCHAR(50) DEFAULT NULL,
   `pais` VARCHAR(50) DEFAULT NULL,
-  `cedula` int(9) UNSIGNED UNIQUE,
+  `cedula` int(9) UNSIGNED,
+  `nacionalidad` VARCHAR(1) DEFAULT 'V',
   `partida_de_nacimiento` varchar(30) UNIQUE DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  PRIMARY KEY (`id`),
+  CONSTRAINT chk_nacionalidad
+  CHECK (nacionalidad IN ('V', 'E')),
+  CONSTRAINT unique_nacionalidad_cedula 
+    UNIQUE (`nacionalidad`, `cedula`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 CREATE TABLE `parentescos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

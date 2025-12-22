@@ -66,8 +66,11 @@ function validarLugar($elemento) {
 function validarCedula($elemento) {
     validarCampo(
         $elemento,
-        (valor) => validarEntero(valor, 1000, 100000000),
-        'El campo debe ser entre 1 000 y 100 000 000.'
+        (valorCompleto) => {
+            const soloNumero = valorCompleto.replace(/[^0-9]/g, '');
+            return validarEntero(soloNumero, 1000, 100000000);
+        },
+        'El campo debe ser un número entre 1.000 y 100.000.000, sin contar la letra de nacionalidad.'
     );
 }
 
@@ -158,14 +161,34 @@ function validarLista($elemento) {
     );
 }
 
-function soloNumero(e) {
-    const charCode = (e.which) ? e.which : e.keyCode;
+function soloNumeroConNacionalidad(e) {
+    const input = e.target;
+    const char = String.fromCharCode(e.which || e.keyCode);
+    const currentValue = input.value;
+    const caretPos = input.selectionStart;
 
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        e.preventDefault();
-        return false;
+    const charCode = e.which || e.keyCode;
+    if (charCode === 8 || charCode === 9 || charCode === 13 || charCode === 37 || charCode === 39 || charCode === 46) {
+        return true; // Permitir Backspace, Tab, Enter, Delete, flechas
     }
+
+    // --- Lógica de la validación ---
+
+    if (currentValue.length === 0 || (currentValue.length > 0 && caretPos === 0)) {
+        if (!/^[VEve0-9]$/.test(char)) {
+            e.preventDefault();
+            return false;
+        }
+    } else {
+        if (!/^[0-9]$/.test(char)) {
+            e.preventDefault();
+            return false;
+        }
+    }
+
+    return true;
 }
+
 // Variable global o fuera de la función para almacenar todas las misas recibidas
 // Esto es útil para el paso final de "Guardar"
 let misasDisponibles = [];

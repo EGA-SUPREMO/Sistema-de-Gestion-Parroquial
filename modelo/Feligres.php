@@ -16,6 +16,7 @@ class Feligres extends ModeloBase
     private $estado;
     private $pais;
     private $cedula;
+    private $nacionalidad;
     private $partida_de_nacimiento;
 
     public function getId()
@@ -69,6 +70,10 @@ class Feligres extends ModeloBase
     public function getCedula()
     {
         return $this->cedula;
+    }
+    public function getNacionalidad()
+    {
+        return $this->nacionalidad;
     }
 
     public function getPartidaDeNacimiento()
@@ -158,10 +163,24 @@ class Feligres extends ModeloBase
         }
     }
 
-    public function setCedula($cedula)
+    public function setCedula($cedulaRaw)
     {
+        if (str_starts_with(strtolower($cedulaRaw), 'e')) {
+            $this->setNacionalidad('E');
+            $numeroStr = substr($cedulaRaw, 1);
+        } else {
+            $this->setNacionalidad('V');
+            $numeroStr = $cedulaRaw;
+        }
+
+        $cedula = preg_replace('/[^0-9]/', '', $numeroStr);
         $this->cedula = Validador::validarEntero($cedula, "cédula", 100000000, 999);
     }
+    public function setNacionalidad($nacionalidad)
+    {
+        $this->nacionalidad = Validador::validarString($nacionalidad, "nacionalidad", 1, 1);
+    }
+    
     public function setPartidaDeNacimiento($partida_de_nacimiento)
     {
         $this->partida_de_nacimiento = Validador::validarString($partida_de_nacimiento, "partida de nacimiento", 30, 4);
