@@ -53,7 +53,7 @@ class formularioControlador
         } elseif ($id > 0) {
             $titulo = "Editar " . FuncionesComunes::formatearTitulo($this->nombreTabla);
             $modelo = $this->gestor->obtenerPorId($id);
-            $datos_modelo = $modelo->toArrayParaBD();
+            $datos_modelo = $modelo->toArrayParaMostrar("formulario");
         }
 
         $datos = [

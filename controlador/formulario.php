@@ -119,7 +119,7 @@
                             { type: 'text', name: 'padre-cedula', label: 'Cédula de un progenitor', required: false, validarMetodo: 'validarCedula', keypress: 'soloNumeroConNacionalidad', autocompletarMetodo: 'autocompletarCampo', maxlength: '9', value: datosPHP.padre?.cedula ?? '' },
                         ]
                     },
-                    { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Feligre'},
+                    { type: 'subtitulo', name: 'subtitulo-feligres-datos', value: 'Datos del Feligres'},
                     { type: 'fila', 
                         campos: [
                             { type: 'text', name: 'feligres-primer_nombre', label: 'Primer Nombre', required: true, validarMetodo: 'validarNombre', value: datosPHP.feligres?.primer_nombre ?? '' },

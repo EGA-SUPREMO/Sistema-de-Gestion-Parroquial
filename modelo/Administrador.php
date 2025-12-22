@@ -54,6 +54,9 @@ class Administrador extends ModeloBase
     public function toArrayParaMostrar($criterio = null)
     {
         $datos = parent::toArrayParaMostrar();
+        if ($criterio != "panel") {
+            return $datos;
+        }
         unset($datos['password']);
         return $datos;
     }

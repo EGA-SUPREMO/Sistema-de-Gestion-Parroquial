@@ -178,7 +178,7 @@ class Feligres extends ModeloBase
     }
     public function setNacionalidad($nacionalidad)
     {
-        $this->nacionalidad = Validador::validarString($nacionalidad, "nacionalidad", 1, 1);
+        $this->nacionalidad = strtoupper(Validador::validarString($nacionalidad, "nacionalidad", 1, 1));
     }
     
     public function setPartidaDeNacimiento($partida_de_nacimiento)
@@ -203,6 +203,11 @@ class Feligres extends ModeloBase
 
         return implode(' - ', $partes);
     }
+    public function cedulaConNacionalidad()
+    {
+        return $this->nacionalidad . $this->cedula;
+    }
+
     public function nombreCompleto()
     {
         $partes = [];
@@ -227,5 +232,13 @@ class Feligres extends ModeloBase
         $fechaActual = new DateTime();
         $diferencia = $fechaNacimiento->diff($fechaActual);
         return $diferencia->y;
+    }
+    public function toArrayParaMostrar($criterio = null)
+    {
+        $datos = parent::toArrayParaMostrar($criterio);
+        if ($criterio == 'formulario') {
+            $datos['cedula'] = $this->cedulaConNacionalidad();
+        }
+        return $datos;
     }
 }

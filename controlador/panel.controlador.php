@@ -28,7 +28,7 @@ class PanelControlador
 
         if (!empty($modelos)) {
             foreach ($modelos as $modelo) {
-                $datos[] = $modelo->toArrayParaMostrar();
+                $datos[] = $modelo->toArrayParaMostrar("panel");
             }
 
             $campos = array_keys($datos[0]);

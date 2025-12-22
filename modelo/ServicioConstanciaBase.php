@@ -134,12 +134,12 @@ abstract class ServicioConstanciaBase extends ServicioBase
             throw new Exception("Error: Datos de la constancia no encontrado");
         }
 
-        $datos_modelo = $modelo->toArrayParaBD();
+        $datos_modelo = $modelo->toArrayParaMostrar("formulario");
         $actores = $this->obtenerActoresRelacionados($modelo);
 
         foreach ($actores as $clave => $feligresModelo) {
             if ($feligresModelo) {
-                $datos_modelo[$clave] = $feligresModelo->toArrayParaBD();
+                $datos_modelo[$clave] = $feligresModelo->toArrayParaMostrar('formulario');
                 continue;
             }
 

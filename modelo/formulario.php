@@ -53,18 +53,18 @@ class Formulario
 
             $datos_persona_raw = [];
             if ($persona_objeto) {
-                $datos_persona_raw = $persona_objeto->toArrayParaBD() ?? [];
+                $datos_persona_raw = $persona_objeto->toArrayParaMostrar('formulario') ?? [];
             }
 
             $respuesta[$rol] = $datos_persona_raw;
 
             if (($rol === 'padre-' || $rol === 'madre-' || $rol === 'padre_1-' || $rol === 'padre_2-') && $persona_objeto) {
-                $hijos = $this->gestorFeligres->obtenerHijosPorCedulaPadre($persona_objeto->getCedula());
+                $hijos = $this->gestorFeligres->obtenerHijosPorCedulaPadre($persona_objeto->cedulaConNacionalidad());
 
                 foreach ($hijos as $llave => $valor) {
                     $datosConstancia = $this->obtenerDatosConstanciaRelacionados($valor->getId(), $nombreTabla);
                     $respuesta['hijos'][$llave] = $datosConstancia;
-                    $datosFeligres = $valor->toArrayParaBD();
+                    $datosFeligres = $valor->toArrayParaMostrar('formulario');
                     $datosFeligres['nombre_completo'] = $valor->nombreCompleto();
                     $respuesta['hijos'][$llave]['feligres-'] = $datosFeligres;
                 }
