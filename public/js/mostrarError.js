@@ -28,4 +28,27 @@ $(document).ready(function() {
             }
         });
     }
+
+    const mensaje = getUrlParameter('m');
+
+    if (mensaje) {
+        const decodedMessage = decodeURIComponent(mensaje.replace(/\+/g, ' '));
+
+        Swal.fire({
+            title: decodedMessage,
+            text: '',
+            icon: 'success',
+            
+            timer: 1250,
+            showConfirmButton: false,
+            timerProgressBar: true,
+        }).then(() => {
+            if (history.replaceState) {
+                const url = new URL(window.location);
+                url.searchParams.delete('m');
+                history.replaceState(null, '', url);
+            }
+        });
+    }
+
 });

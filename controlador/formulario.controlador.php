@@ -8,6 +8,7 @@ class formularioControlador
     protected $gestor;
     protected $nombreTabla;
     protected $nombreControlador;
+    protected $urlOperacionExitosa;
 
     public function __construct(PDO $pdo)
     {
@@ -15,6 +16,7 @@ class formularioControlador
         $this->nombreTabla = $_REQUEST['t'];
         $this->nombreControlador = $_REQUEST['c'];
         $this->gestor = EntidadFactory::crearGestor($pdo, $this->nombreTabla);
+        $this->urlOperacionExitosa = 'Location:?c=panel&a=index&t='.$this->nombreTabla;
     }
 
     public function procesarFormulario()
@@ -24,7 +26,7 @@ class formularioControlador
             if (isset($_SESSION['input_viejo'])) {
                 unset($_SESSION['input_viejo']);
             }
-            FuncionesComunes::redirigir('Location:?c=panel&a=index&t='.$this->nombreTabla);
+            FuncionesComunes::redirigir($this->urlOperacionExitosa);
         } catch (Exception $e) {
             error_log($e->getMessage());
 
