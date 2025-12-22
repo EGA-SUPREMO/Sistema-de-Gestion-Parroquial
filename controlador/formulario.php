@@ -70,7 +70,7 @@
                 ];
                 const params = new URLSearchParams(window.location.search);
 
-                if (params.get('novenario') != 'true') {
+                if (params.get('novenario') != 'true' && !params.get('id')) {
                     formularioCampos[1].campos[0].label = "Dia de la intención";
                     formularioCampos[1].campos[1] = { type: 'hidden', name: 'fecha_fin', required: true, validarMetodo: 'validarFechaIntencion', value: datosPHP.fecha_fin?.slice(0, 10) || hoy }
                 }
