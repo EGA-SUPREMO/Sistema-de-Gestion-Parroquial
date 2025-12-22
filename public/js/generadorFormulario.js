@@ -212,20 +212,20 @@ function consultarMisasPorRango() {
  * @param {object} response - El objeto JSON devuelto por el servidor.
  */
 function manejarRespuestaMisas(response) {
-    // 1. Verificar el estado y obtener la lista de misas
-    if (!response || response.length === 0) {
-        $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado. Verifique que todos los campos del formulario sean correctos</p>');
-        misasDisponibles = [];
-        return;
-    }
-    if (JSON.stringify(response) === JSON.stringify(response_anterior)) {
+    if (JSON.stringify(response) == JSON.stringify(response_anterior)) {
         return;
     }
     response_anterior = response;
 
+    if (!response || response.length === 0) {// ESTO NO PUEDE IR AL COMIENZO, O SI NO BUG!
+        $('#misas_selecionadas').html('<p class="text-danger">No se encontraron misas disponibles en el rango seleccionado. Verifique que todos los campos del formulario sean correctos</p>');
+        misasDisponibles = [];
+        return;
+    }
+
     misasDisponibles = response;
     const $contenedor = $('#misas_selecionadas');
-    $contenedor.empty(); // Limpiar el contenedor anterior
+    $contenedor.empty();
 
     const numDiasSeleccionados = obtenerNumDias(misasDisponibles);
     let htmlOpciones = '';
