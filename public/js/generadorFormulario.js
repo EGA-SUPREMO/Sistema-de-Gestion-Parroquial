@@ -162,6 +162,14 @@ function soloNumero(e) {
         return false;
     }
 }
+// Variable global o fuera de la función para almacenar todas las misas recibidas
+// Esto es útil para el paso final de "Guardar"
+let misasDisponibles = [];
+let fecha_inicio_anterior;
+let fecha_fin_anterior;
+let objeto_de_peticion_nombre_anterior;
+let response_anterior;
+
 
 function consultarMisasPorRango() {
     let $fecha_inicio = $(`[name="fecha_inicio"]`);
@@ -174,6 +182,15 @@ function consultarMisasPorRango() {
     validarFechaIntencion($fecha_inicio);
     validarFechaIntencion($fecha_fin);
     validarNombre($objeto_de_peticion_nombre);
+
+    if (fecha_inicio_anterior == $fecha_inicio.val() && fecha_fin_anterior == $fecha_fin.val() && objeto_de_peticion_nombre_anterior == $objeto_de_peticion_nombre.val()) {
+        return;
+    }
+
+    fecha_inicio_anterior = $fecha_inicio.val();
+    fecha_fin_anterior = $fecha_fin.val();
+    objeto_de_peticion_nombre_anterior = $objeto_de_peticion_nombre.val();
+
 
     let datos = {
         'fecha_inicio': $fecha_inicio.val(),
@@ -189,10 +206,6 @@ function consultarMisasPorRango() {
     pedirDatos(JSON.stringify(datos), manejarRespuestaMisas, "modelo/intenciones.php")
 }
 
-// Variable global o fuera de la función para almacenar todas las misas recibidas
-// Esto es útil para el paso final de "Guardar"
-let misasDisponibles = [];
-
 /**
  * Maneja la respuesta AJAX del servidor, agrupa las misas y renderiza
  * las opciones de asignación en el formulario.
@@ -205,6 +218,10 @@ function manejarRespuestaMisas(response) {
         misasDisponibles = [];
         return;
     }
+    if (JSON.stringify(response) === JSON.stringify(response_anterior)) {
+        return;
+    }
+    response_anterior = response;
 
     misasDisponibles = response;
     const $contenedor = $('#misas_selecionadas');
