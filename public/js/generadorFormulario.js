@@ -30,8 +30,12 @@ function validarNombreUsuario($elemento) {
 function validarContrasena($elemento) {
     validarCampo(
         $elemento,
-        (valor) => validarString(valor, 6, 32),
-        'El campo debe tener entre 6 y 32 caracteres.'
+        (valor) => {
+            const esLongitudValida = validarString(valor, 6, 32);
+            const contieneCaracteresProhibidos = /[:;,\.\s]/.test(valor); 
+            return esLongitudValida && !contieneCaracteresProhibidos;
+        },
+        'La contraseña debe tener entre 6 y 32 caracteres y no debe contener espacios ni los símbolos: ; : , .'
     );
 }
 
