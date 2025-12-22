@@ -13,8 +13,9 @@ class intencionesControlador extends formularioControlador
     {
         parent::__construct($pdo);
         $this->urlOperacionExitosa = 'Location:?c=intenciones&a=mostrar&t='.$this->nombreTabla . '&m=' . urlencode('¡Registro Exitoso!');
-        $this->urlOperacionExitosa .= '&novenario='.$_REQUEST['novenario'];
-
+        if (isset($_GET['novenario'])) {
+            $this->urlOperacionExitosa .= '&novenario=' . $_REQUEST['novenario'];
+        }
         $this->servicio = EntidadFactory::crearServicio($pdo, $this->nombreTabla);
         $this->gestorObjetoDePeticion = EntidadFactory::crearGestor($pdo, 'objeto_de_peticion');
     }

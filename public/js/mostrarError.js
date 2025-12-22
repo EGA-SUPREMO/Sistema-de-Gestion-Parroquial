@@ -39,7 +39,7 @@ $(document).ready(function() {
             text: '',
             icon: 'success',
             
-            timer: 1250,
+            timer: 1000,
             showConfirmButton: false,
             timerProgressBar: true,
         }).then(() => {

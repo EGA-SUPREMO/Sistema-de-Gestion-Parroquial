@@ -393,8 +393,13 @@
         const urlParams = new URLSearchParams(window.location.search);
         const tipo = urlParams.get('t');
         const controlador = urlParams.get('c');
+        const novenario = urlParams.get('novenario');
 
-        const actionUrl = 'index.php?c=' + controlador + '&a=procesarFormulario&t=' + tipo;
+        let actionUrl = 'index.php?c=' + controlador + '&a=procesarFormulario&t=' + tipo;
+        if (novenario) {
+            actionUrl += '&novenario=' + novenario;
+        }
+
         const cancelarUrl = 'index.php?c=panel&a=index&t=' + tipo;
 
         let formularioCampos = getFormularioCampos(tipo, datosPHP);
