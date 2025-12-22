@@ -97,7 +97,8 @@ class ConstanciaDeComunion extends ModeloBase
 
         $datos_constancia['feligres_nombre_completo'] = strtoupper(Validador::estaVacio($this->feligres->nombreCompleto(), 'Nombre del feligres'));
         if ($this->feligres->getCedula()) {
-            $datos_constancia['feligres_cedula_texto'] = ", titular de la Cédula de Identidad N.º " . Validador::estaVacio($this->feligres->getCedula(), 'Cedula del feligres');
+            $numeroCedula = $this->feligres->getCedula();
+            $datos_constancia['feligres_cedula_texto'] = ", titular de la Cédula de Identidad N.º " . $this->feligres->getNacionalidad() . '-' . Validador::estaVacio(number_format($numeroCedula, 0, '', '.'), 'Cedula del feligres');
         } elseif ($this->feligres->getPartidaDeNacimiento()) {
             $datos_constancia['feligres_cedula_texto'] = "";
         } else {
